@@ -1,5 +1,6 @@
 class AudioManager {
   private currentMusic?: HTMLAudioElement;
+  private currentTrackName?: string;
   private musicVolume = 0.7;
   private sfxVolume = 0.8;
 
@@ -9,6 +10,11 @@ class AudioManager {
   }
 
   public playMusic(trackName: string): void {
+    // Guard: don't restart if the same track is already playing
+    if (this.currentTrackName === trackName && this.currentMusic && !this.currentMusic.paused) {
+      return;
+    }
+
     this.stopMusic();
 
     // Use correct base path for both dev and production
@@ -17,6 +23,7 @@ class AudioManager {
     audio.loop = true;
     audio.volume = this.musicVolume;
     this.currentMusic = audio;
+    this.currentTrackName = trackName;
 
     // Autoplay may be blocked; ignore rejected promises.
     void audio.play().catch(() => {});
@@ -26,6 +33,7 @@ class AudioManager {
     if (this.currentMusic) {
       this.currentMusic.pause();
       this.currentMusic = undefined;
+      this.currentTrackName = undefined;
     }
   }
 
