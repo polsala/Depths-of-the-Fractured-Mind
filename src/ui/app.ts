@@ -26,12 +26,15 @@ import {
 } from "../graphics/combat-ui";
 import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
+import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
+import { createMobileControls, type MobileControls } from "./mobile-controls";
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
 let currentDepthMusic: number = -1; // Track current depth for music changes
 let combatMenuState: "main" | "abilities" | "target-enemy" | "target-ally" = "main";
 let selectedAbilityId: string | undefined;
+let mobileControls: MobileControls | null = null;
 
 // Depth-to-music track mapping
 const DEPTH_MUSIC_MAP: Record<number, string> = {
@@ -41,6 +44,15 @@ const DEPTH_MUSIC_MAP: Record<number, string> = {
   4: "depth4_mirrors",
   5: "core_heart",
 };
+
+// Helper to check if player location or mode changed
+function hasLocationChanged(prevState: GameState, newState: GameState): boolean {
+  return prevState.location.x !== newState.location.x || 
+         prevState.location.y !== newState.location.y || 
+         prevState.location.depth !== newState.location.depth ||
+         prevState.location.direction !== newState.location.direction ||
+         prevState.mode !== newState.mode;
+}
 
 function renderTitle(
   root: HTMLElement,
@@ -138,6 +150,12 @@ function renderExploration(
     }
   }
 
+  // Detect platform and get responsive sizes
+  const platform = detectPlatform();
+  const viewportSize = getResponsiveViewportSize();
+  const partyUISize = getResponsiveUISize('party');
+  const minimapSize = getResponsiveUISize('minimap');
+
   // Create main container with flex layout
   const container = document.createElement("div");
   container.className = "exploration-container";
@@ -153,10 +171,10 @@ function renderExploration(
   viewportCanvas.className = "dungeon-viewport";
   viewportContainer.appendChild(viewportCanvas);
 
-  // Always create a new renderer context for the new canvas
+  // Always create a new renderer context for the new canvas with responsive size
   dungeonRenderContext = createRenderContext(viewportCanvas, {
-    width: 640,
-    height: 480,
+    width: viewportSize.width,
+    height: viewportSize.height,
     fov: 60,
   }, state.depthMaps); // Pass the game state's depth maps cache
 
@@ -194,6 +212,7 @@ function renderExploration(
       minimapCanvas.className = "minimap-panel";
       infoPanel.appendChild(minimapCanvas);
 
+      const tileSizeForMinimap = platform === 'mobile' ? 12 : 14;
       renderMinimap(
         minimapCanvas,
         map,
@@ -201,9 +220,9 @@ function renderExploration(
         state.location.y,
         state.location.direction,
         {
-          width: 160,
-          height: 160,
-          tileSize: 14,
+          width: minimapSize.width,
+          height: minimapSize.height,
+          tileSize: tileSizeForMinimap,
         }
       );
     }
@@ -214,26 +233,84 @@ function renderExploration(
   partyCanvas.className = "party-panel";
   infoPanel.appendChild(partyCanvas);
 
-  // Render party UI
+  // Render party UI with responsive size
+  const portraitSizeForParty = platform === 'mobile' ? 48 : 64;
   renderPartyUI(partyCanvas, state.party, {
-    width: 320,
-    height: 320,
-    portraitSize: 64,
+    width: partyUISize.width,
+    height: partyUISize.height,
+    portraitSize: portraitSizeForParty,
   });
 
-  // Instructions
+  // Instructions - show appropriate controls based on platform
   const instructions = document.createElement("div");
   instructions.className = "instructions";
-  instructions.innerHTML = `
-    <p><strong>Controls:</strong></p>
-    <p>W/↑ - Move Forward</p>
-    <p>S/↓ - Move Backward</p>
-    <p>A/← - Strafe Left</p>
-    <p>D/→ - Strafe Right</p>
-    <p>Q - Turn Left, E - Turn Right</p>
-    <p>Step onto marked tiles to trigger events</p>
-  `;
+  if (platform === 'mobile') {
+    instructions.innerHTML = `
+      <p><strong>Controls:</strong></p>
+      <p>Use on-screen D-pad to move</p>
+      <p>Q/E buttons to turn</p>
+      <p>Step onto marked tiles to trigger events</p>
+    `;
+  } else {
+    instructions.innerHTML = `
+      <p><strong>Controls:</strong></p>
+      <p>W/↑ - Move Forward</p>
+      <p>S/↓ - Move Backward</p>
+      <p>A/← - Strafe Left</p>
+      <p>D/→ - Strafe Right</p>
+      <p>Q - Turn Left, E - Turn Right</p>
+      <p>Step onto marked tiles to trigger events</p>
+    `;
+  }
   infoPanel.appendChild(instructions);
+
+  // Create mobile controls if on mobile platform
+  if (platform === 'mobile') {
+    // Clean up existing mobile controls if any
+    if (mobileControls) {
+      mobileControls.cleanup();
+    }
+
+    // Helper to execute movement and rerender if location changed
+    const executeMovement = (movementFn: () => void) => {
+      const prevState = controller.getState();
+      movementFn();
+      const newState = controller.getState();
+      if (hasLocationChanged(prevState, newState)) {
+        rerender();
+      }
+    };
+
+    mobileControls = createMobileControls({
+      onMoveForward: () => executeMovement(() => controller.moveForward()),
+      onMoveBackward: () => executeMovement(() => controller.moveBackward()),
+      onStrafeLeft: () => executeMovement(() => controller.strafeLeft()),
+      onStrafeRight: () => executeMovement(() => controller.strafeRight()),
+      onTurnLeft: () => {
+        if (!state.location.direction) {
+          state.location.direction = "north";
+        }
+        state.location.direction = rotateCounterClockwise(state.location.direction);
+        rerender();
+      },
+      onTurnRight: () => {
+        if (!state.location.direction) {
+          state.location.direction = "north";
+        }
+        state.location.direction = rotateClockwise(state.location.direction);
+        rerender();
+      },
+    });
+
+    // Append mobile controls to body (not to root, since root gets cleared)
+    document.body.appendChild(mobileControls.container);
+  } else {
+    // Clean up mobile controls on desktop
+    if (mobileControls) {
+      mobileControls.cleanup();
+      mobileControls = null;
+    }
+  }
 
   // Debug: Combat test button
   const debugSection = document.createElement("div");
@@ -593,6 +670,12 @@ export function initApp(root: HTMLElement): void {
     root.innerHTML = "";
     const state = controller.getState();
 
+    // Clean up mobile controls when not in exploration mode
+    if (state.mode !== "exploration" && mobileControls) {
+      mobileControls.cleanup();
+      mobileControls = null;
+    }
+
     switch (state.mode) {
       case "title":
         renderTitle(root, controller, state, render);
@@ -621,15 +704,6 @@ export function initApp(root: HTMLElement): void {
         break;
       }
     }
-  };
-
-  // Helper to check if player location or mode changed
-  const hasLocationChanged = (prevState: GameState, newState: GameState): boolean => {
-    return prevState.location.x !== newState.location.x || 
-           prevState.location.y !== newState.location.y || 
-           prevState.location.depth !== newState.location.depth ||
-           prevState.location.direction !== newState.location.direction ||
-           prevState.mode !== newState.mode;
   };
 
   window.addEventListener("keydown", (event) => {
