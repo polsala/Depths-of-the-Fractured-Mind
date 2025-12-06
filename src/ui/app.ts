@@ -158,7 +158,7 @@ function renderExploration(
     width: 640,
     height: 480,
     fov: 60,
-  });
+  }, state.depthMaps); // Pass the game state's depth maps cache
 
   // Render the dungeon view
   const viewState: ViewState = {
