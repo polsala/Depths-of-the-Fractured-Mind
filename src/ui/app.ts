@@ -641,17 +641,49 @@ export function initApp(root: HTMLElement): void {
       }
       // Movement controls - direction-relative
       else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+        const prevState = controller.getState();
         controller.moveForward();
-        render();
+        const newState = controller.getState();
+        // Only render if position or mode actually changed
+        if (prevState.location.x !== newState.location.x || 
+            prevState.location.y !== newState.location.y || 
+            prevState.location.depth !== newState.location.depth ||
+            prevState.mode !== newState.mode) {
+          render();
+        }
       } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
+        const prevState = controller.getState();
         controller.moveBackward();
-        render();
+        const newState = controller.getState();
+        // Only render if position or mode actually changed
+        if (prevState.location.x !== newState.location.x || 
+            prevState.location.y !== newState.location.y || 
+            prevState.location.depth !== newState.location.depth ||
+            prevState.mode !== newState.mode) {
+          render();
+        }
       } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+        const prevState = controller.getState();
         controller.strafeLeft();
-        render();
+        const newState = controller.getState();
+        // Only render if position or mode actually changed
+        if (prevState.location.x !== newState.location.x || 
+            prevState.location.y !== newState.location.y || 
+            prevState.location.depth !== newState.location.depth ||
+            prevState.mode !== newState.mode) {
+          render();
+        }
       } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+        const prevState = controller.getState();
         controller.strafeRight();
-        render();
+        const newState = controller.getState();
+        // Only render if position or mode actually changed
+        if (prevState.location.x !== newState.location.x || 
+            prevState.location.y !== newState.location.y || 
+            prevState.location.depth !== newState.location.depth ||
+            prevState.mode !== newState.mode) {
+          render();
+        }
       }
     } else if (state.mode === "event" && state.currentEventId) {
       const eventData = getEventById(state.currentEventId);
