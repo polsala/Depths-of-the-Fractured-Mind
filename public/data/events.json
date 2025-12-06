@@ -1321,6 +1321,488 @@
         "priority": 8,
         "repeatable": false
       }
+    },
+    {
+      "id": "elias_discipline_chamber",
+      "title": "Discipline Chamber",
+      "description": "A soundproof room where Elias conducted 'corrective sessions'. Restraints still hang from the walls. Blood stains the floor.",
+      "choices": [
+        {
+          "id": "acknowledge_brutality",
+          "label": "Acknowledge what happened here",
+          "description": "Admit to yourself and others what you did.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "elias_acknowledges_torture": true
+            }
+          }
+        },
+        {
+          "id": "justify_discipline",
+          "label": "They needed discipline",
+          "description": "Order required firm action.",
+          "effects": {
+            "crueltyDelta": 2,
+            "denialDelta": 1,
+            "setFlags": {
+              "elias_unrepentant_extended": true
+            }
+          }
+        },
+        {
+          "id": "vow_redemption",
+          "label": "Vow to make amends",
+          "description": "You can't undo this, but you can try to be better.",
+          "effects": {
+            "truthDelta": 1,
+            "mercyDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "elias_vows_redemption": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "elias_discipline_chamber",
+        "category": "character_specific",
+        "characterFocus": "elias",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "miriam_surgery_logs",
+      "title": "Experimental Surgery Logs",
+      "description": "Dr. Kessler's personal research notes. Detailed descriptions of procedures performed without consent. Success rates deliberately falsified.",
+      "choices": [
+        {
+          "id": "read_all_logs",
+          "label": "Read every entry",
+          "description": "Force yourself to witness every failure.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -4,
+            "setFlags": {
+              "miriam_confronts_experiments": true
+            }
+          }
+        },
+        {
+          "id": "burn_evidence",
+          "label": "Burn the logs",
+          "description": "Destroy the evidence. No one needs to know.",
+          "effects": {
+            "denialDelta": 3,
+            "crueltyDelta": 1,
+            "setFlags": {
+              "miriam_destroys_all_evidence": true
+            }
+          }
+        },
+        {
+          "id": "preserve_logs",
+          "label": "Preserve them for review",
+          "description": "These failures must be documented. Learned from.",
+          "effects": {
+            "truthDelta": 2,
+            "mercyDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "miriam_preserves_truth": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "miriam_surgery_logs",
+        "category": "character_specific",
+        "characterFocus": "miriam",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 3
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "subject13_containment",
+      "title": "Subject 13's Containment Cell",
+      "description": "The cell where you were held. Kept. Studied. The walls remember everything - every test, every scream, every moment of clarity and madness.",
+      "choices": [
+        {
+          "id": "relive_memories",
+          "label": "Let the memories flood back",
+          "description": "Remember it all, even the parts you've blocked out.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -5,
+            "setFlags": {
+              "subject13_full_memories": true
+            }
+          }
+        },
+        {
+          "id": "reject_past",
+          "label": "This wasn't you",
+          "description": "Whoever was in this cell isn't who you are now.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "subject13_rejects_identity": true
+            }
+          }
+        },
+        {
+          "id": "embrace_transformation",
+          "label": "Embrace what you've become",
+          "description": "The experiments changed you. Accept that.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "subject13_accepts_change": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "subject13_containment",
+        "category": "character_specific",
+        "characterFocus": "subject13",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 9,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "anya_chapel_ruins",
+      "title": "Chapel Ruins",
+      "description": "The facility chapel where Anya held services. Now desecrated, symbols scratched out, books burned. Someone wrote 'WHERE WAS GOD?' across the altar.",
+      "choices": [
+        {
+          "id": "pray_anyway",
+          "label": "Pray despite everything",
+          "description": "Hold onto faith in the face of horror.",
+          "effects": {
+            "mercyDelta": 2,
+            "sanityDelta": 1,
+            "setFlags": {
+              "anya_maintains_strong_faith": true
+            }
+          }
+        },
+        {
+          "id": "question_faith",
+          "label": "Question everything you believed",
+          "description": "Maybe they were right. Maybe there is no divine mercy.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "anya_faith_crisis": true
+            }
+          }
+        },
+        {
+          "id": "find_new_meaning",
+          "label": "Seek meaning beyond faith",
+          "description": "Compassion doesn't need divine mandate.",
+          "effects": {
+            "truthDelta": 1,
+            "mercyDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "anya_secular_redemption": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "anya_chapel_ruins",
+        "category": "character_specific",
+        "characterFocus": "anya",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "broken_elevator",
+      "title": "Broken Elevator Shaft",
+      "description": "An elevator shaft descends into darkness. Cables dangle loosely. You hear distant sounds from below.",
+      "choices": [
+        {
+          "id": "climb_down",
+          "label": "Climb down the cables",
+          "description": "Risky, but might lead somewhere useful.",
+          "effects": {
+            "sanityDelta": -2,
+            "addItems": [
+              "medkit"
+            ],
+            "setFlags": {
+              "elevator_explored": true
+            }
+          }
+        },
+        {
+          "id": "mark_and_continue",
+          "label": "Mark location and continue",
+          "description": "Too dangerous for now.",
+          "effects": {
+            "setFlags": {
+              "elevator_marked": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "broken_elevator",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 3
+        },
+        "priority": 5,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "water_contamination",
+      "title": "Contaminated Water Source",
+      "description": "A water fountain still functions, but the liquid that flows is tinged an unnatural color. Your throat is parched.",
+      "choices": [
+        {
+          "id": "drink_water",
+          "label": "Drink the water",
+          "description": "Risk it. You need hydration.",
+          "effects": {
+            "hpDelta": 5,
+            "sanityDelta": -3,
+            "setFlags": {
+              "drank_contaminated_water": true
+            }
+          }
+        },
+        {
+          "id": "avoid_water",
+          "label": "Don't drink",
+          "description": "Too risky. Find another source.",
+          "effects": {
+            "setFlags": {
+              "water_avoided": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "water_contamination",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "locked_safe",
+      "title": "Locked Safe",
+      "description": "A heavy safe built into the wall. The combination lock seems intact.",
+      "choices": [
+        {
+          "id": "force_open",
+          "label": "Force it open with crowbar",
+          "description": "Requires a crowbar and effort.",
+          "effects": {
+            "addItems": [
+              "access_card",
+              "sedative"
+            ],
+            "setFlags": {
+              "safe_forced": true
+            }
+          },
+          "requiresItems": [
+            "crowbar"
+          ]
+        },
+        {
+          "id": "pick_lock",
+          "label": "Pick the lock",
+          "description": "Requires lockpicking tools and skill.",
+          "effects": {
+            "addItems": [
+              "access_card",
+              "sedative",
+              "medkit"
+            ],
+            "setFlags": {
+              "safe_picked": true
+            }
+          },
+          "requiresItems": [
+            "lockpick"
+          ]
+        },
+        {
+          "id": "leave_safe",
+          "label": "Leave it locked",
+          "description": "Come back if you find tools.",
+          "effects": {
+            "setFlags": {
+              "safe_found": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "locked_safe",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "mysterious_writing",
+      "title": "Wall Writings",
+      "description": "Someone has written warnings on the walls in blood: 'TURN BACK', 'IT KNOWS YOUR SINS', 'SUBJECT 13 IS THE KEY'.",
+      "choices": [
+        {
+          "id": "study_messages",
+          "label": "Study the messages carefully",
+          "description": "Try to understand what they mean.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "warnings_studied": true
+            }
+          }
+        },
+        {
+          "id": "ignore_warnings",
+          "label": "Ignore the ravings",
+          "description": "Just paranoid scrawlings.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "warnings_ignored": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "mysterious_writing",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "mutated_plants",
+      "title": "Mutated Flora",
+      "description": "Plants have grown through cracks in the facility. They pulse with bioluminescence and seem to move when not observed.",
+      "choices": [
+        {
+          "id": "sample_plants",
+          "label": "Take samples",
+          "description": "Might have medical applications.",
+          "effects": {
+            "addItems": [
+              "sedative"
+            ],
+            "sanityDelta": -1,
+            "setFlags": {
+              "plants_sampled": true
+            }
+          }
+        },
+        {
+          "id": "avoid_plants",
+          "label": "Stay away",
+          "description": "Nothing natural grows like that.",
+          "effects": {
+            "setFlags": {
+              "plants_avoided": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "mutated_plants",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "final_message",
+      "title": "Director's Final Message",
+      "description": "A recorded message from the facility director: 'If you're hearing this, I've failed. The Engine cannot be stopped. Only destroyed. Subject 13 holds the key. May God forgive us all.'",
+      "choices": [
+        {
+          "id": "heed_warning",
+          "label": "Take the warning seriously",
+          "description": "Plan to destroy the Engine.",
+          "effects": {
+            "truthDelta": 2,
+            "setFlags": {
+              "destruction_path": true
+            }
+          }
+        },
+        {
+          "id": "seek_control",
+          "label": "Seek to control the Engine instead",
+          "description": "Maybe you can use its power.",
+          "effects": {
+            "crueltyDelta": 2,
+            "denialDelta": 1,
+            "setFlags": {
+              "control_path": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "final_message",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 9,
+        "repeatable": false
+      }
     }
   ],
   "pools": [
