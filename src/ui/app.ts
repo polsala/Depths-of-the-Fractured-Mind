@@ -121,7 +121,8 @@ function renderTitle(
 function renderExploration(
   root: HTMLElement,
   controller: GameController,
-  state: GameState
+  state: GameState,
+  rerender: () => void
 ): void {
   // Ensure direction is initialized
   if (!state.location.direction) {
@@ -246,6 +247,7 @@ function renderExploration(
   combatTestBtn.style.marginRight = "5px";
   combatTestBtn.addEventListener("click", () => {
     controller.startCombat(false);
+    rerender();
   });
   debugSection.appendChild(combatTestBtn);
   
@@ -253,6 +255,7 @@ function renderExploration(
   bossCombatBtn.textContent = "Test Boss";
   bossCombatBtn.addEventListener("click", () => {
     controller.startCombat(true);
+    rerender();
   });
   debugSection.appendChild(bossCombatBtn);
   
@@ -605,7 +608,7 @@ export function initApp(root: HTMLElement): void {
         renderTitle(root, controller, state, render);
         break;
       case "exploration":
-        renderExploration(root, controller, state);
+        renderExploration(root, controller, state, render);
         break;
       case "event":
         renderEvent(root, controller, state, render);

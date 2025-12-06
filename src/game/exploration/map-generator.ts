@@ -87,6 +87,47 @@ export function generateProceduralMap(depth: number): DepthMap {
   const startX = startRoom.x + Math.floor(startRoom.width / 2);
   const startY = startRoom.y + Math.floor(startRoom.height / 2);
   
+  // Ensure start position is passable
+  if (!tiles[startY] || !tiles[startY][startX] || !tiles[startY][startX].passable) {
+    console.error(`Start position (${startX}, ${startY}) is not passable! Fixing...`);
+    tiles[startY][startX] = {
+      type: "floor",
+      passable: true,
+      discovered: true,
+    };
+  }
+  
+  // Mark starting tile as discovered and ensure at least one adjacent tile is passable
+  tiles[startY][startX].discovered = true;
+  
+  // Ensure at least one direction from start is passable
+  let hasPassableNeighbor = false;
+  const directions = [
+    [0, -1], [0, 1], [-1, 0], [1, 0] // N, S, W, E
+  ];
+  
+  for (const [dx, dy] of directions) {
+    const nx = startX + dx;
+    const ny = startY + dy;
+    if (ny >= 0 && ny < height && nx >= 0 && nx < width && tiles[ny][nx].passable) {
+      hasPassableNeighbor = true;
+      break;
+    }
+  }
+  
+  // If no passable neighbors, create a path
+  if (!hasPassableNeighbor) {
+    console.warn(`Start position has no passable neighbors. Creating path...`);
+    // Create a corridor in the positive X direction
+    for (let i = 1; i <= 3 && startX + i < width; i++) {
+      tiles[startY][startX + i] = {
+        type: "floor",
+        passable: true,
+        discovered: false,
+      };
+    }
+  }
+  
   // Validate connectivity - if not connected, add more corridors
   ensureConnectivity(tiles, width, height, startX, startY);
 
