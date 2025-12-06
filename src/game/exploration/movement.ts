@@ -64,3 +64,79 @@ export function moveWest(state: GameState): GameState {
 export function moveEast(state: GameState): GameState {
   return moveBy(state, 1, 0);
 }
+
+/**
+ * Move forward in the direction the player is facing
+ */
+export function moveForward(state: GameState): GameState {
+  const direction = state.location.direction || "north";
+  switch (direction) {
+    case "north":
+      return moveNorth(state);
+    case "south":
+      return moveSouth(state);
+    case "east":
+      return moveEast(state);
+    case "west":
+      return moveWest(state);
+    default:
+      return state;
+  }
+}
+
+/**
+ * Move backward (opposite to facing direction)
+ */
+export function moveBackward(state: GameState): GameState {
+  const direction = state.location.direction || "north";
+  switch (direction) {
+    case "north":
+      return moveSouth(state);
+    case "south":
+      return moveNorth(state);
+    case "east":
+      return moveWest(state);
+    case "west":
+      return moveEast(state);
+    default:
+      return state;
+  }
+}
+
+/**
+ * Strafe left (perpendicular to facing direction)
+ */
+export function strafeLeft(state: GameState): GameState {
+  const direction = state.location.direction || "north";
+  switch (direction) {
+    case "north":
+      return moveWest(state);
+    case "south":
+      return moveEast(state);
+    case "east":
+      return moveNorth(state);
+    case "west":
+      return moveSouth(state);
+    default:
+      return state;
+  }
+}
+
+/**
+ * Strafe right (perpendicular to facing direction)
+ */
+export function strafeRight(state: GameState): GameState {
+  const direction = state.location.direction || "north";
+  switch (direction) {
+    case "north":
+      return moveEast(state);
+    case "south":
+      return moveWest(state);
+    case "east":
+      return moveSouth(state);
+    case "west":
+      return moveNorth(state);
+    default:
+      return state;
+  }
+}

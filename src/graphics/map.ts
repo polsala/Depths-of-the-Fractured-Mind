@@ -1,10 +1,11 @@
 /**
  * Map data and utilities for dungeon rendering
  * Provides simple map data for each depth to determine wall placement
+ * Now synchronized with the actual game map system
  */
 
-// Constants
-const DEFAULT_MAP_SIZE = 10;
+import type { DepthMap, MapTile } from "../game/exploration/map";
+import { getDepthMap } from "../game/exploration/map";
 
 export interface MapCell {
   walkable: boolean;
@@ -16,54 +17,24 @@ export interface MapCell {
 export type DungeonMap = MapCell[][];
 
 /**
- * Generate a simple procedural map for a depth
- * Creates a basic dungeon layout with corridors
+ * Convert game DepthMap to graphics DungeonMap
+ * This ensures the graphics rendering matches the actual playable map
  */
-export function generateDepthMap(depth: number, size: number = DEFAULT_MAP_SIZE): DungeonMap {
+export function generateDepthMap(depth: number): DungeonMap {
+  const gameMap: DepthMap = getDepthMap(depth);
   const map: DungeonMap = [];
 
-  // Initialize all cells as walls
-  for (let y = 0; y < size; y++) {
+  // Convert game map tiles to graphics map cells
+  for (let y = 0; y < gameMap.height; y++) {
     map[y] = [];
-    for (let x = 0; x < size; x++) {
-      map[y][x] = { walkable: false, wall: true };
-    }
-  }
-
-  // Create a simple cross-shaped corridor pattern
-  const centerX = Math.floor(size / 2);
-  const centerY = Math.floor(size / 2);
-
-  // Vertical corridor
-  for (let y = 0; y < size; y++) {
-    map[y][centerX] = { walkable: true, wall: false };
-    if (centerX > 0) map[y][centerX - 1] = { walkable: true, wall: false };
-    if (centerX < size - 1) map[y][centerX + 1] = { walkable: true, wall: false };
-  }
-
-  // Horizontal corridor
-  for (let x = 0; x < size; x++) {
-    map[centerY][x] = { walkable: true, wall: false };
-    if (centerY > 0) map[centerY - 1][x] = { walkable: true, wall: false };
-    if (centerY < size - 1) map[centerY + 1][x] = { walkable: true, wall: false };
-  }
-
-  // Add some rooms based on depth
-  if (depth >= 2) {
-    // Top-left room
-    for (let y = 1; y < 3; y++) {
-      for (let x = 1; x < 3; x++) {
-        map[y][x] = { walkable: true, wall: false };
-      }
-    }
-  }
-
-  if (depth >= 3) {
-    // Bottom-right room
-    for (let y = size - 3; y < size - 1; y++) {
-      for (let x = size - 3; x < size - 1; x++) {
-        map[y][x] = { walkable: true, wall: false };
-      }
+    for (let x = 0; x < gameMap.width; x++) {
+      const tile: MapTile = gameMap.tiles[y][x];
+      map[y][x] = {
+        walkable: tile.passable,
+        wall: !tile.passable, // Non-passable tiles are walls
+        door: tile.type === "stairsDown" || tile.type === "stairsUp",
+        event: tile.eventId,
+      };
     }
   }
 
