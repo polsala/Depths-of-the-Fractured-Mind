@@ -1,3 +1,5 @@
+import { getDepthMap } from "./exploration/map";
+
 export interface Stats {
   hp: number;
   maxHp: number;
@@ -113,6 +115,9 @@ export interface GameState {
 }
 
 export function createInitialGameState(): GameState {
+  // Get the starting map to get the correct starting position
+  const startingMap = getDepthMap(1);
+  
   const initialState = {
     party: {
       members: [],
@@ -123,8 +128,8 @@ export function createInitialGameState(): GameState {
     },
     location: {
       depth: 1,
-      x: 2,
-      y: 2,
+      x: startingMap.startX,
+      y: startingMap.startY,
       direction: "north" as const,
     },
     mode: "title" as const,

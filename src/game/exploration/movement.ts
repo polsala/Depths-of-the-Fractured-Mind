@@ -4,6 +4,7 @@ import { getEventById } from "../events/engine";
 import { audioManager } from "../../ui/audio";
 import { addItem } from "../inventory";
 import { shouldTriggerEncounter, generateRandomEncounter } from "../combat/encounters";
+import { createCombatState } from "../combat/state";
 
 // Default facing direction when not specified
 const DEFAULT_DIRECTION = "north" as const;
@@ -151,10 +152,13 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
     if (shouldTriggerEncounter(nextState, tile.encounterChance)) {
       const encounter = generateRandomEncounter(nextState.location.depth);
       if (encounter) {
-        // Store encounter data temporarily (in a real implementation, this would be in game state)
+        // Create combat state before switching to combat mode
+        const combatState = createCombatState(nextState.party, encounter, false);
         nextState = {
           ...nextState,
           mode: "combat" satisfies GameMode,
+          combatState,
+          currentEncounterId: `encounter_${Date.now()}`,
         };
       }
     }

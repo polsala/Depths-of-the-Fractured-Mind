@@ -140,6 +140,7 @@ export class GameController {
     }
     
     this.state.combatState = createCombatState(this.state.party, encounter, isBoss);
+    this.state.currentEncounterId = `encounter_${Date.now()}`;
     this.state.mode = "combat";
   }
 
