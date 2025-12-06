@@ -2,6 +2,9 @@ import type { GameState } from "../game/state";
 import type { GameEvent } from "../game/events/engine";
 import { getEventById } from "../game/events/engine";
 import { GameController } from "../game/index";
+import { audioManager } from "./audio";
+
+let titleMusicStarted = false;
 
 function renderTitle(
   root: HTMLElement,
@@ -9,6 +12,11 @@ function renderTitle(
   _state: GameState,
   rerender: () => void
 ): void {
+  if (!titleMusicStarted) {
+    audioManager.playMusic("main_theme");
+    titleMusicStarted = true;
+  }
+
   const title = document.createElement("h1");
   title.textContent = "Depths of the Fractured Mind";
   root.appendChild(title);
@@ -20,12 +28,14 @@ function renderTitle(
   const button = document.createElement("button");
   button.textContent = "New Game";
   button.addEventListener("click", () => {
+    audioManager.playSfx("ui_click");
     controller.newGame();
     const nextState = controller.getState();
     if (nextState.mode === "title") {
       // Auto-enter exploration after creating a new game.
       nextState.mode = "exploration";
     }
+    audioManager.playMusic("depth1_ambient");
     rerender();
   });
   root.appendChild(button);
@@ -106,6 +116,7 @@ function renderEvent(
     const button = document.createElement("button");
     button.textContent = `${index + 1}) ${choice.label}`;
     button.addEventListener("click", () => {
+      audioManager.playSfx("event_choice");
       controller.chooseEventChoice(choice.id);
       rerender();
     });
