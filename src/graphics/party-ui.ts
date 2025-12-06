@@ -3,6 +3,7 @@
  */
 
 import type { PartyState, CharacterState } from "../game/state";
+import { getCharacterLevel, getCharacterExperience, getExpToNextLevel } from "../game/experience";
 
 export interface PartyUIConfig {
   width: number;
@@ -316,6 +317,19 @@ export function renderPartyUI(
       character.stats.maxSanity,
       sanityColor,
       "SAN"
+    );
+
+    // Level and experience (small text)
+    const level = getCharacterLevel(character);
+    const exp = getCharacterExperience(character);
+    const expToNext = getExpToNextLevel(character);
+    
+    ctx.fillStyle = "#aaaaaa";
+    ctx.font = "10px sans-serif";
+    ctx.fillText(
+      `Lvl ${level} - XP: ${exp}/${expToNext}`,
+      portraitSize + spacing * 2,
+      yOffset + spacing + 60
     );
   });
 }

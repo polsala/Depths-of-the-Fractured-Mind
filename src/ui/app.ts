@@ -120,7 +120,7 @@ function renderTitle(
 
 function renderExploration(
   root: HTMLElement,
-  _controller: GameController,
+  controller: GameController,
   state: GameState
 ): void {
   // Ensure direction is initialized
@@ -233,6 +233,30 @@ function renderExploration(
     <p>Step onto marked tiles to trigger events</p>
   `;
   infoPanel.appendChild(instructions);
+
+  // Debug: Combat test button
+  const debugSection = document.createElement("div");
+  debugSection.className = "debug-controls";
+  debugSection.style.marginTop = "10px";
+  debugSection.style.padding = "10px";
+  debugSection.style.border = "1px dashed #666";
+  
+  const combatTestBtn = document.createElement("button");
+  combatTestBtn.textContent = "Test Combat";
+  combatTestBtn.style.marginRight = "5px";
+  combatTestBtn.addEventListener("click", () => {
+    controller.startCombat(false);
+  });
+  debugSection.appendChild(combatTestBtn);
+  
+  const bossCombatBtn = document.createElement("button");
+  bossCombatBtn.textContent = "Test Boss";
+  bossCombatBtn.addEventListener("click", () => {
+    controller.startCombat(true);
+  });
+  debugSection.appendChild(bossCombatBtn);
+  
+  infoPanel.appendChild(debugSection);
 
   // Audio controls
   const audioControls = document.createElement("div");

@@ -15,6 +15,8 @@ import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "
 import { getAbility, type Ability, type AbilityEffect } from "../abilities";
 import { useItem } from "../inventory";
 import { audioManager } from "../../ui/audio";
+import { calculateExperienceReward, awardExperience } from "../experience";
+import { ENEMIES } from "../enemies";
 
 export function selectNextCharacter(state: CombatState): void {
   const aliveMembers = getAlivePartyMembers(state.party);
@@ -87,6 +89,26 @@ export function executePlayerActions(state: CombatState): void {
   if (isEncounterDefeated(state.encounter)) {
     state.phase = "victory";
     addCombatLog(state, "Victory! All enemies defeated!", "system");
+    
+    // Award experience
+    const expRewards = state.encounter.enemies.map((enemy) => {
+      const enemyData = ENEMIES[enemy.id];
+      return enemyData?.expReward || 0;
+    });
+    
+    const expReward = calculateExperienceReward(expRewards);
+    const { leveledUp, leveledCharacters } = awardExperience(state.party, expReward.perCharacter);
+    
+    addCombatLog(state, `Gained ${expReward.perCharacter} experience!`, "system");
+    
+    if (leveledUp) {
+      addCombatLog(
+        state,
+        `${leveledCharacters.join(", ")} leveled up!`,
+        "system"
+      );
+    }
+    
     audioManager.playSfx("ui_click"); // Victory sound
     return;
   }
