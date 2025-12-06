@@ -3,6 +3,7 @@ import { getCurrentDepthMap, getTile, getDepthMap } from "./map";
 import { getEventById } from "../events/engine";
 import { audioManager } from "../../ui/audio";
 import { addItem } from "../inventory";
+import { shouldTriggerEncounter, generateRandomEncounter } from "../combat/encounters";
 
 // Default facing direction when not specified
 const DEFAULT_DIRECTION = "north" as const;
@@ -142,6 +143,20 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
       };
     } else {
       console.warn(`Event ${tile.eventId} referenced by map tile but not registered. Event loading may not be complete.`);
+    }
+  }
+  
+  // Check for random encounters (only if not already in an event)
+  if (nextState.mode === "exploration" && tile?.encounterChance) {
+    if (shouldTriggerEncounter(nextState, tile.encounterChance)) {
+      const encounter = generateRandomEncounter(nextState.location.depth);
+      if (encounter) {
+        // Store encounter data temporarily (in a real implementation, this would be in game state)
+        nextState = {
+          ...nextState,
+          mode: "combat" satisfies GameMode,
+        };
+      }
     }
   }
 

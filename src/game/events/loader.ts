@@ -2,6 +2,7 @@ import type { GameState } from "../state";
 import type { GameEvent, GameEventChoice } from "./engine";
 import { registerEvent } from "./engine";
 import { applyEventEffect } from "./resolvers";
+import { hasItem, addItem, removeItem } from "../inventory";
 import type {
   SerializableEvent,
   SerializableEventChoice,
@@ -50,16 +51,14 @@ function convertChoice(choice: SerializableEventChoice): GameEventChoice {
             }
           }
           
-          // Check item requirements when inventory is implemented
-          // TODO: Implement inventory system with the following interface:
-          // - inventory.hasItem(itemId: string): boolean
-          // - inventory.getItemCount(itemId: string): number
-          // Once implemented, add check here:
-          // if (choice.requiresItems) {
-          //   for (const itemId of choice.requiresItems) {
-          //     if (!state.inventory.hasItem(itemId)) return false;
-          //   }
-          // }
+          // Check item requirements
+          if (choice.requiresItems) {
+            for (const itemId of choice.requiresItems) {
+              if (!hasItem(state.party.inventory, itemId)) {
+                return false;
+              }
+            }
+          }
           
           return true;
         }
@@ -86,6 +85,42 @@ function convertChoice(choice: SerializableEventChoice): GameEventChoice {
                 ? { ...member, alive: false, stats: { ...member.stats, hp: 0 } }
                 : member
             ),
+          },
+        };
+      }
+      
+      // Handle item removal
+      if (choice.effects.removeItems) {
+        for (const itemId of choice.effects.removeItems) {
+          removeItem(nextState.party.inventory, itemId);
+        }
+      }
+      
+      // Handle item addition
+      if (choice.effects.addItems) {
+        for (const itemId of choice.effects.addItems) {
+          addItem(nextState.party.inventory, itemId);
+        }
+      }
+      
+      // Handle HP delta
+      if (choice.effects.hpDelta !== undefined) {
+        nextState = {
+          ...nextState,
+          party: {
+            ...nextState.party,
+            members: nextState.party.members.map((member) => {
+              if (!member.alive) return member;
+              const newHp = Math.min(
+                member.stats.maxHp,
+                Math.max(0, member.stats.hp + choice.effects.hpDelta!)
+              );
+              return {
+                ...member,
+                stats: { ...member.stats, hp: newHp },
+                alive: newHp > 0,
+              };
+            }),
           },
         };
       }

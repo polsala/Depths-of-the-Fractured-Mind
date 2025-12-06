@@ -112,7 +112,7 @@ export interface GameState {
 }
 
 export function createInitialGameState(): GameState {
-  return {
+  const initialState = {
     party: {
       members: [],
       inventory: {
@@ -122,11 +122,11 @@ export function createInitialGameState(): GameState {
     },
     location: {
       depth: 1,
-      x: 1,
-      y: 1,
-      direction: "north",
+      x: 2,
+      y: 2,
+      direction: "north" as const,
     },
-    mode: "title",
+    mode: "title" as const,
     flags: {
       moral: {
         mercy: 0,
@@ -143,4 +143,10 @@ export function createInitialGameState(): GameState {
     currentEventId: undefined,
     currentEncounterId: undefined,
   };
+  
+  // Mark starting tile as visited
+  const startKey = `${initialState.location.depth}-${initialState.location.x}-${initialState.location.y}`;
+  initialState.flags.visitedTiles.add(startKey);
+  
+  return initialState;
 }

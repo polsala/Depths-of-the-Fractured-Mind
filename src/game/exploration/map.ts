@@ -118,7 +118,7 @@ function createDepth2Map(): DepthMap {
   };
 
   // Stairs up from Depth 1
-  tiles[2][2] = { type: "stairsUp", passable: true, discovered: true };
+  tiles[2][2] = { type: "stairsUp", passable: true, discovered: false };
 
   // Archive corridors with file rooms
   for (let x = 2; x < 13; x += 1) {
@@ -190,7 +190,7 @@ function createDepth3Map(): DepthMap {
   };
 
   // Stairs up
-  tiles[2][2] = { type: "stairsUp", passable: true, discovered: true };
+  tiles[2][2] = { type: "stairsUp", passable: true, discovered: false };
 
   // Ward corridors
   for (let x = 2; x < 14; x += 1) {
@@ -265,7 +265,7 @@ function createDepth4Map(): DepthMap {
   };
 
   // Stairs up
-  tiles[3][3] = { type: "stairsUp", passable: true, discovered: true };
+  tiles[3][3] = { type: "stairsUp", passable: true, discovered: false };
 
   // Confusing maze-like corridors
   for (let x = 3; x < 15; x += 1) {
@@ -341,7 +341,7 @@ function createDepth5Map(): DepthMap {
   };
 
   // Stairs up
-  tiles[2][2] = { type: "stairsUp", passable: true, discovered: true };
+  tiles[2][2] = { type: "stairsUp", passable: true, discovered: false };
 
   // Bio-mechanical corridors leading to center
   for (let x = 2; x < 18; x += 1) {

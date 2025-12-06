@@ -313,7 +313,7 @@
             "hpDelta": 5,
             "sanityDelta": 1,
             "addItems": [
-              "medical_kit"
+              "medkit"
             ]
           }
         },
