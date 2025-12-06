@@ -48,6 +48,8 @@ The game is automatically deployed to GitHub Pages when changes are pushed to th
 
 - [Design Document](docs/design.md) - Comprehensive game design specification
 - [Deployment Guide](docs/deployment.md) - GitHub Pages deployment documentation
+- [Event System](docs/event-system.md) - Complete event system documentation
+- [Event System Quick Start](docs/event-system-quickstart.md) - Quick guide to the procedural event system
 
 ## 🎯 Game Features
 
@@ -55,8 +57,29 @@ The game is automatically deployed to GitHub Pages when changes are pushed to th
 - **Turn-based combat** with meaningful tactical decisions
 - **Sanity mechanics** affecting perception and gameplay
 - **Moral choice system** with lasting consequences
+- **Procedural event system** with randomized story paths
 - **Multiple endings** based on player decisions
 - **Four unique characters** with personal stories and abilities
+- **Data-driven content** using external JSON files
+
+## 🎲 Event System
+
+The game features a comprehensive procedural event system:
+
+- **Mandatory Events**: Core story events that always appear (Pit Fall, Overflow Ward, etc.)
+- **Optional Events**: Randomized side events for variety and replayability
+- **Trigger Conditions**: Events appear based on depth, flags, party state, and moral alignment
+- **Stateful Consequences**: Choices affect future events, party stats, and endings
+- **Data-Driven Design**: All events defined in `public/data/events.json`
+
+See the [Event System documentation](docs/event-system.md) for details on adding new events.
+
+### Validate Events
+
+```bash
+# Validate event data JSON
+npm run validate:events
+```
 
 ## 🏗️ Tech Stack
 
