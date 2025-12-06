@@ -131,6 +131,55 @@ export function getDepthPalette(depth: number): {
 }
 
 /**
+ * Create cobblestone floor texture
+ */
+function createFloorTexture(
+  width: number,
+  height: number,
+  baseColor: string,
+  shadeColor: string
+): HTMLCanvasElement {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
+
+  const base = hexToRgb(baseColor);
+  const shade = hexToRgb(shadeColor);
+
+  // Draw cobblestones
+  const stoneSize = 8;
+  for (let y = 0; y < height; y += stoneSize) {
+    for (let x = 0; x < width; x += stoneSize) {
+      // Random stone variation
+      const variation = Math.random() * 0.3 - 0.15;
+      const stoneColor = interpolateColor(shade, base, 0.6 + variation);
+      
+      ctx.fillStyle = `rgb(${Math.floor(stoneColor.r)}, ${Math.floor(stoneColor.g)}, ${Math.floor(stoneColor.b)})`;
+      
+      // Draw irregular stone shape
+      ctx.beginPath();
+      ctx.arc(
+        x + stoneSize / 2 + (Math.random() * 2 - 1),
+        y + stoneSize / 2 + (Math.random() * 2 - 1),
+        stoneSize / 2 - 1,
+        0,
+        Math.PI * 2
+      );
+      ctx.fill();
+
+      // Dark gaps between stones
+      ctx.strokeStyle = `rgb(${Math.floor(shade.r * 0.5)}, ${Math.floor(shade.g * 0.5)}, ${Math.floor(shade.b * 0.5)})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  return canvas;
+}
+
+/**
  * Render a gradient for ceiling or floor
  */
 function renderGradient(
@@ -155,7 +204,205 @@ function renderGradient(
 }
 
 /**
- * Draw a perspective wall segment
+ * Create detailed pixel art stone texture
+ */
+function createStoneTexture(
+  width: number,
+  height: number,
+  baseColor: string,
+  shadeColor: string,
+  accentColor: string,
+  brightness: number
+): HTMLCanvasElement {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return canvas;
+
+  // Parse colors
+  const base = hexToRgb(baseColor);
+  const shade = hexToRgb(shadeColor);
+  const accent = hexToRgb(accentColor);
+
+  // Create stone brick pattern
+  const brickWidth = Math.max(8, width / 8);
+  const brickHeight = Math.max(6, height / 12);
+
+  for (let row = 0; row < Math.ceil(height / brickHeight); row++) {
+    const offset = (row % 2) * (brickWidth / 2);
+    for (let col = 0; col < Math.ceil(width / brickWidth) + 1; col++) {
+      const x = col * brickWidth - offset;
+      const y = row * brickHeight;
+
+      // Base brick color with variation
+      const variation = Math.random() * 0.2 - 0.1;
+      const brickColor = interpolateColor(shade, base, 0.7 + variation);
+      ctx.fillStyle = `rgba(${Math.floor(brickColor.r * brightness)}, ${Math.floor(brickColor.g * brightness)}, ${Math.floor(brickColor.b * brightness)}, 1)`;
+      ctx.fillRect(x, y, brickWidth - 2, brickHeight - 2);
+
+      // Mortar (gaps between bricks)
+      ctx.fillStyle = `rgba(${Math.floor(shade.r * brightness * 0.5)}, ${Math.floor(shade.g * brightness * 0.5)}, ${Math.floor(shade.b * brightness * 0.5)}, 1)`;
+      ctx.fillRect(x + brickWidth - 2, y, 2, brickHeight);
+      ctx.fillRect(x, y + brickHeight - 2, brickWidth, 2);
+
+      // Add texture details
+      const detailCount = Math.floor(Math.random() * 3);
+      for (let d = 0; d < detailCount; d++) {
+        const dx = x + Math.random() * (brickWidth - 4) + 2;
+        const dy = y + Math.random() * (brickHeight - 4) + 2;
+        const size = Math.random() * 2 + 1;
+        ctx.fillStyle = `rgba(${Math.floor(shade.r * brightness * 0.7)}, ${Math.floor(shade.g * brightness * 0.7)}, ${Math.floor(shade.b * brightness * 0.7)}, 0.5)`;
+        ctx.fillRect(dx, dy, size, size);
+      }
+
+      // Highlights on top-left
+      ctx.fillStyle = `rgba(${Math.floor(accent.r * brightness)}, ${Math.floor(accent.g * brightness)}, ${Math.floor(accent.b * brightness)}, 0.3)`;
+      ctx.fillRect(x, y, brickWidth - 2, 1);
+      ctx.fillRect(x, y, 1, brickHeight - 2);
+    }
+  }
+
+  return canvas;
+}
+
+/**
+ * Draw torch sconce on wall
+ */
+function drawTorchSconce(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  size: number,
+  animated: boolean = true
+): void {
+  // Sconce bracket
+  ctx.fillStyle = "#3a3a3a";
+  ctx.fillRect(x + size * 0.4, y, size * 0.2, size * 0.4);
+  
+  // Torch handle
+  ctx.fillStyle = "#4a3020";
+  ctx.fillRect(x + size * 0.42, y + size * 0.3, size * 0.16, size * 0.5);
+  
+  // Flame
+  const flameY = y + size * 0.2;
+  const flameHeight = size * 0.3 + (animated ? Math.sin(Date.now() / 100) * 2 : 0);
+  
+  // Outer flame (orange)
+  ctx.fillStyle = "#ff6600";
+  ctx.beginPath();
+  ctx.moveTo(x + size * 0.5, flameY - flameHeight);
+  ctx.lineTo(x + size * 0.35, flameY);
+  ctx.lineTo(x + size * 0.65, flameY);
+  ctx.closePath();
+  ctx.fill();
+  
+  // Inner flame (yellow)
+  ctx.fillStyle = "#ffcc00";
+  ctx.beginPath();
+  ctx.moveTo(x + size * 0.5, flameY - flameHeight * 0.7);
+  ctx.lineTo(x + size * 0.42, flameY);
+  ctx.lineTo(x + size * 0.58, flameY);
+  ctx.closePath();
+  ctx.fill();
+  
+  // Flame glow
+  const gradient = ctx.createRadialGradient(
+    x + size * 0.5,
+    flameY - flameHeight / 2,
+    0,
+    x + size * 0.5,
+    flameY - flameHeight / 2,
+    size
+  );
+  gradient.addColorStop(0, "rgba(255, 150, 50, 0.3)");
+  gradient.addColorStop(1, "rgba(255, 150, 50, 0)");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(x - size * 0.5, flameY - flameHeight - size * 0.5, size * 2, size * 2);
+}
+
+/**
+ * Draw dungeon door (exported for future use)
+ */
+export function drawDungeonDoor(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  distance: number
+): void {
+  const brightness = Math.max(0.3, 1 - distance * 0.15);
+  
+  // Door frame (stone)
+  ctx.fillStyle = `rgba(60, 60, 70, ${brightness})`;
+  ctx.fillRect(x, y, width, height);
+  
+  // Wooden door
+  ctx.fillStyle = `rgba(60, 40, 20, ${brightness})`;
+  ctx.fillRect(x + width * 0.1, y + height * 0.05, width * 0.8, height * 0.9);
+  
+  // Vertical planks
+  const plankWidth = width * 0.15;
+  for (let i = 0; i < 5; i++) {
+    const plankX = x + width * 0.15 + i * plankWidth;
+    ctx.strokeStyle = `rgba(50, 35, 15, ${brightness})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(plankX, y + height * 0.05);
+    ctx.lineTo(plankX, y + height * 0.95);
+    ctx.stroke();
+  }
+  
+  // Horizontal metal bands
+  ctx.fillStyle = `rgba(80, 80, 80, ${brightness})`;
+  ctx.fillRect(x + width * 0.1, y + height * 0.3, width * 0.8, height * 0.05);
+  ctx.fillRect(x + width * 0.1, y + height * 0.65, width * 0.8, height * 0.05);
+  
+  // Metal rivets
+  ctx.fillStyle = `rgba(100, 100, 100, ${brightness})`;
+  for (let i = 0; i < 6; i++) {
+    const rivetX = x + width * (0.2 + i * 0.12);
+    ctx.fillRect(rivetX, y + height * 0.3, 3, 3);
+    ctx.fillRect(rivetX, y + height * 0.65, 3, 3);
+  }
+  
+  // Door handle
+  ctx.fillStyle = `rgba(120, 100, 60, ${brightness})`;
+  ctx.fillRect(x + width * 0.75, y + height * 0.5, width * 0.08, height * 0.08);
+}
+
+/**
+ * Helper function to convert hex to RGB
+ */
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : { r: 0, g: 0, b: 0 };
+}
+
+/**
+ * Helper function to interpolate between two colors
+ */
+function interpolateColor(
+  c1: { r: number; g: number; b: number },
+  c2: { r: number; g: number; b: number },
+  factor: number
+): { r: number; g: number; b: number } {
+  return {
+    r: c1.r + (c2.r - c1.r) * factor,
+    g: c1.g + (c2.g - c1.g) * factor,
+    b: c1.b + (c2.b - c1.b) * factor,
+  };
+}
+
+/**
+ * Draw a perspective wall segment with detailed texture
  */
 function drawWallSegment(
   ctx: CanvasRenderingContext2D,
@@ -175,40 +422,26 @@ function drawWallSegment(
   // Darken walls based on distance
   const brightness = Math.max(0.3, 1 - distance * 0.15);
 
-  // Main wall
-  ctx.fillStyle = shadeColor;
-  ctx.globalAlpha = brightness;
+  // Create detailed stone texture
+  const texture = createStoneTexture(
+    Math.floor(width),
+    Math.floor(wallHeight),
+    baseColor,
+    shadeColor,
+    accentColor,
+    brightness
+  );
+
+  // Draw textured wall
+  ctx.drawImage(texture, xStart, wallTop);
+
+  // Add depth shading
+  const gradient = ctx.createLinearGradient(xStart, wallTop, xStart + width, wallTop);
+  gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
+  gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
+  gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
+  ctx.fillStyle = gradient;
   ctx.fillRect(xStart, wallTop, width, wallHeight);
-
-  // Wall texture - vertical lines for stone blocks
-  ctx.strokeStyle = baseColor;
-  ctx.lineWidth = 2;
-  const blockWidth = width / 3;
-  for (let i = 0; i <= 3; i++) {
-    ctx.beginPath();
-    ctx.moveTo(xStart + blockWidth * i, wallTop);
-    ctx.lineTo(xStart + blockWidth * i, wallTop + wallHeight);
-    ctx.stroke();
-  }
-
-  // Horizontal lines for stone courses
-  const courseHeight = wallHeight / 4;
-  for (let i = 0; i <= 4; i++) {
-    ctx.beginPath();
-    ctx.moveTo(xStart, wallTop + courseHeight * i);
-    ctx.lineTo(xStart + width, wallTop + courseHeight * i);
-    ctx.stroke();
-  }
-
-  // Add accent highlight on near walls
-  if (distance < 2) {
-    ctx.strokeStyle = accentColor;
-    ctx.lineWidth = 1;
-    ctx.globalAlpha = brightness * 0.3;
-    ctx.strokeRect(xStart + 2, wallTop + 2, width - 4, wallHeight - 4);
-  }
-
-  ctx.globalAlpha = 1;
 }
 
 /**
@@ -232,46 +465,19 @@ export function renderDungeonView(
     return;
   }
 
-  // Render ceiling
+  // Render ceiling with gradient
   renderGradient(ctx, 0, 0, width, height / 2, palette.ceiling, palette.wallShade);
 
-  // Render floor
-  renderGradient(
-    ctx,
-    0,
-    height / 2,
-    width,
-    height / 2,
-    palette.wallShade,
-    palette.floor
-  );
-
-  // Draw perspective grid lines on floor
-  ctx.strokeStyle = palette.accent;
-  ctx.globalAlpha = 0.1;
-  ctx.lineWidth = 1;
-
-  // Horizontal floor lines (depth)
-  for (let i = 1; i <= 5; i++) {
-    const y = height / 2 + (height / 2) * (i / 5) * 0.8;
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(width, y);
-    ctx.stroke();
-  }
-
-  // Vertical floor lines (perspective)
-  const vanishingX = width / 2;
-  const vanishingY = height / 2;
-  for (let i = -2; i <= 2; i++) {
-    const xOffset = i * (width / 8);
-    ctx.beginPath();
-    ctx.moveTo(vanishingX + xOffset * 3, height);
-    ctx.lineTo(vanishingX, vanishingY);
-    ctx.stroke();
-  }
-
-  ctx.globalAlpha = 1;
+  // Render textured floor
+  const floorTexture = createFloorTexture(width, height / 2, palette.floor, palette.wallShade);
+  ctx.drawImage(floorTexture, 0, height / 2);
+  
+  // Add perspective fade to floor
+  const floorGradient = ctx.createLinearGradient(0, height / 2, 0, height);
+  floorGradient.addColorStop(0, "rgba(0, 0, 0, 0.4)");
+  floorGradient.addColorStop(1, "rgba(0, 0, 0, 0.1)");
+  ctx.fillStyle = floorGradient;
+  ctx.fillRect(0, height / 2, width, height / 2);
 
   // Render walls based on map data (back to front)
   const viewDistance = 4; // How many tiles deep we can see
@@ -344,6 +550,46 @@ export function renderDungeonView(
   fogGradient.addColorStop(1, palette.fog);
   ctx.fillStyle = fogGradient;
   ctx.fillRect(0, 0, width, height);
+
+  // Add torches on visible walls
+  for (let distance = 3; distance >= 1; distance--) {
+    const walls = getVisibleWalls(
+      map,
+      viewState.x,
+      viewState.y,
+      viewState.direction,
+      distance
+    );
+
+    const scale = 1 / (distance + 1);
+    const segmentWidth = width * scale * 0.8;
+    const wallHeight = height * scale * 0.8;
+    const wallTop = (height - wallHeight) / 2;
+
+    // Left wall torch
+    if (walls.left && distance % 2 === 1) {
+      const torchSize = Math.max(20, wallHeight * 0.15);
+      drawTorchSconce(
+        ctx,
+        (width - segmentWidth) / 4,
+        wallTop + wallHeight * 0.3,
+        torchSize,
+        true
+      );
+    }
+
+    // Right wall torch
+    if (walls.right && distance % 2 === 0) {
+      const torchSize = Math.max(20, wallHeight * 0.15);
+      drawTorchSconce(
+        ctx,
+        width - (width - segmentWidth) / 4 - torchSize,
+        wallTop + wallHeight * 0.3,
+        torchSize,
+        true
+      );
+    }
+  }
 
   // Add vignette effect
   const vignetteGradient = ctx.createRadialGradient(

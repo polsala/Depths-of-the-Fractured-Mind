@@ -14,7 +14,7 @@ export interface PartyUIConfig {
 const portraitCache = new Map<string, HTMLCanvasElement>();
 
 /**
- * Generate a simple character portrait using Canvas API
+ * Generate detailed pixel art character portrait
  * Creates distinctive visual representations for each character
  */
 function generatePortrait(
@@ -38,50 +38,144 @@ function generatePortrait(
     return canvas;
   }
 
-  const x = 0;
-  const y = 0;
+  ctx.imageSmoothingEnabled = false; // Pixel-perfect rendering
 
-  // Background based on character
-  const backgrounds: Record<string, string> = {
-    elias: "#3d4e5c", // Cold blue-gray
-    miriam: "#5c3d4e", // Deep purple
-    subject13: "#4e5c3d", // Muted green
-    anya: "#5c4e3d", // Warm brown
+  // Character-specific colors and features
+  const characterData: Record<string, { bg: string; skin: string; hair: string; eyes: string; clothing: string }> = {
+    elias: {
+      bg: "#2a3540",
+      skin: "#d4a574",
+      hair: "#4a3020",
+      eyes: "#6b8ca3",
+      clothing: "#3d4e5c"
+    },
+    miriam: {
+      bg: "#3d2a40",
+      skin: "#c9a885",
+      hair: "#2a1520",
+      eyes: "#8b6f9e",
+      clothing: "#5c3d4e"
+    },
+    subject13: {
+      bg: "#2a402a",
+      skin: "#a8b8a0",
+      hair: "#3d4e3d",
+      eyes: "#7d9e6f",
+      clothing: "#4e5c3d"
+    },
+    anya: {
+      bg: "#403d2a",
+      skin: "#d4b894",
+      hair: "#2a2015",
+      eyes: "#6f5d4e",
+      clothing: "#5c4e3d"
+    }
   };
 
-  const bg = backgrounds[character.id] || "#3d3d3d";
+  const data = characterData[character.id] || characterData.elias;
 
-  // Draw background
-  ctx.fillStyle = bg;
-  ctx.fillRect(x, y, size, size);
+  // Background
+  ctx.fillStyle = data.bg;
+  ctx.fillRect(0, 0, size, size);
 
-  // Add border
+  // Draw pixel art portrait
+  const pixelSize = Math.max(2, Math.floor(size / 32));
+  
+  // Head/face outline
+  ctx.fillStyle = data.skin;
+  const faceWidth = 18 * pixelSize;
+  const faceHeight = 22 * pixelSize;
+  const faceX = (size - faceWidth) / 2;
+  const faceY = size * 0.25;
+  
+  // Draw head shape
+  ctx.fillRect(faceX + 4 * pixelSize, faceY, faceWidth - 8 * pixelSize, faceHeight);
+  ctx.fillRect(faceX + 2 * pixelSize, faceY + 2 * pixelSize, faceWidth - 4 * pixelSize, faceHeight - 4 * pixelSize);
+  ctx.fillRect(faceX, faceY + 4 * pixelSize, faceWidth, faceHeight - 8 * pixelSize);
+
+  // Hair
+  ctx.fillStyle = data.hair;
+  ctx.fillRect(faceX, faceY, faceWidth, 10 * pixelSize);
+  ctx.fillRect(faceX - 2 * pixelSize, faceY + 4 * pixelSize, 4 * pixelSize, 8 * pixelSize);
+  ctx.fillRect(faceX + faceWidth - 2 * pixelSize, faceY + 4 * pixelSize, 4 * pixelSize, 8 * pixelSize);
+
+  // Eyes
+  ctx.fillStyle = data.eyes;
+  ctx.fillRect(faceX + 5 * pixelSize, faceY + 10 * pixelSize, 3 * pixelSize, 3 * pixelSize);
+  ctx.fillRect(faceX + faceWidth - 8 * pixelSize, faceY + 10 * pixelSize, 3 * pixelSize, 3 * pixelSize);
+
+  // Eye highlights
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(faceX + 6 * pixelSize, faceY + 11 * pixelSize, pixelSize, pixelSize);
+  ctx.fillRect(faceX + faceWidth - 7 * pixelSize, faceY + 11 * pixelSize, pixelSize, pixelSize);
+
+  // Nose
+  ctx.fillStyle = "#a08060";
+  ctx.fillRect(faceX + faceWidth / 2 - pixelSize, faceY + 14 * pixelSize, 2 * pixelSize, 3 * pixelSize);
+
+  // Mouth
+  ctx.fillStyle = "#604040";
+  ctx.fillRect(faceX + faceWidth / 2 - 2 * pixelSize, faceY + 18 * pixelSize, 4 * pixelSize, pixelSize);
+
+  // Shoulders/clothing
+  ctx.fillStyle = data.clothing;
+  const shoulderY = faceY + faceHeight;
+  ctx.fillRect(faceX - 4 * pixelSize, shoulderY, faceWidth + 8 * pixelSize, size - shoulderY);
+
+  // Add border frame
   ctx.strokeStyle = character.alive ? "#8b9da9" : "#4a3333";
   ctx.lineWidth = 3;
-  ctx.strokeRect(x, y, size, size);
+  ctx.strokeRect(0, 0, size, size);
 
-  // Character initial
-  ctx.fillStyle = character.alive ? "#ffffff" : "#666666";
-  ctx.font = `bold ${size * 0.5}px serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(character.name.charAt(0).toUpperCase(), x + size / 2, y + size / 2);
+  // Inner decorative frame
+  ctx.strokeStyle = character.alive ? "#6d7d89" : "#3a2323";
+  ctx.lineWidth = 1;
+  ctx.strokeRect(4, 4, size - 8, size - 8);
 
-  // Status indicator
+  // Status overlays
   if (!character.alive) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-    ctx.fillRect(x, y, size, size);
+    ctx.fillRect(0, 0, size, size);
+    
+    // Skull icon for death
     ctx.fillStyle = "#ff4444";
-    ctx.font = `${size * 0.25}px sans-serif`;
-    ctx.fillText("DEAD", x + size / 2, y + size / 2);
+    ctx.font = `${size * 0.4}px serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("☠", size / 2, size / 2);
+    
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `${size * 0.15}px sans-serif`;
+    ctx.fillText("DEAD", size / 2, size * 0.75);
   } else if (character.stats.hp < character.stats.maxHp * 0.3) {
     // Low HP indicator
     ctx.fillStyle = "rgba(255, 68, 68, 0.3)";
-    ctx.fillRect(x, y, size, size);
+    ctx.fillRect(0, 0, size, size);
+    
+    // Damage marks
+    ctx.strokeStyle = "#ff4444";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(size * 0.2, size * 0.2);
+    ctx.lineTo(size * 0.3, size * 0.3);
+    ctx.moveTo(size * 0.7, size * 0.25);
+    ctx.lineTo(size * 0.8, size * 0.35);
+    ctx.stroke();
   } else if (character.stats.sanity < character.stats.maxSanity * 0.3) {
-    // Low sanity indicator
+    // Low sanity indicator - distortion effect
     ctx.fillStyle = "rgba(138, 68, 255, 0.3)";
-    ctx.fillRect(x, y, size, size);
+    ctx.fillRect(0, 0, size, size);
+    
+    // Add glitch effect
+    for (let i = 0; i < 3; i++) {
+      ctx.strokeStyle = `rgba(138, 68, 255, ${0.5 - i * 0.15})`;
+      ctx.lineWidth = 1;
+      const y = size * (0.3 + i * 0.2);
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(size, y);
+      ctx.stroke();
+    }
   }
 
   // Cache the portrait

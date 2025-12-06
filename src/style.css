@@ -188,6 +188,14 @@ h1 {
   border-radius: 3px;
 }
 
+.minimap-panel {
+  display: block;
+  margin: 10px 0;
+  border-radius: 3px;
+  border: 2px solid #2d3561;
+  box-shadow: 0 0 10px rgba(45, 53, 97, 0.3);
+}
+
 .instructions {
   margin-top: 15px;
   padding: 10px;

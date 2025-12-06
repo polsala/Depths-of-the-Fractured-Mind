@@ -10,6 +10,7 @@ import {
   type ViewState,
 } from "../graphics/renderer";
 import { renderPartyUI } from "../graphics/party-ui";
+import { renderMinimap } from "../graphics/minimap";
 import {
   rotateClockwise,
   rotateCounterClockwise,
@@ -143,6 +144,29 @@ function renderExploration(
     </p>
   `;
   infoPanel.appendChild(locationInfo);
+
+  // Create and render minimap
+  if (dungeonRenderContext && dungeonRenderContext.depthMaps) {
+    const map = dungeonRenderContext.depthMaps.get(state.location.depth);
+    if (map) {
+      const minimapCanvas = document.createElement("canvas");
+      minimapCanvas.className = "minimap-panel";
+      infoPanel.appendChild(minimapCanvas);
+
+      renderMinimap(
+        minimapCanvas,
+        map,
+        state.location.x,
+        state.location.y,
+        state.location.direction,
+        {
+          width: 160,
+          height: 160,
+          tileSize: 14,
+        }
+      );
+    }
+  }
 
   // Create party UI canvas
   const partyCanvas = document.createElement("canvas");
