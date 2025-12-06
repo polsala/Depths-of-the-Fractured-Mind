@@ -33,6 +33,32 @@ npm run build
 npm run preview
 ```
 
+### Running Checks
+
+```bash
+# Run all CI checks locally
+npm run ci
+
+# Individual checks
+npm run typecheck        # TypeScript type checking
+npm run validate:events  # Validate event JSON
+npm test                 # Run typecheck + event validation
+```
+
+## 🔄 CI/CD
+
+The project uses GitHub Actions for automated testing and deployment:
+
+- **CI Workflow**: Runs on all pull requests
+  - TypeScript compilation check
+  - Build verification
+  - Event data validation
+  - Security audit
+  
+- **Deploy Workflow**: Automatic deployment to GitHub Pages on merge to `main`
+
+See [CI/CD Documentation](docs/ci-cd.md) for details on workflows and how to extend them for new features.
+
 ## 📦 Deployment
 
 The game is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. See [docs/deployment.md](docs/deployment.md) for detailed deployment information.
@@ -48,6 +74,7 @@ The game is automatically deployed to GitHub Pages when changes are pushed to th
 
 - [Design Document](docs/design.md) - Comprehensive game design specification
 - [Deployment Guide](docs/deployment.md) - GitHub Pages deployment documentation
+- [CI/CD Guide](docs/ci-cd.md) - Continuous integration and deployment workflows
 - [Event System](docs/event-system.md) - Complete event system documentation
 - [Event System Quick Start](docs/event-system-quickstart.md) - Quick guide to the procedural event system
 
