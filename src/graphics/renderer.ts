@@ -3,6 +3,8 @@
  * Inspired by Eye of the Beholder with modern enhancements
  */
 
+import { generateDepthMap, getVisibleWalls, type DungeonMap } from "./map";
+
 export interface ViewportConfig {
   width: number;
   height: number;
@@ -13,6 +15,7 @@ export interface RenderContext {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   config: ViewportConfig;
+  depthMaps: Map<number, DungeonMap>;
 }
 
 export type Direction = "north" | "south" | "east" | "west";
@@ -44,7 +47,13 @@ export function createRenderContext(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
 
-  return { canvas, ctx, config };
+  // Initialize depth maps cache
+  const depthMaps = new Map<number, DungeonMap>();
+  for (let depth = 1; depth <= 5; depth++) {
+    depthMaps.set(depth, generateDepthMap(depth, 10));
+  }
+
+  return { canvas, ctx, config, depthMaps };
 }
 
 /**
@@ -204,12 +213,19 @@ export function renderDungeonView(
   renderCtx: RenderContext,
   viewState: ViewState
 ): void {
-  const { ctx, config } = renderCtx;
+  const { ctx, config, depthMaps } = renderCtx;
   const { width, height } = config;
   const palette = getDepthPalette(viewState.depth);
 
   // Clear viewport
   clearViewport(renderCtx);
+
+  // Get the map for current depth
+  const map = depthMaps.get(viewState.depth);
+  if (!map) {
+    console.warn(`No map found for depth ${viewState.depth}`);
+    return;
+  }
 
   // Render ceiling
   renderGradient(ctx, 0, 0, width, height / 2, palette.ceiling, palette.wallShade);
@@ -252,15 +268,23 @@ export function renderDungeonView(
 
   ctx.globalAlpha = 1;
 
-  // Render walls in perspective (back to front)
+  // Render walls based on map data (back to front)
   const viewDistance = 4; // How many tiles deep we can see
 
   for (let distance = viewDistance; distance >= 0; distance--) {
+    const walls = getVisibleWalls(
+      map,
+      viewState.x,
+      viewState.y,
+      viewState.direction,
+      distance
+    );
+
     const scale = 1 / (distance + 1);
     const segmentWidth = width * scale * 0.8;
 
-    // Left wall
-    if (distance > 0) {
+    // Left wall (if visible)
+    if (distance > 0 && walls.left) {
       drawWallSegment(
         ctx,
         distance,
@@ -271,8 +295,10 @@ export function renderDungeonView(
         palette.wallShade,
         palette.accent
       );
+    }
 
-      // Right wall
+    // Right wall (if visible)
+    if (distance > 0 && walls.right) {
       drawWallSegment(
         ctx,
         distance,
@@ -286,10 +312,10 @@ export function renderDungeonView(
     }
 
     // Front wall (if blocked)
-    if (distance === 0) {
+    if (walls.front) {
       drawWallSegment(
         ctx,
-        0,
+        distance,
         (width - segmentWidth) / 2,
         segmentWidth,
         height,

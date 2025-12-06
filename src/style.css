@@ -171,6 +171,17 @@ h1 {
   font-size: 0.9em;
 }
 
+.direction-indicator {
+  margin-top: 8px !important;
+  padding: 5px 10px;
+  background: rgba(45, 53, 97, 0.3);
+  border: 1px solid #4a5f8f;
+  border-radius: 3px;
+  color: #8b9da9 !important;
+  font-weight: bold;
+  text-align: center;
+}
+
 .party-panel {
   display: block;
   margin: 10px 0;

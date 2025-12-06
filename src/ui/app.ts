@@ -10,6 +10,12 @@ import {
   type ViewState,
 } from "../graphics/renderer";
 import { renderPartyUI } from "../graphics/party-ui";
+import {
+  rotateClockwise,
+  rotateCounterClockwise,
+  getDirectionArrow,
+  getDirectionName,
+} from "../graphics/direction";
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
@@ -80,9 +86,14 @@ function renderTitle(
 
 function renderExploration(
   root: HTMLElement,
-  _controller: GameController,
+  controller: GameController,
   state: GameState
 ): void {
+  // Ensure direction is initialized
+  if (!state.location.direction) {
+    state.location.direction = "north";
+  }
+
   // Create main container with flex layout
   const container = document.createElement("div");
   container.className = "exploration-container";
@@ -112,7 +123,7 @@ function renderExploration(
     x: state.location.x,
     y: state.location.y,
     depth: state.location.depth,
-    direction: "north", // Default direction for now
+    direction: state.location.direction,
   };
   renderDungeonView(dungeonRenderContext, viewState);
 
@@ -121,12 +132,15 @@ function renderExploration(
   infoPanel.className = "info-panel";
   container.appendChild(infoPanel);
 
-  // Location info
+  // Location info with direction
   const locationInfo = document.createElement("div");
   locationInfo.className = "location-info";
   locationInfo.innerHTML = `
     <h3>Depth ${state.location.depth}</h3>
     <p>Position: (${state.location.x}, ${state.location.y})</p>
+    <p class="direction-indicator">
+      Facing: ${getDirectionArrow(state.location.direction)} ${getDirectionName(state.location.direction)}
+    </p>
   `;
   infoPanel.appendChild(locationInfo);
 
@@ -147,10 +161,14 @@ function renderExploration(
   instructions.className = "instructions";
   instructions.innerHTML = `
     <p><strong>Controls:</strong></p>
-    <p>Arrow Keys / WASD - Move</p>
+    <p>Arrow Keys / WASD - Move Forward/Back</p>
+    <p>Q / E - Rotate Left/Right</p>
     <p>Step onto marked tiles to trigger events</p>
   `;
   infoPanel.appendChild(instructions);
+
+  // Store controller reference for rotation
+  (container as any)._controller = controller;
 }
 
 function renderEvent(
@@ -285,7 +303,21 @@ export function initApp(root: HTMLElement): void {
   window.addEventListener("keydown", (event) => {
     const state = controller.getState();
     if (state.mode === "exploration") {
-      if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+      // Ensure direction is initialized
+      if (!state.location.direction) {
+        state.location.direction = "north";
+      }
+
+      // Rotation controls
+      if (event.key.toLowerCase() === "q") {
+        state.location.direction = rotateCounterClockwise(state.location.direction);
+        render();
+      } else if (event.key.toLowerCase() === "e") {
+        state.location.direction = rotateClockwise(state.location.direction);
+        render();
+      }
+      // Movement controls (WASD for forward/backward/strafe)
+      else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
         controller.moveNorth();
         render();
       } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
