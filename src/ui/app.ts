@@ -57,6 +57,18 @@ function renderTitle(
   menu.className = "title-menu";
   titleContainer.appendChild(menu);
 
+  // Show loading state if events aren't ready
+  if (!controller.isEventsLoaded()) {
+    const loading = document.createElement("p");
+    loading.textContent = "Loading events...";
+    loading.style.fontStyle = "italic";
+    root.appendChild(loading);
+    
+    // Rerender when events are loaded (check every 250ms, reasonable interval for loading)
+    setTimeout(() => rerender(), 250);
+    return;
+  }
+
   const button = document.createElement("button");
   button.className = "title-button";
   button.textContent = "Begin Your Descent";
@@ -228,7 +240,22 @@ function renderEvent(
     const missing = document.createElement("p");
     missing.textContent = `Event not found: ${state.currentEventId}`;
     container.appendChild(missing);
-
+    
+    const errorTitle = document.createElement("h3");
+    errorTitle.textContent = "Event Error";
+    missing.appendChild(errorTitle);
+    
+    const errorMsg = document.createElement("p");
+    errorMsg.textContent = `Event not found: ${state.currentEventId}`;
+    missing.appendChild(errorMsg);
+    
+    const hint = document.createElement("p");
+    hint.textContent = "This may indicate that events are still loading or the event data is missing.";
+    hint.style.fontStyle = "italic";
+    missing.appendChild(hint);
+    
+    root.appendChild(missing);
+    
     const back = document.createElement("button");
     back.textContent = "Return to Exploration";
     back.addEventListener("click", () => {

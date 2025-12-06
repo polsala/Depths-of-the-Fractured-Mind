@@ -229,6 +229,57 @@ game.chooseEventChoice('careful_rescue');
 - ✅ Safe JSON parsing with error handling
 - ✅ Type-safe implementation throughout
 
+## 🐛 Bug Fixes & Improvements (Event System Review - Dec 2024)
+
+### Issues Addressed
+
+**Problem:** Users reported "Event not found: pit_fall_event" errors during gameplay.
+
+**Root Cause:** Race condition between asynchronous event loading from JSON and immediate event triggering during player movement.
+
+### Fixes Implemented
+
+1. **Defensive Event Checks**
+   - Movement system now verifies events exist before triggering
+   - Prevents mode transition if event is missing
+   - Logs helpful warnings when events not yet loaded
+
+2. **Enhanced Error Handling**
+   - Better error messages in `startEvent()` with event registry listing
+   - UI shows helpful error messages with recovery options
+   - Console logging shows available events when lookup fails
+
+3. **Loading State Management**
+   - Added loading indicator on title screen
+   - Prevents player actions until events are ready
+   - Graceful fallback to hardcoded events if JSON fails
+
+4. **Event ID Consistency**
+   - Fixed fallback event IDs to match JSON versions
+   - Validator now checks critical event IDs
+   - Prevents accidental mismatches between code and data
+
+5. **Improved Documentation**
+   - Created `docs/EVENT_SYSTEM.md` with architecture overview
+   - Added `docs/EVENT_TROUBLESHOOTING.md` for debugging
+   - Documented event lifecycle and best practices
+
+### Validation Improvements
+
+The event validator now checks:
+- All critical event IDs exist (`pit_fall_event`, `overflow_ward_event`, etc.)
+- Event references in code match JSON definitions
+- Provides specific errors for missing critical events
+
+### Testing
+
+All tests pass:
+- ✅ TypeScript compilation (strict mode)
+- ✅ Event validation with critical checks
+- ✅ Production build
+- ✅ CodeQL security scan
+- ✅ Code review addressed
+
 ## 🎮 Replayability Impact
 
 The procedural event system dramatically improves replayability:

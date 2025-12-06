@@ -32,7 +32,9 @@ export function listRegisteredEventIds(): string[] {
 
 export function startEvent(state: GameState, eventId: string): GameState {
   if (!EVENT_REGISTRY[eventId]) {
-    // TODO: handle unknown event id (log or fallback)
+    console.error(`Event not found in registry: ${eventId}`);
+    console.log(`Available events: ${Object.keys(EVENT_REGISTRY).join(", ")}`);
+    // Don't change mode if event doesn't exist
     return state;
   }
 
