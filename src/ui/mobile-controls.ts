@@ -135,8 +135,6 @@ function createControlButton(text: string, className: string): HTMLButtonElement
   const button = document.createElement('button');
   button.textContent = text;
   button.className = className;
-  // Prevent default touch behavior
-  button.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
   return button;
 }
 

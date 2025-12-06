@@ -271,39 +271,21 @@ function renderExploration(
       mobileControls.cleanup();
     }
 
+    // Helper to execute movement and rerender if location changed
+    const executeMovement = (movementFn: () => void) => {
+      const prevState = controller.getState();
+      movementFn();
+      const newState = controller.getState();
+      if (hasLocationChanged(prevState, newState)) {
+        rerender();
+      }
+    };
+
     mobileControls = createMobileControls({
-      onMoveForward: () => {
-        const prevState = controller.getState();
-        controller.moveForward();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          rerender();
-        }
-      },
-      onMoveBackward: () => {
-        const prevState = controller.getState();
-        controller.moveBackward();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          rerender();
-        }
-      },
-      onStrafeLeft: () => {
-        const prevState = controller.getState();
-        controller.strafeLeft();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          rerender();
-        }
-      },
-      onStrafeRight: () => {
-        const prevState = controller.getState();
-        controller.strafeRight();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          rerender();
-        }
-      },
+      onMoveForward: () => executeMovement(() => controller.moveForward()),
+      onMoveBackward: () => executeMovement(() => controller.moveBackward()),
+      onStrafeLeft: () => executeMovement(() => controller.strafeLeft()),
+      onStrafeRight: () => executeMovement(() => controller.strafeRight()),
       onTurnLeft: () => {
         if (!state.location.direction) {
           state.location.direction = "north";
