@@ -47,8 +47,11 @@ export interface GameFlags {
   anyaEmbracesDubt?: boolean;
   anyaLosesFaith?: boolean;
   
+  // Exploration flags
+  visitedTiles?: Set<string>;
+  
   // Allow dynamic flags for future expansion
-  [key: string]: number | boolean | undefined | MoralFlags;
+  [key: string]: number | boolean | undefined | MoralFlags | Set<string>;
 }
 
 export interface CharacterState {
@@ -59,8 +62,28 @@ export interface CharacterState {
   alive: boolean;
 }
 
+export interface Item {
+  id: string;
+  name: string;
+  description: string;
+  type: "consumable" | "key" | "lore" | "utility";
+  stackable: boolean;
+  usable: boolean;
+}
+
+export interface InventoryItem {
+  item: Item;
+  quantity: number;
+}
+
+export interface Inventory {
+  items: InventoryItem[];
+  maxSlots: number;
+}
+
 export interface PartyState {
   members: CharacterState[];
+  inventory: Inventory;
 }
 
 export interface GameLocation {
@@ -92,6 +115,10 @@ export function createInitialGameState(): GameState {
   return {
     party: {
       members: [],
+      inventory: {
+        items: [],
+        maxSlots: 20,
+      },
     },
     location: {
       depth: 1,
@@ -111,6 +138,7 @@ export function createInitialGameState(): GameState {
       overflowWardResolved: false,
       riotRecordingPlayed: false,
       confessionalUsed: false,
+      visitedTiles: new Set<string>(),
     },
     currentEventId: undefined,
     currentEncounterId: undefined,
