@@ -88,7 +88,7 @@ export function generateProceduralMap(depth: number): DepthMap {
   const startY = startRoom.y + Math.floor(startRoom.height / 2);
   
   // Ensure start position is passable
-  if (!tiles[startY] || !tiles[startY][startX] || !tiles[startY][startX].passable) {
+  if (startY < 0 || startY >= height || startX < 0 || startX >= width || !tiles[startY][startX].passable) {
     console.error(`Start position (${startX}, ${startY}) is not passable! Fixing...`);
     tiles[startY][startX] = {
       type: "floor",
