@@ -1,6 +1,6 @@
-import type { GameLocation, GameMode, GameState } from "../state";
+import type { GameLocation, GameState } from "../state";
 import { getCurrentDepthMap, getTile } from "./map";
-// import { startEvent } from "../events/engine"; // TODO: wire in event start helper.
+import { getEventById } from "../events/engine";
 
 function canMoveTo(state: GameState, x: number, y: number): boolean {
   const map = getCurrentDepthMap(state);
@@ -33,12 +33,17 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   };
 
   if (tile?.eventId) {
-    // TODO: call startEvent(nextState, tile.eventId) once event routing is centralized.
-    nextState = {
-      ...nextState,
-      currentEventId: tile.eventId,
-      mode: "event" satisfies GameMode,
-    };
+    // Check if event exists before triggering
+    const eventExists = getEventById(tile.eventId);
+    if (eventExists) {
+      nextState = {
+        ...nextState,
+        currentEventId: tile.eventId,
+        mode: "event",
+      };
+    } else {
+      console.warn(`Event ${tile.eventId} referenced by map tile but not registered. Event loading may not be complete.`);
+    }
   }
 
   return nextState;

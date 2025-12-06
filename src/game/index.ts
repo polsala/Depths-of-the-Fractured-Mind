@@ -10,6 +10,7 @@ import { selectEventForLocation } from "./events/procedural";
 export class GameController {
   private state: GameState;
   private eventsLoaded: boolean = false;
+  private eventLoadingError: Error | null = null;
 
   constructor() {
     registerMandatoryEvents();
@@ -30,13 +31,18 @@ export class GameController {
       console.log("Event data loaded successfully");
     } catch (error) {
       console.error("Failed to load event data:", error);
-      // Events registered via registerMandatoryEvents() will still work
-      this.eventsLoaded = false;
+      this.eventLoadingError = error instanceof Error ? error : new Error(String(error));
+      // Events registered via registerMandatoryEvents() will still work as fallback
+      this.eventsLoaded = true; // Mark as loaded to allow game to proceed with fallback events
     }
   }
   
   public isEventsLoaded(): boolean {
     return this.eventsLoaded;
+  }
+  
+  public hasEventLoadingError(): boolean {
+    return this.eventLoadingError !== null;
   }
 
   public getState(): GameState {
