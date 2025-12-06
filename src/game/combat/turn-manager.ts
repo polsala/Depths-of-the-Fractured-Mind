@@ -17,6 +17,18 @@ import { useItem } from "../inventory";
 import { audioManager } from "../../ui/audio";
 import { calculateExperienceReward, awardExperience } from "../experience";
 import { ENEMIES } from "../enemies";
+import { getBossDialogue } from "../boss-dialogues";
+
+// Track which bosses have shown their low health dialogue
+const lowHealthDialogueShown = new Set<string>();
+
+function hasShownLowHealthDialogue(_state: CombatState, bossId: string): boolean {
+  return lowHealthDialogueShown.has(bossId);
+}
+
+function markLowHealthDialogueShown(_state: CombatState, bossId: string): void {
+  lowHealthDialogueShown.add(bossId);
+}
 
 export function selectNextCharacter(state: CombatState): void {
   const aliveMembers = getAlivePartyMembers(state.party);
@@ -88,6 +100,18 @@ export function executePlayerActions(state: CombatState): void {
   // Check victory
   if (isEncounterDefeated(state.encounter)) {
     state.phase = "victory";
+    
+    // Show boss victory dialogue if applicable
+    if (state.isBossFight && state.encounter.enemies.length > 0) {
+      const bossId = state.encounter.enemies[0].id;
+      const dialogue = getBossDialogue(bossId);
+      if (dialogue) {
+        dialogue.victory.forEach((line) => {
+          addCombatLog(state, line, "dialogue");
+        });
+      }
+    }
+    
     addCombatLog(state, "Victory! All enemies defeated!", "system");
     
     // Award experience
@@ -388,6 +412,23 @@ function attemptFlee(state: CombatState): void {
 export function executeEnemyTurn(state: CombatState): void {
   const aliveEnemies = getAliveEnemies(state.encounter);
   
+  // Check for boss low health dialogue (only once per battle)
+  if (state.isBossFight && aliveEnemies.length > 0) {
+    const boss = aliveEnemies[0];
+    const healthPercent = boss.stats.hp / boss.stats.maxHp;
+    
+    // Show low health dialogue at 30% HP (check if not already shown)
+    if (healthPercent <= 0.3 && !hasShownLowHealthDialogue(state, boss.id)) {
+      const dialogue = getBossDialogue(boss.id);
+      if (dialogue && dialogue.lowHealth) {
+        dialogue.lowHealth.forEach((line) => {
+          addCombatLog(state, line, "dialogue");
+        });
+        markLowHealthDialogueShown(state, boss.id);
+      }
+    }
+  }
+  
   for (const enemy of aliveEnemies) {
     // Check if enemy is stunned
     if (hasStatusEffect(enemy, "stunned")) {
@@ -396,7 +437,7 @@ export function executeEnemyTurn(state: CombatState): void {
       continue;
     }
     
-    // Simple AI: pick random alive target and attack
+    // Simple AI: pick random alive target
     const aliveParty = getAlivePartyMembers(state.party);
     if (aliveParty.length === 0) break;
     
@@ -405,12 +446,19 @@ export function executeEnemyTurn(state: CombatState): void {
     
     if (!target || !target.alive) continue;
     
-    // 70% chance to use basic attack, 30% to use random ability
-    const useAbility = Math.random() < 0.3;
-    
-    if (useAbility && enemy.id) {
-      // Try to use an ability (simplified - just do basic attack for now)
-      executeEnemyAbility(state, enemy, targetIndex);
+    // Get enemy data to check abilities
+    const enemyData = ENEMIES[enemy.id];
+    if (enemyData && enemyData.abilities && enemyData.abilities.length > 0) {
+      // 40% chance to use ability, higher for bosses
+      const abilityChance = enemyData.type === "boss" ? 0.6 : 0.4;
+      const useAbility = Math.random() < abilityChance;
+      
+      if (useAbility) {
+        const abilityId = enemyData.abilities[Math.floor(Math.random() * enemyData.abilities.length)];
+        executeEnemyAbility(state, enemy, targetIndex, abilityId);
+      } else {
+        executeEnemyBasicAttack(state, enemy, targetIndex);
+      }
     } else {
       executeEnemyBasicAttack(state, enemy, targetIndex);
     }
@@ -477,11 +525,113 @@ function executeEnemyBasicAttack(
 function executeEnemyAbility(
   state: CombatState,
   enemy: EnemyState,
+  targetIndex: number,
+  abilityId: string
+): void {
+  const ability = getAbility(abilityId);
+  if (!ability) {
+    // Fallback to basic attack
+    executeEnemyBasicAttack(state, enemy, targetIndex);
+    return;
+  }
+  
+  addCombatLog(state, `${enemy.name} uses ${ability.name}!`, "system");
+  
+  // Apply ability effects
+  switch (ability.targetType) {
+    case "enemy": // From enemy perspective, this targets party
+    case "self":
+      if (ability.targetType === "self") {
+        applyEnemyAbilityToSelf(state, ability.effects, enemy);
+      } else {
+        applyEnemyAbilityToParty(state, ability.effects, targetIndex);
+      }
+      break;
+    case "all-enemies": // From enemy perspective, this targets all party
+      state.party.members.forEach((_, index) => {
+        if (state.party.members[index].alive) {
+          applyEnemyAbilityToParty(state, ability.effects, index);
+        }
+      });
+      break;
+  }
+  
+  audioManager.playSfx("hit_light");
+}
+
+function applyEnemyAbilityToSelf(
+  state: CombatState,
+  effects: AbilityEffect[],
+  enemy: EnemyState
+): void {
+  for (const effect of effects) {
+    if (effect.type === "heal" && effect.value) {
+      const oldHp = enemy.stats.hp;
+      enemy.stats.hp = Math.min(enemy.stats.maxHp, enemy.stats.hp + effect.value);
+      const actualHealing = enemy.stats.hp - oldHp;
+      if (actualHealing > 0) {
+        addCombatLog(state, `${enemy.name} recovers ${actualHealing} HP!`, "heal");
+      }
+    }
+  }
+}
+
+function applyEnemyAbilityToParty(
+  state: CombatState,
+  effects: AbilityEffect[],
   targetIndex: number
 ): void {
-  // For now, just use basic attack
-  // TODO: Implement proper enemy ability selection
-  executeEnemyBasicAttack(state, enemy, targetIndex);
+  const target = state.party.members[targetIndex];
+  if (!target || !target.alive) return;
+  
+  for (const effect of effects) {
+    switch (effect.type) {
+      case "damage":
+        if (effect.value) {
+          const updatedCharacter = applyDamageToCharacter(target, effect.value);
+          state.party.members[targetIndex] = updatedCharacter;
+          addCombatLog(state, `${target.name} takes ${effect.value} damage!`, "damage");
+          
+          if (!updatedCharacter.alive) {
+            addCombatLog(state, `${target.name} has fallen!`, "system");
+            audioManager.playSfx("sanity_break");
+          } else {
+            audioManager.playSfx("hit_light");
+          }
+        }
+        break;
+      case "sanity-damage":
+        if (effect.value) {
+          target.stats.sanity = Math.max(0, target.stats.sanity - effect.value);
+          addCombatLog(state, `${target.name} loses ${effect.value} Sanity!`, "sanity");
+          audioManager.playSfx("sanity_tick");
+        }
+        break;
+      case "debuff":
+        if (effect.stat && effect.value) {
+          const statKey = effect.stat as keyof typeof target.stats;
+          if (typeof target.stats[statKey] === "number") {
+            (target.stats[statKey] as number) = Math.max(0, (target.stats[statKey] as number) - effect.value);
+            addCombatLog(
+              state,
+              `${target.name}'s ${effect.stat} decreased by ${effect.value}!`,
+              "status"
+            );
+          }
+        }
+        break;
+      case "status":
+        if (effect.statusEffect && effect.duration) {
+          applyStatusEffect(target, effect.statusEffect, effect.duration);
+          addCombatLog(
+            state,
+            `${target.name} is ${effect.statusEffect}!`,
+            "status"
+          );
+        }
+        break;
+    }
+  }
 }
 
 function applyStatusEffects(state: CombatState): void {

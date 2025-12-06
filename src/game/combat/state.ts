@@ -1,5 +1,6 @@
 import type { CharacterState, PartyState } from "../state";
 import type { EnemyState, EncounterState } from "./engine";
+import { getBossDialogue } from "../boss-dialogues";
 
 export type CombatActionType = "attack" | "ability" | "item" | "defend" | "flee";
 
@@ -44,7 +45,7 @@ export interface CombatState {
 
 export interface CombatLogEntry {
   message: string;
-  type?: "damage" | "heal" | "sanity" | "status" | "system";
+  type?: "damage" | "heal" | "sanity" | "status" | "system" | "dialogue";
 }
 
 export function createCombatState(
@@ -52,18 +53,31 @@ export function createCombatState(
   encounter: EncounterState,
   isBoss: boolean = false
 ): CombatState {
+  const log: CombatLogEntry[] = [];
+  
+  // Add boss intro dialogue if applicable
+  if (isBoss && encounter.enemies.length > 0) {
+    const bossId = encounter.enemies[0].id;
+    const dialogue = getBossDialogue(bossId);
+    if (dialogue) {
+      dialogue.intro.forEach((line) => {
+        log.push({ message: line, type: "dialogue" });
+      });
+    }
+  }
+  
+  log.push({ 
+    message: isBoss ? "Boss battle begins!" : "Combat begins!", 
+    type: "system" 
+  });
+  
   return {
     party,
     encounter,
     turn: 1,
     phase: "player-select",
     selectedCharacterIndex: 0,
-    log: [
-      { 
-        message: isBoss ? "Boss battle begins!" : "Combat begins!", 
-        type: "system" 
-      },
-    ],
+    log,
     playerActions: [],
     isBossFight: isBoss,
   };

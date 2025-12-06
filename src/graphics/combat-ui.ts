@@ -283,6 +283,12 @@ export function renderCombatLog(
       case "status":
         logEntry.style.color = COLORS.selected;
         break;
+      case "dialogue":
+        logEntry.style.color = "#ffaa00";
+        logEntry.style.fontStyle = "italic";
+        logEntry.style.marginTop = "8px";
+        logEntry.style.marginBottom = "8px";
+        break;
       case "system":
         logEntry.style.color = COLORS.text;
         logEntry.style.fontWeight = "bold";
