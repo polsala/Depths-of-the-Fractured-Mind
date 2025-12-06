@@ -214,6 +214,37 @@ h1 {
   color: #8b9da9;
 }
 
+/* Audio Controls */
+.audio-controls {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #2d2d2d;
+  border-radius: 3px;
+  font-size: 0.85em;
+  color: #999;
+}
+
+.audio-controls p {
+  margin: 5px 0;
+}
+
+.audio-controls strong {
+  color: #8b9da9;
+}
+
+.audio-controls label {
+  display: block;
+  margin: 8px 0;
+  color: #aaa;
+}
+
+.audio-controls input[type="range"] {
+  width: 100%;
+  margin-top: 4px;
+  accent-color: #4a5f8f;
+}
+
 /* Event Screen Styles */
 .event-container {
   max-width: 800px;

@@ -20,6 +20,7 @@ import {
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
+let currentDepthMusic: number = -1; // Track current depth for music changes
 
 function renderTitle(
   root: HTMLElement,
@@ -105,6 +106,22 @@ function renderExploration(
   // Ensure direction is initialized
   if (!state.location.direction) {
     state.location.direction = "north";
+  }
+
+  // Play depth-appropriate music
+  if (currentDepthMusic !== state.location.depth) {
+    currentDepthMusic = state.location.depth;
+    const depthMusicMap: Record<number, string> = {
+      1: "depth1_ambient",
+      2: "depth2_archive",
+      3: "depth3_ward",
+      4: "depth4_mirrors",
+      5: "core_heart",
+    };
+    const musicTrack = depthMusicMap[state.location.depth];
+    if (musicTrack) {
+      audioManager.playMusic(musicTrack);
+    }
   }
 
   // Create main container with flex layout
@@ -203,6 +220,34 @@ function renderExploration(
     <p>Step onto marked tiles to trigger events</p>
   `;
   infoPanel.appendChild(instructions);
+
+  // Audio controls
+  const audioControls = document.createElement("div");
+  audioControls.className = "audio-controls";
+  audioControls.innerHTML = `
+    <p><strong>Audio:</strong></p>
+    <label>Music: <input type="range" id="music-volume" min="0" max="100" value="70" /></label>
+    <label>SFX: <input type="range" id="sfx-volume" min="0" max="100" value="80" /></label>
+  `;
+  infoPanel.appendChild(audioControls);
+
+  // Add event listeners for volume controls
+  const musicVolumeControl = audioControls.querySelector("#music-volume") as HTMLInputElement;
+  const sfxVolumeControl = audioControls.querySelector("#sfx-volume") as HTMLInputElement;
+
+  if (musicVolumeControl) {
+    musicVolumeControl.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      audioManager.setMusicVolume(parseInt(target.value, 10) / 100);
+    });
+  }
+
+  if (sfxVolumeControl) {
+    sfxVolumeControl.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      audioManager.setSfxVolume(parseInt(target.value, 10) / 100);
+    });
+  }
 }
 
 function renderEvent(

@@ -1,6 +1,7 @@
 import type { GameLocation, GameMode, GameState } from "../state";
 import { getCurrentDepthMap, getTile } from "./map";
 import { getEventById } from "../events/engine";
+import { audioManager } from "../../ui/audio";
 
 function canMoveTo(state: GameState, x: number, y: number): boolean {
   const map = getCurrentDepthMap(state);
@@ -19,6 +20,9 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   if (!canMoveTo(state, targetX, targetY)) {
     return state;
   }
+
+  // Play footstep sound
+  audioManager.playSfx("step");
 
   const map = getCurrentDepthMap(state);
   const tile = getTile(map, targetX, targetY);
