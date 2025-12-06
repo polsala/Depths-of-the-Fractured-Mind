@@ -10,15 +10,34 @@ export interface PartyUIConfig {
   portraitSize: number;
 }
 
+// Cache for portrait canvases to avoid recreating them on every render
+const portraitCache = new Map<string, HTMLCanvasElement>();
+
 /**
  * Generate a simple character portrait using Canvas API
  * Creates distinctive visual representations for each character
  */
 function generatePortrait(
-  ctx: CanvasRenderingContext2D,
   character: CharacterState,
   size: number
-): void {
+): HTMLCanvasElement {
+  // Check cache first
+  const cacheKey = `${character.id}-${size}-${character.alive}-${character.stats.hp}-${character.stats.maxHp}-${character.stats.sanity}-${character.stats.maxSanity}`;
+  
+  const cached = portraitCache.get(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
+  // Create new portrait canvas
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    return canvas;
+  }
+
   const x = 0;
   const y = 0;
 
@@ -64,6 +83,19 @@ function generatePortrait(
     ctx.fillStyle = "rgba(138, 68, 255, 0.3)";
     ctx.fillRect(x, y, size, size);
   }
+
+  // Cache the portrait
+  portraitCache.set(cacheKey, canvas);
+
+  // Limit cache size to prevent memory leaks
+  if (portraitCache.size > 50) {
+    const firstKey = portraitCache.keys().next().value;
+    if (firstKey) {
+      portraitCache.delete(firstKey);
+    }
+  }
+
+  return canvas;
 }
 
 /**
@@ -138,15 +170,9 @@ export function renderPartyUI(
   members.forEach((character, index) => {
     const yOffset = index * (portraitSize + spacing * 2);
 
-    // Create temporary canvas for portrait
-    const portraitCanvas = document.createElement("canvas");
-    portraitCanvas.width = portraitSize;
-    portraitCanvas.height = portraitSize;
-    const portraitCtx = portraitCanvas.getContext("2d");
-    if (portraitCtx) {
-      generatePortrait(portraitCtx, character, portraitSize);
-      ctx.drawImage(portraitCanvas, spacing, yOffset + spacing);
-    }
+    // Get or generate portrait
+    const portraitCanvas = generatePortrait(character, portraitSize);
+    ctx.drawImage(portraitCanvas, spacing, yOffset + spacing);
 
     // Character name
     ctx.fillStyle = character.alive ? "#ffffff" : "#666666";

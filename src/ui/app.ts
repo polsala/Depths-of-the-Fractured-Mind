@@ -86,7 +86,7 @@ function renderTitle(
 
 function renderExploration(
   root: HTMLElement,
-  controller: GameController,
+  _controller: GameController,
   state: GameState
 ): void {
   // Ensure direction is initialized
@@ -166,9 +166,6 @@ function renderExploration(
     <p>Step onto marked tiles to trigger events</p>
   `;
   infoPanel.appendChild(instructions);
-
-  // Store controller reference for rotation
-  (container as any)._controller = controller;
 }
 
 function renderEvent(

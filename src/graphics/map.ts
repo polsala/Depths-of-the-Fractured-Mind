@@ -3,6 +3,9 @@
  * Provides simple map data for each depth to determine wall placement
  */
 
+// Constants
+const DEFAULT_MAP_SIZE = 10;
+
 export interface MapCell {
   walkable: boolean;
   wall: boolean;
@@ -16,7 +19,7 @@ export type DungeonMap = MapCell[][];
  * Generate a simple procedural map for a depth
  * Creates a basic dungeon layout with corridors
  */
-export function generateDepthMap(depth: number, size: number = 10): DungeonMap {
+export function generateDepthMap(depth: number, size: number = DEFAULT_MAP_SIZE): DungeonMap {
   const map: DungeonMap = [];
 
   // Initialize all cells as walls

@@ -5,6 +5,12 @@
 
 import { generateDepthMap, getVisibleWalls, type DungeonMap } from "./map";
 
+// Constants
+const MIN_DEPTH = 1;
+const MAX_DEPTH = 5;
+const DEFAULT_MAP_SIZE = 10;
+const DEFAULT_DEPTH = 1;
+
 export interface ViewportConfig {
   width: number;
   height: number;
@@ -49,8 +55,8 @@ export function createRenderContext(
 
   // Initialize depth maps cache
   const depthMaps = new Map<number, DungeonMap>();
-  for (let depth = 1; depth <= 5; depth++) {
-    depthMaps.set(depth, generateDepthMap(depth, 10));
+  for (let depth = MIN_DEPTH; depth <= MAX_DEPTH; depth++) {
+    depthMaps.set(depth, generateDepthMap(depth, DEFAULT_MAP_SIZE));
   }
 
   return { canvas, ctx, config, depthMaps };
@@ -122,7 +128,7 @@ export function getDepthPalette(depth: number): {
     },
   };
 
-  return palettes[depth as keyof typeof palettes] || palettes[1];
+  return palettes[depth as keyof typeof palettes] || palettes[DEFAULT_DEPTH];
 }
 
 /**
