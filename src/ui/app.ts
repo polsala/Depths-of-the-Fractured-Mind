@@ -623,6 +623,15 @@ export function initApp(root: HTMLElement): void {
     }
   };
 
+  // Helper to check if player location or mode changed
+  const hasLocationChanged = (prevState: GameState, newState: GameState): boolean => {
+    return prevState.location.x !== newState.location.x || 
+           prevState.location.y !== newState.location.y || 
+           prevState.location.depth !== newState.location.depth ||
+           prevState.location.direction !== newState.location.direction ||
+           prevState.mode !== newState.mode;
+  };
+
   window.addEventListener("keydown", (event) => {
     const state = controller.getState();
     if (state.mode === "exploration") {
@@ -641,17 +650,33 @@ export function initApp(root: HTMLElement): void {
       }
       // Movement controls - direction-relative
       else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+        const prevState = controller.getState();
         controller.moveForward();
-        render();
+        const newState = controller.getState();
+        if (hasLocationChanged(prevState, newState)) {
+          render();
+        }
       } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
+        const prevState = controller.getState();
         controller.moveBackward();
-        render();
+        const newState = controller.getState();
+        if (hasLocationChanged(prevState, newState)) {
+          render();
+        }
       } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+        const prevState = controller.getState();
         controller.strafeLeft();
-        render();
+        const newState = controller.getState();
+        if (hasLocationChanged(prevState, newState)) {
+          render();
+        }
       } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+        const prevState = controller.getState();
         controller.strafeRight();
-        render();
+        const newState = controller.getState();
+        if (hasLocationChanged(prevState, newState)) {
+          render();
+        }
       }
     } else if (state.mode === "event" && state.currentEventId) {
       const eventData = getEventById(state.currentEventId);
