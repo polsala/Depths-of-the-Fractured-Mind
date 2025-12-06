@@ -407,6 +407,8 @@ function renderCombat(
     // Combat state not properly initialized - fall back to exploration
     console.error("Combat state not found. Returning to exploration mode.");
     state.mode = "exploration";
+    state.combatState = undefined;
+    state.currentEncounterId = undefined;
     rerender();
     return;
   }
