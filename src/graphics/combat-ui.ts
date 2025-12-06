@@ -389,12 +389,12 @@ export function createActionMenu(
   actionsDiv.appendChild(itemBtn);
 
   const actorInfo = getCurrentActor(state);
-  const actorIndex = actorInfo?.isPlayer ? actorInfo.index : 0;
+  if (!actorInfo || !actorInfo.isPlayer) return; // Safety check
   
   const defendBtn = createButton("Defend", () => {
     onAction({
       type: "defend",
-      actorIndex,
+      actorIndex: actorInfo.index,
     });
   });
   actionsDiv.appendChild(defendBtn);
@@ -402,7 +402,7 @@ export function createActionMenu(
   const fleeBtn = createButton("Flee", () => {
     onAction({
       type: "flee",
-      actorIndex,
+      actorIndex: actorInfo.index,
     });
   });
   if (!state.isBossFight) {

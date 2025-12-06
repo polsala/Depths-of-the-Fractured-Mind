@@ -87,22 +87,38 @@ function executeCurrentAction(state: CombatState): void {
   state.pendingAction = undefined;
   state.phase = "select-action";
   
-  // If it's an enemy's turn, auto-execute
-  const nextActor = getCurrentActor(state);
-  if (nextActor && !nextActor.isPlayer) {
+  // Process all consecutive enemy turns
+  processEnemyTurns(state);
+}
+
+/**
+ * Process all consecutive enemy turns until we reach a player turn
+ */
+function processEnemyTurns(state: CombatState): void {
+  let nextActor = getCurrentActor(state);
+  
+  while (nextActor && !nextActor.isPlayer) {
     executeEnemyAction(state);
     
-    // Check for defeat after enemy action
+    // Check for defeat after each enemy action
     if (isPartyDefeated(state.party)) {
       state.phase = "defeat";
       addCombatLog(state, "The party has been defeated...", "system");
       return;
     }
     
-    // Continue to next actor
+    // Check for victory
+    if (isEncounterDefeated(state.encounter)) {
+      handleVictory(state);
+      return;
+    }
+    
+    // Advance to next actor
     advanceToNextActor(state);
-    state.phase = "select-action";
+    nextActor = getCurrentActor(state);
   }
+  
+  state.phase = "select-action";
 }
 
 function executePlayerAction(state: CombatState): void {

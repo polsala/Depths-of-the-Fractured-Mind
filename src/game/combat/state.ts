@@ -96,7 +96,7 @@ export function createCombatState(
 
 /**
  * Build turn order queue based on focus stat (higher focus = acts first)
- * Includes some randomness to break ties
+ * Uses character index as a tie-breaker for consistent ordering
  */
 function buildTurnOrder(party: PartyState, encounter: EncounterState): TurnOrderEntry[] {
   const entries: TurnOrderEntry[] = [];
@@ -104,8 +104,8 @@ function buildTurnOrder(party: PartyState, encounter: EncounterState): TurnOrder
   // Add all alive party members
   party.members.forEach((member, index) => {
     if (member.alive) {
-      // Add small random component to break ties
-      const speed = member.stats.focus + Math.random() * 0.5;
+      // Use negative index as tie-breaker so lower index acts first when focus is equal
+      const speed = member.stats.focus + (index * 0.001);
       entries.push({ isPlayer: true, index, speed });
     }
   });
@@ -113,7 +113,8 @@ function buildTurnOrder(party: PartyState, encounter: EncounterState): TurnOrder
   // Add all alive enemies
   encounter.enemies.forEach((enemy, index) => {
     if (enemy.alive) {
-      const speed = enemy.stats.focus + Math.random() * 0.5;
+      // Use negative index as tie-breaker, offset by 0.1 to ensure enemies act after players with same focus
+      const speed = enemy.stats.focus + (index * 0.001) - 0.1;
       entries.push({ isPlayer: false, index, speed });
     }
   });
