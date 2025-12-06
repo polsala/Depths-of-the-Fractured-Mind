@@ -50,7 +50,16 @@ function convertChoice(choice: SerializableEventChoice): GameEventChoice {
             }
           }
           
-          // TODO: Check item requirements when inventory is implemented
+          // Check item requirements when inventory is implemented
+          // TODO: Implement inventory system with the following interface:
+          // - inventory.hasItem(itemId: string): boolean
+          // - inventory.getItemCount(itemId: string): number
+          // Once implemented, add check here:
+          // if (choice.requiresItems) {
+          //   for (const itemId of choice.requiresItems) {
+          //     if (!state.inventory.hasItem(itemId)) return false;
+          //   }
+          // }
           
           return true;
         }

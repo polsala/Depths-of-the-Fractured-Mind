@@ -20,9 +20,10 @@ function makeChoice(
 /**
  * Legacy hardcoded pit fall event for backward compatibility.
  * The enhanced version is loaded from events.json.
+ * This serves as a fallback if JSON loading fails.
  */
 const pitEvent: GameEvent = {
-  id: "pit_fall_event_legacy",
+  id: "pit_fall_event_fallback",
   title: "The Broken Floor",
   description:
     "A section of the corridor collapses under a party member. Their scream fades into the darkness below. The rest of the party peers down into the jagged shaft.",
