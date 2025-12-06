@@ -372,6 +372,228 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Mobile Controls */
+.mobile-controls {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.mobile-controls > * {
+  pointer-events: auto;
+}
+
+.movement-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
+  gap: 5px;
+}
+
+.rotation-pad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.rotation-label {
+  font-size: 0.75em;
+  color: #8b9da9;
+  text-align: center;
+  margin-bottom: 2px;
+}
+
+.control-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  border: 2px solid #4a5f8f;
+  background: linear-gradient(135deg, #2d3561 0%, #1a1f3a 100%);
+  color: #c9d5e0;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.control-btn:active {
+  background: linear-gradient(135deg, #3d4671 0%, #2a2f4a 100%);
+  transform: scale(0.95);
+  box-shadow: 0 0 15px rgba(74, 95, 143, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.control-center {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  border: 2px dashed #3d3d5c;
+  background: rgba(26, 26, 46, 0.3);
+}
+
+.control-empty {
+  width: 60px;
+  height: 60px;
+}
+
+.turn-btn {
+  width: 60px;
+  height: 60px;
+  font-size: 1.2em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  #app {
+    padding: 1rem 0.5rem;
+    max-width: 100%;
+  }
+
+  .title-screen {
+    padding: 20px 10px;
+  }
+
+  .title-main {
+    font-size: 2em;
+  }
+
+  .title-subtitle {
+    font-size: 1em;
+  }
+
+  .title-button {
+    font-size: 1.1em;
+    padding: 12px 30px;
+  }
+
+  .exploration-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .viewport-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dungeon-viewport {
+    width: 100%;
+    height: auto;
+  }
+
+  .info-panel {
+    width: 100%;
+    min-width: unset;
+    padding: 10px;
+  }
+
+  .location-info h3 {
+    font-size: 1.1em;
+  }
+
+  .location-info p {
+    font-size: 0.85em;
+  }
+
+  .instructions {
+    font-size: 0.75em;
+  }
+
+  .debug-controls {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .debug-controls button {
+    flex: 1;
+    min-width: 100px;
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .audio-controls {
+    font-size: 0.75em;
+  }
+
+  .event-container {
+    padding: 15px 10px;
+  }
+
+  .event-title {
+    font-size: 1.5em;
+  }
+
+  .event-description p {
+    font-size: 1em;
+  }
+
+  .event-choice-button {
+    padding: 12px 15px;
+    font-size: 0.95em;
+  }
+
+  .choice-number {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-main {
+    font-size: 1.5em;
+  }
+
+  .title-subtitle {
+    font-size: 0.9em;
+  }
+
+  .movement-pad {
+    grid-template-columns: repeat(3, 50px);
+    grid-template-rows: repeat(3, 50px);
+    gap: 4px;
+  }
+
+  .control-btn,
+  .control-center,
+  .control-empty {
+    width: 50px;
+    height: 50px;
+  }
+
+  .control-btn {
+    font-size: 1.3em;
+  }
+
+  .turn-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 1em;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  .exploration-container {
+    height: auto;
+  }
+
+  .viewport-container {
+    margin-bottom: 80px; /* Space for mobile controls */
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
