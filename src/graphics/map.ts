@@ -32,13 +32,20 @@ export function generateDepthMap(depth: number): DungeonMap {
       map[y][x] = {
         walkable: tile.passable,
         wall: !tile.passable, // Non-passable tiles are walls
-        door: tile.type === "stairsDown" || tile.type === "stairsUp",
+        door: isDoorTile(tile.type),
         event: tile.eventId,
       };
     }
   }
 
   return map;
+}
+
+/**
+ * Determine if a tile type represents a door
+ */
+function isDoorTile(tileType: string): boolean {
+  return tileType === "stairsDown" || tileType === "stairsUp";
 }
 
 /**

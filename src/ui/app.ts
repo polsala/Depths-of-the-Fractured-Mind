@@ -22,6 +22,15 @@ let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
 let currentDepthMusic: number = -1; // Track current depth for music changes
 
+// Depth-to-music track mapping
+const DEPTH_MUSIC_MAP: Record<number, string> = {
+  1: "depth1_ambient",
+  2: "depth2_archive",
+  3: "depth3_ward",
+  4: "depth4_mirrors",
+  5: "core_heart",
+};
+
 function renderTitle(
   root: HTMLElement,
   controller: GameController,
@@ -111,14 +120,7 @@ function renderExploration(
   // Play depth-appropriate music
   if (currentDepthMusic !== state.location.depth) {
     currentDepthMusic = state.location.depth;
-    const depthMusicMap: Record<number, string> = {
-      1: "depth1_ambient",
-      2: "depth2_archive",
-      3: "depth3_ward",
-      4: "depth4_mirrors",
-      5: "core_heart",
-    };
-    const musicTrack = depthMusicMap[state.location.depth];
+    const musicTrack = DEPTH_MUSIC_MAP[state.location.depth];
     if (musicTrack) {
       audioManager.playMusic(musicTrack);
     }

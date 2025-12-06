@@ -3,6 +3,9 @@ import { getCurrentDepthMap, getTile } from "./map";
 import { getEventById } from "../events/engine";
 import { audioManager } from "../../ui/audio";
 
+// Default facing direction when not specified
+const DEFAULT_DIRECTION = "north" as const;
+
 function canMoveTo(state: GameState, x: number, y: number): boolean {
   const map = getCurrentDepthMap(state);
   if (x < 0 || y < 0 || x >= map.width || y >= map.height) {
@@ -73,7 +76,7 @@ export function moveEast(state: GameState): GameState {
  * Move forward in the direction the player is facing
  */
 export function moveForward(state: GameState): GameState {
-  const direction = state.location.direction || "north";
+  const direction = state.location.direction || DEFAULT_DIRECTION;
   switch (direction) {
     case "north":
       return moveNorth(state);
@@ -92,7 +95,7 @@ export function moveForward(state: GameState): GameState {
  * Move backward (opposite to facing direction)
  */
 export function moveBackward(state: GameState): GameState {
-  const direction = state.location.direction || "north";
+  const direction = state.location.direction || DEFAULT_DIRECTION;
   switch (direction) {
     case "north":
       return moveSouth(state);
@@ -111,7 +114,7 @@ export function moveBackward(state: GameState): GameState {
  * Strafe left (perpendicular to facing direction)
  */
 export function strafeLeft(state: GameState): GameState {
-  const direction = state.location.direction || "north";
+  const direction = state.location.direction || DEFAULT_DIRECTION;
   switch (direction) {
     case "north":
       return moveWest(state);
@@ -130,7 +133,7 @@ export function strafeLeft(state: GameState): GameState {
  * Strafe right (perpendicular to facing direction)
  */
 export function strafeRight(state: GameState): GameState {
-  const direction = state.location.direction || "north";
+  const direction = state.location.direction || DEFAULT_DIRECTION;
   switch (direction) {
     case "north":
       return moveEast(state);
