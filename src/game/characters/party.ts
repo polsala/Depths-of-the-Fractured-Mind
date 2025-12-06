@@ -1,4 +1,4 @@
-import { CharacterId, CharacterState, PartyState, Stats } from "../state";
+import type { CharacterId, CharacterState, PartyState, Stats } from "../state";
 
 function cloneStats(stats: Stats): Stats {
   return { ...stats };

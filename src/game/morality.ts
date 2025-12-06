@@ -1,5 +1,5 @@
 import { adjustMoralFlags } from "./sanity";
-import { GameFlags, GameState, MoralFlags } from "./state";
+import type { GameFlags, GameState, MoralFlags } from "./state";
 
 function updateMoral(
   state: GameState,
@@ -43,16 +43,16 @@ export function getDominantMoralAxis(
     ["denial", flags.denial],
   ];
 
-  const { key, value } = entries.reduce(
-    (acc, [k, v]) => {
-      const abs = Math.abs(v);
-      if (abs > acc.abs) {
-        return { key: k, value: v, abs };
-      }
-      return acc;
-    },
-    { key: "mercy" as const, value: flags.mercy, abs: Math.abs(flags.mercy) }
-  );
+  let dominant: "mercy" | "cruelty" | "truth" | "denial" | null = null;
+  let maxAbs = 0;
 
-  return Math.abs(value) === 0 ? "balanced" : key;
+  for (const [key, value] of entries) {
+    const abs = Math.abs(value);
+    if (abs > maxAbs) {
+      dominant = key;
+      maxAbs = abs;
+    }
+  }
+
+  return maxAbs === 0 || dominant === null ? "balanced" : dominant;
 }

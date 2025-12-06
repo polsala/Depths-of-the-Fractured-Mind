@@ -1,4 +1,4 @@
-import { CharacterState, MoralFlags, PartyState } from "./state";
+import type { CharacterState, MoralFlags, PartyState } from "./state";
 
 export function adjustSanity(
   character: CharacterState,
