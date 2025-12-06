@@ -3,8 +3,16 @@ import type { GameEvent } from "../game/events/engine";
 import { getEventById } from "../game/events/engine";
 import { GameController } from "../game/index";
 import { audioManager } from "./audio";
+import {
+  createRenderContext,
+  renderDungeonView,
+  type RenderContext,
+  type ViewState,
+} from "../graphics/renderer";
+import { renderPartyUI } from "../graphics/party-ui";
 
 let titleMusicStarted = false;
+let dungeonRenderContext: RenderContext | null = null;
 
 function renderTitle(
   root: HTMLElement,
@@ -17,16 +25,34 @@ function renderTitle(
     titleMusicStarted = true;
   }
 
+  // Create title screen container
+  const titleContainer = document.createElement("div");
+  titleContainer.className = "title-screen";
+  root.appendChild(titleContainer);
+
+  // Create decorative header with atmospheric background
+  const header = document.createElement("div");
+  header.className = "title-header";
+  titleContainer.appendChild(header);
+
   const title = document.createElement("h1");
+  title.className = "title-main";
   title.textContent = "Depths of the Fractured Mind";
-  root.appendChild(title);
+  header.appendChild(title);
 
   const subtitle = document.createElement("p");
-  subtitle.textContent = "A psychological, turn-based descent.";
-  root.appendChild(subtitle);
+  subtitle.className = "title-subtitle";
+  subtitle.textContent = "A psychological, turn-based descent into madness";
+  header.appendChild(subtitle);
+
+  // Menu container
+  const menu = document.createElement("div");
+  menu.className = "title-menu";
+  titleContainer.appendChild(menu);
 
   const button = document.createElement("button");
-  button.textContent = "New Game";
+  button.className = "title-button";
+  button.textContent = "Begin Your Descent";
   button.addEventListener("click", () => {
     audioManager.playSfx("ui_click");
     controller.newGame();
@@ -38,7 +64,18 @@ function renderTitle(
     audioManager.playMusic("depth1_ambient");
     rerender();
   });
-  root.appendChild(button);
+  menu.appendChild(button);
+
+  // Atmospheric flavor text
+  const flavorText = document.createElement("div");
+  flavorText.className = "title-flavor";
+  flavorText.innerHTML = `
+    <p>Four souls descend into the abandoned facility...</p>
+    <p>Seeking truth, redemption, or merely escape.</p>
+    <p>But the depths hold more than darkness.</p>
+    <p>They hold guilt made manifest.</p>
+  `;
+  titleContainer.appendChild(flavorText);
 }
 
 function renderExploration(
@@ -46,21 +83,74 @@ function renderExploration(
   _controller: GameController,
   state: GameState
 ): void {
-  const header = document.createElement("h2");
-  header.textContent = "Exploration";
-  root.appendChild(header);
+  // Create main container with flex layout
+  const container = document.createElement("div");
+  container.className = "exploration-container";
+  root.appendChild(container);
 
-  const location = document.createElement("p");
-  location.textContent = `Depth ${state.location.depth} — Position (${state.location.x}, ${state.location.y})`;
-  root.appendChild(location);
+  // Create viewport container
+  const viewportContainer = document.createElement("div");
+  viewportContainer.className = "viewport-container";
+  container.appendChild(viewportContainer);
 
-  const instructions = document.createElement("p");
-  instructions.textContent = "Use arrow keys or WASD to move.";
-  root.appendChild(instructions);
+  // Create and add dungeon viewport canvas
+  const viewportCanvas = document.createElement("canvas");
+  viewportCanvas.className = "dungeon-viewport";
+  viewportContainer.appendChild(viewportCanvas);
 
-  const eventHint = document.createElement("p");
-  eventHint.textContent = "Step onto marked tiles to trigger events.";
-  root.appendChild(eventHint);
+  // Initialize renderer if not already done
+  if (!dungeonRenderContext) {
+    dungeonRenderContext = createRenderContext(viewportCanvas, {
+      width: 640,
+      height: 480,
+      fov: 60,
+    });
+  }
+
+  // Render the dungeon view
+  const viewState: ViewState = {
+    x: state.location.x,
+    y: state.location.y,
+    depth: state.location.depth,
+    direction: "north", // Default direction for now
+  };
+  renderDungeonView(dungeonRenderContext, viewState);
+
+  // Create info panel
+  const infoPanel = document.createElement("div");
+  infoPanel.className = "info-panel";
+  container.appendChild(infoPanel);
+
+  // Location info
+  const locationInfo = document.createElement("div");
+  locationInfo.className = "location-info";
+  locationInfo.innerHTML = `
+    <h3>Depth ${state.location.depth}</h3>
+    <p>Position: (${state.location.x}, ${state.location.y})</p>
+  `;
+  infoPanel.appendChild(locationInfo);
+
+  // Create party UI canvas
+  const partyCanvas = document.createElement("canvas");
+  partyCanvas.className = "party-panel";
+  infoPanel.appendChild(partyCanvas);
+
+  // Render party UI
+  renderPartyUI(partyCanvas, state.party, {
+    width: 320,
+    height: 320,
+    portraitSize: 64,
+  });
+
+  // Instructions
+  const instructions = document.createElement("div");
+  instructions.className = "instructions";
+  instructions.innerHTML = `
+    <p><strong>Controls:</strong></p>
+    <p>Arrow Keys / WASD - Move</p>
+    <p>Step onto marked tiles to trigger events</p>
+  `;
+  infoPanel.appendChild(instructions);
 }
 
 function renderEvent(
@@ -70,59 +160,91 @@ function renderEvent(
   rerender: () => void
 ): void {
   if (!state.currentEventId) {
+    const container = document.createElement("div");
+    container.className = "event-container";
+    root.appendChild(container);
+
     const message = document.createElement("p");
     message.textContent = "No event is active.";
-    root.appendChild(message);
+    container.appendChild(message);
 
     const back = document.createElement("button");
-    back.textContent = "Return to exploration";
+    back.textContent = "Return to Exploration";
     back.addEventListener("click", () => {
       const s = controller.getState();
       s.mode = "exploration";
       s.currentEventId = undefined;
       rerender();
     });
-    root.appendChild(back);
+    container.appendChild(back);
     return;
   }
 
   const event: GameEvent | undefined = getEventById(state.currentEventId);
   if (!event) {
+    const container = document.createElement("div");
+    container.className = "event-container";
+    root.appendChild(container);
+
     const missing = document.createElement("p");
     missing.textContent = `Event not found: ${state.currentEventId}`;
-    root.appendChild(missing);
+    container.appendChild(missing);
+
     const back = document.createElement("button");
-    back.textContent = "Return to exploration";
+    back.textContent = "Return to Exploration";
     back.addEventListener("click", () => {
       const s = controller.getState();
       s.mode = "exploration";
       s.currentEventId = undefined;
       rerender();
     });
-    root.appendChild(back);
+    container.appendChild(back);
     return;
   }
 
+  // Create event container
+  const container = document.createElement("div");
+  container.className = "event-container";
+  root.appendChild(container);
+
+  // Event header
+  const header = document.createElement("div");
+  header.className = "event-header";
+  container.appendChild(header);
+
   const title = document.createElement("h2");
+  title.className = "event-title";
   title.textContent = event.title;
-  root.appendChild(title);
+  header.appendChild(title);
+
+  // Event description
+  const descBox = document.createElement("div");
+  descBox.className = "event-description";
+  container.appendChild(descBox);
 
   const desc = document.createElement("p");
   desc.textContent = event.description;
-  root.appendChild(desc);
+  descBox.appendChild(desc);
 
-  const list = document.createElement("div");
+  // Choices
+  const choicesContainer = document.createElement("div");
+  choicesContainer.className = "event-choices";
+  container.appendChild(choicesContainer);
+
   event.choices.forEach((choice, index) => {
-    const button = document.createElement("button");
-    button.textContent = `${index + 1}) ${choice.label}`;
-    button.addEventListener("click", () => {
+    const choiceButton = document.createElement("button");
+    choiceButton.className = "event-choice-button";
+    choiceButton.innerHTML = `
+      <span class="choice-number">${index + 1}</span>
+      <span class="choice-text">${choice.label}</span>
+    `;
+    choiceButton.addEventListener("click", () => {
       audioManager.playSfx("event_choice");
       controller.chooseEventChoice(choice.id);
       rerender();
     });
-    list.appendChild(button);
+    choicesContainer.appendChild(choiceButton);
   });
-  root.appendChild(list);
 }
 
 export function initApp(root: HTMLElement): void {
