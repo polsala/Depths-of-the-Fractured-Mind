@@ -21,8 +21,8 @@ function generatePortrait(
   character: CharacterState,
   size: number
 ): HTMLCanvasElement {
-  // Check cache first
-  const cacheKey = `${character.id}-${size}-${character.alive}-${character.stats.hp}-${character.stats.maxHp}-${character.stats.sanity}-${character.stats.maxSanity}`;
+  // Check cache first - use separator to avoid collisions
+  const cacheKey = `${character.id}|${size}|${character.alive}|${character.stats.hp}|${character.stats.maxHp}|${character.stats.sanity}|${character.stats.maxSanity}`;
   
   const cached = portraitCache.get(cacheKey);
   if (cached) {
@@ -87,11 +87,12 @@ function generatePortrait(
   // Cache the portrait
   portraitCache.set(cacheKey, canvas);
 
-  // Limit cache size to prevent memory leaks
+  // Limit cache size to prevent memory leaks - remove oldest entries
   if (portraitCache.size > 50) {
-    const firstKey = portraitCache.keys().next().value;
-    if (firstKey) {
-      portraitCache.delete(firstKey);
+    const entriesToRemove = portraitCache.size - 40; // Bring back to 40
+    const keys = Array.from(portraitCache.keys());
+    for (let i = 0; i < entriesToRemove; i++) {
+      portraitCache.delete(keys[i]);
     }
   }
 

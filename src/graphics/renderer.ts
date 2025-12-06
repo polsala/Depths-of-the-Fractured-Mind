@@ -49,9 +49,8 @@ export function createRenderContext(
   canvas.width = config.width;
   canvas.height = config.height;
 
-  // Enable image smoothing for better quality
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
+  // Disable image smoothing for crisp, retro pixel-art style
+  ctx.imageSmoothingEnabled = false;
 
   // Initialize depth maps cache
   const depthMaps = new Map<number, DungeonMap>();
