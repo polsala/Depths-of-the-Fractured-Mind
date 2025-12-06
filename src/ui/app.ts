@@ -628,6 +628,7 @@ export function initApp(root: HTMLElement): void {
     return prevState.location.x !== newState.location.x || 
            prevState.location.y !== newState.location.y || 
            prevState.location.depth !== newState.location.depth ||
+           prevState.location.direction !== newState.location.direction ||
            prevState.mode !== newState.mode;
   };
 
