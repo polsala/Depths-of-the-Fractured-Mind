@@ -47,8 +47,11 @@ export interface GameFlags {
   anyaEmbracesDubt?: boolean;
   anyaLosesFaith?: boolean;
   
+  // Exploration flags
+  visitedTiles?: Set<string>;
+  
   // Allow dynamic flags for future expansion
-  [key: string]: number | boolean | undefined | MoralFlags;
+  [key: string]: number | boolean | undefined | MoralFlags | Set<string>;
 }
 
 export interface CharacterState {
@@ -59,8 +62,28 @@ export interface CharacterState {
   alive: boolean;
 }
 
+export interface Item {
+  id: string;
+  name: string;
+  description: string;
+  type: "consumable" | "key" | "lore" | "utility";
+  stackable: boolean;
+  usable: boolean;
+}
+
+export interface InventoryItem {
+  item: Item;
+  quantity: number;
+}
+
+export interface Inventory {
+  items: InventoryItem[];
+  maxSlots: number;
+}
+
 export interface PartyState {
   members: CharacterState[];
+  inventory: Inventory;
 }
 
 export interface GameLocation {
@@ -89,17 +112,21 @@ export interface GameState {
 }
 
 export function createInitialGameState(): GameState {
-  return {
+  const initialState = {
     party: {
       members: [],
+      inventory: {
+        items: [],
+        maxSlots: 20,
+      },
     },
     location: {
       depth: 1,
-      x: 1,
-      y: 1,
-      direction: "north",
+      x: 2,
+      y: 2,
+      direction: "north" as const,
     },
-    mode: "title",
+    mode: "title" as const,
     flags: {
       moral: {
         mercy: 0,
@@ -111,8 +138,15 @@ export function createInitialGameState(): GameState {
       overflowWardResolved: false,
       riotRecordingPlayed: false,
       confessionalUsed: false,
+      visitedTiles: new Set<string>(),
     },
     currentEventId: undefined,
     currentEncounterId: undefined,
   };
+  
+  // Mark starting tile as visited
+  const startKey = `${initialState.location.depth}-${initialState.location.x}-${initialState.location.y}`;
+  initialState.flags.visitedTiles.add(startKey);
+  
+  return initialState;
 }

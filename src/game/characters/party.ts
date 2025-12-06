@@ -88,5 +88,9 @@ export const CHARACTER_FACTORIES: Record<CharacterId, () => CharacterState> = {
 export function createDefaultParty(): PartyState {
   return {
     members: [createElias(), createMiriam(), createSubject13(), createAnya()],
+    inventory: {
+      items: [],
+      maxSlots: 20,
+    },
   };
 }

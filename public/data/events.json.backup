@@ -1,0 +1,705 @@
+{
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "pit_fall_event",
+      "title": "The Broken Floor",
+      "description": "The stone groans beneath heavy boots. A jagged crack races across the tiles before anyone can react. The floor gives way. A scream echoes from the dark below, followed by a sickening thud.",
+      "choices": [
+        {
+          "id": "risky_rescue",
+          "label": "Use rope for a risky rescue",
+          "description": "Tie a rope and descend quickly, hoping the anchor holds. Fear gnaws at everyone.",
+          "effects": {
+            "mercyDelta": 1,
+            "truthDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "pitEventResolved": true
+            }
+          }
+        },
+        {
+          "id": "abandon",
+          "label": "Leave them behind",
+          "description": "The descent is too dangerous. You turn away, leaving their cries behind.",
+          "effects": {
+            "crueltyDelta": 3,
+            "sanityDelta": -3,
+            "setFlags": {
+              "pitEventResolved": true
+            }
+          }
+        },
+        {
+          "id": "careful_rescue",
+          "label": "Take time to build a safe rescue",
+          "description": "Rig a harness and brace the rope with scavenged metal. It costs time, but it might save them.",
+          "effects": {
+            "mercyDelta": 3,
+            "truthDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "pitEventResolved": true
+            }
+          }
+        },
+        {
+          "id": "mercy_kill",
+          "label": "End their suffering",
+          "description": "A hard decision: silence the pain from above. The echo of the blow lingers.",
+          "effects": {
+            "crueltyDelta": 3,
+            "mercyDelta": 1,
+            "sanityDelta": -4,
+            "setFlags": {
+              "pitEventResolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "pit_fall_event",
+        "category": "mandatory",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3,
+          "requiredFlags": {
+            "pitEventResolved": false
+          }
+        },
+        "priority": 10,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "overflow_ward_event",
+      "title": "Overflow Ward",
+      "description": "A row of comatose patients lies before you, hooked to failing life support machines. Sparks fly from damaged circuits. The weak beeping of alarms echoes in the dim light. Their faces are gaunt, unmoving.",
+      "choices": [
+        {
+          "id": "shut_down_support",
+          "label": "Shut down life support",
+          "description": "End it quickly and quietly. Salvage what parts remain useful.",
+          "effects": {
+            "crueltyDelta": 2,
+            "mercyDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "overflowWardResolved": true,
+              "wardPatientsKilled": true
+            }
+          }
+        },
+        {
+          "id": "try_stabilize",
+          "label": "Try to stabilize the machines",
+          "description": "Spend resources attempting to repair the systems. Maybe one can be saved.",
+          "effects": {
+            "mercyDelta": 3,
+            "truthDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "overflowWardResolved": true,
+              "wardPatientSaved": true
+            }
+          }
+        },
+        {
+          "id": "leave_ward",
+          "label": "Leave them as they are",
+          "description": "Do nothing. Walk away. Let fate decide.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "overflowWardResolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "overflow_ward_event",
+        "category": "mandatory",
+        "characterFocus": "miriam",
+        "triggerConditions": {
+          "specificDepth": 3,
+          "requiredFlags": {
+            "overflowWardResolved": false
+          },
+          "specificCharacterAlive": "miriam"
+        },
+        "priority": 10,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "riot_recording_event",
+      "title": "Riot Recording",
+      "description": "In a dusty archive room, an old tape recorder sits on a table. The label reads 'INCIDENT REPORT - WARD RIOT'. You press play. Elias's voice crackles through the speakers, ordering beatings and lethal force. Screams follow. The recording is damning.",
+      "choices": [
+        {
+          "id": "deny_recording",
+          "label": "Deny its authenticity",
+          "description": "Elias claims the recording is altered or taken out of context. It must be a fabrication.",
+          "effects": {
+            "denialDelta": 3,
+            "sanityDelta": 1,
+            "setFlags": {
+              "riotRecordingPlayed": true,
+              "eliasInDenial": true
+            }
+          }
+        },
+        {
+          "id": "admit_responsibility",
+          "label": "Admit responsibility",
+          "description": "Elias acknowledges what he did. The weight of it crushes down on him.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -3,
+            "setFlags": {
+              "riotRecordingPlayed": true,
+              "eliasSeekingRedemption": true
+            }
+          }
+        },
+        {
+          "id": "justify_actions",
+          "label": "Justify the actions",
+          "description": "It was necessary. Chaos would have spread. Hard choices had to be made.",
+          "effects": {
+            "crueltyDelta": 2,
+            "denialDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "riotRecordingPlayed": true,
+              "eliasUnrepentant": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "riot_recording_event",
+        "category": "mandatory",
+        "characterFocus": "elias",
+        "triggerConditions": {
+          "specificDepth": 2,
+          "requiredFlags": {
+            "riotRecordingPlayed": false
+          },
+          "specificCharacterAlive": "elias"
+        },
+        "priority": 10,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "confessional_chair_event",
+      "title": "The Confessional Chair",
+      "description": "A therapy room preserved in eerie silence. The chair in the center is surrounded by recording equipment. Dusty tapes line the shelves—sessions Anya conducted, confidences she was supposed to keep. She recognizes her own handwriting on the labels, marking which patients were flagged for 'special attention'.",
+      "choices": [
+        {
+          "id": "listen_confess",
+          "label": "Listen to the tapes and confess",
+          "description": "Face what was done. Hear the voices of those she betrayed.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -3,
+            "setFlags": {
+              "confessionalUsed": true,
+              "anyaSeeksRedemption": true
+            }
+          }
+        },
+        {
+          "id": "minimize_justify",
+          "label": "Minimize and justify",
+          "description": "She had no choice. It was procedure. She was following orders.",
+          "effects": {
+            "denialDelta": 3,
+            "sanityDelta": -1,
+            "setFlags": {
+              "confessionalUsed": true,
+              "anyaInDenial": true
+            }
+          }
+        },
+        {
+          "id": "refuse_engage",
+          "label": "Refuse to engage",
+          "description": "Leave the room. Don't listen. Some things are better left buried.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": 0,
+            "setFlags": {
+              "confessionalUsed": true,
+              "anyaAvoidant": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "confessional_chair_event",
+        "category": "mandatory",
+        "characterFocus": "anya",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4,
+          "requiredFlags": {
+            "confessionalUsed": false
+          },
+          "specificCharacterAlive": "anya"
+        },
+        "priority": 10,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "whispering_tunnel_event",
+      "title": "Whispering Tunnel",
+      "description": "Subject 13 stops suddenly, head tilted as if listening. 'Do you hear that?' they whisper. A faint voice echoes from a side passage, speaking in fragments: 'Come... see... what you were...' The tunnel seems to pulse with unnatural light.",
+      "choices": [
+        {
+          "id": "follow_voice",
+          "label": "Follow the voice",
+          "description": "Trust 13's instincts and investigate the passage.",
+          "effects": {
+            "sanityDelta": -2,
+            "truthDelta": 1,
+            "setFlags": {
+              "whisperingTunnelExplored": true
+            }
+          }
+        },
+        {
+          "id": "ignore_voice",
+          "label": "Ignore it and move on",
+          "description": "It's just another hallucination. Keep to the main path.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "whisperingTunnelIgnored": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "whispering_tunnel_event",
+        "category": "character_specific",
+        "characterFocus": "subject13",
+        "triggerConditions": {
+          "minDepth": 2,
+          "specificCharacterAlive": "subject13"
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": ["depth_2_events", "optional_events"]
+      }
+    },
+    {
+      "id": "medical_supplies_cache",
+      "title": "Medical Supply Cache",
+      "description": "Behind a collapsed shelving unit, you discover an intact medical supply cache. Bandages, antiseptics, and even some emergency rations are sealed in waterproof containers.",
+      "choices": [
+        {
+          "id": "take_supplies",
+          "label": "Take the supplies",
+          "description": "Carefully gather everything useful.",
+          "effects": {
+            "hpDelta": 5,
+            "sanityDelta": 1,
+            "addItems": ["medical_kit"]
+          }
+        },
+        {
+          "id": "leave_supplies",
+          "label": "Leave them for others",
+          "description": "Someone else might need these more.",
+          "effects": {
+            "mercyDelta": 1,
+            "sanityDelta": 1
+          }
+        }
+      ],
+      "metadata": {
+        "id": "medical_supplies_cache",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1
+        },
+        "priority": 3,
+        "repeatable": true,
+        "poolTags": ["optional_events"]
+      }
+    },
+    {
+      "id": "dying_patient_encounter",
+      "title": "A Dying Patient",
+      "description": "A patient lies against the wall, breathing shallow and labored. They look up at you with recognition in their eyes. 'Please...' they rasp, 'end it... or stay...' Their hand reaches out weakly.",
+      "choices": [
+        {
+          "id": "comfort_patient",
+          "label": "Stay and comfort them",
+          "description": "Hold their hand as they pass. It takes time.",
+          "effects": {
+            "mercyDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "comfortedDyingPatient": true
+            }
+          }
+        },
+        {
+          "id": "mercy_kill_patient",
+          "label": "End their suffering quickly",
+          "description": "A swift end is kinder than prolonged agony.",
+          "effects": {
+            "mercyDelta": 1,
+            "crueltyDelta": 1,
+            "sanityDelta": -2
+          }
+        },
+        {
+          "id": "leave_patient",
+          "label": "Leave them alone",
+          "description": "You can't help. Keep moving.",
+          "effects": {
+            "crueltyDelta": 1,
+            "denialDelta": 1,
+            "sanityDelta": -1
+          }
+        }
+      ],
+      "metadata": {
+        "id": "dying_patient_encounter",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": ["optional_events", "depth_2_events", "depth_3_events"]
+      }
+    },
+    {
+      "id": "mirror_hallucination",
+      "title": "The Mirror Room",
+      "description": "A corridor lined with mirrors on both sides. As you walk, the reflections begin to change. They show versions of yourselves: bloodied, guilty, triumphant, broken. The images shift faster, more disturbing.",
+      "choices": [
+        {
+          "id": "confront_mirrors",
+          "label": "Stop and confront the reflections",
+          "description": "Face what you see. Accept it.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3
+          }
+        },
+        {
+          "id": "smash_mirrors",
+          "label": "Smash the mirrors",
+          "description": "Destroy the lies. Break the glass.",
+          "effects": {
+            "crueltyDelta": 1,
+            "denialDelta": 2,
+            "sanityDelta": -1
+          }
+        },
+        {
+          "id": "run_through",
+          "label": "Run through quickly",
+          "description": "Don't look. Just get through.",
+          "effects": {
+            "denialDelta": 1,
+            "sanityDelta": -1
+          }
+        }
+      ],
+      "metadata": {
+        "id": "mirror_hallucination",
+        "category": "environmental",
+        "triggerConditions": {
+          "specificDepth": 4
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": ["depth_4_events"]
+      }
+    },
+    {
+      "id": "former_colleague_encounter",
+      "title": "A Former Colleague",
+      "description": "You encounter someone from before—a colleague, twisted by the Engine. They recognize you, speaking in broken sentences about 'the old days' and 'what you all did'. Their eyes burn with accusation and madness.",
+      "choices": [
+        {
+          "id": "try_talk",
+          "label": "Try to talk to them",
+          "description": "Attempt to reason or apologize.",
+          "effects": {
+            "truthDelta": 2,
+            "mercyDelta": 1,
+            "sanityDelta": -2
+          }
+        },
+        {
+          "id": "fight_colleague",
+          "label": "They're too far gone - defend yourself",
+          "description": "This isn't a person anymore. It's a threat.",
+          "effects": {
+            "crueltyDelta": 2,
+            "denialDelta": 1,
+            "sanityDelta": -1
+          }
+        },
+        {
+          "id": "flee_colleague",
+          "label": "Flee",
+          "description": "Run. Don't engage.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": -1
+          }
+        }
+      ],
+      "metadata": {
+        "id": "former_colleague_encounter",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": ["optional_events", "depth_3_events", "depth_4_events"]
+      }
+    },
+    {
+      "id": "subject_13_origin_fragment",
+      "title": "Origin Fragment",
+      "description": "A file folder labeled 'SUBJECT 13 - INTAKE'. Inside are contradictory records: criminal charges, political dissent, voluntary participation. None of it matches. Subject 13 stares at the pages, trying to piece together who they were.",
+      "choices": [
+        {
+          "id": "accept_uncertainty",
+          "label": "Accept that the truth is unknowable",
+          "description": "Let go of the need to know. Be who you are now.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": 1,
+            "setFlags": {
+              "subject13AcceptsUncertainty": true
+            }
+          }
+        },
+        {
+          "id": "seek_more_clues",
+          "label": "Search for more clues",
+          "description": "The truth must be somewhere. Keep looking.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "subject13SeekingOrigin": true
+            }
+          }
+        },
+        {
+          "id": "create_narrative",
+          "label": "Choose a version to believe",
+          "description": "Pick one of the stories. Make it real through belief.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": 0,
+            "setFlags": {
+              "subject13ChosenNarrative": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "subject_13_origin_fragment",
+        "category": "character_specific",
+        "characterFocus": "subject13",
+        "triggerConditions": {
+          "minDepth": 2,
+          "specificCharacterAlive": "subject13"
+        },
+        "priority": 7,
+        "repeatable": false,
+        "poolTags": ["optional_events", "depth_2_events"]
+      }
+    },
+    {
+      "id": "experimental_chamber",
+      "title": "Experimental Chamber",
+      "description": "A sealed chamber with viewing glass. Inside, surgical equipment and restraints. Miriam recognizes it—she used this room. Records on the desk detail procedures she performed. The patients never consented. Most didn't survive.",
+      "choices": [
+        {
+          "id": "destroy_records",
+          "label": "Destroy the records",
+          "description": "Burn it all. No one needs to know.",
+          "effects": {
+            "denialDelta": 3,
+            "sanityDelta": -2,
+            "setFlags": {
+              "miriamDestroyedEvidence": true
+            }
+          }
+        },
+        {
+          "id": "keep_records",
+          "label": "Keep the records as evidence",
+          "description": "The truth deserves to be known, even if it condemns you.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -3,
+            "setFlags": {
+              "miriamPreservedEvidence": true
+            }
+          }
+        },
+        {
+          "id": "leave_chamber",
+          "label": "Leave without looking further",
+          "description": "Close the door. Move on.",
+          "effects": {
+            "denialDelta": 1,
+            "sanityDelta": -1
+          }
+        }
+      ],
+      "metadata": {
+        "id": "experimental_chamber",
+        "category": "character_specific",
+        "characterFocus": "miriam",
+        "triggerConditions": {
+          "minDepth": 3,
+          "specificCharacterAlive": "miriam"
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": ["optional_events", "depth_3_events"]
+      }
+    },
+    {
+      "id": "prayer_remnants",
+      "title": "Remnants of Prayer",
+      "description": "A small chapel area, desecrated and abandoned. Anya's prayer books lie torn on the floor. On the wall, someone has written 'WHERE WAS GOD?' in dried blood. The question hangs heavy in the stale air.",
+      "choices": [
+        {
+          "id": "pray_anyway",
+          "label": "Pray anyway",
+          "description": "Faith doesn't require answers. Offer a prayer for the lost.",
+          "effects": {
+            "mercyDelta": 2,
+            "sanityDelta": 1,
+            "setFlags": {
+              "anyaMaintainsFaith": true
+            }
+          }
+        },
+        {
+          "id": "acknowledge_doubt",
+          "label": "Acknowledge the doubt",
+          "description": "God may be absent, but compassion isn't. Hold to that.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "anyaEmbracesDubt": true
+            }
+          }
+        },
+        {
+          "id": "reject_faith",
+          "label": "Reject faith entirely",
+          "description": "There is no divine plan. Only choices and consequences.",
+          "effects": {
+            "denialDelta": 1,
+            "crueltyDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "anyaLosesFaith": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "prayer_remnants",
+        "category": "character_specific",
+        "characterFocus": "anya",
+        "triggerConditions": {
+          "minDepth": 2,
+          "specificCharacterAlive": "anya"
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": ["optional_events", "depth_2_events", "depth_3_events"]
+      }
+    }
+  ],
+  "pools": [
+    {
+      "id": "mandatory_events",
+      "name": "Mandatory Story Events",
+      "description": "Core events that must occur for story progression",
+      "events": [
+        "pit_fall_event",
+        "overflow_ward_event",
+        "riot_recording_event",
+        "confessional_chair_event"
+      ],
+      "selectionStrategy": "random"
+    },
+    {
+      "id": "optional_events",
+      "name": "Optional Side Events",
+      "description": "Events that add variety and depth to each playthrough",
+      "events": [
+        "whispering_tunnel_event",
+        "medical_supplies_cache",
+        "dying_patient_encounter",
+        "former_colleague_encounter",
+        "subject_13_origin_fragment",
+        "experimental_chamber",
+        "prayer_remnants"
+      ],
+      "selectionStrategy": "weighted"
+    },
+    {
+      "id": "depth_2_events",
+      "name": "Depth 2 - The Archive Events",
+      "description": "Events specific to Depth 2",
+      "events": [
+        "riot_recording_event",
+        "whispering_tunnel_event",
+        "subject_13_origin_fragment",
+        "prayer_remnants"
+      ],
+      "selectionStrategy": "random"
+    },
+    {
+      "id": "depth_3_events",
+      "name": "Depth 3 - The Ward Events",
+      "description": "Events specific to Depth 3",
+      "events": [
+        "overflow_ward_event",
+        "dying_patient_encounter",
+        "former_colleague_encounter",
+        "experimental_chamber",
+        "prayer_remnants"
+      ],
+      "selectionStrategy": "random"
+    },
+    {
+      "id": "depth_4_events",
+      "name": "Depth 4 - Labyrinth of Mirrors Events",
+      "description": "Events specific to Depth 4",
+      "events": [
+        "confessional_chair_event",
+        "mirror_hallucination",
+        "former_colleague_encounter"
+      ],
+      "selectionStrategy": "random"
+    }
+  ]
+}

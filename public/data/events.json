@@ -197,7 +197,7 @@
     {
       "id": "confessional_chair_event",
       "title": "The Confessional Chair",
-      "description": "A therapy room preserved in eerie silence. The chair in the center is surrounded by recording equipment. Dusty tapes line the shelves—sessions Anya conducted, confidences she was supposed to keep. She recognizes her own handwriting on the labels, marking which patients were flagged for 'special attention'.",
+      "description": "A therapy room preserved in eerie silence. The chair in the center is surrounded by recording equipment. Dusty tapes line the shelves\u2014sessions Anya conducted, confidences she was supposed to keep. She recognizes her own handwriting on the labels, marking which patients were flagged for 'special attention'.",
       "choices": [
         {
           "id": "listen_confess",
@@ -294,7 +294,10 @@
         },
         "priority": 5,
         "repeatable": false,
-        "poolTags": ["depth_2_events", "optional_events"]
+        "poolTags": [
+          "depth_2_events",
+          "optional_events"
+        ]
       }
     },
     {
@@ -309,7 +312,9 @@
           "effects": {
             "hpDelta": 5,
             "sanityDelta": 1,
-            "addItems": ["medical_kit"]
+            "addItems": [
+              "medkit"
+            ]
           }
         },
         {
@@ -330,7 +335,9 @@
         },
         "priority": 3,
         "repeatable": true,
-        "poolTags": ["optional_events"]
+        "poolTags": [
+          "optional_events"
+        ]
       }
     },
     {
@@ -379,7 +386,11 @@
         },
         "priority": 4,
         "repeatable": false,
-        "poolTags": ["optional_events", "depth_2_events", "depth_3_events"]
+        "poolTags": [
+          "optional_events",
+          "depth_2_events",
+          "depth_3_events"
+        ]
       }
     },
     {
@@ -424,13 +435,15 @@
         },
         "priority": 6,
         "repeatable": false,
-        "poolTags": ["depth_4_events"]
+        "poolTags": [
+          "depth_4_events"
+        ]
       }
     },
     {
       "id": "former_colleague_encounter",
       "title": "A Former Colleague",
-      "description": "You encounter someone from before—a colleague, twisted by the Engine. They recognize you, speaking in broken sentences about 'the old days' and 'what you all did'. Their eyes burn with accusation and madness.",
+      "description": "You encounter someone from before\u2014a colleague, twisted by the Engine. They recognize you, speaking in broken sentences about 'the old days' and 'what you all did'. Their eyes burn with accusation and madness.",
       "choices": [
         {
           "id": "try_talk",
@@ -470,7 +483,11 @@
         },
         "priority": 5,
         "repeatable": false,
-        "poolTags": ["optional_events", "depth_3_events", "depth_4_events"]
+        "poolTags": [
+          "optional_events",
+          "depth_3_events",
+          "depth_4_events"
+        ]
       }
     },
     {
@@ -525,13 +542,16 @@
         },
         "priority": 7,
         "repeatable": false,
-        "poolTags": ["optional_events", "depth_2_events"]
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
       }
     },
     {
       "id": "experimental_chamber",
       "title": "Experimental Chamber",
-      "description": "A sealed chamber with viewing glass. Inside, surgical equipment and restraints. Miriam recognizes it—she used this room. Records on the desk detail procedures she performed. The patients never consented. Most didn't survive.",
+      "description": "A sealed chamber with viewing glass. Inside, surgical equipment and restraints. Miriam recognizes it\u2014she used this room. Records on the desk detail procedures she performed. The patients never consented. Most didn't survive.",
       "choices": [
         {
           "id": "destroy_records",
@@ -577,7 +597,10 @@
         },
         "priority": 6,
         "repeatable": false,
-        "poolTags": ["optional_events", "depth_3_events"]
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
       }
     },
     {
@@ -633,7 +656,1152 @@
         },
         "priority": 6,
         "repeatable": false,
-        "poolTags": ["optional_events", "depth_2_events", "depth_3_events"]
+        "poolTags": [
+          "optional_events",
+          "depth_2_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "security_checkpoint",
+      "title": "Abandoned Security Checkpoint",
+      "description": "A security checkpoint blocks the corridor. The terminal still flickers with power. Access logs show the last entries were made during the catastrophe - desperate requests for evacuation, unanswered.",
+      "choices": [
+        {
+          "id": "review_logs",
+          "label": "Review the security logs",
+          "description": "Read through the final moments recorded here.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "security_logs_read": true
+            }
+          }
+        },
+        {
+          "id": "bypass_checkpoint",
+          "label": "Bypass and continue",
+          "description": "No point dwelling on the past.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "security_bypassed": true
+            }
+          }
+        },
+        {
+          "id": "disable_systems",
+          "label": "Disable security systems",
+          "description": "Shut down what remains to make passage safer.",
+          "effects": {
+            "setFlags": {
+              "security_disabled": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "security_checkpoint",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 1
+        },
+        "priority": 6,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "first_corpse",
+      "title": "The First Body",
+      "description": "A body lies in the corridor, uniform marking them as facility staff. Their expression is one of pure terror. Whatever killed them left no visible wounds.",
+      "choices": [
+        {
+          "id": "examine_body",
+          "label": "Examine the body",
+          "description": "Try to determine cause of death.",
+          "effects": {
+            "sanityDelta": -2,
+            "truthDelta": 1,
+            "setFlags": {
+              "first_corpse_examined": true
+            }
+          }
+        },
+        {
+          "id": "pay_respects",
+          "label": "Pay respects and move on",
+          "description": "A moment of silence for the fallen.",
+          "effects": {
+            "mercyDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "respects_paid": true
+            }
+          }
+        },
+        {
+          "id": "search_pockets",
+          "label": "Search their pockets",
+          "description": "They don't need it anymore.",
+          "effects": {
+            "crueltyDelta": 1,
+            "addItems": [
+              "medkit"
+            ],
+            "setFlags": {
+              "corpse_looted": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "first_corpse",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 1
+        },
+        "priority": 7,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "emergency_supplies",
+      "title": "Emergency Supply Cache",
+      "description": "A red emergency cabinet hangs open on the wall. Medical supplies and basic equipment are scattered inside, some still sealed.",
+      "choices": [
+        {
+          "id": "take_all",
+          "label": "Take everything",
+          "description": "Load up on supplies while you can.",
+          "effects": {
+            "addItems": [
+              "medkit",
+              "torch"
+            ],
+            "setFlags": {
+              "emergency_cache_emptied": true
+            }
+          }
+        },
+        {
+          "id": "take_essentials",
+          "label": "Take only essentials",
+          "description": "Leave some for others who might need it.",
+          "effects": {
+            "mercyDelta": 1,
+            "addItems": [
+              "medkit"
+            ],
+            "setFlags": {
+              "emergency_cache_shared": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "emergency_supplies",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 1
+        },
+        "priority": 5,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "personnel_files",
+      "title": "Personnel Files",
+      "description": "Rows of filing cabinets contain personnel records. Your own files are here, along with those of every other staff member and patient.",
+      "choices": [
+        {
+          "id": "read_own_file",
+          "label": "Read your own file",
+          "description": "See what they wrote about you.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "own_file_read": true
+            }
+          }
+        },
+        {
+          "id": "read_subject13_file",
+          "label": "Read Subject 13's file",
+          "description": "Learn more about the experiment's focal point.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "subject13_file_read": true
+            }
+          }
+        },
+        {
+          "id": "destroy_files",
+          "label": "Destroy the files",
+          "description": "Burn the evidence. All of it.",
+          "effects": {
+            "denialDelta": 2,
+            "crueltyDelta": 1,
+            "setFlags": {
+              "files_destroyed": true
+            }
+          }
+        },
+        {
+          "id": "leave_files",
+          "label": "Leave them alone",
+          "description": "The truth can stay buried here.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "files_ignored": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "personnel_files",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 2
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "video_surveillance",
+      "title": "Surveillance Room",
+      "description": "Banks of monitors show frozen images from throughout the facility. One screen flickers to life, showing the moment of the catastrophe on loop.",
+      "choices": [
+        {
+          "id": "watch_footage",
+          "label": "Watch the footage",
+          "description": "Bear witness to what happened.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "catastrophe_witnessed": true
+            }
+          }
+        },
+        {
+          "id": "smash_screens",
+          "label": "Smash the screens",
+          "description": "You can't watch this.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "screens_destroyed": true
+            }
+          }
+        },
+        {
+          "id": "salvage_equipment",
+          "label": "Salvage equipment",
+          "description": "Focus on practical concerns.",
+          "effects": {
+            "addItems": [
+              "access_card"
+            ],
+            "setFlags": {
+              "surveillance_looted": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "video_surveillance",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 2
+        },
+        "priority": 7,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "director_office",
+      "title": "Director's Office",
+      "description": "The facility director's office. Everything is pristine except for a half-written letter of resignation on the desk and a revolver with one spent shell.",
+      "choices": [
+        {
+          "id": "read_letter",
+          "label": "Read the resignation letter",
+          "description": "See what drove them to this.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "director_letter_read": true
+            }
+          }
+        },
+        {
+          "id": "take_revolver",
+          "label": "Take the revolver",
+          "description": "It might be useful.",
+          "effects": {
+            "addItems": [
+              "crowbar"
+            ],
+            "sanityDelta": -1,
+            "setFlags": {
+              "revolver_taken": true
+            }
+          }
+        },
+        {
+          "id": "leave_office",
+          "label": "Leave immediately",
+          "description": "This place feels cursed.",
+          "effects": {
+            "sanityDelta": 0,
+            "setFlags": {
+              "office_avoided": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "director_office",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 2
+        },
+        "priority": 6,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "medication_dispensary",
+      "title": "Medication Dispensary",
+      "description": "Rows of prescription medications line the walls. Many are experimental drugs with warning labels about severe side effects.",
+      "choices": [
+        {
+          "id": "take_sedatives",
+          "label": "Take sedatives",
+          "description": "Stock up on sanity-restoring medications.",
+          "effects": {
+            "addItems": [
+              "sedative",
+              "sedative"
+            ],
+            "setFlags": {
+              "dispensary_looted": true
+            }
+          }
+        },
+        {
+          "id": "take_medkits",
+          "label": "Take medical supplies",
+          "description": "Focus on physical healing.",
+          "effects": {
+            "addItems": [
+              "medkit",
+              "medkit"
+            ],
+            "setFlags": {
+              "dispensary_medical": true
+            }
+          }
+        },
+        {
+          "id": "destroy_drugs",
+          "label": "Destroy the drugs",
+          "description": "These caused so much harm. End it.",
+          "effects": {
+            "mercyDelta": 2,
+            "setFlags": {
+              "drugs_destroyed": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "medication_dispensary",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 3
+        },
+        "priority": 6,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "therapy_session_recording",
+      "title": "Therapy Recording",
+      "description": "An audio recorder plays a therapy session on loop. A patient describes their nightmares in horrifying detail. The therapist's notes suggest they dismissed it as delusion.",
+      "choices": [
+        {
+          "id": "listen_fully",
+          "label": "Listen to the full recording",
+          "description": "Honor their experience by bearing witness.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -2,
+            "mercyDelta": 1,
+            "setFlags": {
+              "therapy_recording_heard": true
+            }
+          }
+        },
+        {
+          "id": "stop_recording",
+          "label": "Stop the recording",
+          "description": "It's too painful to hear.",
+          "effects": {
+            "sanityDelta": -1,
+            "setFlags": {
+              "recording_stopped": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "therapy_session_recording",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 3
+        },
+        "priority": 7,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "isolation_chamber",
+      "title": "Isolation Chamber",
+      "description": "A padded cell. Scratch marks cover every surface. Writing is carved into the walls: 'NOT ALONE NOT ALONE NOT ALONE' repeated endlessly.",
+      "choices": [
+        {
+          "id": "examine_writing",
+          "label": "Examine the writing",
+          "description": "Try to understand what they experienced.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "isolation_examined": true
+            }
+          }
+        },
+        {
+          "id": "seal_chamber",
+          "label": "Seal the chamber",
+          "description": "Some places should stay closed.",
+          "effects": {
+            "mercyDelta": 1,
+            "setFlags": {
+              "chamber_sealed": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "isolation_chamber",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 3
+        },
+        "priority": 6,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "fractured_memory",
+      "title": "Fractured Memory",
+      "description": "You recognize this corridor, but from multiple angles at once. You remember being here - as staff, as patient, as visitor. Which memory is real?",
+      "choices": [
+        {
+          "id": "accept_all_memories",
+          "label": "Accept all as true",
+          "description": "Perhaps they all happened.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "memories_accepted": true
+            }
+          }
+        },
+        {
+          "id": "choose_one_memory",
+          "label": "Cling to one memory",
+          "description": "Pick the version that makes sense.",
+          "effects": {
+            "denialDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "memory_chosen": true
+            }
+          }
+        },
+        {
+          "id": "reject_all_memories",
+          "label": "Reject them all",
+          "description": "These are lies. Hallucinations.",
+          "effects": {
+            "denialDelta": 2,
+            "setFlags": {
+              "memories_rejected": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "fractured_memory",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 4
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "accusation_chamber",
+      "title": "Chamber of Accusation",
+      "description": "Voices echo from nowhere, listing your failures and sins. They know everything you've done. Everything you've hidden.",
+      "choices": [
+        {
+          "id": "confess_all",
+          "label": "Confess everything",
+          "description": "Admit to every accusation.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -4,
+            "mercyDelta": 1,
+            "setFlags": {
+              "confession_complete": true
+            }
+          }
+        },
+        {
+          "id": "justify_actions",
+          "label": "Justify your actions",
+          "description": "You did what you had to do.",
+          "effects": {
+            "denialDelta": 2,
+            "crueltyDelta": 1,
+            "setFlags": {
+              "actions_justified": true
+            }
+          }
+        },
+        {
+          "id": "fight_voices",
+          "label": "Fight the voices",
+          "description": "Resist the manipulation.",
+          "effects": {
+            "sanityDelta": -2,
+            "setFlags": {
+              "voices_resisted": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "accusation_chamber",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 4
+        },
+        "priority": 7,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "engine_whispers",
+      "title": "The Engine's Whispers",
+      "description": "The Engine speaks directly into your mind. It offers absolution. It offers power. It offers oblivion. All you have to do is surrender.",
+      "choices": [
+        {
+          "id": "resist_engine",
+          "label": "Resist the Engine",
+          "description": "Fight its influence with everything you have.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "engine_resisted": true
+            }
+          }
+        },
+        {
+          "id": "bargain_engine",
+          "label": "Bargain with the Engine",
+          "description": "Maybe you can use its power.",
+          "effects": {
+            "crueltyDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "engine_bargained": true
+            }
+          }
+        },
+        {
+          "id": "accept_engine",
+          "label": "Accept the Engine's offer",
+          "description": "Let it all end.",
+          "effects": {
+            "denialDelta": 3,
+            "sanityDelta": -5,
+            "setFlags": {
+              "engine_accepted": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "engine_whispers",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 5,
+          "maxDepth": 5
+        },
+        "priority": 9,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "subject13_vision",
+      "title": "Subject 13's Vision",
+      "description": "Subject 13 stops suddenly. Their eyes glow faintly. They speak of what's to come - multiple futures, all terrible, all possible.",
+      "choices": [
+        {
+          "id": "listen_prophecy",
+          "label": "Listen to the prophecy",
+          "description": "Hear what futures await.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "prophecy_heard": true
+            }
+          }
+        },
+        {
+          "id": "comfort_subject13",
+          "label": "Comfort Subject 13",
+          "description": "Focus on the present, not possible futures.",
+          "effects": {
+            "mercyDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "subject13_comforted": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "subject13_vision",
+        "category": "character_specific",
+        "characterFocus": "subject13",
+        "triggerConditions": {
+          "minDepth": 5,
+          "maxDepth": 5
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "elias_discipline_chamber",
+      "title": "Discipline Chamber",
+      "description": "A soundproof room where Elias conducted 'corrective sessions'. Restraints still hang from the walls. Blood stains the floor.",
+      "choices": [
+        {
+          "id": "acknowledge_brutality",
+          "label": "Acknowledge what happened here",
+          "description": "Admit to yourself and others what you did.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "elias_acknowledges_torture": true
+            }
+          }
+        },
+        {
+          "id": "justify_discipline",
+          "label": "They needed discipline",
+          "description": "Order required firm action.",
+          "effects": {
+            "crueltyDelta": 2,
+            "denialDelta": 1,
+            "setFlags": {
+              "elias_unrepentant_extended": true
+            }
+          }
+        },
+        {
+          "id": "vow_redemption",
+          "label": "Vow to make amends",
+          "description": "You can't undo this, but you can try to be better.",
+          "effects": {
+            "truthDelta": 1,
+            "mercyDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "elias_vows_redemption": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "elias_discipline_chamber",
+        "category": "character_specific",
+        "characterFocus": "elias",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "miriam_surgery_logs",
+      "title": "Experimental Surgery Logs",
+      "description": "Dr. Kessler's personal research notes. Detailed descriptions of procedures performed without consent. Success rates deliberately falsified.",
+      "choices": [
+        {
+          "id": "read_all_logs",
+          "label": "Read every entry",
+          "description": "Force yourself to witness every failure.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -4,
+            "setFlags": {
+              "miriam_confronts_experiments": true
+            }
+          }
+        },
+        {
+          "id": "burn_evidence",
+          "label": "Burn the logs",
+          "description": "Destroy the evidence. No one needs to know.",
+          "effects": {
+            "denialDelta": 3,
+            "crueltyDelta": 1,
+            "setFlags": {
+              "miriam_destroys_all_evidence": true
+            }
+          }
+        },
+        {
+          "id": "preserve_logs",
+          "label": "Preserve them for review",
+          "description": "These failures must be documented. Learned from.",
+          "effects": {
+            "truthDelta": 2,
+            "mercyDelta": 1,
+            "sanityDelta": -2,
+            "setFlags": {
+              "miriam_preserves_truth": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "miriam_surgery_logs",
+        "category": "character_specific",
+        "characterFocus": "miriam",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 3
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "subject13_containment",
+      "title": "Subject 13's Containment Cell",
+      "description": "The cell where you were held. Kept. Studied. The walls remember everything - every test, every scream, every moment of clarity and madness.",
+      "choices": [
+        {
+          "id": "relive_memories",
+          "label": "Let the memories flood back",
+          "description": "Remember it all, even the parts you've blocked out.",
+          "effects": {
+            "truthDelta": 3,
+            "sanityDelta": -5,
+            "setFlags": {
+              "subject13_full_memories": true
+            }
+          }
+        },
+        {
+          "id": "reject_past",
+          "label": "This wasn't you",
+          "description": "Whoever was in this cell isn't who you are now.",
+          "effects": {
+            "denialDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "subject13_rejects_identity": true
+            }
+          }
+        },
+        {
+          "id": "embrace_transformation",
+          "label": "Embrace what you've become",
+          "description": "The experiments changed you. Accept that.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -3,
+            "setFlags": {
+              "subject13_accepts_change": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "subject13_containment",
+        "category": "character_specific",
+        "characterFocus": "subject13",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 9,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "anya_chapel_ruins",
+      "title": "Chapel Ruins",
+      "description": "The facility chapel where Anya held services. Now desecrated, symbols scratched out, books burned. Someone wrote 'WHERE WAS GOD?' across the altar.",
+      "choices": [
+        {
+          "id": "pray_anyway",
+          "label": "Pray despite everything",
+          "description": "Hold onto faith in the face of horror.",
+          "effects": {
+            "mercyDelta": 2,
+            "sanityDelta": 1,
+            "setFlags": {
+              "anya_maintains_strong_faith": true
+            }
+          }
+        },
+        {
+          "id": "question_faith",
+          "label": "Question everything you believed",
+          "description": "Maybe they were right. Maybe there is no divine mercy.",
+          "effects": {
+            "truthDelta": 2,
+            "sanityDelta": -2,
+            "setFlags": {
+              "anya_faith_crisis": true
+            }
+          }
+        },
+        {
+          "id": "find_new_meaning",
+          "label": "Seek meaning beyond faith",
+          "description": "Compassion doesn't need divine mandate.",
+          "effects": {
+            "truthDelta": 1,
+            "mercyDelta": 2,
+            "sanityDelta": -1,
+            "setFlags": {
+              "anya_secular_redemption": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "anya_chapel_ruins",
+        "category": "character_specific",
+        "characterFocus": "anya",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 8,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "broken_elevator",
+      "title": "Broken Elevator Shaft",
+      "description": "An elevator shaft descends into darkness. Cables dangle loosely. You hear distant sounds from below.",
+      "choices": [
+        {
+          "id": "climb_down",
+          "label": "Climb down the cables",
+          "description": "Risky, but might lead somewhere useful.",
+          "effects": {
+            "sanityDelta": -2,
+            "addItems": [
+              "medkit"
+            ],
+            "setFlags": {
+              "elevator_explored": true
+            }
+          }
+        },
+        {
+          "id": "mark_and_continue",
+          "label": "Mark location and continue",
+          "description": "Too dangerous for now.",
+          "effects": {
+            "setFlags": {
+              "elevator_marked": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "broken_elevator",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 3
+        },
+        "priority": 5,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "water_contamination",
+      "title": "Contaminated Water Source",
+      "description": "A water fountain still functions, but the liquid that flows is tinged an unnatural color. Your throat is parched.",
+      "choices": [
+        {
+          "id": "drink_water",
+          "label": "Drink the water",
+          "description": "Risk it. You need hydration.",
+          "effects": {
+            "hpDelta": 5,
+            "sanityDelta": -3,
+            "setFlags": {
+              "drank_contaminated_water": true
+            }
+          }
+        },
+        {
+          "id": "avoid_water",
+          "label": "Don't drink",
+          "description": "Too risky. Find another source.",
+          "effects": {
+            "setFlags": {
+              "water_avoided": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "water_contamination",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "locked_safe",
+      "title": "Locked Safe",
+      "description": "A heavy safe built into the wall. The combination lock seems intact.",
+      "choices": [
+        {
+          "id": "force_open",
+          "label": "Force it open with crowbar",
+          "description": "Requires a crowbar and effort.",
+          "effects": {
+            "addItems": [
+              "access_card",
+              "sedative"
+            ],
+            "setFlags": {
+              "safe_forced": true
+            }
+          },
+          "requiresItems": [
+            "crowbar"
+          ]
+        },
+        {
+          "id": "pick_lock",
+          "label": "Pick the lock",
+          "description": "Requires lockpicking tools and skill.",
+          "effects": {
+            "addItems": [
+              "access_card",
+              "sedative",
+              "medkit"
+            ],
+            "setFlags": {
+              "safe_picked": true
+            }
+          },
+          "requiresItems": [
+            "lockpick"
+          ]
+        },
+        {
+          "id": "leave_safe",
+          "label": "Leave it locked",
+          "description": "Come back if you find tools.",
+          "effects": {
+            "setFlags": {
+              "safe_found": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "locked_safe",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "mysterious_writing",
+      "title": "Wall Writings",
+      "description": "Someone has written warnings on the walls in blood: 'TURN BACK', 'IT KNOWS YOUR SINS', 'SUBJECT 13 IS THE KEY'.",
+      "choices": [
+        {
+          "id": "study_messages",
+          "label": "Study the messages carefully",
+          "description": "Try to understand what they mean.",
+          "effects": {
+            "truthDelta": 1,
+            "sanityDelta": -1,
+            "setFlags": {
+              "warnings_studied": true
+            }
+          }
+        },
+        {
+          "id": "ignore_warnings",
+          "label": "Ignore the ravings",
+          "description": "Just paranoid scrawlings.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "warnings_ignored": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "mysterious_writing",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "mutated_plants",
+      "title": "Mutated Flora",
+      "description": "Plants have grown through cracks in the facility. They pulse with bioluminescence and seem to move when not observed.",
+      "choices": [
+        {
+          "id": "sample_plants",
+          "label": "Take samples",
+          "description": "Might have medical applications.",
+          "effects": {
+            "addItems": [
+              "sedative"
+            ],
+            "sanityDelta": -1,
+            "setFlags": {
+              "plants_sampled": true
+            }
+          }
+        },
+        {
+          "id": "avoid_plants",
+          "label": "Stay away",
+          "description": "Nothing natural grows like that.",
+          "effects": {
+            "setFlags": {
+              "plants_avoided": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "mutated_plants",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false
+      }
+    },
+    {
+      "id": "final_message",
+      "title": "Director's Final Message",
+      "description": "A recorded message from the facility director: 'If you're hearing this, I've failed. The Engine cannot be stopped. Only destroyed. Subject 13 holds the key. May God forgive us all.'",
+      "choices": [
+        {
+          "id": "heed_warning",
+          "label": "Take the warning seriously",
+          "description": "Plan to destroy the Engine.",
+          "effects": {
+            "truthDelta": 2,
+            "setFlags": {
+              "destruction_path": true
+            }
+          }
+        },
+        {
+          "id": "seek_control",
+          "label": "Seek to control the Engine instead",
+          "description": "Maybe you can use its power.",
+          "effects": {
+            "crueltyDelta": 2,
+            "denialDelta": 1,
+            "setFlags": {
+              "control_path": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "final_message",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 9,
+        "repeatable": false
       }
     }
   ],
