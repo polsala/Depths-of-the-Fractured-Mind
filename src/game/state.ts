@@ -112,11 +112,15 @@ export interface GameState {
   currentEventId?: string;
   currentEncounterId?: string;
   combatState?: any; // Will be CombatState from combat/state.ts
+  depthMaps?: Map<number, any>; // Cache for generated maps (DepthMap type from exploration/map)
 }
 
 export function createInitialGameState(): GameState {
+  // Initialize map cache
+  const depthMaps = new Map();
+  
   // Get the starting map to get the correct starting position
-  const startingMap = getDepthMap(1);
+  const startingMap = getDepthMap(1, depthMaps);
   
   const initialState = {
     party: {
@@ -149,6 +153,7 @@ export function createInitialGameState(): GameState {
     currentEventId: undefined,
     currentEncounterId: undefined,
     combatState: undefined,
+    depthMaps,
   };
   
   // Mark starting tile as visited

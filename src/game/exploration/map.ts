@@ -35,9 +35,21 @@ export interface DepthMap {
   startY: number;
 }
 
-export function getDepthMap(depth: number): DepthMap {
-  // Use procedural generation for all depths
-  return generateProceduralMap(depth);
+export function getDepthMap(depth: number, cache?: Map<number, DepthMap>): DepthMap {
+  // If cache is provided, check if map already exists
+  if (cache && cache.has(depth)) {
+    return cache.get(depth)!;
+  }
+  
+  // Generate new map
+  const map = generateProceduralMap(depth);
+  
+  // Store in cache if provided
+  if (cache) {
+    cache.set(depth, map);
+  }
+  
+  return map;
 }
 
 export function getTile(
@@ -52,5 +64,5 @@ export function getTile(
 }
 
 export function getCurrentDepthMap(state: GameState): DepthMap {
-  return getDepthMap(state.location.depth);
+  return getDepthMap(state.location.depth, state.depthMaps);
 }

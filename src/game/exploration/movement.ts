@@ -70,7 +70,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   if (tile?.type === "stairsDown") {
     const nextDepth = state.location.depth + 1;
     if (nextDepth <= 5) {
-      const nextMap = getDepthMap(nextDepth);
+      const nextMap = getDepthMap(nextDepth, nextState.depthMaps);
       nextState = {
         ...nextState,
         location: {
@@ -85,7 +85,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   } else if (tile?.type === "stairsUp") {
     const prevDepth = state.location.depth - 1;
     if (prevDepth >= 1) {
-      const prevMap = getDepthMap(prevDepth);
+      const prevMap = getDepthMap(prevDepth, nextState.depthMaps);
       nextState = {
         ...nextState,
         location: {
