@@ -109,6 +109,7 @@ export interface GameState {
   flags: GameFlags;
   currentEventId?: string;
   currentEncounterId?: string;
+  combatState?: any; // Will be CombatState from combat/state.ts
 }
 
 export function createInitialGameState(): GameState {

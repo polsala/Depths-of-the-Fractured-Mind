@@ -17,10 +17,21 @@ import {
   getDirectionArrow,
   getDirectionName,
 } from "../graphics/direction";
+import {
+  renderCombatUI,
+  renderCombatLog,
+  createActionMenu,
+  createAbilityMenu,
+  createTargetSelector,
+} from "../graphics/combat-ui";
+import type { CombatState, CombatAction } from "../game/combat/state";
+import { executePlayerActions, executeEnemyTurn } from "../game/combat/turn-manager";
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
 let currentDepthMusic: number = -1; // Track current depth for music changes
+let combatMenuState: "main" | "abilities" | "target-enemy" | "target-ally" = "main";
+let selectedAbilityId: string | undefined;
 
 // Depth-to-music track mapping
 const DEPTH_MUSIC_MAP: Record<number, string> = {
@@ -361,6 +372,198 @@ function renderEvent(
   });
 }
 
+function renderCombat(
+  root: HTMLElement,
+  controller: GameController,
+  state: GameState,
+  rerender: () => void
+): void {
+  const combatState = controller.getCombatState() as CombatState;
+  if (!combatState) {
+    const error = document.createElement("p");
+    error.textContent = "Combat state not found.";
+    root.appendChild(error);
+    return;
+  }
+
+  // Play combat music
+  const music = combatState.isBossFight ? "battle_boss" : "battle_normal";
+  audioManager.playMusic(music);
+
+  // Create combat container
+  const combatContainer = document.createElement("div");
+  combatContainer.className = "combat-container";
+  combatContainer.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #1a1a1a;
+  `;
+  root.appendChild(combatContainer);
+
+  // Top section: Combat view
+  const combatView = document.createElement("div");
+  combatView.style.cssText = `
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  `;
+  combatContainer.appendChild(combatView);
+
+  // Combat canvas
+  const combatCanvas = document.createElement("canvas");
+  combatView.appendChild(combatCanvas);
+  renderCombatUI(combatCanvas, combatState, { width: 800, height: 400 });
+
+  // Bottom section: Controls and log
+  const controlsSection = document.createElement("div");
+  controlsSection.style.cssText = `
+    display: flex;
+    height: 300px;
+    gap: 20px;
+    padding: 20px;
+  `;
+  combatContainer.appendChild(controlsSection);
+
+  // Combat log
+  const logContainer = document.createElement("div");
+  logContainer.style.flex = "1";
+  controlsSection.appendChild(logContainer);
+  renderCombatLog(logContainer, combatState, 15);
+
+  // Action menu
+  const actionContainer = document.createElement("div");
+  actionContainer.style.flex = "1";
+  controlsSection.appendChild(actionContainer);
+
+  const handleAction = (action: any) => {
+    if (action.type === "end-combat") {
+      controller.endCombat();
+      // Return to exploration music
+      const depthMusic = `depth${state.location.depth}_${["ambient", "archive", "ward", "mirrors"][state.location.depth - 1] || "ambient"}`;
+      audioManager.playMusic(depthMusic);
+      rerender();
+      return;
+    }
+
+    if (action.type === "retry") {
+      // Reload page or restart
+      window.location.reload();
+      return;
+    }
+
+    if (action.type === "show-abilities") {
+      combatMenuState = "abilities";
+      renderActionMenu();
+      return;
+    }
+
+    if (action.type === "show-items") {
+      // TODO: Implement item menu
+      return;
+    }
+
+    if (action.type === "select-target") {
+      if (action.actionType === "attack") {
+        combatMenuState = "target-enemy";
+        renderActionMenu();
+      }
+      return;
+    }
+
+    if (action.type === "defend") {
+      const combatAction: CombatAction = {
+        type: "defend",
+        actorIndex: action.actorIndex,
+        isPlayerAction: true,
+      };
+      controller.submitCombatAction(combatAction);
+      combatMenuState = "main";
+      rerender();
+      return;
+    }
+
+    if (action.type === "flee") {
+      const combatAction: CombatAction = {
+        type: "flee",
+        actorIndex: action.actorIndex,
+        isPlayerAction: true,
+      };
+      controller.submitCombatAction(combatAction);
+      combatMenuState = "main";
+      rerender();
+      return;
+    }
+  };
+
+  const handleAbility = (abilityId: string) => {
+    selectedAbilityId = abilityId;
+    combatMenuState = "target-enemy"; // Most abilities target enemies
+    renderActionMenu();
+  };
+
+  const handleTarget = (targetIndex: number) => {
+    if (selectedAbilityId) {
+      const combatAction: CombatAction = {
+        type: "ability",
+        actorIndex: combatState.selectedCharacterIndex,
+        targetIndex,
+        abilityId: selectedAbilityId,
+        isPlayerAction: true,
+      };
+      controller.submitCombatAction(combatAction);
+      selectedAbilityId = undefined;
+    } else {
+      const combatAction: CombatAction = {
+        type: "attack",
+        actorIndex: combatState.selectedCharacterIndex,
+        targetIndex,
+        isPlayerAction: true,
+      };
+      controller.submitCombatAction(combatAction);
+    }
+    combatMenuState = "main";
+    rerender();
+  };
+
+  const handleBack = () => {
+    combatMenuState = "main";
+    selectedAbilityId = undefined;
+    renderActionMenu();
+  };
+
+  const renderActionMenu = () => {
+    actionContainer.innerHTML = "";
+    
+    if (combatMenuState === "main") {
+      createActionMenu(actionContainer, combatState, handleAction);
+    } else if (combatMenuState === "abilities") {
+      createAbilityMenu(actionContainer, combatState, handleAbility, handleBack);
+    } else if (combatMenuState === "target-enemy") {
+      createTargetSelector(actionContainer, combatState, false, handleTarget, handleBack);
+    } else if (combatMenuState === "target-ally") {
+      createTargetSelector(actionContainer, combatState, true, handleTarget, handleBack);
+    }
+  };
+
+  renderActionMenu();
+
+  // Auto-advance if in action phases
+  if (combatState.phase === "player-act" || combatState.phase === "enemy-act") {
+    setTimeout(() => {
+      if (combatState.phase === "player-act") {
+        executePlayerActions(combatState);
+      }
+      if (combatState.phase === "enemy-act") {
+        executeEnemyTurn(combatState);
+      }
+      rerender();
+    }, 1000);
+  }
+}
+
 export function initApp(root: HTMLElement): void {
   const controller = new GameController();
 
@@ -379,6 +582,8 @@ export function initApp(root: HTMLElement): void {
         renderEvent(root, controller, state, render);
         break;
       case "combat":
+        renderCombat(root, controller, state, render);
+        break;
       case "conversation":
       case "ending":
       case "pause": {

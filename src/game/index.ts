@@ -6,6 +6,9 @@ import { applyEventChoice, startEvent } from "./events/engine";
 import { registerMandatoryEvents } from "./events/mandatory";
 import { loadEventDataFile } from "./events/loader";
 import { selectEventForLocation } from "./events/procedural";
+import { generateRandomEncounter, generateBossEncounter } from "./combat/encounters";
+import { createCombatState, type CombatAction } from "./combat/state";
+import { addPlayerAction, executePlayerActions, executeEnemyTurn } from "./combat/turn-manager";
 
 export class GameController {
   private state: GameState;
@@ -121,5 +124,60 @@ export class GameController {
     if (eventId) {
       this.state = startEvent(this.state, eventId);
     }
+  }
+
+  /**
+   * Start a random combat encounter
+   */
+  public startCombat(isBoss: boolean = false): void {
+    const encounter = isBoss
+      ? generateBossEncounter(this.state.location.depth)
+      : generateRandomEncounter(this.state.location.depth);
+    
+    if (!encounter) {
+      console.error("Failed to generate encounter");
+      return;
+    }
+    
+    this.state.combatState = createCombatState(this.state.party, encounter, isBoss);
+    this.state.mode = "combat";
+  }
+
+  /**
+   * Submit a combat action for the current character
+   */
+  public submitCombatAction(action: CombatAction): void {
+    if (!this.state.combatState || this.state.mode !== "combat") return;
+    
+    addPlayerAction(this.state.combatState, action);
+    
+    // If all actions submitted, execute player phase
+    if (this.state.combatState.phase === "player-act") {
+      executePlayerActions(this.state.combatState);
+    }
+    
+    // If enemy phase, execute enemy turns
+    if (this.state.combatState.phase === "enemy-act") {
+      executeEnemyTurn(this.state.combatState);
+    }
+  }
+
+  /**
+   * End combat and return to exploration
+   */
+  public endCombat(): void {
+    if (!this.state.combatState) return;
+    
+    // Sync party state back from combat
+    this.state.party = this.state.combatState.party;
+    this.state.combatState = undefined;
+    this.state.mode = "exploration";
+  }
+
+  /**
+   * Get current combat state
+   */
+  public getCombatState(): any {
+    return this.state.combatState;
   }
 }
