@@ -274,7 +274,7 @@ function drawTorchSconce(
   x: number,
   y: number,
   size: number,
-  animated: boolean = true
+  timestamp: number = 0
 ): void {
   // Sconce bracket
   ctx.fillStyle = "#3a3a3a";
@@ -284,9 +284,9 @@ function drawTorchSconce(
   ctx.fillStyle = "#4a3020";
   ctx.fillRect(x + size * 0.42, y + size * 0.3, size * 0.16, size * 0.5);
   
-  // Flame
+  // Flame with animation based on timestamp
   const flameY = y + size * 0.2;
-  const flameHeight = size * 0.3 + (animated ? Math.sin(Date.now() / 100) * 2 : 0);
+  const flameHeight = size * 0.3 + (timestamp > 0 ? Math.sin(timestamp / 100) * 2 : 0);
   
   // Outer flame (orange)
   ctx.fillStyle = "#ff6600";
@@ -376,6 +376,9 @@ export function drawDungeonDoor(
  * Helper function to convert hex to RGB
  */
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  if (!hex || typeof hex !== "string") {
+    return { r: 0, g: 0, b: 0 };
+  }
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
@@ -566,6 +569,9 @@ export function renderDungeonView(
     const wallHeight = height * scale * 0.8;
     const wallTop = (height - wallHeight) / 2;
 
+    // Use consistent timestamp for animation
+    const timestamp = Date.now();
+
     // Left wall torch
     if (walls.left && distance % 2 === 1) {
       const torchSize = Math.max(20, wallHeight * 0.15);
@@ -574,7 +580,7 @@ export function renderDungeonView(
         (width - segmentWidth) / 4,
         wallTop + wallHeight * 0.3,
         torchSize,
-        true
+        timestamp
       );
     }
 
@@ -586,7 +592,7 @@ export function renderDungeonView(
         width - (width - segmentWidth) / 4 - torchSize,
         wallTop + wallHeight * 0.3,
         torchSize,
-        true
+        timestamp
       );
     }
   }
