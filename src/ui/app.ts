@@ -25,7 +25,7 @@ import {
   createTargetSelector,
 } from "../graphics/combat-ui";
 import type { CombatState, CombatAction } from "../game/combat/state";
-import { executePlayerActions, executeEnemyTurn } from "../game/combat/turn-manager";
+import { getCurrentActor } from "../game/combat/state";
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
@@ -537,10 +537,13 @@ function renderCombat(
   };
 
   const handleTarget = (targetIndex: number) => {
+    const currentActor = getCurrentActor(combatState);
+    if (!currentActor || !currentActor.isPlayer) return;
+    
     if (selectedAbilityId) {
       const combatAction: CombatAction = {
         type: "ability",
-        actorIndex: combatState.selectedCharacterIndex,
+        actorIndex: currentActor.index,
         targetIndex,
         abilityId: selectedAbilityId,
         isPlayerAction: true,
@@ -550,7 +553,7 @@ function renderCombat(
     } else {
       const combatAction: CombatAction = {
         type: "attack",
-        actorIndex: combatState.selectedCharacterIndex,
+        actorIndex: currentActor.index,
         targetIndex,
         isPlayerAction: true,
       };
@@ -581,19 +584,6 @@ function renderCombat(
   };
 
   renderActionMenu();
-
-  // Auto-advance if in action phases
-  if (combatState.phase === "player-act" || combatState.phase === "enemy-act") {
-    setTimeout(() => {
-      if (combatState.phase === "player-act") {
-        executePlayerActions(combatState);
-      }
-      if (combatState.phase === "enemy-act") {
-        executeEnemyTurn(combatState);
-      }
-      rerender();
-    }, 1000);
-  }
 }
 
 export function initApp(root: HTMLElement): void {

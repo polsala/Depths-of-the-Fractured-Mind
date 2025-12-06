@@ -1,5 +1,5 @@
 import type { CombatState } from "../game/combat/state";
-import { getAlivePartyMembers, getAliveEnemies } from "../game/combat/state";
+import { getAlivePartyMembers, getAliveEnemies, getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 
 export interface CombatUIOptions {
@@ -147,8 +147,9 @@ function renderParty(
     const memberX = x + index * (memberWidth + 5);
     const memberY = y + 10;
 
-    // Highlight selected character
-    if (state.phase === "player-select" && index === state.selectedCharacterIndex) {
+    // Highlight current actor if it's their turn
+    const currentActor = getCurrentActor(state);
+    if (state.phase === "select-action" && currentActor?.isPlayer && index === currentActor.index) {
       ctx.strokeStyle = COLORS.selected;
       ctx.lineWidth = 3;
       ctx.strokeRect(memberX - 2, memberY - 2, memberWidth + 4, height - 16);
@@ -315,14 +316,12 @@ export function createActionMenu(
     font-family: monospace;
   `;
 
-  if (state.phase !== "player-select") {
+  if (state.phase !== "select-action") {
     const statusText = document.createElement("div");
     statusText.style.color = COLORS.text;
     
-    if (state.phase === "player-act") {
-      statusText.textContent = "Player turn executing...";
-    } else if (state.phase === "enemy-act") {
-      statusText.textContent = "Enemy turn...";
+    if (state.phase === "execute-action") {
+      statusText.textContent = "Action executing...";
     } else if (state.phase === "victory") {
       statusText.textContent = "Victory!";
       const continueBtn = createButton("Continue", () => onAction({ type: "end-combat" }));
@@ -347,7 +346,17 @@ export function createActionMenu(
     return;
   }
 
-  const character = state.party.members[state.selectedCharacterIndex];
+  // Get current actor
+  const currentActor = getCurrentActor(state);
+  if (!currentActor || !currentActor.isPlayer) {
+    const statusText = document.createElement("div");
+    statusText.style.color = COLORS.text;
+    statusText.textContent = "Enemy turn...";
+    container.appendChild(statusText);
+    return;
+  }
+  
+  const character = state.party.members[currentActor.index];
   if (!character || !character.alive) return;
 
   const title = document.createElement("div");
@@ -379,10 +388,13 @@ export function createActionMenu(
   });
   actionsDiv.appendChild(itemBtn);
 
+  const actorInfo = getCurrentActor(state);
+  if (!actorInfo || !actorInfo.isPlayer) return; // Safety check
+  
   const defendBtn = createButton("Defend", () => {
     onAction({
       type: "defend",
-      actorIndex: state.selectedCharacterIndex,
+      actorIndex: actorInfo.index,
     });
   });
   actionsDiv.appendChild(defendBtn);
@@ -390,7 +402,7 @@ export function createActionMenu(
   const fleeBtn = createButton("Flee", () => {
     onAction({
       type: "flee",
-      actorIndex: state.selectedCharacterIndex,
+      actorIndex: actorInfo.index,
     });
   });
   if (!state.isBossFight) {
@@ -408,7 +420,10 @@ export function createAbilityMenu(
 ): void {
   container.innerHTML = "";
 
-  const character = state.party.members[state.selectedCharacterIndex];
+  const actorInfo = getCurrentActor(state);
+  if (!actorInfo || !actorInfo.isPlayer) return;
+  
+  const character = state.party.members[actorInfo.index];
   if (!character) return;
 
   const title = document.createElement("div");

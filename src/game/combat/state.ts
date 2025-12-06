@@ -32,14 +32,21 @@ export interface CombatParticipant {
   defending: boolean;
 }
 
+export interface TurnOrderEntry {
+  isPlayer: boolean;
+  index: number; // Index in party.members or encounter.enemies
+  speed: number; // Focus stat value for sorting
+}
+
 export interface CombatState {
   party: PartyState;
   encounter: EncounterState;
   turn: number;
-  phase: "player-select" | "player-act" | "enemy-act" | "victory" | "defeat" | "fled";
-  selectedCharacterIndex: number;
+  phase: "select-action" | "execute-action" | "victory" | "defeat" | "fled";
+  turnOrder: TurnOrderEntry[]; // Queue of who acts next, sorted by speed
+  currentTurnIndex: number; // Index in turnOrder for current actor
+  pendingAction?: CombatAction; // Action selected by current actor
   log: CombatLogEntry[];
-  playerActions: CombatAction[];
   isBossFight: boolean;
 }
 
@@ -71,16 +78,51 @@ export function createCombatState(
     type: "system" 
   });
   
+  // Build initial turn order based on focus (speed) stat
+  const turnOrder = buildTurnOrder(party, encounter);
+  
   return {
     party,
     encounter,
     turn: 1,
-    phase: "player-select",
-    selectedCharacterIndex: 0,
+    phase: "select-action",
+    turnOrder,
+    currentTurnIndex: 0,
+    pendingAction: undefined,
     log,
-    playerActions: [],
     isBossFight: isBoss,
   };
+}
+
+/**
+ * Build turn order queue based on focus stat (higher focus = acts first)
+ * Uses character index as a tie-breaker for consistent ordering
+ */
+function buildTurnOrder(party: PartyState, encounter: EncounterState): TurnOrderEntry[] {
+  const entries: TurnOrderEntry[] = [];
+  
+  // Add all alive party members
+  party.members.forEach((member, index) => {
+    if (member.alive) {
+      // Use negative index as tie-breaker so lower index acts first when focus is equal
+      const speed = member.stats.focus + (index * 0.001);
+      entries.push({ isPlayer: true, index, speed });
+    }
+  });
+  
+  // Add all alive enemies
+  encounter.enemies.forEach((enemy, index) => {
+    if (enemy.alive) {
+      // Use negative index as tie-breaker, offset by 0.1 to ensure enemies act after players with same focus
+      const speed = enemy.stats.focus + (index * 0.001) - 0.1;
+      entries.push({ isPlayer: false, index, speed });
+    }
+  });
+  
+  // Sort by speed descending (highest speed acts first)
+  entries.sort((a, b) => b.speed - a.speed);
+  
+  return entries;
 }
 
 export function addCombatLog(
@@ -144,4 +186,37 @@ export function hasStatusEffect(
   statusId: string
 ): boolean {
   return participant.statusEffects.includes(statusId);
+}
+
+/**
+ * Get the current actor in combat based on turn order
+ */
+export function getCurrentActor(state: CombatState): { isPlayer: boolean; index: number } | null {
+  if (state.currentTurnIndex >= state.turnOrder.length) {
+    return null;
+  }
+  const entry = state.turnOrder[state.currentTurnIndex];
+  return { isPlayer: entry.isPlayer, index: entry.index };
+}
+
+/**
+ * Advance to the next actor in turn order
+ * Returns true if we've completed a full round
+ */
+export function advanceToNextActor(state: CombatState): boolean {
+  state.currentTurnIndex++;
+  
+  // If we've gone through all actors, start a new round
+  if (state.currentTurnIndex >= state.turnOrder.length) {
+    state.currentTurnIndex = 0;
+    state.turn++;
+    
+    // Rebuild turn order for the new round (in case someone died or stats changed)
+    state.turnOrder = buildTurnOrder(state.party, state.encounter);
+    
+    addCombatLog(state, `--- Turn ${state.turn} ---`, "system");
+    return true;
+  }
+  
+  return false;
 }

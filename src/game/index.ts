@@ -7,8 +7,8 @@ import { registerMandatoryEvents } from "./events/mandatory";
 import { loadEventDataFile } from "./events/loader";
 import { selectEventForLocation } from "./events/procedural";
 import { generateRandomEncounter, generateBossEncounter } from "./combat/encounters";
-import { createCombatState, type CombatAction } from "./combat/state";
-import { addPlayerAction, executePlayerActions, executeEnemyTurn } from "./combat/turn-manager";
+import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
+import { submitAction } from "./combat/turn-manager";
 
 export class GameController {
   private state: GameState;
@@ -150,17 +150,19 @@ export class GameController {
   public submitCombatAction(action: CombatAction): void {
     if (!this.state.combatState || this.state.mode !== "combat") return;
     
-    addPlayerAction(this.state.combatState, action);
+    // Only allow action submission if we're in select-action phase
+    if (this.state.combatState.phase !== "select-action") return;
     
-    // If all actions submitted, execute player phase
-    if (this.state.combatState.phase === "player-act") {
-      executePlayerActions(this.state.combatState);
-    }
-    
-    // If enemy phase, execute enemy turns
-    if (this.state.combatState.phase === "enemy-act") {
-      executeEnemyTurn(this.state.combatState);
-    }
+    // Submit and execute the action
+    submitAction(this.state.combatState, action);
+  }
+  
+  /**
+   * Get the current actor in combat (for UI to know whose turn it is)
+   */
+  public getCurrentCombatActor(): { isPlayer: boolean; index: number } | null {
+    if (!this.state.combatState) return null;
+    return getCurrentActor(this.state.combatState);
   }
 
   /**
