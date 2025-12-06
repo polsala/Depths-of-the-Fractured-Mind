@@ -143,6 +143,7 @@ export function createInitialGameState(): GameState {
     },
     currentEventId: undefined,
     currentEncounterId: undefined,
+    combatState: undefined,
   };
   
   // Mark starting tile as visited

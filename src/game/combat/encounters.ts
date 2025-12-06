@@ -1,6 +1,7 @@
 import type { GameState } from "../state";
 import { getRandomEnemy, getBossForDepth, type Enemy } from "../enemies";
 import type { EnemyState, EncounterState } from "./engine";
+import { createCombatState } from "./state";
 
 export function createEnemyState(enemy: Enemy): EnemyState {
   return {
@@ -64,9 +65,12 @@ export function triggerEncounter(state: GameState, depth?: number): GameState {
   
   if (!encounter) return state;
   
+  const combatState = createCombatState(state.party, encounter, false);
+  
   return {
     ...state,
     mode: "combat",
+    combatState,
     currentEncounterId: `encounter_${Date.now()}`,
   };
 }
