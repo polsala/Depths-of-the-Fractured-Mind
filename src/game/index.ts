@@ -1,7 +1,7 @@
 import type { GameState } from "./state";
 import { createInitialGameState } from "./state";
 import { createDefaultParty } from "./characters/party";
-import { moveEast, moveNorth, moveSouth, moveWest } from "./exploration/movement";
+import { moveEast, moveNorth, moveSouth, moveWest, moveForward, moveBackward, strafeLeft, strafeRight } from "./exploration/movement";
 import { applyEventChoice, startEvent } from "./events/engine";
 import { registerMandatoryEvents } from "./events/mandatory";
 import { loadEventDataFile } from "./events/loader";
@@ -26,7 +26,9 @@ export class GameController {
   
   private async loadEvents(): Promise<void> {
     try {
-      await loadEventDataFile("/data/events.json");
+      // Use correct base path for both dev and production
+      const basePath = import.meta.env.BASE_URL || '/';
+      await loadEventDataFile(`${basePath}data/events.json`);
       this.eventsReady = true;
       console.log("Event data loaded successfully");
     } catch (error) {
@@ -74,6 +76,26 @@ export class GameController {
   public moveWest(): void {
     if (this.state.mode !== "exploration") return;
     this.state = moveWest(this.state);
+  }
+
+  public moveForward(): void {
+    if (this.state.mode !== "exploration") return;
+    this.state = moveForward(this.state);
+  }
+
+  public moveBackward(): void {
+    if (this.state.mode !== "exploration") return;
+    this.state = moveBackward(this.state);
+  }
+
+  public strafeLeft(): void {
+    if (this.state.mode !== "exploration") return;
+    this.state = strafeLeft(this.state);
+  }
+
+  public strafeRight(): void {
+    if (this.state.mode !== "exploration") return;
+    this.state = strafeRight(this.state);
   }
 
   public startEvent(eventId: string): void {

@@ -11,7 +11,9 @@ class AudioManager {
   public playMusic(trackName: string): void {
     this.stopMusic();
 
-    const audio = new Audio(`/audio/music/${trackName}.ogg`);
+    // Use correct base path for both dev and production
+    const basePath = import.meta.env.BASE_URL || '/';
+    const audio = new Audio(`${basePath}audio/music/${trackName}.ogg`);
     audio.loop = true;
     audio.volume = this.musicVolume;
     this.currentMusic = audio;
@@ -35,7 +37,9 @@ class AudioManager {
   }
 
   public playSfx(name: string): void {
-    const sfx = new Audio(`/audio/sfx/${name}.ogg`);
+    // Use correct base path for both dev and production
+    const basePath = import.meta.env.BASE_URL || '/';
+    const sfx = new Audio(`${basePath}audio/sfx/${name}.ogg`);
     sfx.volume = this.sfxVolume;
     void sfx.play().catch(() => {});
   }

@@ -20,6 +20,16 @@ import {
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
+let currentDepthMusic: number = -1; // Track current depth for music changes
+
+// Depth-to-music track mapping
+const DEPTH_MUSIC_MAP: Record<number, string> = {
+  1: "depth1_ambient",
+  2: "depth2_archive",
+  3: "depth3_ward",
+  4: "depth4_mirrors",
+  5: "core_heart",
+};
 
 function renderTitle(
   root: HTMLElement,
@@ -107,6 +117,15 @@ function renderExploration(
     state.location.direction = "north";
   }
 
+  // Play depth-appropriate music
+  if (currentDepthMusic !== state.location.depth) {
+    currentDepthMusic = state.location.depth;
+    const musicTrack = DEPTH_MUSIC_MAP[state.location.depth];
+    if (musicTrack) {
+      audioManager.playMusic(musicTrack);
+    }
+  }
+
   // Create main container with flex layout
   const container = document.createElement("div");
   container.className = "exploration-container";
@@ -122,14 +141,12 @@ function renderExploration(
   viewportCanvas.className = "dungeon-viewport";
   viewportContainer.appendChild(viewportCanvas);
 
-  // Initialize renderer if not already done
-  if (!dungeonRenderContext) {
-    dungeonRenderContext = createRenderContext(viewportCanvas, {
-      width: 640,
-      height: 480,
-      fov: 60,
-    });
-  }
+  // Always create a new renderer context for the new canvas
+  dungeonRenderContext = createRenderContext(viewportCanvas, {
+    width: 640,
+    height: 480,
+    fov: 60,
+  });
 
   // Render the dungeon view
   const viewState: ViewState = {
@@ -197,11 +214,42 @@ function renderExploration(
   instructions.className = "instructions";
   instructions.innerHTML = `
     <p><strong>Controls:</strong></p>
-    <p>Arrow Keys / WASD - Move Forward/Back</p>
-    <p>Q / E - Rotate Left/Right</p>
+    <p>W/↑ - Move Forward</p>
+    <p>S/↓ - Move Backward</p>
+    <p>A/← - Strafe Left</p>
+    <p>D/→ - Strafe Right</p>
+    <p>Q - Turn Left, E - Turn Right</p>
     <p>Step onto marked tiles to trigger events</p>
   `;
   infoPanel.appendChild(instructions);
+
+  // Audio controls
+  const audioControls = document.createElement("div");
+  audioControls.className = "audio-controls";
+  audioControls.innerHTML = `
+    <p><strong>Audio:</strong></p>
+    <label>Music: <input type="range" id="music-volume" min="0" max="100" value="70" /></label>
+    <label>SFX: <input type="range" id="sfx-volume" min="0" max="100" value="80" /></label>
+  `;
+  infoPanel.appendChild(audioControls);
+
+  // Add event listeners for volume controls
+  const musicVolumeControl = audioControls.querySelector("#music-volume") as HTMLInputElement;
+  const sfxVolumeControl = audioControls.querySelector("#sfx-volume") as HTMLInputElement;
+
+  if (musicVolumeControl) {
+    musicVolumeControl.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      audioManager.setMusicVolume(parseInt(target.value, 10) / 100);
+    });
+  }
+
+  if (sfxVolumeControl) {
+    sfxVolumeControl.addEventListener("input", (e) => {
+      const target = e.target as HTMLInputElement;
+      audioManager.setSfxVolume(parseInt(target.value, 10) / 100);
+    });
+  }
 }
 
 function renderEvent(
@@ -364,18 +412,18 @@ export function initApp(root: HTMLElement): void {
         state.location.direction = rotateClockwise(state.location.direction);
         render();
       }
-      // Movement controls (WASD for forward/backward/strafe)
+      // Movement controls - direction-relative
       else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
-        controller.moveNorth();
+        controller.moveForward();
         render();
       } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
-        controller.moveSouth();
+        controller.moveBackward();
         render();
       } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
-        controller.moveWest();
+        controller.strafeLeft();
         render();
       } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
-        controller.moveEast();
+        controller.strafeRight();
         render();
       }
     } else if (state.mode === "event" && state.currentEventId) {
