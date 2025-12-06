@@ -4,6 +4,7 @@
  */
 
 import { generateDepthMap, getVisibleWalls, type DungeonMap } from "./map";
+import type { DepthMap } from "../game/exploration/map";
 
 // Constants
 const MIN_DEPTH = 1;
@@ -34,12 +35,16 @@ export interface ViewState {
 
 /**
  * Creates a rendering context for the dungeon viewport
- * @param gameDepthMapsCache - Optional cache of game depth maps to ensure consistency
+ * @param canvas - The HTML canvas element to render to
+ * @param config - Viewport configuration (width, height, FOV)
+ * @param gameDepthMapsCache - Optional cache of game DepthMaps from the game state.
+ *                             When provided, ensures the renderer uses the same maps as the game logic,
+ *                             preventing map regeneration during rendering or movement.
  */
 export function createRenderContext(
   canvas: HTMLCanvasElement,
   config: ViewportConfig,
-  gameDepthMapsCache?: Map<number, any>
+  gameDepthMapsCache?: Map<number, DepthMap>
 ): RenderContext {
   const ctx = canvas.getContext("2d");
   if (!ctx) {
