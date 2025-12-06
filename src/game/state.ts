@@ -67,6 +67,7 @@ export interface GameLocation {
   depth: number;
   x: number;
   y: number;
+  direction?: "north" | "south" | "east" | "west";
 }
 
 export type GameMode =
@@ -96,6 +97,7 @@ export function createInitialGameState(): GameState {
       depth: 1,
       x: 1,
       y: 1,
+      direction: "north",
     },
     mode: "title",
     flags: {
