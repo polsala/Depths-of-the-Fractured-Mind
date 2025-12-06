@@ -30,6 +30,24 @@ function markLowHealthDialogueShown(_state: CombatState, bossId: string): void {
   lowHealthDialogueShown.add(bossId);
 }
 
+// Helper function for type-safe stat modification
+function modifyStat(
+  stats: CharacterState["stats"] | EnemyState["stats"],
+  statName: string,
+  value: number,
+  operation: "add" | "subtract" = "add"
+): boolean {
+  const stat = statName as keyof typeof stats;
+  if (typeof stats[stat] === "number") {
+    const current = stats[stat] as number;
+    (stats[stat] as number) = operation === "add" 
+      ? current + value 
+      : Math.max(0, current - value);
+    return true;
+  }
+  return false;
+}
+
 export function selectNextCharacter(state: CombatState): void {
   const aliveMembers = getAlivePartyMembers(state.party);
   let nextIndex = state.selectedCharacterIndex + 1;
@@ -268,10 +286,7 @@ function applyEffectsToCharacter(
         break;
       case "buff":
         if (effect.stat && effect.value) {
-          // Apply temporary buff (simplified - just add to stat for now)
-          const statKey = effect.stat as keyof typeof character.stats;
-          if (typeof character.stats[statKey] === "number") {
-            (character.stats[statKey] as number) += effect.value;
+          if (modifyStat(character.stats, effect.stat, effect.value, "add")) {
             addCombatLog(
               state,
               `${character.name}'s ${effect.stat} increased by ${effect.value}!`,
@@ -324,9 +339,7 @@ function applyEffectsToEnemy(
         break;
       case "debuff":
         if (effect.stat && effect.value) {
-          const statKey = effect.stat as keyof typeof enemy.stats;
-          if (typeof enemy.stats[statKey] === "number") {
-            (enemy.stats[statKey] as number) = Math.max(0, (enemy.stats[statKey] as number) - effect.value);
+          if (modifyStat(enemy.stats, effect.stat, effect.value, "subtract")) {
             addCombatLog(
               state,
               `${enemy.name}'s ${effect.stat} decreased by ${effect.value}!`,
@@ -609,9 +622,7 @@ function applyEnemyAbilityToParty(
         break;
       case "debuff":
         if (effect.stat && effect.value) {
-          const statKey = effect.stat as keyof typeof target.stats;
-          if (typeof target.stats[statKey] === "number") {
-            (target.stats[statKey] as number) = Math.max(0, (target.stats[statKey] as number) - effect.value);
+          if (modifyStat(target.stats, effect.stat, effect.value, "subtract")) {
             addCombatLog(
               state,
               `${target.name}'s ${effect.stat} decreased by ${effect.value}!`,

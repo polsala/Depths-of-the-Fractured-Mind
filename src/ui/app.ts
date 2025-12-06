@@ -466,7 +466,9 @@ function renderCombat(
     if (action.type === "end-combat") {
       controller.endCombat();
       // Return to exploration music
-      const depthMusic = `depth${state.location.depth}_${["ambient", "archive", "ward", "mirrors"][state.location.depth - 1] || "ambient"}`;
+      const depthMusicMap = ["ambient", "archive", "ward", "mirrors", "heart"];
+      const musicSuffix = depthMusicMap[state.location.depth - 1] || "ambient";
+      const depthMusic = `depth${state.location.depth}_${musicSuffix}`;
       audioManager.playMusic(depthMusic);
       rerender();
       return;

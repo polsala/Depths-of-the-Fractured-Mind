@@ -347,6 +347,8 @@ export const ENEMY_ABILITIES: Record<string, Ability> = {
     description: "Multiple quick attacks.",
     targetType: "enemy",
     cost: {},
+    // Note: Using multiple damage effects to simulate multi-hit attack
+    // Future improvement: add 'hits' property to AbilityEffect for cleaner implementation
     effects: [{ type: "damage", value: 4 }, { type: "damage", value: 4 }],
   },
   restraint: {

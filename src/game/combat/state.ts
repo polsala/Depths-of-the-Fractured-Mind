@@ -114,7 +114,7 @@ export function isEncounterDefeated(encounter: EncounterState): boolean {
 export function applyStatusEffect(
   participant: CharacterState | EnemyState,
   statusId: string,
-  _duration: number // Prefixed with _ to indicate unused but part of interface
+  _duration: number // Duration tracking not yet implemented - TODO: Add turn-based duration system
 ): void {
   // Check if status already exists
   const existing = participant.statusEffects.findIndex(
