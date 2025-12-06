@@ -32,8 +32,8 @@ function renderTitle(
     loading.style.fontStyle = "italic";
     root.appendChild(loading);
     
-    // Rerender when events are loaded
-    setTimeout(() => rerender(), 100);
+    // Rerender when events are loaded (check every 250ms, reasonable interval for loading)
+    setTimeout(() => rerender(), 250);
     return;
   }
 

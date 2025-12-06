@@ -1,4 +1,4 @@
-import type { GameLocation, GameState } from "../state";
+import type { GameLocation, GameMode, GameState } from "../state";
 import { getCurrentDepthMap, getTile } from "./map";
 import { getEventById } from "../events/engine";
 
@@ -39,7 +39,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
       nextState = {
         ...nextState,
         currentEventId: tile.eventId,
-        mode: "event",
+        mode: "event" satisfies GameMode,
       };
     } else {
       console.warn(`Event ${tile.eventId} referenced by map tile but not registered. Event loading may not be complete.`);
