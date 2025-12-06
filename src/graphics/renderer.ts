@@ -34,10 +34,12 @@ export interface ViewState {
 
 /**
  * Creates a rendering context for the dungeon viewport
+ * @param gameDepthMapsCache - Optional cache of game depth maps to ensure consistency
  */
 export function createRenderContext(
   canvas: HTMLCanvasElement,
-  config: ViewportConfig
+  config: ViewportConfig,
+  gameDepthMapsCache?: Map<number, any>
 ): RenderContext {
   const ctx = canvas.getContext("2d");
   if (!ctx) {
@@ -51,10 +53,10 @@ export function createRenderContext(
   // Disable image smoothing for crisp, retro pixel-art style
   ctx.imageSmoothingEnabled = false;
 
-  // Initialize depth maps cache
+  // Initialize depth maps cache, using the game's cached maps if provided
   const depthMaps = new Map<number, DungeonMap>();
   for (let depth = MIN_DEPTH; depth <= MAX_DEPTH; depth++) {
-    depthMaps.set(depth, generateDepthMap(depth));
+    depthMaps.set(depth, generateDepthMap(depth, gameDepthMapsCache));
   }
 
   return { canvas, ctx, config, depthMaps };

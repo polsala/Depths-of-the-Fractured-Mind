@@ -20,8 +20,8 @@ export type DungeonMap = MapCell[][];
  * Convert game DepthMap to graphics DungeonMap
  * This ensures the graphics rendering matches the actual playable map
  */
-export function generateDepthMap(depth: number): DungeonMap {
-  const gameMap: DepthMap = getDepthMap(depth);
+export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number, DepthMap>): DungeonMap {
+  const gameMap: DepthMap = getDepthMap(depth, gameDepthMapsCache);
   const map: DungeonMap = [];
 
   // Convert game map tiles to graphics map cells
