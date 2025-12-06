@@ -3,13 +3,13 @@ import type { EnemyState } from "./engine";
 import type { CombatState, CombatAction } from "./state";
 import {
   addCombatLog,
-  getAlivePartyMembers,
-  getAliveEnemies,
   isPartyDefeated,
   isEncounterDefeated,
   hasStatusEffect,
   applyStatusEffect,
   removeStatusEffect,
+  getCurrentActor,
+  advanceToNextActor,
 } from "./state";
 import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "./engine";
 import { getAbility, type Ability, type AbilityEffect } from "../abilities";
@@ -48,115 +48,198 @@ function modifyStat(
   return false;
 }
 
-export function selectNextCharacter(state: CombatState): void {
-  const aliveMembers = getAlivePartyMembers(state.party);
-  let nextIndex = state.selectedCharacterIndex + 1;
-  
-  // Find next alive character
-  while (nextIndex < state.party.members.length) {
-    if (state.party.members[nextIndex].alive) {
-      state.selectedCharacterIndex = nextIndex;
-      return;
-    }
-    nextIndex++;
-  }
-  
-  // If we've gone through all characters, move to action phase
-  if (state.playerActions.length === aliveMembers.length) {
-    state.phase = "player-act";
-  }
+/**
+ * Set the action for the current actor and execute it
+ */
+export function submitAction(state: CombatState, action: CombatAction): void {
+  state.pendingAction = action;
+  state.phase = "execute-action";
+  executeCurrentAction(state);
 }
 
-export function addPlayerAction(state: CombatState, action: CombatAction): void {
-  state.playerActions.push(action);
-  selectNextCharacter(state);
-}
-
-export function executePlayerActions(state: CombatState): void {
-  for (const action of state.playerActions) {
-    const character = state.party.members[action.actorIndex];
-    if (!character || !character.alive) continue;
-    
-    // Check if character is stunned
-    if (hasStatusEffect(character, "stunned")) {
-      addCombatLog(state, `${character.name} is stunned and cannot act!`, "status");
-      removeStatusEffect(character, "stunned");
-      continue;
-    }
-    
-    // Check if character is feared
-    if (hasStatusEffect(character, "feared")) {
-      const roll = Math.random();
-      if (roll < 0.5) {
-        addCombatLog(state, `${character.name} is too afraid to act!`, "status");
-        continue;
-      }
-    }
-    
-    switch (action.type) {
-      case "attack":
-        executeBasicAttack(state, action);
-        break;
-      case "ability":
-        executeAbility(state, action);
-        break;
-      case "item":
-        executeItemUse(state, action);
-        break;
-      case "defend":
-        executeDefend(state, action);
-        break;
-      case "flee":
-        attemptFlee(state);
-        break;
-    }
+/**
+ * Execute the action for the current actor and advance to next
+ */
+function executeCurrentAction(state: CombatState): void {
+  const actor = getCurrentActor(state);
+  if (!actor) return;
+  
+  if (actor.isPlayer) {
+    executePlayerAction(state);
+  } else {
+    executeEnemyAction(state);
   }
   
-  // Clear actions for next turn
-  state.playerActions = [];
-  
-  // Check victory
+  // Check for victory/defeat
   if (isEncounterDefeated(state.encounter)) {
-    state.phase = "victory";
-    
-    // Show boss victory dialogue if applicable
-    if (state.isBossFight && state.encounter.enemies.length > 0) {
-      const bossId = state.encounter.enemies[0].id;
-      const dialogue = getBossDialogue(bossId);
-      if (dialogue) {
-        dialogue.victory.forEach((line) => {
-          addCombatLog(state, line, "dialogue");
-        });
-      }
-    }
-    
-    addCombatLog(state, "Victory! All enemies defeated!", "system");
-    
-    // Award experience
-    const expRewards = state.encounter.enemies.map((enemy) => {
-      const enemyData = ENEMIES[enemy.id];
-      return enemyData?.expReward || 0;
-    });
-    
-    const expReward = calculateExperienceReward(expRewards);
-    const { leveledUp, leveledCharacters } = awardExperience(state.party, expReward.perCharacter);
-    
-    addCombatLog(state, `Gained ${expReward.perCharacter} experience!`, "system");
-    
-    if (leveledUp) {
-      addCombatLog(
-        state,
-        `${leveledCharacters.join(", ")} leveled up!`,
-        "system"
-      );
-    }
-    
-    audioManager.playSfx("ui_click"); // Victory sound
+    handleVictory(state);
     return;
   }
   
-  // Move to enemy phase
-  state.phase = "enemy-act";
+  if (isPartyDefeated(state.party)) {
+    state.phase = "defeat";
+    addCombatLog(state, "The party has been defeated...", "system");
+    return;
+  }
+  
+  // Advance to next actor
+  advanceToNextActor(state);
+  state.pendingAction = undefined;
+  state.phase = "select-action";
+  
+  // If it's an enemy's turn, auto-execute
+  const nextActor = getCurrentActor(state);
+  if (nextActor && !nextActor.isPlayer) {
+    executeEnemyAction(state);
+    
+    // Check for defeat after enemy action
+    if (isPartyDefeated(state.party)) {
+      state.phase = "defeat";
+      addCombatLog(state, "The party has been defeated...", "system");
+      return;
+    }
+    
+    // Continue to next actor
+    advanceToNextActor(state);
+    state.phase = "select-action";
+  }
+}
+
+function executePlayerAction(state: CombatState): void {
+  const action = state.pendingAction;
+  if (!action) return;
+  
+  const character = state.party.members[action.actorIndex];
+  if (!character || !character.alive) return;
+  
+  // Check if character is stunned
+  if (hasStatusEffect(character, "stunned")) {
+    addCombatLog(state, `${character.name} is stunned and cannot act!`, "status");
+    removeStatusEffect(character, "stunned");
+    return;
+  }
+  
+  // Check if character is feared
+  if (hasStatusEffect(character, "feared")) {
+    const roll = Math.random();
+    if (roll < 0.5) {
+      addCombatLog(state, `${character.name} is too afraid to act!`, "status");
+      return;
+    }
+  }
+  
+  switch (action.type) {
+    case "attack":
+      executeBasicAttack(state, action);
+      break;
+    case "ability":
+      executeAbility(state, action);
+      break;
+    case "item":
+      executeItemUse(state, action);
+      break;
+    case "defend":
+      executeDefend(state, action);
+      break;
+    case "flee":
+      attemptFlee(state);
+      break;
+  }
+}
+
+function executeEnemyAction(state: CombatState): void {
+  const actor = getCurrentActor(state);
+  if (!actor || actor.isPlayer) return;
+  
+  const enemy = state.encounter.enemies[actor.index];
+  if (!enemy || !enemy.alive) return;
+  
+  // Check for boss low health dialogue
+  if (state.isBossFight) {
+    const healthPercent = enemy.stats.hp / enemy.stats.maxHp;
+    if (healthPercent <= 0.3 && !hasShownLowHealthDialogue(state, enemy.id)) {
+      const dialogue = getBossDialogue(enemy.id);
+      if (dialogue && dialogue.lowHealth) {
+        dialogue.lowHealth.forEach((line) => {
+          addCombatLog(state, line, "dialogue");
+        });
+        markLowHealthDialogueShown(state, enemy.id);
+      }
+    }
+  }
+  
+  // Check if enemy is stunned
+  if (hasStatusEffect(enemy, "stunned")) {
+    addCombatLog(state, `${enemy.name} is stunned!`, "status");
+    removeStatusEffect(enemy, "stunned");
+    return;
+  }
+  
+  // Simple AI: pick random alive target
+  const aliveTargets = state.party.members.filter(m => m.alive);
+  if (aliveTargets.length === 0) return;
+  
+  const targetIndex = state.party.members.indexOf(
+    aliveTargets[Math.floor(Math.random() * aliveTargets.length)]
+  );
+  
+  // Get enemy data to check abilities
+  const enemyData = ENEMIES[enemy.id];
+  if (enemyData && enemyData.abilities && enemyData.abilities.length > 0) {
+    // 40% chance to use ability, higher for bosses
+    const abilityChance = enemyData.type === "boss" ? 0.6 : 0.4;
+    const useAbility = Math.random() < abilityChance;
+    
+    if (useAbility) {
+      const abilityId = enemyData.abilities[Math.floor(Math.random() * enemyData.abilities.length)];
+      executeEnemyAbility(state, enemy, targetIndex, abilityId);
+    } else {
+      executeEnemyBasicAttack(state, enemy, targetIndex);
+    }
+  } else {
+    executeEnemyBasicAttack(state, enemy, targetIndex);
+  }
+  
+  // Apply status effects (poison, bleeding, etc.)
+  applyStatusEffects(state);
+}
+
+function handleVictory(state: CombatState): void {
+  state.phase = "victory";
+  
+  // Show boss victory dialogue if applicable
+  if (state.isBossFight && state.encounter.enemies.length > 0) {
+    const bossId = state.encounter.enemies[0].id;
+    const dialogue = getBossDialogue(bossId);
+    if (dialogue) {
+      dialogue.victory.forEach((line) => {
+        addCombatLog(state, line, "dialogue");
+      });
+    }
+  }
+  
+  addCombatLog(state, "Victory! All enemies defeated!", "system");
+  
+  // Award experience
+  const expRewards = state.encounter.enemies.map((enemy) => {
+    const enemyData = ENEMIES[enemy.id];
+    return enemyData?.expReward || 0;
+  });
+  
+  const expReward = calculateExperienceReward(expRewards);
+  const { leveledUp, leveledCharacters } = awardExperience(state.party, expReward.perCharacter);
+  
+  addCombatLog(state, `Gained ${expReward.perCharacter} experience!`, "system");
+  
+  if (leveledUp) {
+    addCombatLog(
+      state,
+      `${leveledCharacters.join(", ")} leveled up!`,
+      "system"
+    );
+  }
+  
+  audioManager.playSfx("ui_click"); // Victory sound
 }
 
 function executeBasicAttack(state: CombatState, action: CombatAction): void {
@@ -420,87 +503,6 @@ function attemptFlee(state: CombatState): void {
   } else {
     addCombatLog(state, "Failed to flee!", "system");
   }
-}
-
-export function executeEnemyTurn(state: CombatState): void {
-  const aliveEnemies = getAliveEnemies(state.encounter);
-  
-  // Check for boss low health dialogue (only once per battle)
-  if (state.isBossFight && aliveEnemies.length > 0) {
-    const boss = aliveEnemies[0];
-    const healthPercent = boss.stats.hp / boss.stats.maxHp;
-    
-    // Show low health dialogue at 30% HP (check if not already shown)
-    if (healthPercent <= 0.3 && !hasShownLowHealthDialogue(state, boss.id)) {
-      const dialogue = getBossDialogue(boss.id);
-      if (dialogue && dialogue.lowHealth) {
-        dialogue.lowHealth.forEach((line) => {
-          addCombatLog(state, line, "dialogue");
-        });
-        markLowHealthDialogueShown(state, boss.id);
-      }
-    }
-  }
-  
-  for (const enemy of aliveEnemies) {
-    // Check if enemy is stunned
-    if (hasStatusEffect(enemy, "stunned")) {
-      addCombatLog(state, `${enemy.name} is stunned!`, "status");
-      removeStatusEffect(enemy, "stunned");
-      continue;
-    }
-    
-    // Simple AI: pick random alive target
-    const aliveParty = getAlivePartyMembers(state.party);
-    if (aliveParty.length === 0) break;
-    
-    const targetIndex = Math.floor(Math.random() * state.party.members.length);
-    const target = state.party.members[targetIndex];
-    
-    if (!target || !target.alive) continue;
-    
-    // Get enemy data to check abilities
-    const enemyData = ENEMIES[enemy.id];
-    if (enemyData && enemyData.abilities && enemyData.abilities.length > 0) {
-      // 40% chance to use ability, higher for bosses
-      const abilityChance = enemyData.type === "boss" ? 0.6 : 0.4;
-      const useAbility = Math.random() < abilityChance;
-      
-      if (useAbility) {
-        const abilityId = enemyData.abilities[Math.floor(Math.random() * enemyData.abilities.length)];
-        executeEnemyAbility(state, enemy, targetIndex, abilityId);
-      } else {
-        executeEnemyBasicAttack(state, enemy, targetIndex);
-      }
-    } else {
-      executeEnemyBasicAttack(state, enemy, targetIndex);
-    }
-  }
-  
-  // Apply status effects (poison, bleeding, etc.)
-  applyStatusEffects(state);
-  
-  // Check defeat
-  if (isPartyDefeated(state.party)) {
-    state.phase = "defeat";
-    addCombatLog(state, "The party has been defeated...", "system");
-    return;
-  }
-  
-  // Start new turn
-  state.turn++;
-  state.phase = "player-select";
-  state.selectedCharacterIndex = 0;
-  
-  // Find first alive character
-  for (let i = 0; i < state.party.members.length; i++) {
-    if (state.party.members[i].alive) {
-      state.selectedCharacterIndex = i;
-      break;
-    }
-  }
-  
-  addCombatLog(state, `--- Turn ${state.turn} ---`, "system");
 }
 
 function executeEnemyBasicAttack(
