@@ -623,6 +623,14 @@ export function initApp(root: HTMLElement): void {
     }
   };
 
+  // Helper to check if player location or mode changed
+  const hasLocationChanged = (prevState: GameState, newState: GameState): boolean => {
+    return prevState.location.x !== newState.location.x || 
+           prevState.location.y !== newState.location.y || 
+           prevState.location.depth !== newState.location.depth ||
+           prevState.mode !== newState.mode;
+  };
+
   window.addEventListener("keydown", (event) => {
     const state = controller.getState();
     if (state.mode === "exploration") {
@@ -644,44 +652,28 @@ export function initApp(root: HTMLElement): void {
         const prevState = controller.getState();
         controller.moveForward();
         const newState = controller.getState();
-        // Only render if position or mode actually changed
-        if (prevState.location.x !== newState.location.x || 
-            prevState.location.y !== newState.location.y || 
-            prevState.location.depth !== newState.location.depth ||
-            prevState.mode !== newState.mode) {
+        if (hasLocationChanged(prevState, newState)) {
           render();
         }
       } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
         const prevState = controller.getState();
         controller.moveBackward();
         const newState = controller.getState();
-        // Only render if position or mode actually changed
-        if (prevState.location.x !== newState.location.x || 
-            prevState.location.y !== newState.location.y || 
-            prevState.location.depth !== newState.location.depth ||
-            prevState.mode !== newState.mode) {
+        if (hasLocationChanged(prevState, newState)) {
           render();
         }
       } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
         const prevState = controller.getState();
         controller.strafeLeft();
         const newState = controller.getState();
-        // Only render if position or mode actually changed
-        if (prevState.location.x !== newState.location.x || 
-            prevState.location.y !== newState.location.y || 
-            prevState.location.depth !== newState.location.depth ||
-            prevState.mode !== newState.mode) {
+        if (hasLocationChanged(prevState, newState)) {
           render();
         }
       } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
         const prevState = controller.getState();
         controller.strafeRight();
         const newState = controller.getState();
-        // Only render if position or mode actually changed
-        if (prevState.location.x !== newState.location.x || 
-            prevState.location.y !== newState.location.y || 
-            prevState.location.depth !== newState.location.depth ||
-            prevState.mode !== newState.mode) {
+        if (hasLocationChanged(prevState, newState)) {
           render();
         }
       }
