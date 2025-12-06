@@ -17,8 +17,12 @@ function makeChoice(
   };
 }
 
+/**
+ * Legacy hardcoded pit fall event for backward compatibility.
+ * The enhanced version is loaded from events.json.
+ */
 const pitEvent: GameEvent = {
-  id: "pit_fall_event",
+  id: "pit_fall_event_legacy",
   title: "The Broken Floor",
   description:
     "A section of the corridor collapses under a party member. Their scream fades into the darkness below. The rest of the party peers down into the jagged shaft.",
@@ -34,7 +38,6 @@ const pitEvent: GameEvent = {
         sanityDelta: -2,
         setFlags: { pitEventResolved: true },
         nextMode: "exploration",
-        // TODO: track which character fell and actually move them to a lower area.
       },
     }),
     makeChoice({
@@ -47,7 +50,6 @@ const pitEvent: GameEvent = {
         sanityDelta: -3,
         setFlags: { pitEventResolved: true },
         nextMode: "exploration",
-        // TODO: mark a party member as dead or missing.
       },
     }),
     makeChoice({
@@ -61,7 +63,6 @@ const pitEvent: GameEvent = {
         sanityDelta: -1,
         setFlags: { pitEventResolved: true },
         nextMode: "exploration",
-        // TODO: consume resources like rope/metal from inventory.
       },
     }),
     makeChoice({
@@ -75,13 +76,18 @@ const pitEvent: GameEvent = {
         sanityDelta: -4,
         setFlags: { pitEventResolved: true },
         nextMode: "exploration",
-        // TODO: mark a specific party member as dead; reference in later events.
       },
     }),
   ],
 };
 
+/**
+ * Register legacy mandatory events for backward compatibility.
+ * These are fallbacks in case the JSON event data fails to load.
+ */
 export function registerMandatoryEvents(): void {
   registerEvent(pitEvent);
-  // TODO: register Overflow Ward, Riot Recording, Confessional Chair.
+  // Note: Enhanced versions of all mandatory events are now in events.json
+  // This function registers legacy/fallback versions only
 }
+
