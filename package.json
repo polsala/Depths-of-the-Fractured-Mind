@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate:events": "node utils/validate-events.cjs",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "npm run typecheck && npm run validate:events",
+    "ci": "npm run lint && npm run build && npm run validate:events"
   },
   "devDependencies": {
     "typescript": "~5.9.3",

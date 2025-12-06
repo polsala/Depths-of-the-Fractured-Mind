@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event System Test - Depths of the Fractured Mind</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #1a1a1a;
+            color: #0f0;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #0f0;
+            border-bottom: 2px solid #0f0;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            background-color: #2a2a2a;
+            border: 1px solid #0f0;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .success {
+            color: #0f0;
+        }
+        .error {
+            color: #f00;
+        }
+        .warning {
+            color: #ff0;
+        }
+        .info {
+            color: #0af;
+        }
+        button {
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+        button:hover {
+            background-color: #0c0;
+        }
+        button:disabled {
+            background-color: #555;
+            color: #888;
+            cursor: not-allowed;
+        }
+        #output {
+            white-space: pre-wrap;
+            font-size: 12px;
+        }
+        .event-details {
+            background-color: #1a1a1a;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 3px solid #0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎮 Procedural Event System Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="testEventLoading()">Test Event Loading</button>
+        <button onclick="testProceduralSelection()">Test Procedural Selection</button>
+        <button onclick="testTriggerConditions()">Test Trigger Conditions</button>
+        <button onclick="testEventPools()">Test Event Pools</button>
+        <button onclick="clearOutput()">Clear Output</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="output"></div>
+    </div>
+
+    <script type="module">
+        import { GameController } from './src/game/index.ts';
+        import { loadEventDataFile, getEventMetadata, getEventPool } from './src/game/events/loader.ts';
+        import { selectEventForLocation, checkTriggerConditions } from './src/game/events/procedural.ts';
+        import { getEventById } from './src/game/events/engine.ts';
+        
+        window.gameController = new GameController();
+        window.testResults = [];
+        
+        function log(message, type = 'info') {
+            const output = document.getElementById('output');
+            const className = type;
+            const timestamp = new Date().toLocaleTimeString();
+            const line = `[${timestamp}] ${message}\n`;
+            
+            const span = document.createElement('span');
+            span.className = className;
+            span.textContent = line;
+            output.appendChild(span);
+            output.scrollTop = output.scrollHeight;
+            
+            window.testResults.push({ message, type, timestamp });
+        }
+        
+        window.clearOutput = function() {
+            document.getElementById('output').innerHTML = '';
+            window.testResults = [];
+            log('Output cleared', 'info');
+        };
+        
+        window.testEventLoading = async function() {
+            log('=== Testing Event Loading ===', 'info');
+            
+            try {
+                await loadEventDataFile('/data/events.json');
+                log('✓ Events loaded successfully', 'success');
+                
+                // Test that specific events exist
+                const testEvents = [
+                    'pit_fall_event',
+                    'overflow_ward_event',
+                    'riot_recording_event',
+                    'confessional_chair_event'
+                ];
+                
+                for (const eventId of testEvents) {
+                    const event = getEventById(eventId);
+                    if (event) {
+                        log(`✓ Event '${eventId}' found`, 'success');
+                        log(`  Title: ${event.title}`, 'info');
+                        log(`  Choices: ${event.choices.length}`, 'info');
+                    } else {
+                        log(`✗ Event '${eventId}' not found`, 'error');
+                    }
+                }
+                
+            } catch (error) {
+                log(`✗ Failed to load events: ${error.message}`, 'error');
+            }
+        };
+        
+        window.testProceduralSelection = function() {
+            log('=== Testing Procedural Selection ===', 'info');
+            
+            const state = window.gameController.getState();
+            
+            // Test selection at different depths
+            for (let depth = 1; depth <= 4; depth++) {
+                const testState = {
+                    ...state,
+                    location: { ...state.location, depth }
+                };
+                
+                const selectedEvent = selectEventForLocation(testState);
+                if (selectedEvent) {
+                    const event = getEventById(selectedEvent);
+                    log(`✓ Depth ${depth}: Selected '${selectedEvent}'`, 'success');
+                    log(`  Title: ${event?.title}`, 'info');
+                } else {
+                    log(`⚠ Depth ${depth}: No event selected`, 'warning');
+                }
+            }
+        };
+        
+        window.testTriggerConditions = function() {
+            log('=== Testing Trigger Conditions ===', 'info');
+            
+            const state = window.gameController.getState();
+            
+            // Test depth-based triggers
+            const testCases = [
+                {
+                    name: 'Depth 2 requirement',
+                    conditions: { minDepth: 2 },
+                    state: { ...state, location: { ...state.location, depth: 2 } },
+                    expected: true
+                },
+                {
+                    name: 'Depth 1 failing min depth 2',
+                    conditions: { minDepth: 2 },
+                    state: { ...state, location: { ...state.location, depth: 1 } },
+                    expected: false
+                },
+                {
+                    name: 'Specific depth match',
+                    conditions: { specificDepth: 3 },
+                    state: { ...state, location: { ...state.location, depth: 3 } },
+                    expected: true
+                },
+                {
+                    name: 'Required flag check',
+                    conditions: { requiredFlags: { pitEventResolved: false } },
+                    state: { ...state, flags: { ...state.flags, pitEventResolved: false } },
+                    expected: true
+                }
+            ];
+            
+            for (const testCase of testCases) {
+                const result = checkTriggerConditions(testCase.conditions, testCase.state);
+                const passed = result === testCase.expected;
+                
+                if (passed) {
+                    log(`✓ ${testCase.name}: ${result}`, 'success');
+                } else {
+                    log(`✗ ${testCase.name}: Expected ${testCase.expected}, got ${result}`, 'error');
+                }
+            }
+        };
+        
+        window.testEventPools = function() {
+            log('=== Testing Event Pools ===', 'info');
+            
+            const poolIds = [
+                'mandatory_events',
+                'optional_events',
+                'depth_2_events',
+                'depth_3_events',
+                'depth_4_events'
+            ];
+            
+            for (const poolId of poolIds) {
+                const pool = getEventPool(poolId);
+                if (pool) {
+                    log(`✓ Pool '${poolId}' found`, 'success');
+                    log(`  Events: ${pool.events.length}`, 'info');
+                    log(`  Strategy: ${pool.selectionStrategy}`, 'info');
+                    pool.events.forEach(eventId => {
+                        const event = getEventById(eventId);
+                        if (event) {
+                            log(`    - ${eventId}: ${event.title}`, 'info');
+                        } else {
+                            log(`    - ${eventId}: NOT FOUND`, 'error');
+                        }
+                    });
+                } else {
+                    log(`✗ Pool '${poolId}' not found`, 'error');
+                }
+            }
+        };
+        
+        window.runAllTests = async function() {
+            log('=== Running All Tests ===', 'info');
+            log('', 'info');
+            
+            await testEventLoading();
+            log('', 'info');
+            
+            testProceduralSelection();
+            log('', 'info');
+            
+            testTriggerConditions();
+            log('', 'info');
+            
+            testEventPools();
+            log('', 'info');
+            
+            // Summary
+            const successes = window.testResults.filter(r => r.type === 'success').length;
+            const errors = window.testResults.filter(r => r.type === 'error').length;
+            const warnings = window.testResults.filter(r => r.type === 'warning').length;
+            
+            log('=== Test Summary ===', 'info');
+            log(`✓ Successes: ${successes}`, 'success');
+            if (warnings > 0) log(`⚠ Warnings: ${warnings}`, 'warning');
+            if (errors > 0) log(`✗ Errors: ${errors}`, 'error');
+            
+            if (errors === 0) {
+                log('', 'info');
+                log('All tests passed! ✅', 'success');
+            }
+        };
+        
+        // Auto-run tests on load
+        setTimeout(() => {
+            log('Event System Test Page Loaded', 'info');
+            log('Click "Run All Tests" to begin testing', 'info');
+            log('', 'info');
+        }, 100);
+        
+        // Make functions available in console
+        window.GameController = GameController;
+        window.loadEventDataFile = loadEventDataFile;
+        window.getEventMetadata = getEventMetadata;
+        window.getEventById = getEventById;
+    </script>
+</body>
+</html>

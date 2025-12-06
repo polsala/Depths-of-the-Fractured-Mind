@@ -20,10 +20,35 @@ export interface MoralFlags {
 
 export interface GameFlags {
   moral: MoralFlags;
+  // Mandatory event flags
   pitEventResolved?: boolean;
   overflowWardResolved?: boolean;
   riotRecordingPlayed?: boolean;
   confessionalUsed?: boolean;
+  
+  // Additional event-specific flags
+  wardPatientsKilled?: boolean;
+  wardPatientSaved?: boolean;
+  eliasInDenial?: boolean;
+  eliasSeekingRedemption?: boolean;
+  eliasUnrepentant?: boolean;
+  anyaSeeksRedemption?: boolean;
+  anyaInDenial?: boolean;
+  anyaAvoidant?: boolean;
+  whisperingTunnelExplored?: boolean;
+  whisperingTunnelIgnored?: boolean;
+  comfortedDyingPatient?: boolean;
+  subject13AcceptsUncertainty?: boolean;
+  subject13SeekingOrigin?: boolean;
+  subject13ChosenNarrative?: boolean;
+  miriamDestroyedEvidence?: boolean;
+  miriamPreservedEvidence?: boolean;
+  anyaMaintainsFaith?: boolean;
+  anyaEmbracesDubt?: boolean;
+  anyaLosesFaith?: boolean;
+  
+  // Allow dynamic flags for future expansion
+  [key: string]: number | boolean | undefined | MoralFlags;
 }
 
 export interface CharacterState {
