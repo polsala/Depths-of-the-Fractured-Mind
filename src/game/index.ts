@@ -9,7 +9,8 @@ import { selectEventForLocation } from "./events/procedural";
 
 export class GameController {
   private state: GameState;
-  private eventsLoaded: boolean = false;
+  private eventsReady: boolean = false;
+  private eventLoadingError: Error | null = null;
 
   constructor() {
     registerMandatoryEvents();
@@ -26,17 +27,22 @@ export class GameController {
   private async loadEvents(): Promise<void> {
     try {
       await loadEventDataFile("/data/events.json");
-      this.eventsLoaded = true;
+      this.eventsReady = true;
       console.log("Event data loaded successfully");
     } catch (error) {
       console.error("Failed to load event data:", error);
-      // Events registered via registerMandatoryEvents() will still work
-      this.eventsLoaded = false;
+      this.eventLoadingError = error instanceof Error ? error : new Error(String(error));
+      // Events registered via registerMandatoryEvents() will still work as fallback
+      this.eventsReady = true; // Mark as ready to allow game to proceed with fallback events
     }
   }
   
   public isEventsLoaded(): boolean {
-    return this.eventsLoaded;
+    return this.eventsReady;
+  }
+  
+  public hasEventLoadingError(): boolean {
+    return this.eventLoadingError !== null;
   }
 
   public getState(): GameState {

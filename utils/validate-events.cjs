@@ -168,6 +168,24 @@ function validateEvents() {
   console.log(`  - Optional: ${optionalEvents.length}`);
   console.log(`  - Character-specific: ${characterEvents.length}`);
   
+  // Check critical event IDs that are hardcoded in the source
+  console.log('\n=== Critical Event Validation ===\n');
+  const criticalEventIds = [
+    'pit_fall_event',
+    'overflow_ward_event', 
+    'riot_recording_event',
+    'confessional_chair_event'
+  ];
+  
+  criticalEventIds.forEach(eventId => {
+    if (eventIds.has(eventId)) {
+      console.log(`✓ ${eventId} is defined`);
+    } else {
+      errors.push(`Critical event missing: ${eventId} (referenced in source code)`);
+      console.error(`❌ ${eventId} is missing (but referenced in source code)`);
+    }
+  });
+  
   if (errors.length > 0) {
     console.error('\n❌ Validation failed');
     process.exit(1);
