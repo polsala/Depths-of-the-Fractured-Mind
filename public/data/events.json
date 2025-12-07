@@ -197,7 +197,7 @@
     {
       "id": "confessional_chair_event",
       "title": "The Confessional Chair",
-      "description": "A therapy room preserved in eerie silence. The chair in the center is surrounded by recording equipment. Dusty tapes line the shelves\u2014sessions Anya conducted, confidences she was supposed to keep. She recognizes her own handwriting on the labels, marking which patients were flagged for 'special attention'.",
+      "description": "A therapy room preserved in eerie silence. The chair in the center is surrounded by recording equipment. Dusty tapes line the shelves—sessions Anya conducted, confidences she was supposed to keep. She recognizes her own handwriting on the labels, marking which patients were flagged for 'special attention'.",
       "choices": [
         {
           "id": "listen_confess",
@@ -334,7 +334,7 @@
           "minDepth": 1
         },
         "priority": 3,
-        "repeatable": true,
+        "repeatable": false,
         "poolTags": [
           "optional_events"
         ]
@@ -443,7 +443,7 @@
     {
       "id": "former_colleague_encounter",
       "title": "A Former Colleague",
-      "description": "You encounter someone from before\u2014a colleague, twisted by the Engine. They recognize you, speaking in broken sentences about 'the old days' and 'what you all did'. Their eyes burn with accusation and madness.",
+      "description": "You encounter someone from before—a colleague, twisted by the Engine. They recognize you, speaking in broken sentences about 'the old days' and 'what you all did'. Their eyes burn with accusation and madness.",
       "choices": [
         {
           "id": "try_talk",
@@ -551,7 +551,7 @@
     {
       "id": "experimental_chamber",
       "title": "Experimental Chamber",
-      "description": "A sealed chamber with viewing glass. Inside, surgical equipment and restraints. Miriam recognizes it\u2014she used this room. Records on the desk detail procedures she performed. The patients never consented. Most didn't survive.",
+      "description": "A sealed chamber with viewing glass. Inside, surgical equipment and restraints. Miriam recognizes it—she used this room. Records on the desk detail procedures she performed. The patients never consented. Most didn't survive.",
       "choices": [
         {
           "id": "destroy_records",
@@ -1803,6 +1803,2118 @@
         "priority": 9,
         "repeatable": false
       }
+    },
+    {
+      "id": "echoing_hall",
+      "title": "Echoing Hall",
+      "description": "Footsteps bounce back strangely, like the corridor is longer than it is.",
+      "choices": [
+        {
+          "id": "echoing_hall_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "echoing_hall_resolved": true
+            }
+          }
+        },
+        {
+          "id": "echoing_hall_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "echoing_hall_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "echoing_hall",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "cracked_mask",
+      "title": "Cracked Restraint Mask",
+      "description": "A restraint mask lies cracked on the ground, still warm.",
+      "choices": [
+        {
+          "id": "cracked_mask_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "cracked_mask_resolved": true
+            }
+          }
+        },
+        {
+          "id": "cracked_mask_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "cracked_mask_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "cracked_mask",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "spilled_morphine",
+      "title": "Spilled Morphine Vials",
+      "description": "Broken morphine vials leak across the floor, their labels smeared.",
+      "choices": [
+        {
+          "id": "spilled_morphine_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "spilled_morphine_resolved": true
+            }
+          }
+        },
+        {
+          "id": "spilled_morphine_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "spilled_morphine_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "spilled_morphine",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "flickering_monitor",
+      "title": "Flickering Monitor",
+      "description": "A CRT monitor loops static and half-glimpsed faces.",
+      "choices": [
+        {
+          "id": "flickering_monitor_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "flickering_monitor_resolved": true
+            }
+          }
+        },
+        {
+          "id": "flickering_monitor_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "flickering_monitor_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "flickering_monitor",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "drained_generator",
+      "title": "Drained Generator",
+      "description": "A backup generator coughs once and dies. Someone cut the fuel line.",
+      "choices": [
+        {
+          "id": "drained_generator_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "drained_generator_resolved": true
+            }
+          }
+        },
+        {
+          "id": "drained_generator_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "drained_generator_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "drained_generator",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "anxious_whispers",
+      "title": "Anxious Whispers",
+      "description": "Voices layer over each other, begging you to choose differently.",
+      "choices": [
+        {
+          "id": "anxious_whispers_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "anxious_whispers_resolved": true
+            }
+          }
+        },
+        {
+          "id": "anxious_whispers_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "anxious_whispers_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "anxious_whispers",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 3
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "pinned_note",
+      "title": "Pinned Note",
+      "description": "A note pinned with a surgical staple: \"Leave the Engine alone.\"",
+      "choices": [
+        {
+          "id": "pinned_note_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "pinned_note_resolved": true
+            }
+          }
+        },
+        {
+          "id": "pinned_note_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "pinned_note_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "pinned_note",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "rusted_restraints",
+      "title": "Rusted Restraints",
+      "description": "Handcuffs and straps hang loose, stained with old blood.",
+      "choices": [
+        {
+          "id": "rusted_restraints_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "rusted_restraints_resolved": true
+            }
+          }
+        },
+        {
+          "id": "rusted_restraints_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "rusted_restraints_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "rusted_restraints",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "mirror_fragment",
+      "title": "Mirror Fragment",
+      "description": "A mirror shard shows someone else staring back.",
+      "choices": [
+        {
+          "id": "mirror_fragment_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "mirror_fragment_resolved": true
+            }
+          }
+        },
+        {
+          "id": "mirror_fragment_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "mirror_fragment_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "mirror_fragment",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "dripping_ceiling",
+      "title": "Dripping Ceiling",
+      "description": "Water or something worse drips steadily from the ceiling tiles.",
+      "choices": [
+        {
+          "id": "dripping_ceiling_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "dripping_ceiling_resolved": true
+            }
+          }
+        },
+        {
+          "id": "dripping_ceiling_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "dripping_ceiling_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "dripping_ceiling",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 3,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "burnt_clipboard",
+      "title": "Burnt Clipboard",
+      "description": "A clipboard scorched at the edges, patient names half-legible.",
+      "choices": [
+        {
+          "id": "burnt_clipboard_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "burnt_clipboard_resolved": true
+            }
+          }
+        },
+        {
+          "id": "burnt_clipboard_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "burnt_clipboard_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "burnt_clipboard",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "taped_confession",
+      "title": "Taped Confession",
+      "description": "A recorder clicks on: a staff member admits falsifying reports.",
+      "choices": [
+        {
+          "id": "taped_confession_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "taped_confession_resolved": true
+            }
+          }
+        },
+        {
+          "id": "taped_confession_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "taped_confession_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "taped_confession",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "surgical_shadow",
+      "title": "Surgical Shadow",
+      "description": "Shadow of a surgeon moves on the wall though no one is there.",
+      "choices": [
+        {
+          "id": "surgical_shadow_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "surgical_shadow_resolved": true
+            }
+          }
+        },
+        {
+          "id": "surgical_shadow_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "surgical_shadow_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "surgical_shadow",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "patient_sketches",
+      "title": "Patient Sketches",
+      "description": "Sketches show the Engine as a blooming wound.",
+      "choices": [
+        {
+          "id": "patient_sketches_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "patient_sketches_resolved": true
+            }
+          }
+        },
+        {
+          "id": "patient_sketches_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "patient_sketches_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "patient_sketches",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "ward_psalm",
+      "title": "Ward Psalm",
+      "description": "Old hymn pages taped to the wall, lyrics rewritten with apologies.",
+      "choices": [
+        {
+          "id": "ward_psalm_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "ward_psalm_resolved": true
+            }
+          }
+        },
+        {
+          "id": "ward_psalm_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "ward_psalm_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "ward_psalm",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "tangled_wires",
+      "title": "Tangled Wires",
+      "description": "High-voltage wires snake across the floor, humming faintly.",
+      "choices": [
+        {
+          "id": "tangled_wires_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "tangled_wires_resolved": true
+            }
+          }
+        },
+        {
+          "id": "tangled_wires_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "tangled_wires_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "tangled_wires",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "freezer_drawer",
+      "title": "Freezer Drawer",
+      "description": "A morgue drawer is ajar. Something inside exhales mist.",
+      "choices": [
+        {
+          "id": "freezer_drawer_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "freezer_drawer_resolved": true
+            }
+          }
+        },
+        {
+          "id": "freezer_drawer_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "freezer_drawer_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "freezer_drawer",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "bloodied_mop",
+      "title": "Bloodied Mop",
+      "description": "A mop head soaked brown leans against a sign: \"Cleanliness Saves.\"",
+      "choices": [
+        {
+          "id": "bloodied_mop_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "bloodied_mop_resolved": true
+            }
+          }
+        },
+        {
+          "id": "bloodied_mop_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "bloodied_mop_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "bloodied_mop",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 3,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "scattered_id_cards",
+      "title": "Scattered ID Cards",
+      "description": "ID cards of staff and patients cover the floor like fallen leaves.",
+      "choices": [
+        {
+          "id": "scattered_id_cards_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "scattered_id_cards_resolved": true
+            }
+          }
+        },
+        {
+          "id": "scattered_id_cards_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "scattered_id_cards_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "scattered_id_cards",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "ration_cache",
+      "title": "Ration Cache",
+      "description": "Crates of rations marked \"For Lockdown\" sit unopened.",
+      "choices": [
+        {
+          "id": "ration_cache_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "ration_cache_resolved": true
+            }
+          }
+        },
+        {
+          "id": "ration_cache_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "ration_cache_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "ration_cache",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "rusted_bedframe",
+      "title": "Rusted Bedframe",
+      "description": "A hospital bed fused to the floor, rust forming thorn-like growths.",
+      "choices": [
+        {
+          "id": "rusted_bedframe_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "rusted_bedframe_resolved": true
+            }
+          }
+        },
+        {
+          "id": "rusted_bedframe_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "rusted_bedframe_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "rusted_bedframe",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 5,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_5_events"
+        ]
+      }
+    },
+    {
+      "id": "emergency_intercom",
+      "title": "Emergency Intercom",
+      "description": "The intercom crackles with a looped plea to evacuate.",
+      "choices": [
+        {
+          "id": "emergency_intercom_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "emergency_intercom_resolved": true
+            }
+          }
+        },
+        {
+          "id": "emergency_intercom_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "emergency_intercom_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "emergency_intercom",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "half_burnt_photo",
+      "title": "Half-burnt Photo",
+      "description": "A photo of the four protagonists together, edges burned away.",
+      "choices": [
+        {
+          "id": "half_burnt_photo_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "half_burnt_photo_resolved": true
+            }
+          }
+        },
+        {
+          "id": "half_burnt_photo_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "half_burnt_photo_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "half_burnt_photo",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "therapy_couch",
+      "title": "Therapy Couch",
+      "description": "Someone carved apologies into the leather couch.",
+      "choices": [
+        {
+          "id": "therapy_couch_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "therapy_couch_resolved": true
+            }
+          }
+        },
+        {
+          "id": "therapy_couch_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "therapy_couch_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "therapy_couch",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "broken_shrine",
+      "title": "Broken Shrine",
+      "description": "A shrine to the Engine made of medical tools and ID badges.",
+      "choices": [
+        {
+          "id": "broken_shrine_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "broken_shrine_resolved": true
+            }
+          }
+        },
+        {
+          "id": "broken_shrine_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "broken_shrine_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "broken_shrine",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "research_blueprint",
+      "title": "Research Blueprint",
+      "description": "A blueprint details how the Engine was rewired for the final test.",
+      "choices": [
+        {
+          "id": "research_blueprint_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "research_blueprint_resolved": true
+            }
+          }
+        },
+        {
+          "id": "research_blueprint_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "research_blueprint_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "research_blueprint",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "stasis_pod",
+      "title": "Cracked Stasis Pod",
+      "description": "Frosty glass hides a figure that might still be moving.",
+      "choices": [
+        {
+          "id": "stasis_pod_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "stasis_pod_resolved": true
+            }
+          }
+        },
+        {
+          "id": "stasis_pod_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "stasis_pod_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "stasis_pod",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 5
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "quarantine_warning",
+      "title": "Quarantine Warning",
+      "description": "Red quarantine tape blocks a wing. Someone sliced it open.",
+      "choices": [
+        {
+          "id": "quarantine_warning_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "quarantine_warning_resolved": true
+            }
+          }
+        },
+        {
+          "id": "quarantine_warning_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "quarantine_warning_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "quarantine_warning",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "subject_files",
+      "title": "Subject Files",
+      "description": "Subject folders list crimes and treatment notes in Elias’s handwriting.",
+      "choices": [
+        {
+          "id": "subject_files_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "subject_files_resolved": true
+            }
+          }
+        },
+        {
+          "id": "subject_files_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "subject_files_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "subject_files",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "cracked_viewing_window",
+      "title": "Cracked Viewing Window",
+      "description": "Observation window into a cell has fingerprints on the inside.",
+      "choices": [
+        {
+          "id": "cracked_viewing_window_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "cracked_viewing_window_resolved": true
+            }
+          }
+        },
+        {
+          "id": "cracked_viewing_window_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "cracked_viewing_window_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "cracked_viewing_window",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "old_memo",
+      "title": "Old Memo",
+      "description": "A memo instructs staff to ignore patient complaints during tests.",
+      "choices": [
+        {
+          "id": "old_memo_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "old_memo_resolved": true
+            }
+          }
+        },
+        {
+          "id": "old_memo_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "old_memo_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "old_memo",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 2,
+          "maxDepth": 3
+        },
+        "priority": 3,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_2_events"
+        ]
+      }
+    },
+    {
+      "id": "makeshift_altar",
+      "title": "Makeshift Altar",
+      "description": "Someone arranged IV bags and masks like votive offerings.",
+      "choices": [
+        {
+          "id": "makeshift_altar_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "makeshift_altar_resolved": true
+            }
+          }
+        },
+        {
+          "id": "makeshift_altar_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "makeshift_altar_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "makeshift_altar",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 5
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "painted_exit_arrow",
+      "title": "Painted Exit Arrow",
+      "description": "A bright arrow points back up. Underneath: \"Liar\" scratched in.",
+      "choices": [
+        {
+          "id": "painted_exit_arrow_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "painted_exit_arrow_resolved": true
+            }
+          }
+        },
+        {
+          "id": "painted_exit_arrow_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "painted_exit_arrow_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "painted_exit_arrow",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 1,
+          "maxDepth": 2
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_1_events"
+        ]
+      }
+    },
+    {
+      "id": "acid_stain",
+      "title": "Acid Stain",
+      "description": "Floor tiles melted as if by acid. Footprints continue beyond.",
+      "choices": [
+        {
+          "id": "acid_stain_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "acid_stain_resolved": true
+            }
+          }
+        },
+        {
+          "id": "acid_stain_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "acid_stain_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "acid_stain",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "abandoned_barricade",
+      "title": "Abandoned Barricade",
+      "description": "Makeshift barricade of beds and cabinets, broken from the inside.",
+      "choices": [
+        {
+          "id": "abandoned_barricade_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "abandoned_barricade_resolved": true
+            }
+          }
+        },
+        {
+          "id": "abandoned_barricade_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "abandoned_barricade_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "abandoned_barricade",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "nerve_gas_leak",
+      "title": "Nerve Gas Leak",
+      "description": "Warning labels on a punctured canister, faint sweet smell in the air.",
+      "choices": [
+        {
+          "id": "nerve_gas_leak_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "nerve_gas_leak_resolved": true
+            }
+          }
+        },
+        {
+          "id": "nerve_gas_leak_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "nerve_gas_leak_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "nerve_gas_leak",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 3,
+          "maxDepth": 4
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_3_events"
+        ]
+      }
+    },
+    {
+      "id": "strange_whine",
+      "title": "Strange Engine Whine",
+      "description": "A distant whine syncs with your heartbeat.",
+      "choices": [
+        {
+          "id": "strange_whine_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "strange_whine_resolved": true
+            }
+          }
+        },
+        {
+          "id": "strange_whine_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "strange_whine_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "strange_whine",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "containment_log",
+      "title": "Containment Log",
+      "description": "Digital log lists containment breaches, each signed off by Miriam.",
+      "choices": [
+        {
+          "id": "containment_log_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "containment_log_resolved": true
+            }
+          }
+        },
+        {
+          "id": "containment_log_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "containment_log_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "containment_log",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "tranquilizer_dartbox",
+      "title": "Tranquilizer Dart Box",
+      "description": "Darts labeled for specific patients, some with Subject 13.’s code.",
+      "choices": [
+        {
+          "id": "tranquilizer_dartbox_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "tranquilizer_dartbox_resolved": true
+            }
+          }
+        },
+        {
+          "id": "tranquilizer_dartbox_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "tranquilizer_dartbox_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "tranquilizer_dartbox",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "flood_marker",
+      "title": "Flood Marker",
+      "description": "Waterline marks reach chest height. The air tastes of mold.",
+      "choices": [
+        {
+          "id": "flood_marker_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "flood_marker_resolved": true
+            }
+          }
+        },
+        {
+          "id": "flood_marker_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "flood_marker_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "flood_marker",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "vent_crawlspace",
+      "title": "Vent Crawlspace",
+      "description": "Bent vent cover suggests someone small escaped through.",
+      "choices": [
+        {
+          "id": "vent_crawlspace_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "vent_crawlspace_resolved": true
+            }
+          }
+        },
+        {
+          "id": "vent_crawlspace_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "vent_crawlspace_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "vent_crawlspace",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "grimy_whiteboard",
+      "title": "Grimy Whiteboard",
+      "description": "Equations and prayers overlap on the same board.",
+      "choices": [
+        {
+          "id": "grimy_whiteboard_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "grimy_whiteboard_resolved": true
+            }
+          }
+        },
+        {
+          "id": "grimy_whiteboard_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "grimy_whiteboard_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "grimy_whiteboard",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "warped_skeleton",
+      "title": "Warped Skeleton",
+      "description": "A skeleton fused to the wall, bones stretched toward the Engine.",
+      "choices": [
+        {
+          "id": "warped_skeleton_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "warped_skeleton_resolved": true
+            }
+          }
+        },
+        {
+          "id": "warped_skeleton_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "warped_skeleton_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "warped_skeleton",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "rationed_water",
+      "title": "Rationed Water",
+      "description": "Sealed water packs piled with a note: \"Do not touch. For the children.\"",
+      "choices": [
+        {
+          "id": "rationed_water_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "rationed_water_resolved": true
+            }
+          }
+        },
+        {
+          "id": "rationed_water_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "rationed_water_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "rationed_water",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "sleeping_patient",
+      "title": "Sleeping Patient",
+      "description": "A patient sleeps upright against the wall, breathing with the Engine’s rhythm.",
+      "choices": [
+        {
+          "id": "sleeping_patient_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "sleeping_patient_resolved": true
+            }
+          }
+        },
+        {
+          "id": "sleeping_patient_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "sleeping_patient_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "sleeping_patient",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 5,
+          "maxDepth": 5
+        },
+        "priority": 6,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_5_events"
+        ]
+      }
+    },
+    {
+      "id": "code_stamped_door",
+      "title": "Code-stamped Door",
+      "description": "Door stamped with a date and time that matches your arrival.",
+      "choices": [
+        {
+          "id": "code_stamped_door_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "code_stamped_door_resolved": true
+            }
+          }
+        },
+        {
+          "id": "code_stamped_door_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "code_stamped_door_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "code_stamped_door",
+        "category": "optional",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "cathode_smell",
+      "title": "Sharp Cathode Smell",
+      "description": "Air crackles with ozone; hair stands on end.",
+      "choices": [
+        {
+          "id": "cathode_smell_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "cathode_smell_resolved": true
+            }
+          }
+        },
+        {
+          "id": "cathode_smell_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "cathode_smell_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "cathode_smell",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 4,
+          "maxDepth": 5
+        },
+        "priority": 4,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_4_events"
+        ]
+      }
+    },
+    {
+      "id": "luminescent_mold",
+      "title": "Luminescent Mold",
+      "description": "Mold glows teal, spelling patterns when you blink.",
+      "choices": [
+        {
+          "id": "luminescent_mold_investigate",
+          "label": "Investigate",
+          "description": "Confront what is here and take notes.",
+          "effects": {
+            "sanityDelta": -1,
+            "truthDelta": 1,
+            "setFlags": {
+              "luminescent_mold_resolved": true
+            }
+          }
+        },
+        {
+          "id": "luminescent_mold_withdraw",
+          "label": "Back away",
+          "description": "Mark the spot and move on.",
+          "effects": {
+            "denialDelta": 1,
+            "setFlags": {
+              "luminescent_mold_resolved": true
+            }
+          }
+        }
+      ],
+      "metadata": {
+        "id": "luminescent_mold",
+        "category": "environmental",
+        "triggerConditions": {
+          "minDepth": 5,
+          "maxDepth": 5
+        },
+        "priority": 5,
+        "repeatable": false,
+        "poolTags": [
+          "optional_events",
+          "depth_5_events"
+        ]
+      }
     }
   ],
   "pools": [
@@ -1823,15 +3935,95 @@
       "name": "Optional Side Events",
       "description": "Events that add variety and depth to each playthrough",
       "events": [
+        "security_checkpoint",
+        "first_corpse",
+        "emergency_supplies",
         "whispering_tunnel_event",
         "medical_supplies_cache",
         "dying_patient_encounter",
         "former_colleague_encounter",
         "subject_13_origin_fragment",
         "experimental_chamber",
-        "prayer_remnants"
+        "prayer_remnants",
+        "broken_elevator",
+        "water_contamination",
+        "mysterious_writing",
+        "echoing_hall",
+        "cracked_mask",
+        "spilled_morphine",
+        "flickering_monitor",
+        "drained_generator",
+        "anxious_whispers",
+        "pinned_note",
+        "rusted_restraints",
+        "mirror_fragment",
+        "dripping_ceiling",
+        "burnt_clipboard",
+        "taped_confession",
+        "surgical_shadow",
+        "patient_sketches",
+        "ward_psalm",
+        "tangled_wires",
+        "freezer_drawer",
+        "bloodied_mop",
+        "scattered_id_cards",
+        "ration_cache",
+        "rusted_bedframe",
+        "emergency_intercom",
+        "half_burnt_photo",
+        "therapy_couch",
+        "broken_shrine",
+        "research_blueprint",
+        "stasis_pod",
+        "quarantine_warning",
+        "subject_files",
+        "cracked_viewing_window",
+        "old_memo",
+        "makeshift_altar",
+        "painted_exit_arrow",
+        "acid_stain",
+        "abandoned_barricade",
+        "nerve_gas_leak",
+        "strange_whine",
+        "containment_log",
+        "tranquilizer_dartbox",
+        "flood_marker",
+        "vent_crawlspace",
+        "grimy_whiteboard",
+        "warped_skeleton",
+        "rationed_water",
+        "sleeping_patient",
+        "code_stamped_door",
+        "cathode_smell",
+        "luminescent_mold"
       ],
       "selectionStrategy": "weighted"
+    },
+    {
+      "id": "depth_1_events",
+      "name": "Depth 1 - Entrance Events",
+      "description": "Events specific to Depth 1",
+      "events": [
+        "security_checkpoint",
+        "first_corpse",
+        "emergency_supplies",
+        "medical_supplies_cache",
+        "broken_elevator",
+        "water_contamination",
+        "mysterious_writing",
+        "echoing_hall",
+        "cracked_mask",
+        "flickering_monitor",
+        "anxious_whispers",
+        "pinned_note",
+        "bloodied_mop",
+        "scattered_id_cards",
+        "ration_cache",
+        "emergency_intercom",
+        "therapy_couch",
+        "painted_exit_arrow"
+      ],
+      "selectionStrategy": "random"
     },
     {
       "id": "depth_2_events",
@@ -1841,7 +4033,20 @@
         "riot_recording_event",
         "whispering_tunnel_event",
         "subject_13_origin_fragment",
-        "prayer_remnants"
+        "prayer_remnants",
+        "spilled_morphine",
+        "drained_generator",
+        "rusted_restraints",
+        "mirror_fragment",
+        "dripping_ceiling",
+        "burnt_clipboard",
+        "taped_confession",
+        "patient_sketches",
+        "ward_psalm",
+        "tangled_wires",
+        "freezer_drawer",
+        "half_burnt_photo",
+        "old_memo"
       ],
       "selectionStrategy": "random"
     },
@@ -1854,7 +4059,17 @@
         "dying_patient_encounter",
         "former_colleague_encounter",
         "experimental_chamber",
-        "prayer_remnants"
+        "prayer_remnants",
+        "surgical_shadow",
+        "research_blueprint",
+        "stasis_pod",
+        "quarantine_warning",
+        "subject_files",
+        "cracked_viewing_window",
+        "makeshift_altar",
+        "acid_stain",
+        "abandoned_barricade",
+        "nerve_gas_leak"
       ],
       "selectionStrategy": "random"
     },
@@ -1865,7 +4080,29 @@
       "events": [
         "confessional_chair_event",
         "mirror_hallucination",
-        "former_colleague_encounter"
+        "former_colleague_encounter",
+        "broken_shrine",
+        "strange_whine",
+        "containment_log",
+        "tranquilizer_dartbox",
+        "flood_marker",
+        "vent_crawlspace",
+        "grimy_whiteboard",
+        "warped_skeleton",
+        "rationed_water",
+        "code_stamped_door",
+        "cathode_smell"
+      ],
+      "selectionStrategy": "random"
+    },
+    {
+      "id": "depth_5_events",
+      "name": "Depth 5 - The Engine Core Events",
+      "description": "Events specific to Depth 5",
+      "events": [
+        "rusted_bedframe",
+        "sleeping_patient",
+        "luminescent_mold"
       ],
       "selectionStrategy": "random"
     }

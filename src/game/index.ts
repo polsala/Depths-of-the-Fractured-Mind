@@ -10,7 +10,7 @@ import { generateRandomEncounter, generateBossEncounter } from "./combat/encount
 import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
 
-const PROCEDURAL_EVENT_CHANCE = 0.12;
+const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
 
 export class GameController {
@@ -18,6 +18,7 @@ export class GameController {
   private eventsReady: boolean = false;
   private eventLoadingError: Error | null = null;
   private stepsSinceLastEvent: number = 0;
+  private lastProceduralEventId: string | null = null;
 
   constructor() {
     registerMandatoryEvents();
@@ -64,6 +65,7 @@ export class GameController {
       party: createDefaultParty(),
     };
     this.stepsSinceLastEvent = 0;
+    this.lastProceduralEventId = null;
   }
 
   public moveNorth(): void {
@@ -141,13 +143,16 @@ export class GameController {
       return false;
     }
 
-    const eventId = selectEventForLocation(this.state);
+    const eventId =
+      selectEventForLocation(this.state, this.lastProceduralEventId ? [this.lastProceduralEventId] : []) ??
+      selectEventForLocation(this.state);
     if (eventId) {
       const nextState = startEvent(this.state, eventId);
       const triggered = nextState !== this.state && nextState.mode === "event";
       this.state = nextState;
       if (triggered) {
         this.stepsSinceLastEvent = 0;
+        this.lastProceduralEventId = eventId;
       }
       return triggered;
     }

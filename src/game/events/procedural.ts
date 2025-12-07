@@ -108,9 +108,13 @@ export function getAvailableEvents(
  */
 export function selectRandomEvent(
   state: GameState,
-  eventIds: string[]
+  eventIds: string[],
+  excludeIds: string[] = []
 ): string | null {
-  const available = getAvailableEvents(state, eventIds);
+  const available = getAvailableEvents(
+    state,
+    eventIds.filter((id) => !excludeIds.includes(id))
+  );
   
   if (available.length === 0) {
     return null;
@@ -145,7 +149,8 @@ export function selectRandomEvent(
  */
 export function selectEventFromPool(
   state: GameState,
-  poolId: string
+  poolId: string,
+  excludeIds: string[] = []
 ): string | null {
   const pool = getEventPool(poolId);
   if (!pool) {
@@ -162,14 +167,14 @@ export function selectEventFromPool(
   switch (pool.selectionStrategy) {
     case "random":
     case "weighted":
-      return selectRandomEvent(state, pool.events);
+      return selectRandomEvent(state, available, excludeIds);
     
     case "sequential":
       // Return the first available event in order
-      return available[0];
+      return available.find((id) => !excludeIds.includes(id)) ?? available[0];
     
     default:
-      return selectRandomEvent(state, pool.events);
+      return selectRandomEvent(state, available, excludeIds);
   }
 }
 
@@ -193,24 +198,27 @@ export function getIncompleteMandatoryEvents(state: GameState): string[] {
  * Determine which event should trigger at current location
  * This is the main procedural event selection function
  */
-export function selectEventForLocation(state: GameState): string | null {
+export function selectEventForLocation(
+  state: GameState,
+  excludeIds: string[] = []
+): string | null {
   // First, check for incomplete mandatory events appropriate for this depth
   const incompleteMandatory = getIncompleteMandatoryEvents(state);
   const availableMandatory = getAvailableEvents(state, incompleteMandatory);
   
   if (availableMandatory.length > 0) {
     // Mandatory events have priority
-    return selectRandomEvent(state, availableMandatory);
+    return selectRandomEvent(state, availableMandatory, excludeIds);
   }
   
   // Otherwise, select from optional events pool
   const depthPoolId = `depth_${state.location.depth}_events`;
-  const depthEvent = selectEventFromPool(state, depthPoolId);
+  const depthEvent = selectEventFromPool(state, depthPoolId, excludeIds);
   
   if (depthEvent) {
     return depthEvent;
   }
   
   // Fall back to general optional events
-  return selectEventFromPool(state, "optional_events");
+  return selectEventFromPool(state, "optional_events", excludeIds);
 }
