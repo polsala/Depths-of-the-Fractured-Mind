@@ -740,7 +740,7 @@ function renderCombat(
   audioManager.playMusic(music);
 
   const combatBackground = combatState.isBossFight
-    ? getAssetUrl("assets/backgrounds/bosses/boss_bg1.png")
+    ? getAssetUrl("assets/backgrounds/bosses/BG_BOSS_D1.png")
     : getAssetUrl("assets/backgrounds/battle/battle_bg1.png");
   const backgroundImage = getCombatBackground(combatBackground);
   const combatLayoutWidth = Math.min(1200, Math.floor(window.innerWidth * 0.95));
