@@ -429,7 +429,8 @@ function drawWallSegment(
   viewHeight: number,
   baseColor: string,
   shadeColor: string,
-  accentColor: string
+  accentColor: string,
+  wallPosition: "left" | "right" | "front" = "front"
 ): void {
   // Calculate wall height based on distance (perspective)
   const scale = 1 / (distance + 1);
@@ -452,11 +453,24 @@ function drawWallSegment(
   // Draw textured wall
   ctx.drawImage(texture, xStart, wallTop);
 
-  // Add depth shading
+  // Add depth shading based on wall position
   const gradient = ctx.createLinearGradient(xStart, wallTop, xStart + width, wallTop);
-  gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-  gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
-  gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
+  
+  if (wallPosition === "left") {
+    // Left wall: darker on left edge, lighter on right edge (facing inward)
+    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.4 * (1 - brightness)})`);
+    gradient.addColorStop(1, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
+  } else if (wallPosition === "right") {
+    // Right wall: lighter on left edge, darker on right edge (facing inward)
+    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
+    gradient.addColorStop(1, `rgba(0, 0, 0, ${0.4 * (1 - brightness)})`);
+  } else {
+    // Front wall: symmetric shading
+    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
+    gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
+    gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
+  }
+  
   ctx.fillStyle = gradient;
   ctx.fillRect(xStart, wallTop, width, wallHeight);
 }
@@ -521,7 +535,8 @@ export function renderDungeonView(
         height,
         palette.wallBase,
         palette.wallShade,
-        palette.accent
+        palette.accent,
+        "left"
       );
     }
 
@@ -535,7 +550,8 @@ export function renderDungeonView(
         height,
         palette.wallBase,
         palette.wallShade,
-        palette.accent
+        palette.accent,
+        "right"
       );
     }
 
@@ -549,7 +565,8 @@ export function renderDungeonView(
         height,
         palette.wallBase,
         palette.wallShade,
-        palette.accent
+        palette.accent,
+        "front"
       );
     }
   }
