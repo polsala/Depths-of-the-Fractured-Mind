@@ -351,6 +351,30 @@ function renderExploration(
     portraitSize: portraitSizeForParty,
   });
 
+  // Party status and inventory box
+  const utilityBox = document.createElement("div");
+  utilityBox.style.cssText = `
+    margin-top: 10px;
+    border: 1px solid #444;
+    padding: 10px;
+    background: #0f0f0f;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  `;
+
+  const statusBtn = document.createElement("button");
+  statusBtn.textContent = "Party Status";
+  statusBtn.addEventListener("click", () => openPartyStatusModal(state));
+  utilityBox.appendChild(statusBtn);
+
+  const inventoryBtn = document.createElement("button");
+  inventoryBtn.textContent = "Inventory";
+  inventoryBtn.addEventListener("click", () => openInventoryModal(state, controller, rerender));
+  utilityBox.appendChild(inventoryBtn);
+
+  infoPanel.appendChild(utilityBox);
+
   // Instructions - show appropriate controls based on platform
   const instructions = document.createElement("div");
   instructions.className = "instructions";
@@ -1610,6 +1634,242 @@ function renderCombat(
   };
 
   renderActionMenu();
+}
+
+function openPartyStatusModal(state: GameState): void {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+  `;
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background: #111;
+    border: 2px solid #444;
+    padding: 16px;
+    width: min(720px, 95vw);
+    color: #e0e0e0;
+    font-family: monospace;
+  `;
+
+  const title = document.createElement("h3");
+  title.textContent = "Party Status";
+  title.style.marginTop = "0";
+  modal.appendChild(title);
+
+  const list = document.createElement("div");
+  list.style.display = "grid";
+  list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
+  list.style.gap = "10px";
+
+  state.party.members.forEach((member) => {
+    const card = document.createElement("div");
+    card.style.cssText = `
+      background: #191919;
+      border: 1px solid #333;
+      padding: 10px;
+      border-radius: 8px;
+    `;
+    const name = document.createElement("div");
+    name.textContent = member.name;
+    name.style.fontWeight = "bold";
+    card.appendChild(name);
+
+    const hp = document.createElement("div");
+    hp.textContent = `HP: ${member.stats.hp}/${member.stats.maxHp}`;
+    card.appendChild(hp);
+
+    const san = document.createElement("div");
+    san.textContent = `Sanity: ${member.stats.sanity}/${member.stats.maxSanity}`;
+    card.appendChild(san);
+
+    const atk = document.createElement("div");
+    atk.textContent = `ATK: ${member.stats.attack}  DEF: ${member.stats.defense}`;
+    card.appendChild(atk);
+
+    const misc = document.createElement("div");
+    misc.textContent = `WILL: ${member.stats.will}  FOCUS: ${member.stats.focus}`;
+    card.appendChild(misc);
+
+    list.appendChild(card);
+  });
+
+  modal.appendChild(list);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Close";
+  closeBtn.style.marginTop = "12px";
+  closeBtn.addEventListener("click", () => overlay.remove());
+  modal.appendChild(closeBtn);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+function openInventoryModal(state: GameState, controller: GameController, rerender: () => void): void {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+  `;
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background: #111;
+    border: 2px solid #444;
+    padding: 16px;
+    width: min(760px, 95vw);
+    color: #e0e0e0;
+    font-family: monospace;
+  `;
+
+  const title = document.createElement("h3");
+  title.textContent = "Inventory";
+  title.style.marginTop = "0";
+  modal.appendChild(title);
+
+  const list = document.createElement("div");
+  list.style.display = "grid";
+  list.style.gridTemplateColumns = "repeat(auto-fit, minmax(260px, 1fr))";
+  list.style.gap = "10px";
+
+  const items = state.party.inventory.items;
+  if (items.length === 0) {
+    const empty = document.createElement("p");
+    empty.textContent = "No items carried.";
+    modal.appendChild(empty);
+  } else {
+    items.forEach((entry) => {
+      const card = document.createElement("div");
+      card.style.cssText = `
+        background: #191919;
+        border: 1px solid #333;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      `;
+      const nameRow = document.createElement("div");
+      nameRow.style.display = "flex";
+      nameRow.style.justifyContent = "space-between";
+      const name = document.createElement("span");
+      name.textContent = entry.item.name;
+      const qty = document.createElement("span");
+      qty.textContent = `x${entry.quantity}`;
+      nameRow.appendChild(name);
+      nameRow.appendChild(qty);
+      card.appendChild(nameRow);
+
+      const desc = document.createElement("div");
+      desc.textContent = entry.item.description;
+      desc.style.fontSize = "12px";
+      desc.style.color = "#b0b0b0";
+      card.appendChild(desc);
+
+      const actions = document.createElement("div");
+      actions.style.display = "flex";
+      actions.style.gap = "6px";
+      const useBtn = document.createElement("button");
+      useBtn.textContent = "Use";
+      useBtn.disabled = state.mode !== "exploration" || !entry.item.usable;
+      useBtn.addEventListener("click", () => {
+        openInventoryUseModal(entry.item.id, state, controller, rerender, overlay);
+      });
+      actions.appendChild(useBtn);
+      card.appendChild(actions);
+
+      list.appendChild(card);
+    });
+    modal.appendChild(list);
+  }
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Close";
+  closeBtn.style.marginTop = "12px";
+  closeBtn.addEventListener("click", () => overlay.remove());
+  modal.appendChild(closeBtn);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+function openInventoryUseModal(
+  itemId: string,
+  state: GameState,
+  controller: GameController,
+  rerender: () => void,
+  parentOverlay: HTMLDivElement
+): void {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1300;
+  `;
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background: #111;
+    border: 2px solid #444;
+    padding: 14px;
+    width: 360px;
+    color: #e0e0e0;
+    font-family: monospace;
+  `;
+
+  const title = document.createElement("h4");
+  title.textContent = `Use ${ITEMS[itemId]?.name ?? itemId}`;
+  title.style.marginTop = "0";
+  modal.appendChild(title);
+
+  const list = document.createElement("div");
+  list.style.display = "flex";
+  list.style.flexDirection = "column";
+  list.style.gap = "6px";
+
+  state.party.members
+    .map((m, idx) => ({ m, idx }))
+    .filter(({ m }) => m.alive)
+    .forEach(({ m, idx }) => {
+      const btn = document.createElement("button");
+      btn.textContent = `${m.name} (HP ${m.stats.hp}/${m.stats.maxHp}, SAN ${m.stats.sanity}/${m.stats.maxSanity})`;
+      btn.addEventListener("click", () => {
+        const success = controller.useConsumableOutOfCombat(itemId, idx);
+        overlay.remove();
+        if (success) {
+          parentOverlay.remove();
+        }
+        rerender();
+      });
+      list.appendChild(btn);
+    });
+
+  modal.appendChild(list);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Cancel";
+  closeBtn.style.marginTop = "10px";
+  closeBtn.addEventListener("click", () => overlay.remove());
+  modal.appendChild(closeBtn);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
 }
 
 export function initApp(root: HTMLElement): void {

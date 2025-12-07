@@ -10,6 +10,7 @@ import { generateRandomEncounter, generateBossEncounter } from "./combat/encount
 import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
+import { useItem } from "./inventory";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
@@ -287,6 +288,53 @@ export class GameController {
   public getCurrentCombatActor(): { isPlayer: boolean; index: number } | null {
     if (!this.state.combatState) return null;
     return getCurrentActor(this.state.combatState);
+  }
+
+  /**
+   * Use a consumable item outside of combat on a target party member
+   */
+  public useConsumableOutOfCombat(itemId: string, targetIndex: number): boolean {
+    if (this.state.mode !== "exploration") return false;
+    const inventory = this.state.party.inventory;
+    const target = this.state.party.members[targetIndex];
+    if (!target || !target.alive) return false;
+
+    // Only allow consumables we handle
+    const allowed = new Set([
+      "medkit",
+      "sedative",
+      "healing_potion",
+      "greater_healing_potion",
+      "sanity_tonic",
+      "antidote",
+    ]);
+    if (!allowed.has(itemId)) return false;
+
+    const item = useItem(inventory, itemId);
+    if (!item) return false;
+
+    switch (itemId) {
+      case "medkit":
+        target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + 15);
+        break;
+      case "sedative":
+        target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 10);
+        break;
+      case "healing_potion":
+        target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + 20);
+        break;
+      case "greater_healing_potion":
+        target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + 40);
+        break;
+      case "sanity_tonic":
+        target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 20);
+        break;
+      case "antidote":
+        // No status tracking outside combat yet; leave as a no-op cure hook
+        break;
+    }
+
+    return true;
   }
 
   /**
