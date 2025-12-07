@@ -13,7 +13,7 @@ import {
 } from "./state";
 import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "./engine";
 import { getAbility, type Ability, type AbilityEffect } from "../abilities";
-import { useItem, addItem } from "../inventory";
+import { useItem, addItem, ITEMS } from "../inventory";
 import { audioManager } from "../../ui/audio";
 import { calculateExperienceReward, awardExperience, getCharacterExperience, getCharacterLevel, getExpToNextLevel } from "../experience";
 import { ENEMIES } from "../enemies";
@@ -282,18 +282,51 @@ function handleVictory(state: CombatState): void {
     expToNext: getExpToNextLevel(member),
   }));
 
-  // Simple loot drop chance based on enemies defeated
-  const lootTable = ["medkit", "sedative", "healing_potion", "sanity_tonic", "antidote", "bomb"];
   const loot: Array<{ id: string; quantity: number }> = [];
+  const depth = state.combatDepth ?? 1;
+  // Consumable drops
+  const lootTable = ["medkit", "sedative", "healing_potion", "sanity_tonic", "antidote", "bomb"];
   const dropRoll = Math.random();
   const dropChance = Math.min(0.8, 0.2 + state.encounter.enemies.length * 0.1);
   if (dropRoll < dropChance) {
     const itemId = lootTable[Math.floor(Math.random() * lootTable.length)];
     const quantity = itemId === "bomb" ? 1 : 1 + Math.floor(Math.random() * 2);
-    const added = addItem(state.party.inventory, itemId, quantity);
-    if (added) {
+    if (addItem(state.party.inventory, itemId, quantity)) {
       loot.push({ id: itemId, quantity });
       addCombatLog(state, `Found loot: ${quantity}x ${itemId}`, "system");
+    }
+  }
+
+  // Equipment drops scale with depth; bosses guarantee a boss item
+  const equipmentPool = Object.values(ITEMS).filter(
+    (item) =>
+      item.type === "equipment" &&
+      item.equipment &&
+      !item.equipment.bossOnly &&
+      (item.equipment.depthTier ?? 1) <= depth
+  );
+  const bossPool = Object.values(ITEMS).filter(
+    (item) =>
+      item.type === "equipment" &&
+      item.equipment &&
+      item.equipment.bossOnly &&
+      (item.equipment.depthTier ?? 1) <= depth
+  );
+
+  if (state.isBossFight && bossPool.length > 0) {
+    const bossItem = bossPool[Math.floor(Math.random() * bossPool.length)];
+    if (addItem(state.party.inventory, bossItem.id, 1)) {
+      loot.push({ id: bossItem.id, quantity: 1 });
+      addCombatLog(state, `Boss dropped ${bossItem.name}`, "system");
+    }
+  } else {
+    const equipChance = Math.min(0.5, 0.15 + depth * 0.08);
+    if (Math.random() < equipChance && equipmentPool.length > 0) {
+      const equip = equipmentPool[Math.floor(Math.random() * equipmentPool.length)];
+      if (addItem(state.party.inventory, equip.id, 1)) {
+        loot.push({ id: equip.id, quantity: 1 });
+        addCombatLog(state, `Found equipment: ${equip.name}`, "system");
+      }
     }
   }
 

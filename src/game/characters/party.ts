@@ -12,9 +12,13 @@ function createCharacter(
   return {
     id,
     name,
+    baseStats: cloneStats(stats),
     stats: cloneStats(stats),
+    level: 1,
+    experience: 0,
     statusEffects: [],
     alive: true,
+    equipment: {},
   };
 }
 

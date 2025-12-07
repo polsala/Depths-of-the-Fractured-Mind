@@ -100,6 +100,15 @@ function applyLevelUpBonuses(character: CharacterState): void {
       character.stats.will += 2;
       break;
   }
+
+  if (character.baseStats) {
+    character.baseStats.maxHp = character.stats.maxHp;
+    character.baseStats.maxSanity = character.stats.maxSanity;
+    character.baseStats.attack = character.stats.attack;
+    character.baseStats.defense = character.stats.defense;
+    character.baseStats.will = character.stats.will;
+    character.baseStats.focus = character.stats.focus;
+  }
 }
 
 export function getCharacterLevel(character: CharacterState): number {

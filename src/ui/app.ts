@@ -388,7 +388,7 @@ function renderExploration(
 
   const statusBtn = document.createElement("button");
   statusBtn.textContent = "Party Status";
-  statusBtn.addEventListener("click", () => openPartyStatusModal(state));
+  statusBtn.addEventListener("click", () => openPartyStatusModal(state, controller, rerender));
   utilityBox.appendChild(statusBtn);
 
   const inventoryBtn = document.createElement("button");
@@ -1659,7 +1659,7 @@ function renderCombat(
   renderActionMenu();
 }
 
-function openPartyStatusModal(state: GameState): void {
+function openPartyStatusModal(state: GameState, controller: GameController, rerender: () => void): void {
   const overlay = document.createElement("div");
   overlay.style.cssText = `
     position: fixed;
@@ -1724,6 +1724,50 @@ function openPartyStatusModal(state: GameState): void {
     abilitiesBtn.textContent = "View Abilities";
     abilitiesBtn.addEventListener("click", () => openAbilityListModal(member));
     card.appendChild(abilitiesBtn);
+
+    const equipmentSection = document.createElement("div");
+    equipmentSection.style.marginTop = "6px";
+    equipmentSection.style.display = "flex";
+    equipmentSection.style.flexDirection = "column";
+    equipmentSection.style.gap = "4px";
+    const slots: Array<{ slot: "weapon" | "armor" | "trinket"; label: string }> = [
+      { slot: "weapon", label: "Weapon" },
+      { slot: "armor", label: "Armor" },
+      { slot: "trinket", label: "Trinket" },
+    ];
+    slots.forEach(({ slot, label }) => {
+      const row = document.createElement("div");
+      row.style.display = "flex";
+      row.style.justifyContent = "space-between";
+      row.style.alignItems = "center";
+      const currentId = member.equipment?.[slot];
+      const name = currentId ? ITEMS[currentId]?.name || currentId : "Empty";
+      const text = document.createElement("span");
+      text.textContent = `${label}: ${name}`;
+      row.appendChild(text);
+      const buttons = document.createElement("div");
+      buttons.style.display = "flex";
+      buttons.style.gap = "4px";
+      const equipBtn = document.createElement("button");
+      equipBtn.textContent = "Equip";
+      equipBtn.addEventListener("click", () =>
+        openEquipModal(member, slot, controller, rerender, overlay)
+      );
+      buttons.appendChild(equipBtn);
+      if (currentId) {
+        const unequipBtn = document.createElement("button");
+        unequipBtn.textContent = "Unequip";
+        unequipBtn.addEventListener("click", () => {
+          controller.unequipItem(state.party.members.indexOf(member), slot);
+          overlay.remove();
+          rerender();
+        });
+        buttons.appendChild(unequipBtn);
+      }
+      row.appendChild(buttons);
+      equipmentSection.appendChild(row);
+    });
+    card.appendChild(equipmentSection);
 
     list.appendChild(card);
   });
@@ -1813,6 +1857,103 @@ function openAbilityListModal(member: GameState["party"]["members"][number]): vo
 
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "Close";
+  closeBtn.style.marginTop = "10px";
+  closeBtn.addEventListener("click", () => overlay.remove());
+  modal.appendChild(closeBtn);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+function openEquipModal(
+  member: GameState["party"]["members"][number],
+  slot: "weapon" | "armor" | "trinket",
+  controller: GameController,
+  rerender: () => void,
+  parentOverlay: HTMLDivElement
+): void {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1350;
+  `;
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background: #111;
+    border: 2px solid #444;
+    padding: 14px;
+    width: min(520px, 95vw);
+    color: #e0e0e0;
+    font-family: monospace;
+  `;
+
+  const title = document.createElement("h4");
+  title.textContent = `Equip ${slot} for ${member.name}`;
+  title.style.marginTop = "0";
+  modal.appendChild(title);
+
+  const list = document.createElement("div");
+  list.style.display = "flex";
+  list.style.flexDirection = "column";
+  list.style.gap = "6px";
+
+  const level = getCharacterLevel(member);
+
+  const options = controller.getState().party.inventory.items.filter((entry) => {
+    if (entry.item.type !== "equipment" || !entry.item.equipment) return false;
+    if (entry.item.equipment.slot !== slot) return false;
+    if (entry.item.equipment.allowedCharacters && !entry.item.equipment.allowedCharacters.includes(member.id)) {
+      return false;
+    }
+    if (entry.item.equipment.requiredLevel && level < entry.item.equipment.requiredLevel) {
+      return false;
+    }
+    return true;
+  });
+
+  if (options.length === 0) {
+    const none = document.createElement("p");
+    none.textContent = "No compatible equipment available.";
+    list.appendChild(none);
+  } else {
+    options.forEach((entry) => {
+      const wrap = document.createElement("div");
+      wrap.style.display = "flex";
+      wrap.style.flexDirection = "column";
+      wrap.style.gap = "2px";
+      const btn = document.createElement("button");
+      btn.textContent = `${entry.item.name} (lvl ${entry.item.equipment?.requiredLevel ?? 1}+ )`;
+      btn.addEventListener("click", () => {
+        controller.equipItem(controller.getState().party.members.indexOf(member), entry.item.id);
+        overlay.remove();
+        parentOverlay.remove();
+        rerender();
+      });
+      const desc = document.createElement("div");
+      const bonuses = entry.item.equipment?.statBonuses || {};
+      const bonusText = Object.entries(bonuses)
+        .filter(([, v]) => typeof v === "number" && v !== 0)
+        .map(([k, v]) => `${k}+${v}`)
+        .join(", ");
+      desc.textContent = `${entry.item.description}${bonusText ? ` | ${bonusText}` : ""}`;
+      desc.style.fontSize = "12px";
+      desc.style.color = "#b0b0b0";
+      wrap.appendChild(btn);
+      wrap.appendChild(desc);
+      list.appendChild(wrap);
+    });
+  }
+
+  modal.appendChild(list);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Cancel";
   closeBtn.style.marginTop = "10px";
   closeBtn.addEventListener("click", () => overlay.remove());
   modal.appendChild(closeBtn);

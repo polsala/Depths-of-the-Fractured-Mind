@@ -57,21 +57,35 @@ export interface GameFlags {
   [key: string]: number | boolean | undefined | MoralFlags | Set<string | number>;
 }
 
+export type EquipmentSlot = "weapon" | "armor" | "trinket";
+
 export interface CharacterState {
   id: CharacterId;
   name: string;
+  baseStats?: Stats;
   stats: Stats;
+  level?: number;
+  experience?: number;
   statusEffects: string[];
   alive: boolean;
+  equipment?: Partial<Record<EquipmentSlot, string | null>>;
 }
 
 export interface Item {
   id: string;
   name: string;
   description: string;
-  type: "consumable" | "key" | "lore" | "utility";
+  type: "consumable" | "key" | "lore" | "utility" | "equipment";
   stackable: boolean;
   usable: boolean;
+  equipment?: {
+    slot: EquipmentSlot;
+    statBonuses?: Partial<Stats>;
+    requiredLevel?: number;
+    allowedCharacters?: CharacterId[];
+    depthTier?: number;
+    bossOnly?: boolean;
+  };
 }
 
 export interface InventoryItem {

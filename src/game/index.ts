@@ -10,7 +10,7 @@ import { generateRandomEncounter, generateBossEncounter } from "./combat/encount
 import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
-import { useItem } from "./inventory";
+import { useItem, removeItem, addItem, ITEMS } from "./inventory";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
@@ -68,6 +68,40 @@ export class GameController {
     };
     this.stepsSinceLastEvent = 0;
     this.lastProceduralEventId = null;
+  }
+
+  private recomputeStats(character: GameState["party"]["members"][number]): void {
+    const base = character.baseStats || character.stats;
+    const hpRatio = character.stats.maxHp > 0 ? character.stats.hp / character.stats.maxHp : 1;
+    const sanRatio = character.stats.maxSanity > 0 ? character.stats.sanity / character.stats.maxSanity : 1;
+    const bonuses = { attack: 0, defense: 0, will: 0, focus: 0, maxHp: 0, maxSanity: 0 };
+    if (character.equipment) {
+      Object.values(character.equipment).forEach((itemId) => {
+        if (!itemId) return;
+        const item = ITEMS[itemId];
+        if (item?.equipment?.statBonuses) {
+          const sb = item.equipment.statBonuses;
+          bonuses.attack += sb.attack ?? 0;
+          bonuses.defense += sb.defense ?? 0;
+          bonuses.will += sb.will ?? 0;
+          bonuses.focus += sb.focus ?? 0;
+          bonuses.maxHp += sb.maxHp ?? 0;
+          bonuses.maxSanity += sb.maxSanity ?? 0;
+        }
+      });
+    }
+    const nextStats = {
+      ...base,
+      attack: base.attack + bonuses.attack,
+      defense: base.defense + bonuses.defense,
+      will: base.will + bonuses.will,
+      focus: base.focus + bonuses.focus,
+      maxHp: base.maxHp + bonuses.maxHp,
+      maxSanity: base.maxSanity + bonuses.maxSanity,
+    };
+    nextStats.hp = Math.min(nextStats.maxHp, Math.max(1, Math.floor(nextStats.maxHp * hpRatio)));
+    nextStats.sanity = Math.min(nextStats.maxSanity, Math.max(0, Math.floor(nextStats.maxSanity * sanRatio)));
+    character.stats = nextStats;
   }
 
   public getDebugOptions(): DebugOptions {
@@ -334,6 +368,43 @@ export class GameController {
         break;
     }
 
+    return true;
+  }
+
+  public equipItem(characterIndex: number, itemId: string): boolean {
+    const character = this.state.party.members[characterIndex];
+    if (!character) return false;
+    const item = ITEMS[itemId];
+    if (!item?.equipment) return false;
+    const { slot, requiredLevel, allowedCharacters } = item.equipment;
+    const equipSlot = slot as import("./state").EquipmentSlot;
+    const level = (character as any).level || 1;
+    if (requiredLevel && level < requiredLevel) return false;
+    if (allowedCharacters && !allowedCharacters.includes(character.id)) return false;
+    // Ensure item in inventory
+    if (!removeItem(this.state.party.inventory, itemId, 1)) return false;
+
+    // Unequip existing
+    const previous = character.equipment?.[equipSlot];
+    if (previous) {
+      addItem(this.state.party.inventory, previous, 1);
+    }
+    if (!character.equipment) {
+      character.equipment = {};
+    }
+    character.equipment[equipSlot] = itemId;
+    this.recomputeStats(character);
+    return true;
+  }
+
+  public unequipItem(characterIndex: number, slot: import("./state").EquipmentSlot): boolean {
+    const character = this.state.party.members[characterIndex];
+    if (!character?.equipment) return false;
+    const current = character.equipment[slot];
+    if (!current) return false;
+    addItem(this.state.party.inventory, current, 1);
+    character.equipment[slot] = null;
+    this.recomputeStats(character);
     return true;
   }
 
