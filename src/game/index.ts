@@ -297,6 +297,16 @@ export class GameController {
     
     // Sync party state back from combat
     this.state.party = this.state.combatState.party;
+    
+    // Mark boss defeated for this depth
+    if (this.state.combatState.isBossFight && this.state.combatState.combatDepth) {
+      const depth = this.state.combatState.combatDepth;
+      if (!this.state.flags.bossDefeatedDepths) {
+        this.state.flags.bossDefeatedDepths = new Set<number>();
+      }
+      this.state.flags.bossDefeatedDepths.add(depth);
+    }
+    
     this.state.combatState = undefined;
     this.state.mode = "exploration";
   }

@@ -27,6 +27,7 @@ export interface GameFlags {
   overflowWardResolved?: boolean;
   riotRecordingPlayed?: boolean;
   confessionalUsed?: boolean;
+  bossDefeatedDepths?: Set<number>;
   
   // Additional event-specific flags
   wardPatientsKilled?: boolean;
@@ -53,7 +54,7 @@ export interface GameFlags {
   visitedTiles?: Set<string>;
   
   // Allow dynamic flags for future expansion
-  [key: string]: number | boolean | undefined | MoralFlags | Set<string>;
+  [key: string]: number | boolean | undefined | MoralFlags | Set<string | number>;
 }
 
 export interface CharacterState {
@@ -162,6 +163,7 @@ export function createInitialGameState(): GameState {
       riotRecordingPlayed: false,
       confessionalUsed: false,
       visitedTiles: new Set<string>(),
+      bossDefeatedDepths: new Set<number>(),
     },
     debugOptions: {
       disableEncounters: false,

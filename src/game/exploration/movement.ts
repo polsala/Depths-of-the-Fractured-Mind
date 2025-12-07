@@ -3,7 +3,7 @@ import { getCurrentDepthMap, getTile, getDepthMap } from "./map";
 import { getEventById } from "../events/engine";
 import { audioManager } from "../../ui/audio";
 import { addItem } from "../inventory";
-import { shouldTriggerEncounter, generateRandomEncounter } from "../combat/encounters";
+import { shouldTriggerEncounter, generateRandomEncounter, generateBossEncounter } from "../combat/encounters";
 import { createCombatState } from "../combat/state";
 
 // Default facing direction when not specified
@@ -68,6 +68,26 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
 
   // Handle stairs
   if (tile?.type === "stairsDown") {
+    const currentDepth = state.location.depth;
+    const alreadyDefeated = state.flags.bossDefeatedDepths?.has(currentDepth);
+    if (!alreadyDefeated) {
+      const bossEncounter = generateBossEncounter(currentDepth);
+      if (bossEncounter) {
+        const combatState = createCombatState(
+          nextState.party,
+          bossEncounter,
+          true,
+          nextState.debugOptions,
+          currentDepth
+        );
+        return {
+          ...nextState,
+          mode: "combat" satisfies GameMode,
+          combatState,
+          currentEncounterId: `boss_${currentDepth}_${Date.now()}`,
+        };
+      }
+    }
     const nextDepth = state.location.depth + 1;
     if (nextDepth <= 5) {
       const nextMap = getDepthMap(nextDepth, nextState.depthMaps);
