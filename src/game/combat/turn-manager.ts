@@ -69,6 +69,11 @@ function executeCurrentAction(state: CombatState): void {
   } else {
     executeEnemyAction(state);
   }
+
+  // If combat ended via flee, stop processing
+  if (state.phase === "fled") {
+    return;
+  }
   
   // Check for victory/defeat
   if (isEncounterDefeated(state.encounter)) {
@@ -612,12 +617,24 @@ function attemptFlee(state: CombatState): void {
     return;
   }
   
-  const fleeChance = 0.5;
+  const aliveParty = state.party.members.filter((m) => m.alive);
+  const aliveEnemies = state.encounter.enemies.filter((e) => e.alive);
+  const avgPlayerSpeed =
+    aliveParty.reduce((sum, p) => sum + p.stats.focus, 0) /
+    Math.max(1, aliveParty.length);
+  const avgEnemySpeed =
+    aliveEnemies.reduce((sum, e) => sum + e.stats.focus, 0) /
+    Math.max(1, aliveEnemies.length);
+  
+  // Flee chance scales with speed advantage; clamp between 10% and 95%
+  const speedDelta = avgPlayerSpeed - avgEnemySpeed;
+  const fleeChance = Math.min(0.95, Math.max(0.1, 0.4 + speedDelta * 0.03));
   if (Math.random() < fleeChance) {
     state.phase = "fled";
     addCombatLog(state, "Successfully fled from battle!", "system");
   } else {
-    addCombatLog(state, "Failed to flee!", "system");
+    const percent = Math.round(fleeChance * 100);
+    addCombatLog(state, `Failed to flee! (Chance was ${percent}%)`, "system");
   }
 }
 
