@@ -429,8 +429,7 @@ function drawWallSegment(
   viewHeight: number,
   baseColor: string,
   shadeColor: string,
-  accentColor: string,
-  wallPosition: "left" | "right" | "front" = "front"
+  accentColor: string
 ): void {
   // Calculate wall height based on distance (perspective)
   const scale = 1 / (distance + 1);
@@ -453,24 +452,11 @@ function drawWallSegment(
   // Draw textured wall
   ctx.drawImage(texture, xStart, wallTop);
 
-  // Add depth shading based on wall position
+  // Add depth shading
   const gradient = ctx.createLinearGradient(xStart, wallTop, xStart + width, wallTop);
-  
-  if (wallPosition === "left") {
-    // Left wall: darker on left edge, lighter on right edge (facing inward)
-    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.4 * (1 - brightness)})`);
-    gradient.addColorStop(1, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
-  } else if (wallPosition === "right") {
-    // Right wall: lighter on left edge, darker on right edge (facing inward)
-    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
-    gradient.addColorStop(1, `rgba(0, 0, 0, ${0.4 * (1 - brightness)})`);
-  } else {
-    // Front wall: symmetric shading
-    gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-    gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
-    gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-  }
-  
+  gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
+  gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
+  gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
   ctx.fillStyle = gradient;
   ctx.fillRect(xStart, wallTop, width, wallHeight);
 }
@@ -525,23 +511,8 @@ export function renderDungeonView(
     const scale = 1 / (distance + 1);
     const segmentWidth = width * scale * 0.8;
 
-    // Left wall (if visible)
+    // Left wall (if visible) - render on RIGHT side of screen
     if (distance > 0 && walls.left) {
-      drawWallSegment(
-        ctx,
-        distance,
-        0,
-        (width - segmentWidth) / 2,
-        height,
-        palette.wallBase,
-        palette.wallShade,
-        palette.accent,
-        "left"
-      );
-    }
-
-    // Right wall (if visible)
-    if (distance > 0 && walls.right) {
       drawWallSegment(
         ctx,
         distance,
@@ -550,8 +521,21 @@ export function renderDungeonView(
         height,
         palette.wallBase,
         palette.wallShade,
-        palette.accent,
-        "right"
+        palette.accent
+      );
+    }
+
+    // Right wall (if visible) - render on LEFT side of screen
+    if (distance > 0 && walls.right) {
+      drawWallSegment(
+        ctx,
+        distance,
+        0,
+        (width - segmentWidth) / 2,
+        height,
+        palette.wallBase,
+        palette.wallShade,
+        palette.accent
       );
     }
 
@@ -565,8 +549,7 @@ export function renderDungeonView(
         height,
         palette.wallBase,
         palette.wallShade,
-        palette.accent,
-        "front"
+        palette.accent
       );
     }
   }
