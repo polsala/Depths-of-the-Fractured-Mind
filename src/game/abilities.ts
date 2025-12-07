@@ -25,6 +25,7 @@ export interface Ability {
   cooldown?: number;
   requiresHighSanity?: boolean;
   requiresLowSanity?: boolean;
+  unlockLevel?: number;
 }
 
 // Elias Ward - The Warden (Tank/Control)
@@ -39,6 +40,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "buff", stat: "defense", value: 5, duration: 2 },
     ],
+    unlockLevel: 1,
   },
   crackdown: {
     id: "crackdown",
@@ -51,6 +53,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
       { type: "damage", value: 15 },
       { type: "status", statusEffect: "stunned", duration: 1 },
     ],
+    unlockLevel: 2,
   },
   commanding_presence: {
     id: "commanding_presence",
@@ -63,6 +66,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
       { type: "buff", stat: "focus", value: 3, duration: 2 },
       { type: "buff", stat: "defense", value: 2, duration: 2 },
     ],
+    unlockLevel: 3,
   },
   iron_will: {
     id: "iron_will",
@@ -74,6 +78,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "sanity-heal", value: 8 },
     ],
+    unlockLevel: 4,
   },
   suppression: {
     id: "suppression",
@@ -86,6 +91,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
       { type: "damage", value: 18 },
       { type: "debuff", stat: "attack", value: 4, duration: 2 },
     ],
+    unlockLevel: 5,
   },
   defensive_stance: {
     id: "defensive_stance",
@@ -97,6 +103,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "buff", stat: "defense", value: 8, duration: 1 },
     ],
+    unlockLevel: 6,
   },
 };
 
@@ -112,6 +119,7 @@ export const MIRIAM_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "heal", value: 20 },
     ],
+    unlockLevel: 1,
   },
   experimental_serum: {
     id: "experimental_serum",
@@ -124,6 +132,7 @@ export const MIRIAM_ABILITIES: Record<string, Ability> = {
       { type: "buff", stat: "attack", value: 5, duration: 3 },
       { type: "buff", stat: "defense", value: 3, duration: 3 },
     ],
+    unlockLevel: 2,
   },
   sedative_injection: {
     id: "sedative_injection",
@@ -136,6 +145,7 @@ export const MIRIAM_ABILITIES: Record<string, Ability> = {
       { type: "debuff", stat: "attack", value: 6, duration: 2 },
       { type: "debuff", stat: "will", value: 4, duration: 2 },
     ],
+    unlockLevel: 3,
   },
   clinical_precision: {
     id: "clinical_precision",
@@ -147,6 +157,7 @@ export const MIRIAM_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "damage", value: 12 },
     ],
+    unlockLevel: 4,
   },
   mass_triage: {
     id: "mass_triage",
@@ -158,6 +169,7 @@ export const MIRIAM_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "heal", value: 12 },
     ],
+    unlockLevel: 5,
   },
   nerve_agent: {
     id: "nerve_agent",
@@ -169,6 +181,7 @@ export const MIRIAM_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "status", statusEffect: "poisoned", duration: 3 },
     ],
+    unlockLevel: 6,
   },
 };
 
@@ -184,6 +197,7 @@ export const SUBJECT13_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "debuff", stat: "defense", value: 3, duration: 2 },
     ],
+    unlockLevel: 1,
   },
   echo_bolt: {
     id: "echo_bolt",
@@ -195,6 +209,7 @@ export const SUBJECT13_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "damage", value: 20 },
     ],
+    unlockLevel: 2,
   },
   future_scream: {
     id: "future_scream",
@@ -207,6 +222,7 @@ export const SUBJECT13_ABILITIES: Record<string, Ability> = {
       { type: "status", statusEffect: "feared", duration: 2 },
       { type: "sanity-damage", value: 5 },
     ],
+    unlockLevel: 3,
   },
   reality_fracture: {
     id: "reality_fracture",
@@ -220,6 +236,7 @@ export const SUBJECT13_ABILITIES: Record<string, Ability> = {
       { type: "damage", value: 25 },
       { type: "sanity-damage", value: 8 },
     ],
+    unlockLevel: 4,
   },
   prophetic_ward: {
     id: "prophetic_ward",
@@ -231,6 +248,7 @@ export const SUBJECT13_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "buff", stat: "defense", value: 6, duration: 1 },
     ],
+    unlockLevel: 5,
   },
   void_pulse: {
     id: "void_pulse",
@@ -242,6 +260,7 @@ export const SUBJECT13_ABILITIES: Record<string, Ability> = {
     effects: [
       { type: "damage", value: 15 },
     ],
+    unlockLevel: 6,
   },
 };
 

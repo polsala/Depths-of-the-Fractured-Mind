@@ -26,6 +26,7 @@ import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 import { ITEMS } from "../game/inventory";
+import { getCharacterLevel } from "../game/experience";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import type { DungeonMap } from "../graphics/map";
@@ -1719,6 +1720,11 @@ function openPartyStatusModal(state: GameState): void {
     misc.textContent = `WILL: ${member.stats.will}  FOCUS: ${member.stats.focus}`;
     card.appendChild(misc);
 
+    const abilitiesBtn = document.createElement("button");
+    abilitiesBtn.textContent = "View Abilities";
+    abilitiesBtn.addEventListener("click", () => openAbilityListModal(member));
+    card.appendChild(abilitiesBtn);
+
     list.appendChild(card);
   });
 
@@ -1727,6 +1733,87 @@ function openPartyStatusModal(state: GameState): void {
   const closeBtn = document.createElement("button");
   closeBtn.textContent = "Close";
   closeBtn.style.marginTop = "12px";
+  closeBtn.addEventListener("click", () => overlay.remove());
+  modal.appendChild(closeBtn);
+
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+}
+
+function openAbilityListModal(member: GameState["party"]["members"][number]): void {
+  const overlay = document.createElement("div");
+  overlay.style.cssText = `
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1300;
+  `;
+
+  const modal = document.createElement("div");
+  modal.style.cssText = `
+    background: #111;
+    border: 2px solid #444;
+    padding: 14px;
+    width: min(640px, 95vw);
+    color: #e0e0e0;
+    font-family: monospace;
+  `;
+
+  const title = document.createElement("h4");
+  title.textContent = `${member.name} Abilities`;
+  title.style.marginTop = "0";
+  modal.appendChild(title);
+
+  const list = document.createElement("div");
+  list.style.display = "grid";
+  list.style.gridTemplateColumns = "repeat(auto-fit, minmax(260px, 1fr))";
+  list.style.gap = "10px";
+
+  const abilities = getCharacterAbilities(member.id).sort(
+    (a, b) => (a.unlockLevel ?? 1) - (b.unlockLevel ?? 1)
+  );
+  const level = getCharacterLevel(member);
+
+  abilities.forEach((ability) => {
+    const unlocked = level >= (ability.unlockLevel ?? 1);
+    const card = document.createElement("div");
+    card.style.cssText = `
+      background: ${unlocked ? "#191919" : "#161616"};
+      border: 1px solid ${unlocked ? "#3a3a3a" : "#333"};
+      padding: 10px;
+      border-radius: 8px;
+    `;
+    const name = document.createElement("div");
+    name.textContent = ability.name;
+    name.style.fontWeight = "bold";
+    card.appendChild(name);
+
+    const desc = document.createElement("div");
+    desc.textContent = ability.description;
+    desc.style.fontSize = "12px";
+    desc.style.color = "#b0b0b0";
+    card.appendChild(desc);
+
+    const status = document.createElement("div");
+    status.style.marginTop = "6px";
+    status.style.fontSize = "12px";
+    status.style.color = unlocked ? "#7cff9f" : "#ff9f7c";
+    status.textContent = unlocked
+      ? "Unlocked"
+      : `Locked - Reach level ${ability.unlockLevel ?? 1}`;
+    card.appendChild(status);
+
+    list.appendChild(card);
+  });
+
+  modal.appendChild(list);
+
+  const closeBtn = document.createElement("button");
+  closeBtn.textContent = "Close";
+  closeBtn.style.marginTop = "10px";
   closeBtn.addEventListener("click", () => overlay.remove());
   modal.appendChild(closeBtn);
 
