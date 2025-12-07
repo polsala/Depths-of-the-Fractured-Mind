@@ -1354,7 +1354,10 @@ function renderCombat(
     const character = latestState.party.members[currentActor.index];
     if (!character) return;
 
-    const abilities = getCharacterAbilities(character.id);
+    const level = getCharacterLevel(character);
+    const abilities = getCharacterAbilities(character.id).filter(
+      (ability) => !ability.unlockLevel || level >= ability.unlockLevel
+    );
     openCombatModal("Select ability", (content) => {
       const list = document.createElement("div");
       list.style.display = "grid";
