@@ -40,7 +40,8 @@ export function renderMinimap(
   ctx.strokeRect(0, 0, config.width, config.height);
 
   const tileSize = config.tileSize;
-  const mapSize = map.length;
+  const mapHeight = map.length;
+  const mapWidth = map[0]?.length || 0;
   
   // Calculate how many tiles can fit in the minimap viewport
   const tilesVisibleX = Math.floor(config.width / tileSize);
@@ -54,8 +55,8 @@ export function renderMinimap(
   // Calculate viewport bounds (which tiles to render)
   const viewportMinX = Math.max(0, Math.floor(viewportCenterX - tilesVisibleX / 2));
   const viewportMinY = Math.max(0, Math.floor(viewportCenterY - tilesVisibleY / 2));
-  const viewportMaxX = Math.min(mapSize, viewportMinX + tilesVisibleX);
-  const viewportMaxY = Math.min(mapSize, viewportMinY + tilesVisibleY);
+  const viewportMaxX = Math.min(mapWidth, viewportMinX + tilesVisibleX);
+  const viewportMaxY = Math.min(mapHeight, viewportMinY + tilesVisibleY);
   
   // Calculate starting position to center the visible tiles
   const startX = (config.width - (viewportMaxX - viewportMinX) * tileSize) / 2;
