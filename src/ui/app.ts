@@ -1720,19 +1720,26 @@ function openPartyStatusModal(state: GameState, controller: GameController, rere
     card.appendChild(name);
 
     const hp = document.createElement("div");
-    hp.textContent = `HP: ${member.stats.hp}/${member.stats.maxHp}`;
-    card.appendChild(hp);
-
     const san = document.createElement("div");
-    san.textContent = `Sanity: ${member.stats.sanity}/${member.stats.maxSanity}`;
-    card.appendChild(san);
-
     const atk = document.createElement("div");
-    atk.textContent = `ATK: ${member.stats.attack}  DEF: ${member.stats.defense}`;
-    card.appendChild(atk);
-
     const misc = document.createElement("div");
-    misc.textContent = `WILL: ${member.stats.will}  FOCUS: ${member.stats.focus}`;
+    const refreshStats = () => {
+      const fresh = controller.getState().party.members.find((m) => m.id === member.id) || member;
+      hp.textContent = `HP: ${fresh.stats.hp}/${fresh.stats.maxHp}`;
+      san.textContent = `Sanity: ${fresh.stats.sanity}/${fresh.stats.maxSanity}`;
+      atk.textContent = `ATK: ${fresh.stats.attack}  DEF: ${fresh.stats.defense}`;
+      misc.textContent = `WILL: ${fresh.stats.will}  FOCUS: ${fresh.stats.focus}`;
+      equipmentRows.forEach(({ slot, label, unequipBtn }) => {
+        const currentId = fresh.equipment?.[slot];
+        label.textContent = `${slot[0].toUpperCase() + slot.slice(1)}: ${
+          currentId ? ITEMS[currentId]?.name || currentId : "Empty"
+        }`;
+        unequipBtn.disabled = !currentId;
+      });
+    };
+    card.appendChild(hp);
+    card.appendChild(san);
+    card.appendChild(atk);
     card.appendChild(misc);
 
     const abilitiesBtn = document.createElement("button");
@@ -1745,46 +1752,51 @@ function openPartyStatusModal(state: GameState, controller: GameController, rere
     equipmentSection.style.display = "flex";
     equipmentSection.style.flexDirection = "column";
     equipmentSection.style.gap = "4px";
-    const slots: Array<{ slot: "weapon" | "armor" | "trinket"; label: string }> = [
-      { slot: "weapon", label: "Weapon" },
-      { slot: "armor", label: "Armor" },
-      { slot: "trinket", label: "Trinket" },
+    const slots: Array<{ slot: "weapon" | "armor" | "trinket"; label: HTMLSpanElement }> = [
+      { slot: "weapon", label: document.createElement("span") },
+      { slot: "armor", label: document.createElement("span") },
+      { slot: "trinket", label: document.createElement("span") },
     ];
+    const equipmentRows: Array<{
+      slot: "weapon" | "armor" | "trinket";
+      label: HTMLSpanElement;
+      unequipBtn: HTMLButtonElement;
+    }> = [];
     slots.forEach(({ slot, label }) => {
       const row = document.createElement("div");
       row.style.display = "flex";
       row.style.justifyContent = "space-between";
       row.style.alignItems = "center";
-      const currentId = member.equipment?.[slot];
-      const name = currentId ? ITEMS[currentId]?.name || currentId : "Empty";
-      const text = document.createElement("span");
-      text.textContent = `${label}: ${name}`;
-      row.appendChild(text);
       const buttons = document.createElement("div");
       buttons.style.display = "flex";
       buttons.style.gap = "4px";
       const equipBtn = document.createElement("button");
       equipBtn.textContent = "Equip";
       equipBtn.addEventListener("click", () =>
-        openEquipModal(member, slot, controller, rerender, overlay)
+        openEquipModal(member, slot, controller, rerender, overlay, refreshStats)
       );
       buttons.appendChild(equipBtn);
-      if (currentId) {
-        const unequipBtn = document.createElement("button");
-        unequipBtn.textContent = "Unequip";
-        unequipBtn.addEventListener("click", () => {
-          controller.unequipItem(state.party.members.indexOf(member), slot);
-          overlay.remove();
-          rerender();
-        });
-        buttons.appendChild(unequipBtn);
-      }
+      const unequipBtn = document.createElement("button");
+      unequipBtn.textContent = "Unequip";
+      unequipBtn.addEventListener("click", () => {
+        const fresh = controller.getState().party.members.find((m) => m.id === member.id);
+        if (!fresh?.equipment?.[slot]) return;
+        const idx = controller.getState().party.members.findIndex((m) => m.id === member.id);
+        if (idx === -1) return;
+        controller.unequipItem(idx, slot);
+        refreshStats();
+        rerender();
+      });
+      buttons.appendChild(unequipBtn);
+      equipmentRows.push({ slot, label, unequipBtn });
+      row.appendChild(label);
       row.appendChild(buttons);
       equipmentSection.appendChild(row);
     });
     card.appendChild(equipmentSection);
 
     list.appendChild(card);
+    refreshStats();
   });
 
   modal.appendChild(list);
@@ -1885,7 +1897,8 @@ function openEquipModal(
   slot: "weapon" | "armor" | "trinket",
   controller: GameController,
   rerender: () => void,
-  parentOverlay: HTMLDivElement
+  _parentOverlay: HTMLDivElement,
+  onEquip?: () => void
 ): void {
   const overlay = document.createElement("div");
   overlay.style.cssText = `
@@ -1948,10 +1961,12 @@ function openEquipModal(
       btn.style.cursor = locked ? "not-allowed" : "pointer";
       btn.addEventListener("click", () => {
         if (locked) return;
-        controller.equipItem(controller.getState().party.members.indexOf(member), entry.item.id);
+        const idx = controller.getState().party.members.findIndex((m) => m.id === member.id);
+        if (idx === -1) return;
+        controller.equipItem(idx, entry.item.id);
         overlay.remove();
-        parentOverlay.remove();
         rerender();
+        if (onEquip) onEquip();
       });
       const desc = document.createElement("div");
       const bonuses = entry.item.equipment?.statBonuses || {};
