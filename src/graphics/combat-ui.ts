@@ -2,6 +2,7 @@ import type { CombatState } from "../game/combat/state";
 import { getAlivePartyMembers, getAliveEnemies, getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 import { drawCharacterSprite, isSpriteLoaded, type SpriteAction } from "./character-sprites";
+import type { CharacterState } from "../game/state";
 
 export interface CombatUIOptions {
   width: number;
@@ -137,7 +138,7 @@ function renderEnemies(
 /**
  * Get appropriate sprite action for a party member in combat
  */
-function getCombatSpriteAction(member: any, state: CombatState): SpriteAction {
+function getCombatSpriteAction(member: CharacterState, state: CombatState): SpriteAction {
   if (!member.alive) {
     return "DEATH";
   }
@@ -146,13 +147,14 @@ function getCombatSpriteAction(member: any, state: CombatState): SpriteAction {
   if (state.phase === "execute-action") {
     const currentActor = getCurrentActor(state);
     if (currentActor?.isPlayer && state.party.members[currentActor.index]?.id === member.id) {
-      // Check the last log entry to determine the action
+      // Check the last log entry type to determine the action
       const lastLog = state.log[state.log.length - 1];
       if (lastLog) {
-        if (lastLog.message.includes("attacks") || lastLog.message.includes("Attack")) {
+        // Use log type for more reliable action detection
+        if (lastLog.type === "damage" && lastLog.message.includes(member.name)) {
           return "ATTACK";
         }
-        if (lastLog.message.includes("casts") || lastLog.message.includes("uses")) {
+        if (lastLog.type === "sanity" || lastLog.message.toLowerCase().includes("cast") || lastLog.message.toLowerCase().includes("uses")) {
           return "CAST";
         }
       }

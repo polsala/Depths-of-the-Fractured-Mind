@@ -16,6 +16,10 @@ export type SpriteAction =
   | "HIT"
   | "DEATH";
 
+// Sprite sheet dimensions
+const SPRITE_SHEET_WIDTH = 1024;
+const SPRITE_SHEET_HEIGHT = 1024;
+
 interface SpriteSheet {
   image: HTMLImageElement;
   loaded: boolean;
@@ -74,8 +78,8 @@ export function loadCharacterSprite(characterId: CharacterId): Promise<SpriteShe
     const spriteSheet: SpriteSheet = {
       image,
       loaded: false,
-      frameWidth: 1024 / SPRITE_LAYOUT.cols, // 256px per frame
-      frameHeight: 1024 / SPRITE_LAYOUT.rows, // ~113px per frame
+      frameWidth: SPRITE_SHEET_WIDTH / SPRITE_LAYOUT.cols,
+      frameHeight: SPRITE_SHEET_HEIGHT / SPRITE_LAYOUT.rows,
     };
 
     image.onload = () => {
