@@ -1,5 +1,5 @@
 import type { CombatState } from "../game/combat/state";
-import { getAlivePartyMembers, getAliveEnemies, getCurrentActor } from "../game/combat/state";
+import { getAliveEnemies, getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 
 export interface CombatUIOptions {
