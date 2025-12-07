@@ -148,12 +148,21 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   }
   
   // Check for random encounters (only if not already in an event)
-  if (nextState.mode === "exploration" && tile?.encounterChance) {
+  if (
+    nextState.mode === "exploration" &&
+    tile?.encounterChance &&
+    !nextState.debugOptions?.disableEncounters
+  ) {
     if (shouldTriggerEncounter(nextState, tile.encounterChance)) {
       const encounter = generateRandomEncounter(nextState.location.depth);
       if (encounter) {
         // Create combat state before switching to combat mode
-        const combatState = createCombatState(nextState.party, encounter, false);
+        const combatState = createCombatState(
+          nextState.party,
+          encounter,
+          false,
+          nextState.debugOptions
+        );
         nextState = {
           ...nextState,
           mode: "combat" satisfies GameMode,

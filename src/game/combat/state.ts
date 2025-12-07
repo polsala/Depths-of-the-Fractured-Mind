@@ -1,4 +1,4 @@
-import type { CharacterState, PartyState } from "../state";
+import type { CharacterState, DebugOptions, PartyState } from "../state";
 import type { EnemyState, EncounterState } from "./engine";
 import { getBossDialogue } from "../boss-dialogues";
 
@@ -48,6 +48,7 @@ export interface CombatState {
   pendingAction?: CombatAction; // Action selected by current actor
   log: CombatLogEntry[];
   isBossFight: boolean;
+  debugOptions?: DebugOptions;
 }
 
 export interface CombatLogEntry {
@@ -58,7 +59,8 @@ export interface CombatLogEntry {
 export function createCombatState(
   party: PartyState,
   encounter: EncounterState,
-  isBoss: boolean = false
+  isBoss: boolean = false,
+  debugOptions?: DebugOptions
 ): CombatState {
   const log: CombatLogEntry[] = [];
   
@@ -91,6 +93,7 @@ export function createCombatState(
     pendingAction: undefined,
     log,
     isBossFight: isBoss,
+    debugOptions,
   };
 }
 

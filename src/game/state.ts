@@ -104,11 +104,18 @@ export type GameMode =
   | "ending"
   | "pause";
 
+export interface DebugOptions {
+  disableEncounters?: boolean;
+  xpMultiplier?: number;
+  oneHitKill?: boolean;
+}
+
 export interface GameState {
   party: PartyState;
   location: GameLocation;
   mode: GameMode;
   flags: GameFlags;
+  debugOptions?: DebugOptions;
   currentEventId?: string;
   currentEncounterId?: string;
   combatState?: any; // Will be CombatState from combat/state.ts
@@ -149,6 +156,11 @@ export function createInitialGameState(): GameState {
       riotRecordingPlayed: false,
       confessionalUsed: false,
       visitedTiles: new Set<string>(),
+    },
+    debugOptions: {
+      disableEncounters: false,
+      xpMultiplier: 1,
+      oneHitKill: false,
     },
     currentEventId: undefined,
     currentEncounterId: undefined,

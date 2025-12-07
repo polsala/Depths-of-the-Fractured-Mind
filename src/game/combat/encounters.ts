@@ -54,6 +54,7 @@ export function shouldTriggerEncounter(
 ): boolean {
   // Don't trigger if already in an event or combat
   if (state.mode !== "exploration") return false;
+  if (state.debugOptions?.disableEncounters) return false;
   
   // Random check
   return Math.random() < encounterChance;
@@ -65,7 +66,7 @@ export function triggerEncounter(state: GameState, depth?: number): GameState {
   
   if (!encounter) return state;
   
-  const combatState = createCombatState(state.party, encounter, false);
+  const combatState = createCombatState(state.party, encounter, false, state.debugOptions);
   
   return {
     ...state,

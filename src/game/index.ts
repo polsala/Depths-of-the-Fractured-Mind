@@ -1,4 +1,4 @@
-import type { GameLocation, GameState } from "./state";
+import type { DebugOptions, GameLocation, GameState } from "./state";
 import { createInitialGameState } from "./state";
 import { createDefaultParty } from "./characters/party";
 import { moveEast, moveNorth, moveSouth, moveWest, moveForward, moveBackward, strafeLeft, strafeRight } from "./exploration/movement";
@@ -9,6 +9,7 @@ import { selectEventForLocation } from "./events/procedural";
 import { generateRandomEncounter, generateBossEncounter } from "./combat/encounters";
 import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
+import { getDepthMap } from "./exploration/map";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
@@ -66,6 +67,51 @@ export class GameController {
     };
     this.stepsSinceLastEvent = 0;
     this.lastProceduralEventId = null;
+  }
+
+  public getDebugOptions(): DebugOptions {
+    return this.state.debugOptions ?? { disableEncounters: false, xpMultiplier: 1, oneHitKill: false };
+  }
+
+  public updateDebugOptions(options: Partial<DebugOptions>): void {
+    this.state = {
+      ...this.state,
+      debugOptions: {
+        ...(this.state.debugOptions ?? { disableEncounters: false, xpMultiplier: 1, oneHitKill: false }),
+        ...options,
+      },
+    };
+  }
+
+  public debugNextDepth(): void {
+    if (this.state.mode !== "exploration") return;
+    const currentDepth = this.state.location.depth;
+    if (currentDepth >= 5) return;
+
+    const nextDepth = currentDepth + 1;
+    const nextMap = getDepthMap(nextDepth, this.state.depthMaps);
+    const nextX = nextMap.startX;
+    const nextY = nextMap.startY;
+    // Mark discovered and visited
+    const nextTile = nextMap.tiles[nextY]?.[nextX];
+    if (nextTile) {
+      nextTile.discovered = true;
+    }
+    const tileKey = `${nextDepth}-${nextX}-${nextY}`;
+    this.state.flags.visitedTiles?.add(tileKey);
+
+    this.state = {
+      ...this.state,
+      location: {
+        depth: nextDepth,
+        x: nextX,
+        y: nextY,
+        direction: this.state.location.direction,
+      },
+      currentEventId: undefined,
+      mode: "exploration",
+    };
+    this.stepsSinceLastEvent = 0;
   }
 
   public moveNorth(): void {
@@ -172,7 +218,12 @@ export class GameController {
       return;
     }
     
-    this.state.combatState = createCombatState(this.state.party, encounter, isBoss);
+    this.state.combatState = createCombatState(
+      this.state.party,
+      encounter,
+      isBoss,
+      this.state.debugOptions
+    );
     this.state.currentEncounterId = `encounter_${Date.now()}`;
     this.state.mode = "combat";
   }

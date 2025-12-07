@@ -243,9 +243,15 @@ function handleVictory(state: CombatState): void {
   });
   
   const expReward = calculateExperienceReward(expRewards);
-  const { leveledUp, leveledCharacters } = awardExperience(state.party, expReward.perCharacter);
+  const multiplier = state.debugOptions?.xpMultiplier ?? 1;
+  const adjustedPerCharacter = Math.max(0, Math.floor(expReward.perCharacter * multiplier));
+  const { leveledUp, leveledCharacters } = awardExperience(state.party, adjustedPerCharacter);
   
-  addCombatLog(state, `Gained ${expReward.perCharacter} experience!`, "system");
+  addCombatLog(
+    state,
+    `Gained ${adjustedPerCharacter} experience${multiplier !== 1 ? ` (x${multiplier})` : ""}!`,
+    "system"
+  );
   
   if (leveledUp) {
     addCombatLog(
@@ -266,15 +272,16 @@ function executeBasicAttack(state: CombatState, action: CombatAction): void {
   if (!target || !target.alive) return;
   
   const result = performBasicAttack(attacker.stats, target.stats);
+  const damage = state.debugOptions?.oneHitKill ? target.stats.hp : result.damage;
   
   if (result.hit) {
-    const updatedEnemy = applyDamageToEnemy(target, result.damage);
+    const updatedEnemy = applyDamageToEnemy(target, damage);
     state.encounter.enemies[action.targetIndex] = updatedEnemy;
     
     const critText = result.critical ? " (CRITICAL)" : "";
     addCombatLog(
       state,
-      `${attacker.name} attacks ${target.name} for ${result.damage} damage${critText}!`,
+      `${attacker.name} attacks ${target.name} for ${damage} damage${critText}!`,
       "damage"
     );
     
@@ -432,9 +439,10 @@ function applyEffectsToEnemy(
     switch (effect.type) {
       case "damage":
         if (effect.value) {
-          const updatedEnemy = applyDamageToEnemy(enemy, effect.value);
+          const damage = state.debugOptions?.oneHitKill ? enemy.stats.hp : effect.value;
+          const updatedEnemy = applyDamageToEnemy(enemy, damage);
           state.encounter.enemies[enemyIndex] = updatedEnemy;
-          addCombatLog(state, `${enemy.name} takes ${effect.value} damage!`, "damage");
+          addCombatLog(state, `${enemy.name} takes ${damage} damage!`, "damage");
           
           if (!updatedEnemy.alive) {
             addCombatLog(state, `${enemy.name} has been defeated!`, "system");

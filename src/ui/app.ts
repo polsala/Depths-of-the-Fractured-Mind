@@ -444,6 +444,69 @@ function renderExploration(
     rerender();
   });
   debugSection.appendChild(bossCombatBtn);
+
+  const debugToggles = document.createElement("div");
+  debugToggles.style.marginTop = "8px";
+  debugToggles.style.display = "grid";
+  debugToggles.style.gridTemplateColumns = "repeat(auto-fit, minmax(180px, 1fr))";
+  debugToggles.style.gap = "6px";
+  debugSection.appendChild(debugToggles);
+
+  const debugOptions = controller.getDebugOptions();
+
+  const nextFloorButton = document.createElement("button");
+  nextFloorButton.textContent = "Skip to Next Floor";
+  nextFloorButton.addEventListener("click", () => {
+    controller.debugNextDepth();
+    rerender();
+  });
+  debugToggles.appendChild(nextFloorButton);
+
+  const encounterLabel = document.createElement("label");
+  encounterLabel.style.display = "flex";
+  encounterLabel.style.alignItems = "center";
+  encounterLabel.style.gap = "6px";
+  const encounterCheckbox = document.createElement("input");
+  encounterCheckbox.type = "checkbox";
+  encounterCheckbox.checked = !!debugOptions.disableEncounters;
+  encounterCheckbox.addEventListener("change", () => {
+    controller.updateDebugOptions({ disableEncounters: encounterCheckbox.checked });
+  });
+  encounterLabel.appendChild(encounterCheckbox);
+  encounterLabel.appendChild(document.createTextNode("Disable encounters"));
+  debugToggles.appendChild(encounterLabel);
+
+  const oneHitLabel = document.createElement("label");
+  oneHitLabel.style.display = "flex";
+  oneHitLabel.style.alignItems = "center";
+  oneHitLabel.style.gap = "6px";
+  const oneHitCheckbox = document.createElement("input");
+  oneHitCheckbox.type = "checkbox";
+  oneHitCheckbox.checked = !!debugOptions.oneHitKill;
+  oneHitCheckbox.addEventListener("change", () => {
+    controller.updateDebugOptions({ oneHitKill: oneHitCheckbox.checked });
+  });
+  oneHitLabel.appendChild(oneHitCheckbox);
+  oneHitLabel.appendChild(document.createTextNode("1-hit kill (players)"));
+  debugToggles.appendChild(oneHitLabel);
+
+  const xpWrapper = document.createElement("label");
+  xpWrapper.style.display = "flex";
+  xpWrapper.style.alignItems = "center";
+  xpWrapper.style.gap = "6px";
+  const xpInput = document.createElement("input");
+  xpInput.type = "number";
+  xpInput.min = "0";
+  xpInput.step = "0.5";
+  xpInput.value = String(debugOptions.xpMultiplier ?? 1);
+  xpInput.style.width = "64px";
+  xpInput.addEventListener("input", () => {
+    const value = Math.max(0, parseFloat(xpInput.value) || 0);
+    controller.updateDebugOptions({ xpMultiplier: value });
+  });
+  xpWrapper.appendChild(document.createTextNode("XP multiplier"));
+  xpWrapper.appendChild(xpInput);
+  debugToggles.appendChild(xpWrapper);
   
   infoPanel.appendChild(debugSection);
 
