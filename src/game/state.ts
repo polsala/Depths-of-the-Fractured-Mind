@@ -124,6 +124,7 @@ export type GameMode =
   | "event"
   | "conversation"
   | "ending"
+  | "gameover"
   | "pause";
 
 export interface DebugOptions {

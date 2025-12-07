@@ -347,7 +347,7 @@ export function createActionMenu(
       return;
     } else if (state.phase === "defeat") {
       statusText.textContent = "Defeat...";
-      const retryBtn = createButton("Retry", () => onAction({ type: "retry" }));
+      const retryBtn = createButton("Game Over", () => onAction({ type: "game-over" }));
       container.appendChild(statusText);
       container.appendChild(retryBtn);
       return;

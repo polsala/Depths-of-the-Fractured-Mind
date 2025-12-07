@@ -70,6 +70,11 @@ export class GameController {
     this.stepsSinceLastEvent = 0;
     this.lastProceduralEventId = null;
   }
+  
+  public triggerGameOver(): void {
+    this.state.mode = "gameover";
+    this.state.combatState = undefined;
+  }
 
   private recomputeStats(character: GameState["party"]["members"][number]): void {
     const base = character.baseStats || character.stats;
@@ -117,6 +122,22 @@ export class GameController {
         ...options,
       },
     };
+  }
+
+  public debugSetPartyLowHealth(): void {
+    // Apply to exploration party
+    this.state.party.members.forEach((member) => {
+      member.stats.hp = 1;
+      member.alive = true;
+    });
+
+    // Apply to active combat state if present
+    if (this.state.combatState?.party?.members) {
+      this.state.combatState.party.members.forEach((member: any) => {
+        member.stats.hp = 1;
+        member.alive = true;
+      });
+    }
   }
 
   public clearChestLoot(): void {
