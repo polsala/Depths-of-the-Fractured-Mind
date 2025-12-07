@@ -144,20 +144,21 @@ function renderParty(
   ctx.fillStyle = COLORS.panel;
   ctx.fillRect(x, y, width, height);
 
-  const aliveParty = getAlivePartyMembers(state.party);
-  if (aliveParty.length === 0) return;
+  const aliveMembers = state.party.members
+    .map((member, index) => ({ member, index }))
+    .filter(({ member }) => member.alive);
 
-  const memberWidth = Math.floor(width / Math.max(aliveParty.length, 1)) - 10;
+  if (aliveMembers.length === 0) return;
 
-  state.party.members.forEach((member, index) => {
-    if (!member.alive) return;
+  const memberWidth = Math.floor(width / Math.max(aliveMembers.length, 1)) - 10;
 
-    const memberX = x + index * (memberWidth + 5);
+  aliveMembers.forEach(({ member, index: partyIndex }, position) => {
+    const memberX = x + position * (memberWidth + 5);
     const memberY = y + 10;
 
     // Highlight current actor if it's their turn
     const currentActor = getCurrentActor(state);
-    if (state.phase === "select-action" && currentActor?.isPlayer && index === currentActor.index) {
+    if (state.phase === "select-action" && currentActor?.isPlayer && partyIndex === currentActor.index) {
       ctx.strokeStyle = COLORS.selected;
       ctx.lineWidth = 3;
       ctx.strokeRect(memberX - 2, memberY - 2, memberWidth + 4, height - 16);
