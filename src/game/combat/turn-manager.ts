@@ -348,6 +348,18 @@ function applyAbilityEffects(
         }
       });
       break;
+    case "all":
+      state.party.members.forEach((_, index) => {
+        if (state.party.members[index].alive) {
+          applyEffectsToCharacter(state, ability.effects, index);
+        }
+      });
+      state.encounter.enemies.forEach((_, index) => {
+        if (state.encounter.enemies[index].alive) {
+          applyEffectsToEnemy(state, ability.effects, index);
+        }
+      });
+      break;
   }
 }
 

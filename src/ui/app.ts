@@ -846,6 +846,24 @@ function renderCombat(
     combatActionModal = overlay;
   };
 
+  const submitAbilityAction = (abilityId: string, targetIndex?: number) => {
+    const latestState = controller.getCombatState() as CombatState;
+    const currentActor = getCurrentActor(latestState);
+    if (!currentActor || !currentActor.isPlayer) return;
+
+    const combatAction: CombatAction = {
+      type: "ability",
+      actorIndex: currentActor.index,
+      targetIndex,
+      abilityId,
+      isPlayerAction: true,
+    };
+    controller.submitCombatAction(combatAction);
+    selectedAbilityId = undefined;
+    closeCombatModal();
+    rerender();
+  };
+
   const submitTarget = (targetIndex: number) => {
     const latestState = controller.getCombatState() as CombatState;
     const currentActor = getCurrentActor(latestState);
@@ -985,6 +1003,27 @@ function renderCombat(
         `;
         btn.addEventListener("click", () => {
           if (!canUse) return;
+          const targetType = ability.targetType;
+          const current = getCurrentActor(controller.getCombatState() as CombatState);
+          if (!current || !current.isPlayer) return;
+
+          if (targetType === "self") {
+            submitAbilityAction(ability.id, current.index);
+            return;
+          }
+
+          if (targetType === "ally") {
+            selectedAbilityId = ability.id;
+            openTargetModal("ally");
+            return;
+          }
+
+          if (targetType === "all-allies" || targetType === "all-enemies" || targetType === "all") {
+            submitAbilityAction(ability.id);
+            return;
+          }
+
+          // Default to enemy targeting
           selectedAbilityId = ability.id;
           openTargetModal("enemy");
         });
