@@ -14,6 +14,10 @@ const chestSprite = new Image();
 const basePath = import.meta.env.BASE_URL || "/";
 const normalizedBasePath = basePath.endsWith("/") ? basePath : `${basePath}/`;
 chestSprite.src = `${normalizedBasePath}assets/sprites/objects/chest.png`;
+const stairsUpSprite = new Image();
+stairsUpSprite.src = `${normalizedBasePath}assets/tilesets/floors/strais_up.png`;
+const stairsDownSprite = new Image();
+stairsDownSprite.src = `${normalizedBasePath}assets/tilesets/floors/strais_down.png`;
 
 export interface ViewportConfig {
   width: number;
@@ -571,7 +575,7 @@ export function renderDungeonView(
     const cell = map[targetY]?.[targetX];
     if (!cell || !cell.chest) continue;
 
-    const scale = Math.max(0.25, 1 / (distance + 0.4));
+    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.5;
     const spriteSize = 96 * scale;
     const spriteX = width / 2 - spriteSize / 2;
     const spriteY = height * 0.6 - spriteSize * 0.5;
@@ -579,6 +583,72 @@ export function renderDungeonView(
       ctx.drawImage(chestSprite, spriteX, spriteY, spriteSize, spriteSize);
     } else {
       ctx.fillStyle = "#b0742a";
+      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
+    }
+  }
+
+  // Draw stairs up as billboards in view
+  for (let distance = 1; distance <= viewDistance; distance++) {
+    let targetX = viewState.x;
+    let targetY = viewState.y;
+    switch (viewState.direction) {
+      case "north":
+        targetY -= distance;
+        break;
+      case "south":
+        targetY += distance;
+        break;
+      case "east":
+        targetX += distance;
+        break;
+      case "west":
+        targetX -= distance;
+        break;
+    }
+    const cell = map[targetY]?.[targetX];
+    if (!cell || !cell.stairsUp) continue;
+
+    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.5;
+    const spriteSize = 96 * scale;
+    const spriteX = width / 2 - spriteSize / 2;
+    const spriteY = height * 0.6 - spriteSize * 0.5;
+    if (stairsUpSprite.complete) {
+      ctx.drawImage(stairsUpSprite, spriteX, spriteY, spriteSize, spriteSize);
+    } else {
+      ctx.fillStyle = "#7fd0ff";
+      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
+    }
+  }
+
+  // Draw stairs down as billboards in view
+  for (let distance = 1; distance <= viewDistance; distance++) {
+    let targetX = viewState.x;
+    let targetY = viewState.y;
+    switch (viewState.direction) {
+      case "north":
+        targetY -= distance;
+        break;
+      case "south":
+        targetY += distance;
+        break;
+      case "east":
+        targetX += distance;
+        break;
+      case "west":
+        targetX -= distance;
+        break;
+    }
+    const cell = map[targetY]?.[targetX];
+    if (!cell || !cell.stairsDown) continue;
+
+    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.5;
+    const spriteSize = 96 * scale;
+    const spriteX = width / 2 - spriteSize / 2;
+    const spriteY = height * 0.6 - spriteSize * 0.5;
+    if (stairsDownSprite.complete) {
+      ctx.drawImage(stairsDownSprite, spriteX, spriteY, spriteSize, spriteSize);
+    } else {
+      ctx.fillStyle = "#ff7f7f";
       ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
     }
   }

@@ -124,6 +124,27 @@ export function renderMinimap(
         );
         ctx.fill();
       }
+
+      // Stairs up marker
+      if (cell.stairsUp) {
+        ctx.fillStyle = "#7fd0ff";
+        ctx.fillRect(
+          tileX + tileSize * 0.2,
+          tileY + tileSize * 0.2,
+          tileSize * 0.6,
+          tileSize * 0.6
+        );
+      }
+
+      if (cell.stairsDown) {
+        ctx.fillStyle = "#ff7f7f";
+        ctx.fillRect(
+          tileX + tileSize * 0.2,
+          tileY + tileSize * 0.2,
+          tileSize * 0.6,
+          tileSize * 0.6
+        );
+      }
     }
   }
 
