@@ -10,7 +10,7 @@ import {
   type ViewState,
 } from "../graphics/renderer";
 import { renderPartyUI } from "../graphics/party-ui";
-import { renderMinimap } from "../graphics/minimap";
+import { renderMinimap, type MinimapConfig } from "../graphics/minimap";
 import {
   rotateClockwise,
   rotateCounterClockwise,
@@ -28,6 +28,7 @@ import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
+import type { DungeonMap } from "../graphics/map";
 
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
@@ -35,6 +36,9 @@ let currentDepthMusic: number = -1; // Track current depth for music changes
 let combatMenuState: "main" | "abilities" | "target-enemy" | "target-ally" = "main";
 let selectedAbilityId: string | undefined;
 let mobileControls: MobileControls | null = null;
+let minimapModal: HTMLDivElement | null = null;
+let minimapModalCanvas: HTMLCanvasElement | null = null;
+let minimapModalConfig: MinimapConfig | null = null;
 
 // Depth-to-music track mapping
 const DEPTH_MUSIC_MAP: Record<number, string> = {
@@ -130,6 +134,71 @@ function renderTitle(
   titleContainer.appendChild(flavorText);
 }
 
+function closeMinimapModal(): void {
+  if (minimapModal) {
+    minimapModal.remove();
+  }
+  minimapModal = null;
+  minimapModalCanvas = null;
+  minimapModalConfig = null;
+}
+
+function renderMinimapModal(
+  map: DungeonMap,
+  x: number,
+  y: number,
+  direction: NonNullable<GameState["location"]["direction"]>,
+  platform: ReturnType<typeof detectPlatform>
+): void {
+  const modalWidth = Math.min(Math.max(window.innerWidth * 0.75, 320), 540);
+  const modalHeight = Math.min(Math.max(window.innerHeight * 0.6, 260), 420);
+  const tileSize = platform === "mobile" ? 18 : 20;
+
+  minimapModalConfig = {
+    width: Math.floor(modalWidth),
+    height: Math.floor(modalHeight),
+    tileSize,
+  };
+
+  if (!minimapModal) {
+    minimapModal = document.createElement("div");
+    minimapModal.className = "minimap-modal-overlay";
+
+    const modal = document.createElement("div");
+    modal.className = "minimap-modal";
+    minimapModal.appendChild(modal);
+
+    const header = document.createElement("div");
+    header.className = "minimap-modal-header";
+    header.innerHTML = "<span>Expanded Minimap</span>";
+    modal.appendChild(header);
+
+    const closeButton = document.createElement("button");
+    closeButton.className = "minimap-modal-close";
+    closeButton.type = "button";
+    closeButton.setAttribute("aria-label", "Close minimap");
+    closeButton.innerHTML = "&times;";
+    closeButton.addEventListener("click", closeMinimapModal);
+    header.appendChild(closeButton);
+
+    minimapModalCanvas = document.createElement("canvas");
+    minimapModalCanvas.className = "minimap-modal-canvas";
+    modal.appendChild(minimapModalCanvas);
+
+    minimapModal.addEventListener("click", (event) => {
+      if (event.target === minimapModal) {
+        closeMinimapModal();
+      }
+    });
+
+    document.body.appendChild(minimapModal);
+  }
+
+  if (minimapModalCanvas && minimapModalConfig) {
+    renderMinimap(minimapModalCanvas, map, x, y, direction, minimapModalConfig);
+  }
+}
+
 function renderExploration(
   root: HTMLElement,
   controller: GameController,
@@ -140,6 +209,8 @@ function renderExploration(
   if (!state.location.direction) {
     state.location.direction = "north";
   }
+  const facingDirection = state.location.direction ?? "north";
+  state.location.direction = facingDirection;
 
   // Play depth-appropriate music
   if (currentDepthMusic !== state.location.depth) {
@@ -199,7 +270,7 @@ function renderExploration(
     <h3>Depth ${state.location.depth}</h3>
     <p>Position: (${state.location.x}, ${state.location.y})</p>
     <p class="direction-indicator">
-      Facing: ${getDirectionArrow(state.location.direction)} ${getDirectionName(state.location.direction)}
+      Facing: ${getDirectionArrow(facingDirection)} ${getDirectionName(facingDirection)}
     </p>
   `;
   infoPanel.appendChild(locationInfo);
@@ -208,9 +279,36 @@ function renderExploration(
   if (dungeonRenderContext && dungeonRenderContext.depthMaps) {
     const map = dungeonRenderContext.depthMaps.get(state.location.depth);
     if (map) {
+      const minimapWrapper = document.createElement("div");
+      minimapWrapper.className = "minimap-wrapper";
+      infoPanel.appendChild(minimapWrapper);
+
       const minimapCanvas = document.createElement("canvas");
       minimapCanvas.className = "minimap-panel";
-      infoPanel.appendChild(minimapCanvas);
+      minimapWrapper.appendChild(minimapCanvas);
+
+      const zoomButton = document.createElement("button");
+      zoomButton.className = "minimap-zoom-button";
+      zoomButton.type = "button";
+      zoomButton.setAttribute("aria-label", "Expand minimap");
+      zoomButton.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
+          <line x1="16" y1="16" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <line x1="11" y1="8" x2="11" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <line x1="8" y1="11" x2="14" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      `;
+      zoomButton.addEventListener("click", () => {
+        renderMinimapModal(
+          map as DungeonMap,
+          state.location.x,
+          state.location.y,
+          facingDirection,
+          platform
+        );
+      });
+      minimapWrapper.appendChild(zoomButton);
 
       const tileSizeForMinimap = platform === 'mobile' ? 12 : 14;
       renderMinimap(
@@ -218,13 +316,23 @@ function renderExploration(
         map,
         state.location.x,
         state.location.y,
-        state.location.direction,
+        facingDirection,
         {
           width: minimapSize.width,
           height: minimapSize.height,
           tileSize: tileSizeForMinimap,
         }
       );
+
+      if (minimapModal) {
+        renderMinimapModal(
+          map as DungeonMap,
+          state.location.x,
+          state.location.y,
+          facingDirection,
+          platform
+        );
+      }
     }
   }
 
@@ -674,6 +782,9 @@ export function initApp(root: HTMLElement): void {
     if (state.mode !== "exploration" && mobileControls) {
       mobileControls.cleanup();
       mobileControls = null;
+    }
+    if (state.mode !== "exploration") {
+      closeMinimapModal();
     }
 
     switch (state.mode) {

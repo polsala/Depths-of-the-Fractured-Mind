@@ -196,6 +196,92 @@ h1 {
   box-shadow: 0 0 10px rgba(45, 53, 97, 0.3);
 }
 
+.minimap-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.minimap-zoom-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #4a5f8f;
+  background: radial-gradient(circle at 30% 30%, #1c2238, #0f1321);
+  color: #b7c7ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(76, 100, 158, 0.4);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.minimap-zoom-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(100, 150, 255, 0.6);
+}
+
+.minimap-zoom-button:active {
+  transform: scale(0.97);
+}
+
+.minimap-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 8, 14, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+  backdrop-filter: blur(2px);
+}
+
+.minimap-modal {
+  background: linear-gradient(145deg, #0f1424, #0c0f1a);
+  border: 2px solid #2d3561;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border-radius: 8px;
+  width: min(540px, 90vw);
+  max-width: 540px;
+  padding: 12px 12px 16px 12px;
+}
+
+.minimap-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #c5d4ff;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.minimap-modal-close {
+  background: none;
+  border: none;
+  color: #c5d4ff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+.minimap-modal-close:hover {
+  color: #ffffff;
+}
+
+.minimap-modal-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid #2d3561;
+}
+
 .instructions {
   margin-top: 15px;
   padding: 10px;
