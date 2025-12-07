@@ -971,7 +971,8 @@ function renderCombat(
 
   const controlsWrapper = document.createElement("div");
   controlsWrapper.style.cssText = `
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: 20px;
     padding: 12px;
     width: ${Math.max(840, combatLayoutWidth)}px;
@@ -986,9 +987,9 @@ function renderCombat(
   // Combat log
   const logContainer = document.createElement("div");
   logContainer.style.cssText = `
-    flex: 1;
+    width: 100%;
+    min-width: 0;
     height: 100%;
-    min-width: 320px;
   `;
   controlsWrapper.appendChild(logContainer);
   renderCombatLog(logContainer, combatState, 15);
@@ -996,9 +997,9 @@ function renderCombat(
   // Action menu
   const actionContainer = document.createElement("div");
   actionContainer.style.cssText = `
-    flex: 1;
+    width: 100%;
+    min-width: 0;
     height: 100%;
-    min-width: 320px;
   `;
   controlsWrapper.appendChild(actionContainer);
 
