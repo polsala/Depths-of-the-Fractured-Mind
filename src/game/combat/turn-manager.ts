@@ -313,12 +313,23 @@ function handleVictory(state: CombatState): void {
       (item.equipment.depthTier ?? 1) <= depth
   );
 
-  if (state.isBossFight && bossPool.length > 0) {
-    const bossItem = bossPool[Math.floor(Math.random() * bossPool.length)];
-    if (addItem(state.party.inventory, bossItem.id, 1)) {
-      loot.push({ id: bossItem.id, quantity: 1 });
-      addCombatLog(state, `Boss dropped ${bossItem.name}`, "system");
-    }
+  if (state.isBossFight) {
+    const bossId = state.encounter.enemies[0]?.id;
+    const bossMapping: Record<string, string[]> = {
+      threshold_warden: ["warden_emblem"],
+      keeper_of_records: ["records_ledger"],
+      ward_physician: ["surgeons_toolroll"],
+      mirror_self: ["mirror_shard", "executioner_blade"],
+      the_engine_heart: ["engine_fragment"],
+    };
+    const specific = (bossId && bossMapping[bossId]) || [];
+    const pool = specific.length > 0 ? specific : bossPool.map((i) => i.id);
+    pool.forEach((itemId) => {
+      if (addItem(state.party.inventory, itemId, 1)) {
+        loot.push({ id: itemId, quantity: 1 });
+        addCombatLog(state, `Boss dropped ${ITEMS[itemId]?.name || itemId}`, "system");
+      }
+    });
   } else {
     const equipChance = Math.min(0.5, 0.15 + depth * 0.08);
     if (Math.random() < equipChance && equipmentPool.length > 0) {
