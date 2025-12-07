@@ -1,4 +1,4 @@
-import type { GameState } from "./state";
+import type { GameLocation, GameState } from "./state";
 import { createInitialGameState } from "./state";
 import { createDefaultParty } from "./characters/party";
 import { moveEast, moveNorth, moveSouth, moveWest, moveForward, moveBackward, strafeLeft, strafeRight } from "./exploration/movement";
@@ -10,10 +10,14 @@ import { generateRandomEncounter, generateBossEncounter } from "./combat/encount
 import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
 
+const PROCEDURAL_EVENT_CHANCE = 0.12;
+const MIN_STEPS_BETWEEN_EVENTS = 2;
+
 export class GameController {
   private state: GameState;
   private eventsReady: boolean = false;
   private eventLoadingError: Error | null = null;
+  private stepsSinceLastEvent: number = 0;
 
   constructor() {
     registerMandatoryEvents();
@@ -59,46 +63,63 @@ export class GameController {
       ...createInitialGameState(),
       party: createDefaultParty(),
     };
+    this.stepsSinceLastEvent = 0;
   }
 
   public moveNorth(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = moveNorth(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public moveSouth(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = moveSouth(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public moveEast(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = moveEast(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public moveWest(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = moveWest(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public moveForward(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = moveForward(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public moveBackward(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = moveBackward(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public strafeLeft(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = strafeLeft(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public strafeRight(): void {
     if (this.state.mode !== "exploration") return;
+    const previousLocation: GameLocation = { ...this.state.location };
     this.state = strafeRight(this.state);
+    this.handlePostMove(previousLocation);
   }
 
   public startEvent(eventId: string): void {
@@ -115,15 +136,22 @@ export class GameController {
   /**
    * Trigger a procedurally selected event for the current location
    */
-  public triggerProceduralEvent(): void {
-    if (this.state.mode !== "exploration") {
-      return;
+  public triggerProceduralEvent(): boolean {
+    if (!this.eventsReady || this.state.mode !== "exploration") {
+      return false;
     }
-    
+
     const eventId = selectEventForLocation(this.state);
     if (eventId) {
-      this.state = startEvent(this.state, eventId);
+      const nextState = startEvent(this.state, eventId);
+      const triggered = nextState !== this.state && nextState.mode === "event";
+      this.state = nextState;
+      if (triggered) {
+        this.stepsSinceLastEvent = 0;
+      }
+      return triggered;
     }
+    return false;
   }
 
   /**
@@ -155,6 +183,38 @@ export class GameController {
     
     // Submit and execute the action
     submitAction(this.state.combatState, action);
+  }
+
+  /**
+   * After moving in exploration, decide if we should surface a procedural event
+   */
+  private handlePostMove(previousLocation: GameLocation): void {
+    if (!this.eventsReady || this.state.mode !== "exploration") {
+      return;
+    }
+
+    const currentLocation = this.state.location;
+    const moved =
+      previousLocation.x !== currentLocation.x ||
+      previousLocation.y !== currentLocation.y ||
+      previousLocation.depth !== currentLocation.depth;
+
+    if (!moved) {
+      return;
+    }
+
+    this.stepsSinceLastEvent += 1;
+    if (this.stepsSinceLastEvent < MIN_STEPS_BETWEEN_EVENTS) {
+      return;
+    }
+
+    if (Math.random() < PROCEDURAL_EVENT_CHANCE) {
+      const previousMode = this.state.mode;
+      this.triggerProceduralEvent();
+      if (this.state.mode !== previousMode) {
+        this.stepsSinceLastEvent = 0;
+      }
+    }
   }
   
   /**
