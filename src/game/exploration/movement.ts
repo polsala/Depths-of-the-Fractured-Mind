@@ -178,7 +178,8 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
           nextState.party,
           encounter,
           false,
-          nextState.debugOptions
+          nextState.debugOptions,
+          nextState.location.depth
         );
         nextState = {
           ...nextState,

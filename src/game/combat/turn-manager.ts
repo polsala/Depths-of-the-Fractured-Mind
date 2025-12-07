@@ -229,6 +229,7 @@ function handleVictory(state: CombatState): void {
   state.phase = "victory";
   
   const beforeSnapshots = state.party.members.map((member) => ({
+    id: member.id,
     name: member.name,
     level: getCharacterLevel(member),
     exp: getCharacterExperience(member),
@@ -274,6 +275,7 @@ function handleVictory(state: CombatState): void {
   }
   
   const afterSnapshots = state.party.members.map((member) => ({
+    id: member.id,
     name: member.name,
     level: getCharacterLevel(member),
     exp: getCharacterExperience(member),
@@ -298,6 +300,7 @@ function handleVictory(state: CombatState): void {
   state.victorySummary = {
     expGained: adjustedPerCharacter,
     characters: afterSnapshots.map((after, idx) => ({
+      id: after.id,
       name: after.name,
       levelBefore: beforeSnapshots[idx]?.level ?? after.level,
       levelAfter: after.level,

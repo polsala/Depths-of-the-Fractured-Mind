@@ -214,10 +214,11 @@ export class GameController {
   /**
    * Start a random combat encounter
    */
-  public startCombat(isBoss: boolean = false): void {
+  public startCombat(isBoss: boolean = false, depthOverride?: number): void {
+    const depth = depthOverride ?? this.state.location.depth;
     const encounter = isBoss
-      ? generateBossEncounter(this.state.location.depth)
-      : generateRandomEncounter(this.state.location.depth);
+      ? generateBossEncounter(depth)
+      : generateRandomEncounter(depth);
     
     if (!encounter) {
       console.error("Failed to generate encounter");
@@ -228,7 +229,8 @@ export class GameController {
       this.state.party,
       encounter,
       isBoss,
-      this.state.debugOptions
+      this.state.debugOptions,
+      depth
     );
     this.state.currentEncounterId = `encounter_${Date.now()}`;
     this.state.mode = "combat";

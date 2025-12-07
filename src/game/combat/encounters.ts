@@ -66,7 +66,7 @@ export function triggerEncounter(state: GameState, depth?: number): GameState {
   
   if (!encounter) return state;
   
-  const combatState = createCombatState(state.party, encounter, false, state.debugOptions);
+  const combatState = createCombatState(state.party, encounter, false, state.debugOptions, actualDepth);
   
   return {
     ...state,

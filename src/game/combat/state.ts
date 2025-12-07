@@ -50,9 +50,11 @@ export interface CombatState {
   log: CombatLogEntry[];
   isBossFight: boolean;
   debugOptions?: DebugOptions;
+  combatDepth?: number;
   victorySummary?: {
     expGained: number;
     characters: Array<{
+      id: string;
       name: string;
       levelBefore: number;
       levelAfter: number;
@@ -74,7 +76,8 @@ export function createCombatState(
   party: PartyState,
   encounter: EncounterState,
   isBoss: boolean = false,
-  debugOptions?: DebugOptions
+  debugOptions?: DebugOptions,
+  combatDepth?: number
 ): CombatState {
   const log: CombatLogEntry[] = [];
   
@@ -108,6 +111,7 @@ export function createCombatState(
     log,
     isBossFight: isBoss,
     debugOptions,
+    combatDepth,
   };
 }
 

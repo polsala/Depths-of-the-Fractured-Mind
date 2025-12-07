@@ -446,6 +446,26 @@ function renderExploration(
   });
   debugSection.appendChild(bossCombatBtn);
 
+  const bossSelect = document.createElement("select");
+  bossSelect.style.marginLeft = "8px";
+  [1, 2, 3, 4, 5].forEach((depth) => {
+    const opt = document.createElement("option");
+    opt.value = String(depth);
+    opt.textContent = `Boss Depth ${depth}`;
+    bossSelect.appendChild(opt);
+  });
+  debugSection.appendChild(bossSelect);
+
+  const spawnBossBtn = document.createElement("button");
+  spawnBossBtn.textContent = "Start Boss (selected depth)";
+  spawnBossBtn.style.marginLeft = "6px";
+  spawnBossBtn.addEventListener("click", () => {
+    const depth = parseInt(bossSelect.value, 10) || state.location.depth;
+    controller.startCombat(true, depth);
+    rerender();
+  });
+  debugSection.appendChild(spawnBossBtn);
+
   const debugToggles = document.createElement("div");
   debugToggles.style.marginTop = "8px";
   debugToggles.style.display = "grid";
@@ -739,9 +759,12 @@ function renderCombat(
   const music = combatState.isBossFight ? "battle_boss" : "battle_normal";
   audioManager.playMusic(music);
 
-  const combatBackground = combatState.isBossFight
-    ? getAssetUrl("assets/backgrounds/bosses/BG_BOSS_D1.png")
-    : getAssetUrl("assets/backgrounds/battle/battle_bg1.png");
+  const combatDepth = combatState.combatDepth ?? state.location.depth;
+  let combatBackground = getAssetUrl("assets/backgrounds/battle/battle_bg1.png");
+  if (combatState.isBossFight) {
+    const bossBg = getAssetUrl(`assets/backgrounds/bosses/BG_BOSS_D${combatDepth}.png`);
+    combatBackground = bossBg;
+  }
   const backgroundImage = getCombatBackground(combatBackground);
   const combatLayoutWidth = Math.min(1200, Math.floor(window.innerWidth * 0.95));
   const canvasWidth = Math.min(combatLayoutWidth, Math.floor(window.innerWidth * 0.92));
