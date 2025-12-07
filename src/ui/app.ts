@@ -21,11 +21,10 @@ import {
   renderCombatUI,
   renderCombatLog,
   createActionMenu,
-  createAbilityMenu,
-  createTargetSelector,
 } from "../graphics/combat-ui";
 import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
+import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import type { DungeonMap } from "../graphics/map";
@@ -41,6 +40,7 @@ let mobileControls: MobileControls | null = null;
 let minimapModal: HTMLDivElement | null = null;
 let minimapModalCanvas: HTMLCanvasElement | null = null;
 let minimapModalConfig: MinimapConfig | null = null;
+let combatActionModal: HTMLDivElement | null = null;
 
 // Depth-to-music track mapping
 const DEPTH_MUSIC_MAP: Record<number, string> = {
@@ -602,6 +602,7 @@ function renderCombat(
     rerender();
     return;
   }
+  closeCombatModal();
 
   // Play combat music
   const music = combatState.isBossFight ? "battle_boss" : "battle_normal";
@@ -611,6 +612,10 @@ function renderCombat(
     ? getAssetUrl("assets/backgrounds/bosses/boss_bg1.png")
     : getAssetUrl("assets/backgrounds/battle/battle_bg1.png");
   const backgroundImage = getCombatBackground(combatBackground);
+  const combatLayoutWidth = Math.min(1200, Math.floor(window.innerWidth * 0.95));
+  const canvasWidth = Math.min(combatLayoutWidth, Math.floor(window.innerWidth * 0.92));
+  const canvasHeight = Math.max(360, Math.min(560, Math.floor(window.innerHeight * 0.45)));
+  const controlsHeight = Math.min(360, Math.max(240, Math.floor(window.innerHeight * 0.35)));
 
   // Create combat container
   const combatContainer = document.createElement("div");
@@ -620,6 +625,9 @@ function renderCombat(
     flex-direction: column;
     height: 100vh;
     background: #05050a;
+    align-items: center;
+    padding: 16px;
+    box-sizing: border-box;
   `;
   root.appendChild(combatContainer);
 
@@ -630,16 +638,19 @@ function renderCombat(
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 12px;
+    width: 100%;
   `;
   combatContainer.appendChild(combatView);
 
   // Combat canvas
   const combatCanvas = document.createElement("canvas");
+  combatCanvas.style.maxWidth = "100%";
+  combatCanvas.style.boxShadow = "0 8px 24px rgba(0,0,0,0.45)";
   combatView.appendChild(combatCanvas);
   renderCombatUI(combatCanvas, combatState, {
-    width: 800,
-    height: 400,
+    width: canvasWidth,
+    height: canvasHeight,
     backgroundImage: backgroundImage?.complete ? backgroundImage : undefined,
   });
 
@@ -649,8 +660,8 @@ function renderCombat(
       const latestState = controller.getCombatState();
       if (latestState) {
         renderCombatUI(combatCanvas, latestState as CombatState, {
-          width: 800,
-          height: 400,
+          width: canvasWidth,
+          height: canvasHeight,
           backgroundImage,
         });
       }
@@ -661,22 +672,44 @@ function renderCombat(
   const controlsSection = document.createElement("div");
   controlsSection.style.cssText = `
     display: flex;
-    height: 300px;
-    gap: 20px;
-    padding: 20px;
+    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
   `;
   combatContainer.appendChild(controlsSection);
 
+  const controlsWrapper = document.createElement("div");
+  controlsWrapper.style.cssText = `
+    display: flex;
+    gap: 20px;
+    padding: 12px;
+    width: ${Math.max(720, combatLayoutWidth)}px;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: stretch;
+    height: ${controlsHeight}px;
+  `;
+  controlsSection.appendChild(controlsWrapper);
+
   // Combat log
   const logContainer = document.createElement("div");
-  logContainer.style.flex = "1";
-  controlsSection.appendChild(logContainer);
+  logContainer.style.cssText = `
+    flex: 1;
+    height: 100%;
+    min-width: 320px;
+  `;
+  controlsWrapper.appendChild(logContainer);
   renderCombatLog(logContainer, combatState, 15);
 
   // Action menu
   const actionContainer = document.createElement("div");
-  actionContainer.style.flex = "1";
-  controlsSection.appendChild(actionContainer);
+  actionContainer.style.cssText = `
+    flex: 1;
+    height: 100%;
+    min-width: 320px;
+  `;
+  controlsWrapper.appendChild(actionContainer);
 
   const handleAction = (action: any) => {
     if (action.type === "end-combat") {
@@ -697,8 +730,7 @@ function renderCombat(
     }
 
     if (action.type === "show-abilities") {
-      combatMenuState = "abilities";
-      renderActionMenu();
+      openAbilityModal();
       return;
     }
 
@@ -708,10 +740,8 @@ function renderCombat(
     }
 
     if (action.type === "select-target") {
-      if (action.actionType === "attack") {
-        combatMenuState = "target-enemy";
-        renderActionMenu();
-      }
+      selectedAbilityId = undefined;
+      openTargetModal("enemy");
       return;
     }
 
@@ -740,16 +770,91 @@ function renderCombat(
     }
   };
 
-  const handleAbility = (abilityId: string) => {
-    selectedAbilityId = abilityId;
-    combatMenuState = "target-enemy"; // Most abilities target enemies
-    renderActionMenu();
+  const renderActionMenu = () => {
+    actionContainer.innerHTML = "";
+    combatMenuState = "main";
+    createActionMenu(actionContainer, combatState, handleAction);
   };
 
-  const handleTarget = (targetIndex: number) => {
-    const currentActor = getCurrentActor(combatState);
+  const openCombatModal = (
+    title: string,
+    buildContent: (content: HTMLDivElement) => void
+  ) => {
+    closeCombatModal();
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 10, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      padding: 16px;
+      box-sizing: border-box;
+    `;
+
+    const modal = document.createElement("div");
+    modal.style.cssText = `
+      background: #0c0c14;
+      border: 2px solid #4a4a4a;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.55);
+      width: min(720px, 90vw);
+      max-height: 80vh;
+      overflow-y: auto;
+      border-radius: 6px;
+      padding: 16px;
+      box-sizing: border-box;
+      color: #e0e0e0;
+      font-family: monospace;
+    `;
+
+    const header = document.createElement("div");
+    header.style.cssText = `
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-weight: bold;
+      color: #ffcc00;
+    `;
+    header.textContent = title;
+
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "×";
+    closeBtn.style.cssText = `
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border: 1px solid #4a4a4a;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-weight: bold;
+    `;
+    closeBtn.addEventListener("click", () => closeCombatModal());
+    header.appendChild(closeBtn);
+
+    const content = document.createElement("div");
+    buildContent(content);
+
+    modal.appendChild(header);
+    modal.appendChild(content);
+    overlay.appendChild(modal);
+
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) {
+        closeCombatModal();
+      }
+    });
+
+    document.body.appendChild(overlay);
+    combatActionModal = overlay;
+  };
+
+  const submitTarget = (targetIndex: number) => {
+    const latestState = controller.getCombatState() as CombatState;
+    const currentActor = getCurrentActor(latestState);
     if (!currentActor || !currentActor.isPlayer) return;
-    
+
     if (selectedAbilityId) {
       const combatAction: CombatAction = {
         type: "ability",
@@ -769,28 +874,146 @@ function renderCombat(
       };
       controller.submitCombatAction(combatAction);
     }
+
+    closeCombatModal();
     combatMenuState = "main";
     rerender();
   };
 
-  const handleBack = () => {
-    combatMenuState = "main";
-    selectedAbilityId = undefined;
-    renderActionMenu();
+  const openTargetModal = (targetType: "enemy" | "ally") => {
+    const latestState = controller.getCombatState() as CombatState;
+    const modalTitle = targetType === "ally" ? "Selecciona aliado" : "Selecciona enemigo";
+    const targets =
+      targetType === "ally"
+        ? latestState.party.members
+            .map((member, index) => ({ member, index }))
+            .filter(({ member }) => member.alive)
+        : latestState.encounter.enemies
+            .map((enemy, index) => ({ enemy, index }))
+            .filter(({ enemy }) => enemy.alive);
+
+    openCombatModal(modalTitle, (content) => {
+      const list = document.createElement("div");
+      list.style.display = "grid";
+      list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
+      list.style.gap = "10px";
+
+      targets.forEach((target) => {
+        const btn = document.createElement("button");
+        btn.textContent =
+          targetType === "ally"
+            ? `${target.member.name} (HP: ${target.member.stats.hp}/${target.member.stats.maxHp})`
+            : `${target.enemy.name} (HP: ${target.enemy.stats.hp}/${target.enemy.stats.maxHp})`;
+        btn.style.cssText = `
+          background: rgba(26,26,26,0.65);
+          color: #e0e0e0;
+          border: 2px solid #4a4a4a;
+          padding: 10px 12px;
+          font-family: monospace;
+          cursor: pointer;
+          text-align: center;
+          width: 100%;
+          box-sizing: border-box;
+        `;
+        btn.addEventListener("click", () => submitTarget(target.index));
+        list.appendChild(btn);
+      });
+
+      const backBtn = document.createElement("button");
+      backBtn.textContent = "Volver";
+      backBtn.style.cssText = `
+        margin-top: 10px;
+        background: #2a2a2a;
+        color: #e0e0e0;
+        border: 2px solid #4a4a4a;
+        padding: 8px 12px;
+        font-family: monospace;
+        cursor: pointer;
+      `;
+      backBtn.addEventListener("click", () => {
+        selectedAbilityId = undefined;
+        closeCombatModal();
+      });
+
+      content.appendChild(list);
+      content.appendChild(backBtn);
+    });
   };
 
-  const renderActionMenu = () => {
-    actionContainer.innerHTML = "";
-    
-    if (combatMenuState === "main") {
-      createActionMenu(actionContainer, combatState, handleAction);
-    } else if (combatMenuState === "abilities") {
-      createAbilityMenu(actionContainer, combatState, handleAbility, handleBack);
-    } else if (combatMenuState === "target-enemy") {
-      createTargetSelector(actionContainer, combatState, false, handleTarget, handleBack);
-    } else if (combatMenuState === "target-ally") {
-      createTargetSelector(actionContainer, combatState, true, handleTarget, handleBack);
-    }
+  const openAbilityModal = () => {
+    const latestState = controller.getCombatState() as CombatState;
+    const currentActor = getCurrentActor(latestState);
+    if (!currentActor || !currentActor.isPlayer) return;
+    const character = latestState.party.members[currentActor.index];
+    if (!character) return;
+
+    const abilities = getCharacterAbilities(character.id);
+    openCombatModal("Selecciona habilidad", (content) => {
+      const list = document.createElement("div");
+      list.style.display = "grid";
+      list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
+      list.style.gap = "10px";
+
+      abilities.forEach((ability) => {
+        const canUse = canUseAbility(ability, character);
+        const costLabel = ability.cost?.sanity ? ` (${ability.cost.sanity} SAN)` : "";
+        const btn = document.createElement("button");
+        btn.textContent = `${ability.name}${costLabel}`;
+        btn.disabled = !canUse;
+        btn.style.cssText = `
+          background: ${canUse ? "rgba(26,26,26,0.65)" : "#3a3a3a"};
+          color: ${canUse ? "#e0e0e0" : "#777"};
+          border: 2px solid #4a4a4a;
+          padding: 10px 12px;
+          font-family: monospace;
+          cursor: ${canUse ? "pointer" : "not-allowed"};
+          text-align: center;
+          width: 100%;
+          box-sizing: border-box;
+        `;
+        btn.addEventListener("click", () => {
+          if (!canUse) return;
+          selectedAbilityId = ability.id;
+          openTargetModal("enemy");
+        });
+
+        const item = document.createElement("div");
+        item.style.display = "flex";
+        item.style.flexDirection = "column";
+        item.style.gap = "4px";
+        item.appendChild(btn);
+
+        const desc = document.createElement("div");
+        desc.textContent = ability.description;
+        desc.style.cssText = `
+          font-size: 11px;
+          color: #b0b0b0;
+          padding: 0 4px;
+        `;
+        item.appendChild(desc);
+
+        list.appendChild(item);
+      });
+
+      const backBtn = document.createElement("button");
+      backBtn.textContent = "Volver";
+      backBtn.style.cssText = `
+        margin-top: 10px;
+        background: #2a2a2a;
+        color: #e0e0e0;
+        border: 2px solid #4a4a4a;
+        padding: 8px 12px;
+        font-family: monospace;
+        cursor: pointer;
+      `;
+      backBtn.addEventListener("click", () => {
+        selectedAbilityId = undefined;
+        closeCombatModal();
+      });
+
+      content.appendChild(list);
+      content.appendChild(backBtn);
+    });
   };
 
   renderActionMenu();
@@ -810,6 +1033,9 @@ export function initApp(root: HTMLElement): void {
     }
     if (state.mode !== "exploration") {
       closeMinimapModal();
+    }
+    if (state.mode !== "combat") {
+      closeCombatModal();
     }
 
     switch (state.mode) {
@@ -916,4 +1142,11 @@ function getAssetUrl(relativePath: string): string {
   const normalizedBase = base.endsWith("/") ? base : `${base}/`;
   const normalizedPath = relativePath.startsWith("/") ? relativePath.slice(1) : relativePath;
   return `${normalizedBase}${normalizedPath}`;
+}
+
+function closeCombatModal(): void {
+  if (combatActionModal) {
+    combatActionModal.remove();
+    combatActionModal = null;
+  }
 }

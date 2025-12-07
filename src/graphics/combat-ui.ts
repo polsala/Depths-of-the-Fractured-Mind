@@ -147,7 +147,7 @@ function renderParty(
   const aliveParty = getAlivePartyMembers(state.party);
   if (aliveParty.length === 0) return;
 
-  const memberWidth = Math.floor(width / 4) - 5;
+  const memberWidth = Math.floor(width / Math.max(aliveParty.length, 1)) - 10;
 
   state.party.members.forEach((member, index) => {
     if (!member.alive) return;
@@ -265,11 +265,14 @@ export function renderCombatLog(
     background: ${COLORS.panel};
     border: 2px solid ${COLORS.border};
     padding: 10px;
-    max-height: 200px;
+    height: 100%;
     overflow-y: auto;
     font-family: monospace;
     font-size: 12px;
     color: ${COLORS.text};
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   `;
 
   const recentLogs = state.log.slice(-maxEntries);
@@ -322,6 +325,12 @@ export function createActionMenu(
     border: 2px solid ${COLORS.border};
     padding: 15px;
     font-family: monospace;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   `;
 
   if (state.phase !== "select-action") {
@@ -373,13 +382,20 @@ export function createActionMenu(
     color: ${COLORS.selected};
     font-weight: bold;
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 16px;
+    text-align: center;
   `;
   container.appendChild(title);
 
   // Main actions
   const actionsDiv = document.createElement("div");
-  actionsDiv.style.marginBottom = "10px";
+  actionsDiv.style.cssText = `
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    justify-items: center;
+  `;
 
   const attackBtn = createButton("Attack", () => {
     onAction({ type: "select-target", actionType: "attack" });
@@ -531,11 +547,15 @@ function createButton(
     background: ${disabled ? COLORS.border : COLORS.panel};
     color: ${disabled ? COLORS.textDim : COLORS.text};
     border: 2px solid ${COLORS.border};
-    padding: 8px 12px;
-    margin: 5px;
+    padding: 10px 14px;
+    margin: 0;
     cursor: ${disabled ? "not-allowed" : "pointer"};
     font-family: monospace;
     font-size: 12px;
+    width: 100%;
+    max-width: 220px;
+    box-sizing: border-box;
+    text-align: center;
   `;
 
   if (!disabled && onClick) {
