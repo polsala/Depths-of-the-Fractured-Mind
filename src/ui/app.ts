@@ -1914,9 +1914,6 @@ function openEquipModal(
     if (entry.item.equipment.allowedCharacters && !entry.item.equipment.allowedCharacters.includes(member.id)) {
       return false;
     }
-    if (entry.item.equipment.requiredLevel && level < entry.item.equipment.requiredLevel) {
-      return false;
-    }
     return true;
   });
 
@@ -1930,9 +1927,15 @@ function openEquipModal(
       wrap.style.display = "flex";
       wrap.style.flexDirection = "column";
       wrap.style.gap = "2px";
+      const reqLevel = entry.item.equipment?.requiredLevel ?? 1;
+      const locked = level < reqLevel;
       const btn = document.createElement("button");
-      btn.textContent = `${entry.item.name} (lvl ${entry.item.equipment?.requiredLevel ?? 1}+ )`;
+      btn.textContent = `${entry.item.name} (lvl ${reqLevel}+ )`;
+      btn.disabled = locked;
+      btn.style.opacity = locked ? "0.6" : "1";
+      btn.style.cursor = locked ? "not-allowed" : "pointer";
       btn.addEventListener("click", () => {
+        if (locked) return;
         controller.equipItem(controller.getState().party.members.indexOf(member), entry.item.id);
         overlay.remove();
         parentOverlay.remove();
@@ -1944,9 +1947,10 @@ function openEquipModal(
         .filter(([, v]) => typeof v === "number" && v !== 0)
         .map(([k, v]) => `${k}+${v}`)
         .join(", ");
-      desc.textContent = `${entry.item.description}${bonusText ? ` | ${bonusText}` : ""}`;
+      const req = entry.item.equipment?.requiredLevel ?? 1;
+      desc.textContent = `${entry.item.description}${bonusText ? ` | ${bonusText}` : ""} | Requires level ${req}`;
       desc.style.fontSize = "12px";
-      desc.style.color = "#b0b0b0";
+      desc.style.color = locked ? "#777" : "#b0b0b0";
       wrap.appendChild(btn);
       wrap.appendChild(desc);
       list.appendChild(wrap);
