@@ -50,6 +50,18 @@ export interface CombatState {
   log: CombatLogEntry[];
   isBossFight: boolean;
   debugOptions?: DebugOptions;
+  victorySummary?: {
+    expGained: number;
+    characters: Array<{
+      name: string;
+      levelBefore: number;
+      levelAfter: number;
+      expBefore: number;
+      expAfter: number;
+      expToNextBefore: number;
+      expToNextAfter: number;
+    }>;
+  };
 }
 
 export interface CombatLogEntry {

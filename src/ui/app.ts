@@ -904,6 +904,154 @@ function renderCombat(
     createActionMenu(actionContainer, combatState, handleAction);
   };
 
+  const victorySummary = combatState.victorySummary;
+  if (combatState.phase === "victory" && victorySummary) {
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+      box-sizing: border-box;
+    `;
+
+    const panel = document.createElement("div");
+    panel.style.cssText = `
+      background: #0f0f12;
+      border: 2px solid #4a4a4a;
+      padding: 16px;
+      width: min(720px, 95vw);
+      color: #e0e0e0;
+      font-family: monospace;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    `;
+
+    const header = document.createElement("div");
+    header.style.display = "flex";
+    header.style.justifyContent = "space-between";
+    header.style.alignItems = "center";
+    const title = document.createElement("h3");
+    title.textContent = "Victory Rewards";
+    title.style.margin = "0";
+    const expLabel = document.createElement("span");
+    expLabel.textContent = `+${victorySummary.expGained} XP each`;
+    expLabel.style.color = "#7fd0ff";
+    header.appendChild(title);
+    header.appendChild(expLabel);
+    panel.appendChild(header);
+
+    const list = document.createElement("div");
+    list.style.display = "flex";
+    list.style.flexDirection = "column";
+    list.style.gap = "10px";
+
+    victorySummary.characters.forEach((ch) => {
+      const row = document.createElement("div");
+      row.style.display = "grid";
+      row.style.gridTemplateColumns = "48px 1fr 64px";
+      row.style.alignItems = "center";
+      row.style.gap = "10px";
+
+      const avatar = document.createElement("div");
+      avatar.textContent = ch.name.slice(0, 1);
+      avatar.style.cssText = `
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
+        background: #1f1f24;
+        border: 2px solid #4a4a4a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #ffd27f;
+      `;
+
+      const info = document.createElement("div");
+      info.style.display = "flex";
+      info.style.flexDirection = "column";
+      info.style.gap = "4px";
+
+      const nameRow = document.createElement("div");
+      nameRow.textContent = ch.name;
+      nameRow.style.fontWeight = "bold";
+
+      const progressWrapper = document.createElement("div");
+      progressWrapper.style.cssText = `
+        background: #1a1a1f;
+        border: 1px solid #3a3a3a;
+        height: 10px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 6px;
+      `;
+      const progressFill = document.createElement("div");
+      const beforePercent = ch.expToNextBefore > 0 ? Math.min(100, Math.floor((ch.expBefore / ch.expToNextBefore) * 100)) : 0;
+      const afterPercent = ch.expToNextAfter > 0 ? Math.min(100, Math.floor((ch.expAfter / ch.expToNextAfter) * 100)) : 100;
+      progressFill.style.cssText = `
+        height: 100%;
+        width: ${beforePercent}%;
+        background: linear-gradient(90deg, #6fc3ff, #4fa1ff);
+        transition: width 0.8s ease;
+      `;
+      requestAnimationFrame(() => {
+        progressFill.style.width = `${afterPercent}%`;
+      });
+      progressWrapper.appendChild(progressFill);
+
+      const levelInfo = document.createElement("div");
+      levelInfo.style.display = "flex";
+      levelInfo.style.justifyContent = "space-between";
+      levelInfo.style.fontSize = "12px";
+      levelInfo.style.color = "#b0b0b0";
+      levelInfo.textContent = `Lv ${ch.levelBefore} → Lv ${ch.levelAfter}`;
+
+      info.appendChild(nameRow);
+      info.appendChild(progressWrapper);
+      info.appendChild(levelInfo);
+
+      const xpTag = document.createElement("div");
+      xpTag.textContent = ch.levelAfter > ch.levelBefore ? "Level Up!" : "XP gained";
+      xpTag.style.cssText = `
+        text-align: center;
+        padding: 6px 8px;
+        border: 1px solid #4a4a4a;
+        border-radius: 8px;
+        font-size: 12px;
+        color: ${ch.levelAfter > ch.levelBefore ? "#7cff9f" : "#8ab6ff"};
+      `;
+
+      row.appendChild(avatar);
+      row.appendChild(info);
+      row.appendChild(xpTag);
+      list.appendChild(row);
+    });
+
+    panel.appendChild(list);
+
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "Continue";
+    closeBtn.style.cssText = `
+      margin-top: 12px;
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border: 2px solid #4a4a4a;
+      padding: 10px 14px;
+      font-family: monospace;
+      cursor: pointer;
+      width: 100%;
+    `;
+    closeBtn.addEventListener("click", () => handleAction({ type: "end-combat" }));
+
+    panel.appendChild(closeBtn);
+    overlay.appendChild(panel);
+    combatContainer.appendChild(overlay);
+  }
+
   const openCombatModal = (
     title: string,
     buildContent: (content: HTMLDivElement) => void

@@ -15,7 +15,7 @@ import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "
 import { getAbility, type Ability, type AbilityEffect } from "../abilities";
 import { useItem } from "../inventory";
 import { audioManager } from "../../ui/audio";
-import { calculateExperienceReward, awardExperience } from "../experience";
+import { calculateExperienceReward, awardExperience, getCharacterExperience, getCharacterLevel, getExpToNextLevel } from "../experience";
 import { ENEMIES } from "../enemies";
 import { getBossDialogue } from "../boss-dialogues";
 
@@ -228,6 +228,13 @@ function executeEnemyAction(state: CombatState): void {
 function handleVictory(state: CombatState): void {
   state.phase = "victory";
   
+  const beforeSnapshots = state.party.members.map((member) => ({
+    name: member.name,
+    level: getCharacterLevel(member),
+    exp: getCharacterExperience(member),
+    expToNext: getExpToNextLevel(member),
+  }));
+
   // Show boss victory dialogue if applicable
   if (state.isBossFight && state.encounter.enemies.length > 0) {
     const bossId = state.encounter.enemies[0].id;
@@ -265,6 +272,26 @@ function handleVictory(state: CombatState): void {
       "system"
     );
   }
+  
+  const afterSnapshots = state.party.members.map((member) => ({
+    name: member.name,
+    level: getCharacterLevel(member),
+    exp: getCharacterExperience(member),
+    expToNext: getExpToNextLevel(member),
+  }));
+
+  state.victorySummary = {
+    expGained: adjustedPerCharacter,
+    characters: afterSnapshots.map((after, idx) => ({
+      name: after.name,
+      levelBefore: beforeSnapshots[idx]?.level ?? after.level,
+      levelAfter: after.level,
+      expBefore: beforeSnapshots[idx]?.exp ?? 0,
+      expAfter: after.exp,
+      expToNextBefore: beforeSnapshots[idx]?.expToNext ?? after.expToNext,
+      expToNextAfter: after.expToNext,
+    })),
+  };
   
   audioManager.playSfx("ui_click"); // Victory sound
 }
