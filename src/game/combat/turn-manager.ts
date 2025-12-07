@@ -13,7 +13,7 @@ import {
 } from "./state";
 import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "./engine";
 import { getAbility, type Ability, type AbilityEffect } from "../abilities";
-import { useItem } from "../inventory";
+import { useItem, addItem } from "../inventory";
 import { audioManager } from "../../ui/audio";
 import { calculateExperienceReward, awardExperience, getCharacterExperience, getCharacterLevel, getExpToNextLevel } from "../experience";
 import { ENEMIES } from "../enemies";
@@ -280,6 +280,21 @@ function handleVictory(state: CombatState): void {
     expToNext: getExpToNextLevel(member),
   }));
 
+  // Simple loot drop chance based on enemies defeated
+  const lootTable = ["medkit", "sedative", "healing_potion", "sanity_tonic", "antidote", "bomb"];
+  const loot: Array<{ id: string; quantity: number }> = [];
+  const dropRoll = Math.random();
+  const dropChance = Math.min(0.8, 0.2 + state.encounter.enemies.length * 0.1);
+  if (dropRoll < dropChance) {
+    const itemId = lootTable[Math.floor(Math.random() * lootTable.length)];
+    const quantity = itemId === "bomb" ? 1 : 1 + Math.floor(Math.random() * 2);
+    const added = addItem(state.party.inventory, itemId, quantity);
+    if (added) {
+      loot.push({ id: itemId, quantity });
+      addCombatLog(state, `Found loot: ${quantity}x ${itemId}`, "system");
+    }
+  }
+
   state.victorySummary = {
     expGained: adjustedPerCharacter,
     characters: afterSnapshots.map((after, idx) => ({
@@ -291,6 +306,7 @@ function handleVictory(state: CombatState): void {
       expToNextBefore: beforeSnapshots[idx]?.expToNext ?? after.expToNext,
       expToNextAfter: after.expToNext,
     })),
+    loot,
   };
   
   audioManager.playSfx("ui_click"); // Victory sound

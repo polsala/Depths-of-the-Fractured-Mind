@@ -1033,6 +1033,33 @@ function renderCombat(
 
     panel.appendChild(list);
 
+    if (victorySummary.loot && victorySummary.loot.length > 0) {
+      const lootTitle = document.createElement("h4");
+      lootTitle.textContent = "Loot";
+      lootTitle.style.margin = "12px 0 6px 0";
+      panel.appendChild(lootTitle);
+
+      const lootList = document.createElement("div");
+      lootList.style.display = "grid";
+      lootList.style.gridTemplateColumns = "repeat(auto-fit, minmax(180px, 1fr))";
+      lootList.style.gap = "8px";
+
+      victorySummary.loot.forEach((drop) => {
+        const card = document.createElement("div");
+        card.style.cssText = `
+          padding: 8px;
+          background: #16161a;
+          border: 1px solid #3a3a3a;
+          border-radius: 6px;
+        `;
+        const name = ITEMS[drop.id]?.name || drop.id;
+        card.textContent = `${drop.quantity}x ${name}`;
+        lootList.appendChild(card);
+      });
+
+      panel.appendChild(lootList);
+    }
+
     const closeBtn = document.createElement("button");
     closeBtn.textContent = "Continue";
     closeBtn.style.cssText = `

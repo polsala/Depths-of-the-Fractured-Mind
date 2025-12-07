@@ -61,6 +61,7 @@ export interface CombatState {
       expToNextBefore: number;
       expToNextAfter: number;
     }>;
+    loot?: Array<{ id: string; quantity: number }>;
   };
 }
 
