@@ -30,6 +30,7 @@ import { getCharacterLevel } from "../game/experience";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import type { DungeonMap } from "../graphics/map";
+import { openVendorModal } from "./vendor";
 
 const combatBackgroundCache: Record<string, HTMLImageElement> = {};
 
@@ -397,6 +398,17 @@ function renderExploration(
   utilityBox.appendChild(inventoryBtn);
 
   infoPanel.appendChild(utilityBox);
+
+  // Vendor button if on vendor tile
+  const currentMap = dungeonRenderContext?.depthMaps?.get(state.location.depth);
+  const vendorTile = currentMap?.[state.location.y]?.[state.location.x]?.vendor;
+  if (vendorTile) {
+    const vendorBtn = document.createElement("button");
+    vendorBtn.textContent = "Talk to Vendor";
+    vendorBtn.style.marginTop = "8px";
+    vendorBtn.addEventListener("click", () => openVendorModal(state, controller, rerender));
+    infoPanel.appendChild(vendorBtn);
+  }
 
   // Instructions - show appropriate controls based on platform
   const instructions = document.createElement("div");
@@ -1995,6 +2007,11 @@ function openInventoryModal(state: GameState, controller: GameController, rerend
   title.textContent = "Inventory";
   title.style.marginTop = "0";
   modal.appendChild(title);
+
+  const moneyRow = document.createElement("div");
+  moneyRow.textContent = `Credits: ${state.party.inventory.money ?? 0}`;
+  moneyRow.style.marginBottom = "8px";
+  modal.appendChild(moneyRow);
 
   const list = document.createElement("div");
   list.style.display = "grid";

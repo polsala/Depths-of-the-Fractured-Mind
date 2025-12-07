@@ -95,6 +95,7 @@ export function createDefaultParty(): PartyState {
     inventory: {
       items: [],
       maxSlots: 20,
+      money: 100,
     },
   };
 }

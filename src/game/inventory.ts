@@ -80,6 +80,7 @@ export const ITEMS: Record<string, Item> = {
     type: "consumable",
     stackable: true,
     usable: true,
+    price: 35,
   },
   warden_baton: {
     id: "warden_baton",
@@ -95,6 +96,7 @@ export const ITEMS: Record<string, Item> = {
       allowedCharacters: ["elias"],
       depthTier: 1,
     },
+    price: 80,
   },
   reinforced_coat: {
     id: "reinforced_coat",
@@ -109,6 +111,7 @@ export const ITEMS: Record<string, Item> = {
       requiredLevel: 2,
       depthTier: 2,
     },
+    price: 90,
   },
   surgical_scalpel: {
     id: "surgical_scalpel",
@@ -124,6 +127,7 @@ export const ITEMS: Record<string, Item> = {
       allowedCharacters: ["miriam"],
       depthTier: 2,
     },
+    price: 110,
   },
   focus_band: {
     id: "focus_band",
@@ -138,6 +142,7 @@ export const ITEMS: Record<string, Item> = {
       requiredLevel: 2,
       depthTier: 2,
     },
+    price: 70,
   },
   faith_icon: {
     id: "faith_icon",
@@ -153,6 +158,7 @@ export const ITEMS: Record<string, Item> = {
       allowedCharacters: ["anya"],
       depthTier: 3,
     },
+    price: 95,
   },
   psi_focus: {
     id: "psi_focus",
@@ -168,6 +174,7 @@ export const ITEMS: Record<string, Item> = {
       allowedCharacters: ["subject13"],
       depthTier: 3,
     },
+    price: 95,
   },
   ward_plate: {
     id: "ward_plate",
@@ -182,6 +189,7 @@ export const ITEMS: Record<string, Item> = {
       requiredLevel: 4,
       depthTier: 4,
     },
+    price: 130,
   },
   engine_fragment: {
     id: "engine_fragment",
@@ -197,6 +205,7 @@ export const ITEMS: Record<string, Item> = {
       depthTier: 5,
       bossOnly: true,
     },
+    price: 0,
   },
   executioner_blade: {
     id: "executioner_blade",
@@ -213,6 +222,7 @@ export const ITEMS: Record<string, Item> = {
       bossOnly: true,
       allowedCharacters: ["elias"],
     },
+    price: 0,
   },
   warden_emblem: {
     id: "warden_emblem",

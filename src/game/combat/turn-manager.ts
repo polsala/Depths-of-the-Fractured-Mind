@@ -259,12 +259,16 @@ function handleVictory(state: CombatState): void {
   const multiplier = state.debugOptions?.xpMultiplier ?? 1;
   const adjustedPerCharacter = Math.max(0, Math.floor(expReward.perCharacter * multiplier));
   const { leveledUp, leveledCharacters } = awardExperience(state.party, adjustedPerCharacter);
+  const depth = state.combatDepth ?? 1;
+  const currencyGain = Math.max(5, Math.floor((depth + state.encounter.enemies.length) * 8));
+  state.party.inventory.money = (state.party.inventory.money || 0) + currencyGain;
   
   addCombatLog(
     state,
     `Gained ${adjustedPerCharacter} experience${multiplier !== 1 ? ` (x${multiplier})` : ""}!`,
     "system"
   );
+  addCombatLog(state, `Found ${currencyGain} credits`, "system");
   
   if (leveledUp) {
     addCombatLog(
@@ -283,7 +287,6 @@ function handleVictory(state: CombatState): void {
   }));
 
   const loot: Array<{ id: string; quantity: number }> = [];
-  const depth = state.combatDepth ?? 1;
   // Consumable drops
   const lootTable = ["medkit", "sedative", "healing_potion", "sanity_tonic", "antidote", "bomb"];
   const dropRoll = Math.random();

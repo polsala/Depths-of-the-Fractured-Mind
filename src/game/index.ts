@@ -66,6 +66,7 @@ export class GameController {
       ...createInitialGameState(),
       party: createDefaultParty(),
     };
+    this.state.party.inventory.money = 100;
     this.stepsSinceLastEvent = 0;
     this.lastProceduralEventId = null;
   }

@@ -86,6 +86,7 @@ export interface Item {
     depthTier?: number;
     bossOnly?: boolean;
   };
+  price?: number;
 }
 
 export interface InventoryItem {
@@ -96,6 +97,7 @@ export interface InventoryItem {
 export interface Inventory {
   items: InventoryItem[];
   maxSlots: number;
+  money: number;
 }
 
 export interface ChestLoot {
@@ -153,10 +155,11 @@ export function createInitialGameState(): GameState {
   const initialState = {
     party: {
       members: [],
-      inventory: {
-        items: [],
-        maxSlots: 20,
-      },
+    inventory: {
+      items: [],
+      maxSlots: 20,
+      money: 100,
+    },
     },
     location: {
       depth: 1,

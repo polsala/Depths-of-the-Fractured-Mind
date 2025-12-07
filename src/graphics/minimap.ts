@@ -145,6 +145,19 @@ export function renderMinimap(
           tileSize * 0.6
         );
       }
+
+      if (cell.vendor) {
+        ctx.fillStyle = "#b48bff";
+        ctx.beginPath();
+        ctx.arc(
+          tileX + tileSize / 2,
+          tileY + tileSize / 2,
+          tileSize / 4,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+      }
     }
   }
 

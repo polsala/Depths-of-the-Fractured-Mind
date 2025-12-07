@@ -15,6 +15,7 @@ export interface MapCell {
   chest?: boolean;
   stairsUp?: boolean;
   stairsDown?: boolean;
+  vendor?: boolean;
 }
 
 export type DungeonMap = MapCell[][];
@@ -40,6 +41,7 @@ export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number,
         chest: !!tile.chest && !tile.chest.opened,
         stairsUp: tile.type === "stairsUp",
         stairsDown: tile.type === "stairsDown",
+        vendor: !!tile.vendor,
       };
     }
   }

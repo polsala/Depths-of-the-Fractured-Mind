@@ -28,6 +28,7 @@ export interface MapTile {
     loot: Array<{ itemId: string; quantity: number }>;
     opened?: boolean;
   };
+  vendor?: boolean;
 }
 
 export interface DepthMap {

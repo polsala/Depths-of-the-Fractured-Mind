@@ -373,6 +373,16 @@ function placeFeatures(
       tiles[y][x].chest = { loot, opened: false };
     }
   }
+
+  // Place vendor (one per depth after depth 1)
+  if (depth >= 2 && featureRooms.length > 0) {
+    const vendorRoom = featureRooms[Math.floor(Math.random() * featureRooms.length)];
+    const x = vendorRoom.x + Math.floor(Math.random() * vendorRoom.width);
+    const y = vendorRoom.y + Math.floor(Math.random() * vendorRoom.height);
+    if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor") {
+      tiles[y][x].vendor = true;
+    }
+  }
   
   // Place depth-specific events (only if room has space)
   const eventMapping: Record<number, string[]> = {
