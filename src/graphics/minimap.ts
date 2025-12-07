@@ -47,14 +47,10 @@ export function renderMinimap(
   const tilesVisibleX = Math.floor(config.width / tileSize);
   const tilesVisibleY = Math.floor(config.height / tileSize);
   
-  // Calculate viewport center around player position
-  // Keep player centered in the minimap
-  const viewportCenterX = playerX;
-  const viewportCenterY = playerY;
-  
   // Calculate viewport bounds (which tiles to render)
-  const viewportMinX = Math.max(0, Math.floor(viewportCenterX - tilesVisibleX / 2));
-  const viewportMinY = Math.max(0, Math.floor(viewportCenterY - tilesVisibleY / 2));
+  // Keep player centered in the minimap
+  const viewportMinX = Math.max(0, Math.floor(playerX - tilesVisibleX / 2));
+  const viewportMinY = Math.max(0, Math.floor(playerY - tilesVisibleY / 2));
   const viewportMaxX = Math.min(mapWidth, viewportMinX + tilesVisibleX);
   const viewportMaxY = Math.min(mapHeight, viewportMinY + tilesVisibleY);
   
