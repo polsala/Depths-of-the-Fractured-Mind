@@ -34,7 +34,6 @@ const combatBackgroundCache: Record<string, HTMLImageElement> = {};
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
 let currentDepthMusic: number = -1; // Track current depth for music changes
-let combatMenuState: "main" | "abilities" | "target-enemy" | "target-ally" = "main";
 let selectedAbilityId: string | undefined;
 let mobileControls: MobileControls | null = null;
 let minimapModal: HTMLDivElement | null = null;
@@ -752,7 +751,6 @@ function renderCombat(
         isPlayerAction: true,
       };
       controller.submitCombatAction(combatAction);
-      combatMenuState = "main";
       rerender();
       return;
     }
@@ -764,7 +762,6 @@ function renderCombat(
         isPlayerAction: true,
       };
       controller.submitCombatAction(combatAction);
-      combatMenuState = "main";
       rerender();
       return;
     }
@@ -772,7 +769,6 @@ function renderCombat(
 
   const renderActionMenu = () => {
     actionContainer.innerHTML = "";
-    combatMenuState = "main";
     createActionMenu(actionContainer, combatState, handleAction);
   };
 
@@ -876,21 +872,12 @@ function renderCombat(
     }
 
     closeCombatModal();
-    combatMenuState = "main";
     rerender();
   };
 
   const openTargetModal = (targetType: "enemy" | "ally") => {
     const latestState = controller.getCombatState() as CombatState;
     const modalTitle = targetType === "ally" ? "Selecciona aliado" : "Selecciona enemigo";
-    const targets =
-      targetType === "ally"
-        ? latestState.party.members
-            .map((member, index) => ({ member, index }))
-            .filter(({ member }) => member.alive)
-        : latestState.encounter.enemies
-            .map((enemy, index) => ({ enemy, index }))
-            .filter(({ enemy }) => enemy.alive);
 
     openCombatModal(modalTitle, (content) => {
       const list = document.createElement("div");
@@ -898,26 +885,51 @@ function renderCombat(
       list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
       list.style.gap = "10px";
 
-      targets.forEach((target) => {
-        const btn = document.createElement("button");
-        btn.textContent =
-          targetType === "ally"
-            ? `${target.member.name} (HP: ${target.member.stats.hp}/${target.member.stats.maxHp})`
-            : `${target.enemy.name} (HP: ${target.enemy.stats.hp}/${target.enemy.stats.maxHp})`;
-        btn.style.cssText = `
-          background: rgba(26,26,26,0.65);
-          color: #e0e0e0;
-          border: 2px solid #4a4a4a;
-          padding: 10px 12px;
-          font-family: monospace;
-          cursor: pointer;
-          text-align: center;
-          width: 100%;
-          box-sizing: border-box;
-        `;
-        btn.addEventListener("click", () => submitTarget(target.index));
-        list.appendChild(btn);
-      });
+      if (targetType === "ally") {
+        const allies = latestState.party.members
+          .map((member, index) => ({ member, index }))
+          .filter(({ member }) => member.alive);
+
+        allies.forEach(({ member, index }) => {
+          const btn = document.createElement("button");
+          btn.textContent = `${member.name} (HP: ${member.stats.hp}/${member.stats.maxHp})`;
+          btn.style.cssText = `
+            background: rgba(26,26,26,0.65);
+            color: #e0e0e0;
+            border: 2px solid #4a4a4a;
+            padding: 10px 12px;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+          `;
+          btn.addEventListener("click", () => submitTarget(index));
+          list.appendChild(btn);
+        });
+      } else {
+        const enemies = latestState.encounter.enemies
+          .map((enemy, index) => ({ enemy, index }))
+          .filter(({ enemy }) => enemy.alive);
+
+        enemies.forEach(({ enemy, index }) => {
+          const btn = document.createElement("button");
+          btn.textContent = `${enemy.name} (HP: ${enemy.stats.hp}/${enemy.stats.maxHp})`;
+          btn.style.cssText = `
+            background: rgba(26,26,26,0.65);
+            color: #e0e0e0;
+            border: 2px solid #4a4a4a;
+            padding: 10px 12px;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+          `;
+          btn.addEventListener("click", () => submitTarget(index));
+          list.appendChild(btn);
+        });
+      }
 
       const backBtn = document.createElement("button");
       backBtn.textContent = "Volver";
