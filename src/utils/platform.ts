@@ -37,6 +37,7 @@ export function isPortrait(): boolean {
 export function getResponsiveViewportSize(): { width: number; height: number } {
   const platform = detectPlatform();
   const isPortraitMode = isPortrait();
+  const aspectRatio = 4 / 3;
   
   if (platform === 'mobile') {
     // Mobile viewport - scale down appropriately
@@ -45,11 +46,26 @@ export function getResponsiveViewportSize(): { width: number; height: number } {
       ? Math.min(window.innerHeight * 0.4, 360)
       : Math.min(window.innerHeight * 0.6, 400);
     
-    return { width: maxWidth, height: maxHeight };
+    return { width: maxWidth, height: Math.floor(Math.min(maxHeight, maxWidth / aspectRatio)) };
   }
   
-  // Desktop viewport
-  return { width: 640, height: 480 };
+  // Desktop viewport: use available space while preserving a 4:3 aspect ratio
+  const paddingAllowance = 80; // account for page padding and spacing
+  const infoPanelAllowance = 420; // room for the side panel on larger screens
+  const availableWidth = Math.max(window.innerWidth - infoPanelAllowance, 720);
+  const availableHeight = Math.max(window.innerHeight - paddingAllowance, 540);
+  const maxWidth = 1280;
+
+  let width = Math.min(availableWidth, Math.floor(availableHeight * aspectRatio), maxWidth);
+  let height = Math.floor(width / aspectRatio);
+
+  // If height is still too tall for the viewport, adjust downwards
+  if (height > availableHeight) {
+    height = availableHeight;
+    width = Math.floor(height * aspectRatio);
+  }
+
+  return { width, height };
 }
 
 /**

@@ -24,8 +24,7 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  background-color: #0a0a0a;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -111,38 +110,44 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  min-height: 100vh;
+  padding: clamp(16px, 2vw, 32px);
   text-align: center;
+  box-sizing: border-box;
 }
 
 /* Exploration mode layout */
 .exploration-container {
   display: flex;
   gap: 20px;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: space-between;
   text-align: left;
+  width: 100%;
 }
 
 .viewport-container {
-  flex-shrink: 0;
+  flex: 1 1 60%;
   border: 3px solid #3d3d3d;
   background: #0a0a0a;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.5);
   border-radius: 4px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .dungeon-viewport {
   display: block;
+  width: 100%;
+  height: auto;
   image-rendering: auto;
   image-rendering: crisp-edges;
   image-rendering: -moz-crisp-edges;
 }
 
 .info-panel {
-  flex-shrink: 0;
+  flex: 0 1 380px;
   min-width: 320px;
   padding: 15px;
   background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
