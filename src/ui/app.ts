@@ -902,10 +902,10 @@ function renderCombat(
     combatBackground = bossBg;
   }
   const backgroundImage = getCombatBackground(combatBackground);
-  const combatLayoutWidth = Math.min(1200, Math.floor(window.innerWidth * 0.95));
-  const canvasWidth = Math.min(combatLayoutWidth, Math.floor(window.innerWidth * 0.92));
-  const canvasHeight = Math.max(360, Math.min(560, Math.floor(window.innerHeight * 0.45)));
-  const controlsHeight = Math.min(360, Math.max(240, Math.floor(window.innerHeight * 0.35)));
+  const combatLayoutWidth = Math.min(1600, Math.floor(window.innerWidth * 0.995));
+  const canvasWidth = Math.min(combatLayoutWidth, Math.floor(window.innerWidth * 0.985));
+  const canvasHeight = Math.max(520, Math.min(940, Math.floor(window.innerHeight * 0.72)));
+  const controlsHeight = Math.min(400, Math.max(200, Math.floor(window.innerHeight * 0.28)));
 
   // Create combat container
   const combatContainer = document.createElement("div");
@@ -916,7 +916,7 @@ function renderCombat(
     height: 100vh;
     background: #05050a;
     align-items: center;
-    padding: 16px;
+    padding: 12px 10px;
     box-sizing: border-box;
   `;
   root.appendChild(combatContainer);
@@ -924,11 +924,11 @@ function renderCombat(
   // Top section: Combat view
   const combatView = document.createElement("div");
   combatView.style.cssText = `
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 12px;
+    padding: 6px 10px 10px;
     width: 100%;
   `;
   combatContainer.appendChild(combatView);
@@ -965,6 +965,7 @@ function renderCombat(
     justify-content: center;
     width: 100%;
     box-sizing: border-box;
+    padding-inline: 4px;
   `;
   combatContainer.appendChild(controlsSection);
 
@@ -973,7 +974,7 @@ function renderCombat(
     display: flex;
     gap: 20px;
     padding: 12px;
-    width: ${Math.max(720, combatLayoutWidth)}px;
+    width: ${Math.max(840, combatLayoutWidth)}px;
     max-width: 100%;
     box-sizing: border-box;
     justify-content: center;
