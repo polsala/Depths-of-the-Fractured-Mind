@@ -29,6 +29,7 @@ import { ITEMS } from "../game/inventory";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import type { DungeonMap } from "../graphics/map";
+import { preloadAllCharacterSprites } from "../graphics/character-sprites";
 
 const combatBackgroundCache: Record<string, HTMLImageElement> = {};
 
@@ -1591,6 +1592,11 @@ function renderCombat(
 
 export function initApp(root: HTMLElement): void {
   const controller = new GameController();
+
+  // Preload character sprites on app initialization
+  preloadAllCharacterSprites().catch(err => {
+    console.error("Failed to preload character sprites:", err);
+  });
 
   const render = (): void => {
     root.innerHTML = "";

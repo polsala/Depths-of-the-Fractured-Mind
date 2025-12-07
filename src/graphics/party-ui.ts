@@ -4,6 +4,7 @@
 
 import type { PartyState, CharacterState } from "../game/state";
 import { getCharacterLevel, getCharacterExperience, getExpToNextLevel } from "../game/experience";
+import { drawCharacterSprite, isSpriteLoaded, type SpriteAction } from "./character-sprites";
 
 export interface PartyUIConfig {
   width: number;
@@ -15,7 +16,20 @@ export interface PartyUIConfig {
 const portraitCache = new Map<string, HTMLCanvasElement>();
 
 /**
- * Generate detailed pixel art character portrait
+ * Get appropriate sprite action based on character state
+ */
+function getSpriteActionForState(character: CharacterState): SpriteAction {
+  if (!character.alive) {
+    return "DEATH";
+  }
+  if (character.stats.hp < character.stats.maxHp * 0.3) {
+    return "HIT";
+  }
+  return "IDLE";
+}
+
+/**
+ * Generate character portrait using sprite sheet or fallback to pixel art
  * Creates distinctive visual representations for each character
  */
 function generatePortrait(
@@ -40,6 +54,67 @@ function generatePortrait(
   }
 
   ctx.imageSmoothingEnabled = false; // Pixel-perfect rendering
+
+  // Try to use sprite sheet if loaded
+  if (isSpriteLoaded(character.id)) {
+    const action = getSpriteActionForState(character);
+    
+    // Draw sprite with transparent background
+    drawCharacterSprite(ctx, character.id, action, 0, 0, size, size, 0);
+    
+    // Add border frame
+    ctx.strokeStyle = character.alive ? "#8b9da9" : "#4a3333";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(0, 0, size, size);
+
+    // Status overlays
+    if (!character.alive) {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+      ctx.fillRect(0, 0, size, size);
+      
+      // Skull icon for death
+      ctx.fillStyle = "#ff4444";
+      ctx.font = `${size * 0.4}px serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("☠", size / 2, size / 2);
+      
+      ctx.fillStyle = "#ffffff";
+      ctx.font = `${size * 0.15}px sans-serif`;
+      ctx.fillText("DEAD", size / 2, size * 0.75);
+    } else if (character.stats.sanity < character.stats.maxSanity * 0.3) {
+      // Low sanity indicator - distortion effect
+      ctx.fillStyle = "rgba(138, 68, 255, 0.2)";
+      ctx.fillRect(0, 0, size, size);
+      
+      // Add glitch effect
+      for (let i = 0; i < 3; i++) {
+        ctx.strokeStyle = `rgba(138, 68, 255, ${0.5 - i * 0.15})`;
+        ctx.lineWidth = 1;
+        const y = size * (0.3 + i * 0.2);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(size, y);
+        ctx.stroke();
+      }
+    }
+
+    // Cache the portrait
+    portraitCache.set(cacheKey, canvas);
+
+    // Limit cache size to prevent memory leaks
+    if (portraitCache.size > 50) {
+      const entriesToRemove = portraitCache.size - 40;
+      const keys = Array.from(portraitCache.keys());
+      for (let i = 0; i < entriesToRemove; i++) {
+        portraitCache.delete(keys[i]);
+      }
+    }
+
+    return canvas;
+  }
+
+  // Fallback to generated pixel art if sprite not loaded
 
   // Character-specific colors and features
   const characterData: Record<string, { bg: string; skin: string; hair: string; eyes: string; clothing: string }> = {

@@ -1,6 +1,7 @@
 import type { CombatState } from "../game/combat/state";
 import { getAlivePartyMembers, getAliveEnemies, getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
+import { drawCharacterSprite, isSpriteLoaded, type SpriteAction } from "./character-sprites";
 
 export interface CombatUIOptions {
   width: number;
@@ -133,6 +134,39 @@ function renderEnemies(
   });
 }
 
+/**
+ * Get appropriate sprite action for a party member in combat
+ */
+function getCombatSpriteAction(member: any, state: CombatState): SpriteAction {
+  if (!member.alive) {
+    return "DEATH";
+  }
+  
+  // Check if currently executing an action
+  if (state.phase === "execute-action") {
+    const currentActor = getCurrentActor(state);
+    if (currentActor?.isPlayer && state.party.members[currentActor.index]?.id === member.id) {
+      // Check the last log entry to determine the action
+      const lastLog = state.log[state.log.length - 1];
+      if (lastLog) {
+        if (lastLog.message.includes("attacks") || lastLog.message.includes("Attack")) {
+          return "ATTACK";
+        }
+        if (lastLog.message.includes("casts") || lastLog.message.includes("uses")) {
+          return "CAST";
+        }
+      }
+    }
+  }
+  
+  // Check for damage state
+  if (member.stats.hp < member.stats.maxHp * 0.3) {
+    return "HIT";
+  }
+  
+  return "IDLE";
+}
+
 function renderParty(
   ctx: CanvasRenderingContext2D,
   state: CombatState,
@@ -148,6 +182,7 @@ function renderParty(
   if (aliveParty.length === 0) return;
 
   const memberWidth = Math.floor(width / Math.max(aliveParty.length, 1)) - 10;
+  const spriteSize = Math.min(80, memberWidth - 10);
 
   state.party.members.forEach((member, index) => {
     if (!member.alive) return;
@@ -168,17 +203,29 @@ function renderParty(
     ctx.lineWidth = 1;
     ctx.strokeRect(memberX, memberY, memberWidth, height - 20);
 
+    // Draw character sprite if loaded
+    let contentStartY = memberY + 15;
+    if (isSpriteLoaded(member.id)) {
+      const action = getCombatSpriteAction(member, state);
+      const spriteCenterX = memberX + memberWidth / 2 - spriteSize / 2;
+      const spriteY = memberY + 5;
+      
+      drawCharacterSprite(ctx, member.id, action, spriteCenterX, spriteY, spriteSize, spriteSize, 0);
+      
+      contentStartY = spriteY + spriteSize + 5;
+    }
+
     // Member name
     ctx.fillStyle = COLORS.ally;
     ctx.font = "bold 11px monospace";
     ctx.textAlign = "left";
-    ctx.fillText(member.name.substring(0, 15), memberX + 5, memberY + 15);
+    ctx.fillText(member.name.substring(0, 15), memberX + 5, contentStartY);
 
     // HP bar
     renderBar(
       ctx,
       memberX + 5,
-      memberY + 25,
+      contentStartY + 10,
       memberWidth - 10,
       10,
       member.stats.hp,
@@ -191,7 +238,7 @@ function renderParty(
     renderBar(
       ctx,
       memberX + 5,
-      memberY + 42,
+      contentStartY + 27,
       memberWidth - 10,
       10,
       member.stats.sanity,
@@ -205,9 +252,9 @@ function renderParty(
     // Stats
     ctx.fillStyle = COLORS.textDim;
     ctx.font = "9px monospace";
-    ctx.fillText(`ATK ${member.stats.attack}`, memberX + 5, memberY + 62);
-    ctx.fillText(`DEF ${member.stats.defense}`, memberX + 5, memberY + 72);
-    ctx.fillText(`WILL ${member.stats.will}`, memberX + 5, memberY + 82);
+    ctx.fillText(`ATK ${member.stats.attack}`, memberX + 5, contentStartY + 47);
+    ctx.fillText(`DEF ${member.stats.defense}`, memberX + 5, contentStartY + 57);
+    ctx.fillText(`WILL ${member.stats.will}`, memberX + 5, contentStartY + 67);
 
     // Status effects
     if (member.statusEffects.length > 0) {
@@ -217,7 +264,7 @@ function renderParty(
       ctx.fillText(
         statusText.substring(0, 12),
         memberX + 5,
-        memberY + 95
+        contentStartY + 80
       );
     }
   });
