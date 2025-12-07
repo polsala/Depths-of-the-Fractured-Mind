@@ -25,7 +25,7 @@ export interface MapTile {
   locked?: boolean;
   interactionText?: string;
   chest?: {
-    lootId: string;
+    loot: Array<{ itemId: string; quantity: number }>;
     opened?: boolean;
   };
 }

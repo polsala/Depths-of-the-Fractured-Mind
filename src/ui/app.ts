@@ -25,6 +25,7 @@ import {
 import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
+import { ITEMS } from "../game/inventory";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import type { DungeonMap } from "../graphics/map";
@@ -509,6 +510,74 @@ function renderExploration(
   debugToggles.appendChild(xpWrapper);
   
   infoPanel.appendChild(debugSection);
+
+  // Chest loot modal
+  if (state.chestLoot && state.chestLoot.items.length > 0) {
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    `;
+
+    const modal = document.createElement("div");
+    modal.style.cssText = `
+      background: #111;
+      border: 2px solid #6b4b1f;
+      padding: 16px;
+      max-width: 420px;
+      width: 90%;
+      color: #e0e0e0;
+      font-family: monospace;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    `;
+
+    const title = document.createElement("h3");
+    title.textContent = "Chest opened";
+    title.style.marginTop = "0";
+    title.style.marginBottom = "8px";
+    modal.appendChild(title);
+
+    const list = document.createElement("ul");
+    list.style.listStyle = "none";
+    list.style.padding = "0";
+    list.style.margin = "0 0 12px 0";
+    state.chestLoot.items.forEach((loot) => {
+      const li = document.createElement("li");
+      const itemName = ITEMS[loot.id]?.name || loot.id;
+      li.textContent = `${loot.quantity}x ${itemName}`;
+      li.style.marginBottom = "4px";
+      list.appendChild(li);
+    });
+    modal.appendChild(list);
+
+    const closeBtn = document.createElement("button");
+    closeBtn.textContent = "Close";
+    closeBtn.style.cssText = `
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border: 2px solid #4a4a4a;
+      padding: 8px 12px;
+      font-family: monospace;
+      cursor: pointer;
+    `;
+    closeBtn.addEventListener("click", () => {
+      controller.clearChestLoot();
+      overlay.remove();
+      rerender();
+    });
+
+    modal.appendChild(closeBtn);
+    overlay.appendChild(modal);
+    root.appendChild(overlay);
+  }
 
   // Audio controls
   const audioControls = document.createElement("div");
@@ -1252,10 +1321,26 @@ function renderCombat(
     openCombatModal("Select item", (content) => {
       const list = document.createElement("div");
       list.style.display = "grid";
-      list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
+      list.style.gridTemplateColumns = "repeat(auto-fit, minmax(260px, 1fr))";
       list.style.gap = "10px";
 
+      const descriptionBox = document.createElement("div");
+      descriptionBox.style.cssText = `
+        margin-top: 8px;
+        padding: 8px 10px;
+        background: rgba(20,20,20,0.7);
+        border: 1px solid #4a4a4a;
+        color: #cfcfcf;
+        font-size: 12px;
+        min-height: 32px;
+      `;
+      descriptionBox.textContent = "Select ? to view an item description.";
+
       usableItems.forEach(({ item, quantity }) => {
+        const row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.gap = "6px";
+
         const btn = document.createElement("button");
         btn.textContent = `${item.name} x${quantity}`;
         btn.style.cssText = `
@@ -1266,7 +1351,7 @@ function renderCombat(
           font-family: monospace;
           cursor: pointer;
           text-align: left;
-          width: 100%;
+          flex: 1;
           box-sizing: border-box;
         `;
         btn.addEventListener("click", () => {
@@ -1285,7 +1370,24 @@ function renderCombat(
             openItemTargetModal(item.id, targetType);
           }
         });
-        list.appendChild(btn);
+
+        const infoBtn = document.createElement("button");
+        infoBtn.textContent = "?";
+        infoBtn.style.cssText = `
+          width: 36px;
+          background: #333;
+          color: #ffd27f;
+          border: 2px solid #4a4a4a;
+          font-weight: bold;
+          cursor: pointer;
+        `;
+        infoBtn.addEventListener("click", () => {
+          descriptionBox.textContent = item.description || "No description available.";
+        });
+
+        row.appendChild(btn);
+        row.appendChild(infoBtn);
+        list.appendChild(row);
       });
 
       const backBtn = document.createElement("button");
@@ -1304,6 +1406,7 @@ function renderCombat(
       });
 
       content.appendChild(list);
+      content.appendChild(descriptionBox);
       content.appendChild(backBtn);
     });
   };

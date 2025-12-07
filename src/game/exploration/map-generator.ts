@@ -355,7 +355,7 @@ function placeFeatures(
   }
   
   // Place chests
-  const chestsToPlace = Math.min(featureRooms.length, 2 + Math.floor(depth / 2));
+  const chestsToPlace = Math.max(1, Math.min(featureRooms.length, 3 + Math.floor(depth / 2)));
   const chestLootPool = ["healing_potion", "greater_healing_potion", "sanity_tonic", "antidote", "bomb", "focus_draught", "smoke_bomb"];
   for (let i = 0; i < chestsToPlace && i < featureRooms.length; i++) {
     const room = featureRooms[i];
@@ -363,8 +363,14 @@ function placeFeatures(
     const y = room.y + Math.floor(Math.random() * room.height);
     
     if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor" && !tiles[y][x].itemId && !tiles[y][x].trap && !tiles[y][x].eventId) {
-      const lootId = chestLootPool[Math.floor(Math.random() * chestLootPool.length)];
-      tiles[y][x].chest = { lootId, opened: false };
+      const lootCount = 1 + Math.floor(Math.random() * 2); // 1-2 items
+      const loot: Array<{ itemId: string; quantity: number }> = [];
+      for (let j = 0; j < lootCount; j++) {
+        const lootId = chestLootPool[Math.floor(Math.random() * chestLootPool.length)];
+        const quantity = lootId === "bomb" || lootId === "smoke_bomb" ? 1 : 2;
+        loot.push({ itemId: lootId, quantity });
+      }
+      tiles[y][x].chest = { loot, opened: false };
     }
   }
   

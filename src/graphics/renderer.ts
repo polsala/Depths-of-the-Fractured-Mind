@@ -10,6 +10,10 @@ import type { DepthMap } from "../game/exploration/map";
 const MIN_DEPTH = 1;
 const MAX_DEPTH = 5;
 const DEFAULT_DEPTH = 1;
+const chestSprite = new Image();
+const basePath = import.meta.env.BASE_URL || "/";
+const normalizedBasePath = basePath.endsWith("/") ? basePath : `${basePath}/`;
+chestSprite.src = `${normalizedBasePath}assets/sprites/objects/chest.png`;
 
 export interface ViewportConfig {
   width: number;
@@ -543,6 +547,72 @@ export function renderDungeonView(
         palette.wallShade,
         palette.accent
       );
+    }
+  }
+
+  // Draw chests within view as billboards
+  for (let distance = 1; distance <= viewDistance; distance++) {
+    let targetX = viewState.x;
+    let targetY = viewState.y;
+    switch (viewState.direction) {
+      case "north":
+        targetY -= distance;
+        break;
+      case "south":
+        targetY += distance;
+        break;
+      case "east":
+        targetX += distance;
+        break;
+      case "west":
+        targetX -= distance;
+        break;
+    }
+    const cell = map[targetY]?.[targetX];
+    if (!cell || !cell.chest) continue;
+
+    const scale = Math.max(0.25, 1 / (distance + 0.4));
+    const spriteSize = 96 * scale;
+    const spriteX = width / 2 - spriteSize / 2;
+    const spriteY = height * 0.6 - spriteSize * 0.5;
+    if (chestSprite.complete) {
+      ctx.drawImage(chestSprite, spriteX, spriteY, spriteSize, spriteSize);
+    } else {
+      ctx.fillStyle = "#b0742a";
+      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
+    }
+  }
+
+  // Draw chests within view as billboards
+  for (let distance = 1; distance <= viewDistance; distance++) {
+    let targetX = viewState.x;
+    let targetY = viewState.y;
+    switch (viewState.direction) {
+      case "north":
+        targetY -= distance;
+        break;
+      case "south":
+        targetY += distance;
+        break;
+      case "east":
+        targetX += distance;
+        break;
+      case "west":
+        targetX -= distance;
+        break;
+    }
+    const cell = map[targetY]?.[targetX];
+    if (!cell || !cell.chest) continue;
+
+    const scale = Math.max(0.25, 1 / (distance + 0.4));
+    const spriteSize = 96 * scale;
+    const spriteX = width / 2 - spriteSize / 2;
+    const spriteY = height * 0.6 - spriteSize * 0.5;
+    if (chestSprite.complete) {
+      ctx.drawImage(chestSprite, spriteX, spriteY, spriteSize, spriteSize);
+    } else {
+      ctx.fillStyle = "#b0742a";
+      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
     }
   }
 

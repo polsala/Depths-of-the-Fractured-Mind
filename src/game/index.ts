@@ -83,6 +83,12 @@ export class GameController {
     };
   }
 
+  public clearChestLoot(): void {
+    if (this.state.chestLoot) {
+      this.state = { ...this.state, chestLoot: undefined };
+    }
+  }
+
   public debugNextDepth(): void {
     if (this.state.mode !== "exploration") return;
     const currentDepth = this.state.location.depth;

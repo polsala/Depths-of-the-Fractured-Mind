@@ -83,6 +83,11 @@ export interface Inventory {
   maxSlots: number;
 }
 
+export interface ChestLoot {
+  items: Array<{ id: string; quantity: number }>;
+  partial?: boolean;
+}
+
 export interface PartyState {
   members: CharacterState[];
   inventory: Inventory;
@@ -116,6 +121,7 @@ export interface GameState {
   mode: GameMode;
   flags: GameFlags;
   debugOptions?: DebugOptions;
+  chestLoot?: ChestLoot;
   currentEventId?: string;
   currentEncounterId?: string;
   combatState?: any; // Will be CombatState from combat/state.ts
@@ -162,6 +168,7 @@ export function createInitialGameState(): GameState {
       xpMultiplier: 1,
       oneHitKill: false,
     },
+    chestLoot: undefined,
     currentEventId: undefined,
     currentEncounterId: undefined,
     combatState: undefined,

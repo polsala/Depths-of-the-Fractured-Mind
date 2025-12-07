@@ -109,13 +109,18 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
 
   // Handle chest loot
   if (tile?.chest && !tile.chest.opened) {
-    const added = addItem(nextState.party.inventory, tile.chest.lootId);
-    tile.chest.opened = true;
-    if (added) {
+    const addedItems: Array<{ id: string; quantity: number }> = [];
+    for (const loot of tile.chest.loot) {
+      const added = addItem(nextState.party.inventory, loot.itemId, loot.quantity);
+      if (added) {
+        addedItems.push({ id: loot.itemId, quantity: loot.quantity });
+      }
+    }
+
+    if (addedItems.length > 0) {
+      tile.chest.opened = true;
+      nextState.chestLoot = { items: addedItems };
       audioManager.playSfx("ui_click");
-    } else {
-      // Inventory full; leave chest unopened to try again later
-      tile.chest.opened = false;
     }
   }
 
