@@ -283,16 +283,26 @@ function renderExploration(
     if (map) {
       const minimapWrapper = document.createElement("div");
       minimapWrapper.className = "minimap-wrapper";
+      minimapWrapper.style.cssText = `
+        border: 1px solid #444;
+        padding: 8px;
+        background: #0f0f0f;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      `;
       infoPanel.appendChild(minimapWrapper);
 
       const minimapCanvas = document.createElement("canvas");
       minimapCanvas.className = "minimap-panel";
+      minimapCanvas.style.flex = "1 1 auto";
       minimapWrapper.appendChild(minimapCanvas);
 
       const zoomButton = document.createElement("button");
       zoomButton.className = "minimap-zoom-button";
       zoomButton.type = "button";
       zoomButton.setAttribute("aria-label", "Expand minimap");
+      zoomButton.style.flex = "0 0 auto";
       zoomButton.innerHTML = `
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
@@ -339,14 +349,26 @@ function renderExploration(
   }
 
   // Create party UI canvas
+  const partyWrapper = document.createElement("div");
+  partyWrapper.style.cssText = `
+    border: 1px solid #444;
+    padding: 8px;
+    background: #0f0f0f;
+    margin-top: 10px;
+  `;
   const partyCanvas = document.createElement("canvas");
   partyCanvas.className = "party-panel";
-  infoPanel.appendChild(partyCanvas);
+  partyCanvas.style.width = "100%";
+  partyWrapper.appendChild(partyCanvas);
+  infoPanel.appendChild(partyWrapper);
 
   // Render party UI with responsive size
   const portraitSizeForParty = platform === 'mobile' ? 48 : 64;
+  const wrapperWidth = Math.max(240, (partyWrapper.clientWidth || partyUISize.width || 240) - 16);
+  partyCanvas.width = wrapperWidth;
+  partyCanvas.height = partyUISize.height;
   renderPartyUI(partyCanvas, state.party, {
-    width: partyUISize.width,
+    width: wrapperWidth,
     height: partyUISize.height,
     portraitSize: portraitSizeForParty,
   });
