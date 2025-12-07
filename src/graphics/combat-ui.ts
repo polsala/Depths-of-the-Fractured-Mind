@@ -5,11 +5,12 @@ import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 export interface CombatUIOptions {
   width: number;
   height: number;
+  backgroundImage?: HTMLImageElement;
 }
 
 const COLORS = {
   background: "#1a1a1a",
-  panel: "#2a2a2a",
+  panel: "rgba(26, 26, 26, 0.55)",
   border: "#4a4a4a",
   text: "#e0e0e0",
   textDim: "#888888",
@@ -33,9 +34,16 @@ export function renderCombatUI(
   canvas.width = options.width;
   canvas.height = options.height;
 
-  // Clear background
-  ctx.fillStyle = COLORS.background;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // Background image or fallback fill
+  if (options.backgroundImage && options.backgroundImage.complete && options.backgroundImage.naturalWidth > 0) {
+    drawCoverImage(ctx, options.backgroundImage, canvas.width, canvas.height);
+    // Darken slightly for UI readability
+    ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.fillStyle = COLORS.background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
 
   // Render in sections
   const topHeight = Math.floor(options.height * 0.5);
@@ -543,4 +551,33 @@ function createButton(
   }
 
   return button;
+}
+
+function drawCoverImage(
+  ctx: CanvasRenderingContext2D,
+  image: HTMLImageElement,
+  canvasWidth: number,
+  canvasHeight: number
+): void {
+  const imgRatio = image.width / image.height;
+  const canvasRatio = canvasWidth / canvasHeight;
+
+  let drawWidth = canvasWidth;
+  let drawHeight = canvasHeight;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  if (imgRatio > canvasRatio) {
+    // Image is wider than canvas ratio
+    drawHeight = canvasHeight;
+    drawWidth = canvasHeight * imgRatio;
+    offsetX = (canvasWidth - drawWidth) / 2;
+  } else {
+    // Image is taller than canvas ratio
+    drawWidth = canvasWidth;
+    drawHeight = canvasWidth / imgRatio;
+    offsetY = (canvasHeight - drawHeight) / 2;
+  }
+
+  ctx.drawImage(image, offsetX, offsetY, drawWidth, drawHeight);
 }

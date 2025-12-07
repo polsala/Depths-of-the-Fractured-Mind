@@ -30,6 +30,8 @@ import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import type { DungeonMap } from "../graphics/map";
 
+const combatBackgroundCache: Record<string, HTMLImageElement> = {};
+
 let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
 let currentDepthMusic: number = -1; // Track current depth for music changes
@@ -605,6 +607,11 @@ function renderCombat(
   const music = combatState.isBossFight ? "battle_boss" : "battle_normal";
   audioManager.playMusic(music);
 
+  const combatBackground = combatState.isBossFight
+    ? getAssetUrl("assets/backgrounds/bosses/boss_bg1.png")
+    : getAssetUrl("assets/backgrounds/battle/battle_bg1.png");
+  const backgroundImage = getCombatBackground(combatBackground);
+
   // Create combat container
   const combatContainer = document.createElement("div");
   combatContainer.className = "combat-container";
@@ -612,7 +619,7 @@ function renderCombat(
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: #1a1a1a;
+    background: #05050a;
   `;
   root.appendChild(combatContainer);
 
@@ -630,7 +637,25 @@ function renderCombat(
   // Combat canvas
   const combatCanvas = document.createElement("canvas");
   combatView.appendChild(combatCanvas);
-  renderCombatUI(combatCanvas, combatState, { width: 800, height: 400 });
+  renderCombatUI(combatCanvas, combatState, {
+    width: 800,
+    height: 400,
+    backgroundImage: backgroundImage?.complete ? backgroundImage : undefined,
+  });
+
+  if (backgroundImage && !backgroundImage.complete) {
+    backgroundImage.onload = () => {
+      // Re-render to apply the loaded background; pull fresh state in case combat progressed
+      const latestState = controller.getCombatState();
+      if (latestState) {
+        renderCombatUI(combatCanvas, latestState as CombatState, {
+          width: 800,
+          height: 400,
+          backgroundImage,
+        });
+      }
+    };
+  }
 
   // Bottom section: Controls and log
   const controlsSection = document.createElement("div");
@@ -876,4 +901,19 @@ export function initApp(root: HTMLElement): void {
   });
 
   render();
+}
+
+function getCombatBackground(src: string): HTMLImageElement | undefined {
+  if (combatBackgroundCache[src]) return combatBackgroundCache[src];
+  const img = new Image();
+  img.src = src;
+  combatBackgroundCache[src] = img;
+  return img;
+}
+
+function getAssetUrl(relativePath: string): string {
+  const base = import.meta.env.BASE_URL || "/";
+  const normalizedBase = base.endsWith("/") ? base : `${base}/`;
+  const normalizedPath = relativePath.startsWith("/") ? relativePath.slice(1) : relativePath;
+  return `${normalizedBase}${normalizedPath}`;
 }
