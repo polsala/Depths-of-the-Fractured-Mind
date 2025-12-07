@@ -1,5 +1,5 @@
 import type { GameLocation, GameMode, GameState } from "../state";
-import { getCurrentDepthMap, getTile, getDepthMap } from "./map";
+import { getCurrentDepthMap, getTile, getDepthMap, type TileType } from "./map";
 import { getEventById } from "../events/engine";
 import { audioManager } from "../../ui/audio";
 import { addItem } from "../inventory";
@@ -8,6 +8,20 @@ import { createCombatState } from "../combat/state";
 
 // Default facing direction when not specified
 const DEFAULT_DIRECTION = "north" as const;
+
+function findTilePositionByType(
+  map: ReturnType<typeof getDepthMap>,
+  type: TileType
+): { x: number; y: number } | null {
+  for (let y = 0; y < map.height; y++) {
+    for (let x = 0; x < map.width; x++) {
+      if (map.tiles[y][x].type === type) {
+        return { x, y };
+      }
+    }
+  }
+  return null;
+}
 
 function canMoveTo(state: GameState, x: number, y: number): boolean {
   const map = getCurrentDepthMap(state);
@@ -91,31 +105,39 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
     const nextDepth = state.location.depth + 1;
     if (nextDepth <= 5) {
       const nextMap = getDepthMap(nextDepth, nextState.depthMaps);
+      const stairsUpTarget = findTilePositionByType(nextMap, "stairsUp") ?? {
+        x: nextMap.startX,
+        y: nextMap.startY,
+      };
       nextState = {
         ...nextState,
         location: {
           depth: nextDepth,
-          x: nextMap.startX,
-          y: nextMap.startY,
+          x: stairsUpTarget.x,
+          y: stairsUpTarget.y,
           direction: state.location.direction,
         },
       };
-      markTileDiscovered(nextState, nextMap.startX, nextMap.startY);
+      markTileDiscovered(nextState, stairsUpTarget.x, stairsUpTarget.y);
     }
   } else if (tile?.type === "stairsUp") {
     const prevDepth = state.location.depth - 1;
     if (prevDepth >= 1) {
       const prevMap = getDepthMap(prevDepth, nextState.depthMaps);
+      const stairsDownTarget = findTilePositionByType(prevMap, "stairsDown") ?? {
+        x: prevMap.startX,
+        y: prevMap.startY,
+      };
       nextState = {
         ...nextState,
         location: {
           depth: prevDepth,
-          x: prevMap.startX,
-          y: prevMap.startY,
+          x: stairsDownTarget.x,
+          y: stairsDownTarget.y,
           direction: state.location.direction,
         },
       };
-      markTileDiscovered(nextState, prevMap.startX, prevMap.startY);
+      markTileDiscovered(nextState, stairsDownTarget.x, stairsDownTarget.y);
     }
   }
 
