@@ -40,18 +40,32 @@ export function renderMinimap(
   ctx.strokeRect(0, 0, config.width, config.height);
 
   const tileSize = config.tileSize;
-  const mapSize = map.length;
-  const startX = (config.width - mapSize * tileSize) / 2;
-  const startY = (config.height - mapSize * tileSize) / 2;
+  const mapHeight = map.length;
+  const mapWidth = map[0]?.length || 0;
+  
+  // Calculate how many tiles can fit in the minimap viewport
+  const tilesVisibleX = Math.floor(config.width / tileSize);
+  const tilesVisibleY = Math.floor(config.height / tileSize);
+  
+  // Calculate viewport bounds (which tiles to render)
+  // Keep player centered in the minimap
+  const viewportMinX = Math.max(0, Math.floor(playerX - tilesVisibleX / 2));
+  const viewportMinY = Math.max(0, Math.floor(playerY - tilesVisibleY / 2));
+  const viewportMaxX = Math.min(mapWidth, viewportMinX + tilesVisibleX);
+  const viewportMaxY = Math.min(mapHeight, viewportMinY + tilesVisibleY);
+  
+  // Calculate starting position to center the visible tiles
+  const startX = (config.width - (viewportMaxX - viewportMinX) * tileSize) / 2;
+  const startY = (config.height - (viewportMaxY - viewportMinY) * tileSize) / 2;
 
-  // Draw map tiles
-  for (let y = 0; y < mapSize; y++) {
-    for (let x = 0; x < mapSize; x++) {
+  // Draw map tiles (only those in viewport)
+  for (let y = viewportMinY; y < viewportMaxY; y++) {
+    for (let x = viewportMinX; x < viewportMaxX; x++) {
       const cell = getMapCell(map, x, y);
       if (!cell) continue;
 
-      const tileX = startX + x * tileSize;
-      const tileY = startY + y * tileSize;
+      const tileX = startX + (x - viewportMinX) * tileSize;
+      const tileY = startY + (y - viewportMinY) * tileSize;
 
       if (cell.wall) {
         // Wall tile
@@ -99,9 +113,9 @@ export function renderMinimap(
     }
   }
 
-  // Draw player position
-  const playerTileX = startX + playerX * tileSize;
-  const playerTileY = startY + playerY * tileSize;
+  // Draw player position (relative to viewport)
+  const playerTileX = startX + (playerX - viewportMinX) * tileSize;
+  const playerTileY = startY + (playerY - viewportMinY) * tileSize;
 
   // Player glow
   const gradient = ctx.createRadialGradient(
