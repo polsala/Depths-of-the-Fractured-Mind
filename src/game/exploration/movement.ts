@@ -107,6 +107,18 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
     }
   }
 
+  // Handle chest loot
+  if (tile?.chest && !tile.chest.opened) {
+    const added = addItem(nextState.party.inventory, tile.chest.lootId);
+    tile.chest.opened = true;
+    if (added) {
+      audioManager.playSfx("ui_click");
+    } else {
+      // Inventory full; leave chest unopened to try again later
+      tile.chest.opened = false;
+    }
+  }
+
   // Handle traps
   if (tile?.trap && !tile.trap.triggered && !tile.trap.detected) {
     tile.trap.triggered = true;

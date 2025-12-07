@@ -494,24 +494,104 @@ function executeItemUse(state: CombatState, action: CombatAction): void {
   addCombatLog(state, `${user.name} uses ${item.name}!`, "system");
   
   // Apply item effects
+  if (action.targetIsEnemy) {
+    const enemy = action.targetIndex !== undefined ? state.encounter.enemies[action.targetIndex] : undefined;
+    applyItemEffect(state, item.id, undefined, enemy, action.targetIndex);
+    return;
+  }
+  
   if (action.targetIndex !== undefined) {
     const target = state.party.members[action.targetIndex];
     if (target) {
       applyItemEffect(state, item.id, target);
     }
+  } else {
+    applyItemEffect(state, item.id, user);
   }
 }
 
-function applyItemEffect(state: CombatState, itemId: string, target: CharacterState): void {
+function applyItemEffect(
+  state: CombatState,
+  itemId: string,
+  target?: CharacterState,
+  enemyTarget?: EnemyState,
+  enemyIndex?: number
+): void {
   switch (itemId) {
     case "medkit":
-      target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + 15);
-      addCombatLog(state, `${target.name} recovers 15 HP!`, "heal");
+      if (target) {
+        target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + 15);
+        addCombatLog(state, `${target.name} recovers 15 HP!`, "heal");
+      }
       break;
     case "sedative":
-      target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 10);
-      addCombatLog(state, `${target.name} recovers 10 Sanity!`, "sanity");
-      audioManager.playSfx("sanity_tick");
+      if (target) {
+        target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 10);
+        addCombatLog(state, `${target.name} recovers 10 Sanity!`, "sanity");
+        audioManager.playSfx("sanity_tick");
+      }
+      break;
+    case "healing_potion": {
+      const heal = 20;
+      if (target) {
+        target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + heal);
+        addCombatLog(state, `${target.name} recovers ${heal} HP!`, "heal");
+      }
+      break;
+    }
+    case "greater_healing_potion": {
+      const heal = 40;
+      if (target) {
+        target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + heal);
+        addCombatLog(state, `${target.name} recovers ${heal} HP!`, "heal");
+      }
+      break;
+    }
+    case "sanity_tonic": {
+      const heal = 20;
+      if (target) {
+        target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + heal);
+        addCombatLog(state, `${target.name} recovers ${heal} Sanity!`, "sanity");
+        audioManager.playSfx("sanity_tick");
+      }
+      break;
+    }
+    case "antidote":
+      if (target) {
+        removeStatusEffect(target, "poisoned");
+        addCombatLog(state, `${target.name} is cured of poison.`, "status");
+      }
+      break;
+    case "focus_draught":
+      if (target) {
+        target.stats.focus += 2;
+        addCombatLog(state, `${target.name}'s focus increases!`, "status");
+      }
+      break;
+    case "bomb": {
+      // Bombs target enemies; apply to first alive enemy
+      const enemy = enemyTarget ?? state.encounter.enemies.find((e) => e.alive);
+      if (enemy) {
+        const damage = state.debugOptions?.oneHitKill ? enemy.stats.hp : 35;
+        const idx = enemyIndex ?? state.encounter.enemies.indexOf(enemy);
+        const updatedEnemy = applyDamageToEnemy(enemy, damage);
+        if (idx >= 0) {
+          state.encounter.enemies[idx] = updatedEnemy;
+        }
+        addCombatLog(state, `${enemy.name} takes ${damage} bomb damage!`, "damage");
+        if (!updatedEnemy.alive) {
+          addCombatLog(state, `${enemy.name} has been defeated!`, "system");
+        }
+      }
+      break;
+    }
+    case "smoke_bomb":
+      if (!state.isBossFight && Math.random() < 0.9) {
+        state.phase = "fled";
+        addCombatLog(state, "The smoke screen lets you escape!", "system");
+      } else {
+        addCombatLog(state, "The smoke disperses with little effect.", "system");
+      }
       break;
   }
 }

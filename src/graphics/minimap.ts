@@ -110,6 +110,20 @@ export function renderMinimap(
           tileSize * 0.5
         );
       }
+
+      // Chest marker
+      if (cell.chest) {
+        ctx.fillStyle = "#b0742a";
+        ctx.beginPath();
+        ctx.arc(
+          tileX + tileSize / 2,
+          tileY + tileSize / 2,
+          tileSize / 5,
+          0,
+          Math.PI * 2
+        );
+        ctx.fill();
+      }
     }
   }
 

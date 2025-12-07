@@ -797,7 +797,7 @@ function renderCombat(
     }
 
     if (action.type === "show-items") {
-      // TODO: Implement item menu
+      openItemModal();
       return;
     }
 
@@ -958,7 +958,7 @@ function renderCombat(
 
   const openTargetModal = (targetType: "enemy" | "ally") => {
     const latestState = controller.getCombatState() as CombatState;
-    const modalTitle = targetType === "ally" ? "Selecciona aliado" : "Selecciona enemigo";
+    const modalTitle = targetType === "ally" ? "Select ally" : "Select enemy";
 
     openCombatModal(modalTitle, (content) => {
       const list = document.createElement("div");
@@ -1013,7 +1013,7 @@ function renderCombat(
       }
 
       const backBtn = document.createElement("button");
-      backBtn.textContent = "Volver";
+      backBtn.textContent = "Back";
       backBtn.style.cssText = `
         margin-top: 10px;
         background: #2a2a2a;
@@ -1041,7 +1041,7 @@ function renderCombat(
     if (!character) return;
 
     const abilities = getCharacterAbilities(character.id);
-    openCombatModal("Selecciona habilidad", (content) => {
+    openCombatModal("Select ability", (content) => {
       const list = document.createElement("div");
       list.style.display = "grid";
       list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
@@ -1110,7 +1110,7 @@ function renderCombat(
       });
 
       const backBtn = document.createElement("button");
-      backBtn.textContent = "Volver";
+      backBtn.textContent = "Back";
       backBtn.style.cssText = `
         margin-top: 10px;
         background: #2a2a2a;
@@ -1122,6 +1122,184 @@ function renderCombat(
       `;
       backBtn.addEventListener("click", () => {
         selectedAbilityId = undefined;
+        closeCombatModal();
+      });
+
+      content.appendChild(list);
+      content.appendChild(backBtn);
+    });
+  };
+
+  const getItemTargetType = (itemId: string): "ally" | "enemy" | "none" => {
+    switch (itemId) {
+      case "bomb":
+        return "enemy";
+      case "smoke_bomb":
+        return "none";
+      default:
+        return "ally";
+    }
+  };
+
+  const openItemTargetModal = (itemId: string, targetType: "ally" | "enemy") => {
+    const latestState = controller.getCombatState() as CombatState;
+    const current = getCurrentActor(latestState);
+    if (!current || !current.isPlayer) return;
+
+    openCombatModal("Select target", (content) => {
+      const list = document.createElement("div");
+      list.style.display = "grid";
+      list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
+      list.style.gap = "10px";
+
+      const submitTarget = (index: number) => {
+        const combatAction: CombatAction = {
+          type: "item",
+          actorIndex: current.index,
+          targetIndex: index,
+          itemId,
+          isPlayerAction: true,
+          targetIsEnemy: targetType === "enemy",
+        };
+        controller.submitCombatAction(combatAction);
+        closeCombatModal();
+        rerender();
+      };
+
+      if (targetType === "ally") {
+        const allies = latestState.party.members
+          .map((ally, index) => ({ ally, index }))
+          .filter(({ ally }) => ally.alive);
+        allies.forEach(({ ally, index }) => {
+          const btn = document.createElement("button");
+          btn.textContent = `${ally.name} (HP ${ally.stats.hp}/${ally.stats.maxHp}, SAN ${ally.stats.sanity}/${ally.stats.maxSanity})`;
+          btn.style.cssText = `
+            background: rgba(26,26,26,0.65);
+            color: #e0e0e0;
+            border: 2px solid #4a4a4a;
+            padding: 10px 12px;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+          `;
+          btn.addEventListener("click", () => submitTarget(index));
+          list.appendChild(btn);
+        });
+      } else {
+        const enemies = latestState.encounter.enemies
+          .map((enemy, index) => ({ enemy, index }))
+          .filter(({ enemy }) => enemy.alive);
+        enemies.forEach(({ enemy, index }) => {
+          const btn = document.createElement("button");
+          btn.textContent = `${enemy.name} (HP ${enemy.stats.hp}/${enemy.stats.maxHp})`;
+          btn.style.cssText = `
+            background: rgba(26,26,26,0.65);
+            color: #e0e0e0;
+            border: 2px solid #4a4a4a;
+            padding: 10px 12px;
+            font-family: monospace;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+          `;
+          btn.addEventListener("click", () => submitTarget(index));
+          list.appendChild(btn);
+        });
+      }
+
+      const backBtn = document.createElement("button");
+      backBtn.textContent = "Back";
+      backBtn.style.cssText = `
+        margin-top: 10px;
+        background: #2a2a2a;
+        color: #e0e0e0;
+        border: 2px solid #4a4a4a;
+        padding: 8px 12px;
+        font-family: monospace;
+        cursor: pointer;
+      `;
+      backBtn.addEventListener("click", () => {
+        closeCombatModal();
+      });
+
+      content.appendChild(list);
+      content.appendChild(backBtn);
+    });
+  };
+
+  const openItemModal = () => {
+    const latestState = controller.getCombatState() as CombatState;
+    const current = getCurrentActor(latestState);
+    if (!current || !current.isPlayer) return;
+    const usableItems = latestState.party.inventory.items.filter((i) => i.item.usable && i.quantity > 0);
+
+    if (usableItems.length === 0) {
+    openCombatModal("Empty inventory", (content) => {
+        const message = document.createElement("p");
+        message.textContent = "No tienes objetos utilizables.";
+        content.appendChild(message);
+        const backBtn = document.createElement("button");
+        backBtn.textContent = "Back";
+        backBtn.addEventListener("click", () => closeCombatModal());
+        content.appendChild(backBtn);
+      });
+      return;
+    }
+
+    openCombatModal("Select item", (content) => {
+      const list = document.createElement("div");
+      list.style.display = "grid";
+      list.style.gridTemplateColumns = "repeat(auto-fit, minmax(220px, 1fr))";
+      list.style.gap = "10px";
+
+      usableItems.forEach(({ item, quantity }) => {
+        const btn = document.createElement("button");
+        btn.textContent = `${item.name} x${quantity}`;
+        btn.style.cssText = `
+          background: rgba(26,26,26,0.65);
+          color: #e0e0e0;
+          border: 2px solid #4a4a4a;
+          padding: 10px 12px;
+          font-family: monospace;
+          cursor: pointer;
+          text-align: left;
+          width: 100%;
+          box-sizing: border-box;
+        `;
+        btn.addEventListener("click", () => {
+          const targetType = getItemTargetType(item.id);
+          if (targetType === "none") {
+            const combatAction: CombatAction = {
+              type: "item",
+              actorIndex: current.index,
+              itemId: item.id,
+              isPlayerAction: true,
+            };
+            controller.submitCombatAction(combatAction);
+            closeCombatModal();
+            rerender();
+          } else {
+            openItemTargetModal(item.id, targetType);
+          }
+        });
+        list.appendChild(btn);
+      });
+
+      const backBtn = document.createElement("button");
+      backBtn.textContent = "Back";
+      backBtn.style.cssText = `
+        margin-top: 10px;
+        background: #2a2a2a;
+        color: #e0e0e0;
+        border: 2px solid #4a4a4a;
+        padding: 8px 12px;
+        font-family: monospace;
+        cursor: pointer;
+      `;
+      backBtn.addEventListener("click", () => {
         closeCombatModal();
       });
 

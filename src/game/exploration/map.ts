@@ -24,6 +24,10 @@ export interface MapTile {
   discovered?: boolean;
   locked?: boolean;
   interactionText?: string;
+  chest?: {
+    lootId: string;
+    opened?: boolean;
+  };
 }
 
 export interface DepthMap {

@@ -11,6 +11,7 @@ export interface CombatAction {
   abilityId?: string;
   itemId?: string;
   isPlayerAction: boolean;
+  targetIsEnemy?: boolean;
 }
 
 export interface StatusEffect {
