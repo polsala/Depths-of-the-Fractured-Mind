@@ -21,6 +21,46 @@ stairsDownSprite.src = `${normalizedBasePath}assets/tilesets/floors/strais_down.
 const vendorSprite = new Image();
 vendorSprite.src = `${normalizedBasePath}assets/sprites/characters/npc/vendor.png`;
 
+const textureCache = new Map<string, HTMLImageElement>();
+
+const depthTextures: Record<
+  number,
+  { wall: string; floor: string; door?: string; wallAlt?: string }
+> = {
+  1: {
+    wall: `${normalizedBasePath}assets/textures/depth1/d1_wall_base_threshold.png`,
+    wallAlt: `${normalizedBasePath}assets/textures/depth1/d1_wall_warning_stripes.png`,
+    floor: `${normalizedBasePath}assets/textures/depth1/d1_floor_linoleum.png`,
+    door: `${normalizedBasePath}assets/textures/depth1/d1_door_metal_security.png`,
+  },
+  2: {
+    wall: `${normalizedBasePath}assets/textures/depth2/d2_wall_archive_cabinets.png`,
+    floor: `${normalizedBasePath}assets/textures/depth2/d2_floor_office_tiles.png`,
+    door: `${normalizedBasePath}assets/textures/depth2/d2_door_records.png`,
+  },
+  3: {
+    wall: `${normalizedBasePath}assets/textures/depth3/d3_wall_hospital.png`,
+    wallAlt: `${normalizedBasePath}assets/textures/depth3/d3_wall_padded_cell.png`,
+    floor: `${normalizedBasePath}assets/textures/depth3/d3_floor_hospital_tiles.png`,
+    door: `${normalizedBasePath}assets/textures/depth3/d3_door_medical.png`,
+  },
+  4: {
+    wall: `${normalizedBasePath}assets/textures/depth4/d4_wall_mirrored_panels.png`,
+    wallAlt: `${normalizedBasePath}assets/textures/depth4/d4_wall_fractured_mirror.png`,
+    floor: `${normalizedBasePath}assets/textures/depth4/d4_floor_dark_reflective.png`,
+  },
+  5: {
+    wall: `${normalizedBasePath}assets/textures/depth5/d5_wall_biomech.png`,
+    floor: `${normalizedBasePath}assets/textures/depth5/d5_floor_metal_grate.png`,
+    door: `${normalizedBasePath}assets/textures/depth5/d5_door_core_bulkhead.png`,
+  },
+};
+
+const globalTextures = {
+  ceiling: `${normalizedBasePath}assets/textures/global/ceiling_concrete_panels.png`,
+  overlay: `${normalizedBasePath}assets/textures/global/global_overlay_cracks.png`,
+};
+
 export interface ViewportConfig {
   width: number;
   height: number;
@@ -146,6 +186,18 @@ export function getDepthPalette(depth: number): {
   return palettes[depth as keyof typeof palettes] || palettes[DEFAULT_DEPTH];
 }
 
+function getTexture(src: string): HTMLImageElement {
+  if (!src) {
+    return new Image();
+  }
+  const cached = textureCache.get(src);
+  if (cached) return cached;
+  const img = new Image();
+  img.src = src;
+  textureCache.set(src, img);
+  return img;
+}
+
 /**
  * Create cobblestone floor texture
  */
@@ -226,6 +278,28 @@ function createCeilingTexture(
   }
 
   return canvas;
+}
+
+function fillTiledTexture(
+  ctx: CanvasRenderingContext2D,
+  texture: HTMLImageElement,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  offsetX: number,
+  offsetY: number
+): void {
+  if (!texture.complete || texture.naturalWidth === 0) {
+    return;
+  }
+  const pattern = ctx.createPattern(texture, "repeat");
+  if (!pattern) return;
+  ctx.save();
+  ctx.translate(offsetX, offsetY);
+  ctx.fillStyle = pattern;
+  ctx.fillRect(x, y, width + texture.width, height + texture.height);
+  ctx.restore();
 }
 
 /**
@@ -380,6 +454,12 @@ export function renderDungeonView(
   const floorHeight = height - ceilingHeight;
   const floorY = ceilingHeight;
   const fov = config.fov || 60;
+  const depthTexture = depthTextures[viewState.depth] || depthTextures[DEFAULT_DEPTH];
+  const wallTexture = depthTexture ? getTexture(depthTexture.wall) : undefined;
+  const wallAltTexture = depthTexture?.wallAlt ? getTexture(depthTexture.wallAlt) : undefined;
+  const floorTextureImg = depthTexture ? getTexture(depthTexture.floor) : undefined;
+  const ceilingTextureImg = getTexture(globalTextures.ceiling);
+  const globalOverlayTexture = getTexture(globalTextures.overlay);
 
   // Clear viewport
   clearViewport(renderCtx);
@@ -391,25 +471,19 @@ export function renderDungeonView(
     return;
   }
 
-  // Render ceiling with tiled texture and subtle depth gradient
-  const ceilingTileSize = 8;
-  const ceilingTexture = createCeilingTexture(
-    ceilingTileSize * 2,
-    ceilingTileSize * 2,
-    palette.ceiling,
-    palette.wallShade
-  );
-  const ceilingPattern = ctx.createPattern(ceilingTexture, "repeat");
-  if (ceilingPattern) {
-    ctx.save();
-    const tileSpan = ceilingTileSize * 2;
-    const offsetX = -((viewState.x * ceilingTileSize) % tileSpan);
-    const offsetY = -((viewState.y * ceilingTileSize) % tileSpan);
-    ctx.translate(offsetX, offsetY);
-    ctx.fillStyle = ceilingPattern;
-    ctx.fillRect(0, 0, width + tileSpan, ceilingHeight + tileSpan);
-    ctx.restore();
+  // Render ceiling with tiled texture (anchored to map) and subtle depth gradient
+  if (ceilingTextureImg.complete && ceilingTextureImg.naturalWidth > 0) {
+    const offsetX = -((viewState.x * ceilingTextureImg.width) % ceilingTextureImg.width);
+    const offsetY = -((viewState.y * ceilingTextureImg.height) % ceilingTextureImg.height);
+    fillTiledTexture(ctx, ceilingTextureImg, 0, 0, width, ceilingHeight, offsetX, offsetY);
   } else {
+    const ceilingTileSize = 8;
+    const ceilingTexture = createCeilingTexture(
+      ceilingTileSize * 2,
+      ceilingTileSize * 2,
+      palette.ceiling,
+      palette.wallShade
+    );
     ctx.drawImage(ceilingTexture, 0, 0, width, ceilingHeight);
   }
   const ceilingGradient = ctx.createLinearGradient(0, 0, 0, ceilingHeight);
@@ -432,9 +506,15 @@ export function renderDungeonView(
   ctx.fillStyle = palette.wallShade;
   ctx.fillRect(0, ceilingHeight - 2, width, 2);
 
-  // Render textured floor
-  const floorTexture = createFloorTexture(width, floorHeight, palette.floor, palette.wallShade);
-  ctx.drawImage(floorTexture, 0, floorY);
+  // Render textured floor anchored to map
+  if (floorTextureImg && floorTextureImg.complete && floorTextureImg.naturalWidth > 0) {
+    const offsetX = -((viewState.x * floorTextureImg.width) % floorTextureImg.width);
+    const offsetY = -((viewState.y * floorTextureImg.height) % floorTextureImg.height);
+    fillTiledTexture(ctx, floorTextureImg, 0, floorY, width, floorHeight, offsetX, offsetY);
+  } else {
+    const floorTexture = createFloorTexture(width, floorHeight, palette.floor, palette.wallShade);
+    ctx.drawImage(floorTexture, 0, floorY);
+  }
   
   // Add perspective fade to floor
   const floorGradient = ctx.createLinearGradient(0, floorY, 0, height);
@@ -544,14 +624,36 @@ export function renderDungeonView(
     const drawEnd = Math.min(height, Math.floor(lineHeight / 2 + height / 2));
 
     const shadeFactor = Math.max(0.35, 1 - perpWallDist * 0.15);
-    const colorSource = side === 1 ? wallShadeRgb : wallBaseRgb;
-    const shadeColor = {
-      r: Math.floor(colorSource.r * shadeFactor),
-      g: Math.floor(colorSource.g * shadeFactor),
-      b: Math.floor(colorSource.b * shadeFactor),
-    };
-    ctx.fillStyle = `rgb(${shadeColor.r}, ${shadeColor.g}, ${shadeColor.b})`;
-    ctx.fillRect(x, drawStart, 1, drawEnd - drawStart);
+    const useAltTexture =
+      !!wallAltTexture && (Math.abs(mapX + mapY) % 6 === 0 || Math.abs(mapX - mapY) % 5 === 0);
+    const tex = useAltTexture ? wallAltTexture : wallTexture;
+
+    if (tex && tex.complete && tex.naturalWidth > 0) {
+      let wallX =
+        side === 0
+          ? posY + perpWallDist * rayDirY
+          : posX + perpWallDist * rayDirX;
+      wallX -= Math.floor(wallX);
+      let texX = Math.floor(wallX * tex.naturalWidth);
+      if (side === 0 && rayDirX > 0) texX = tex.naturalWidth - texX - 1;
+      if (side === 1 && rayDirY < 0) texX = tex.naturalWidth - texX - 1;
+
+      ctx.drawImage(tex, texX, 0, 1, tex.naturalHeight, x, drawStart, 1, drawEnd - drawStart);
+      const shadeAlpha = Math.min(0.65, 1 - shadeFactor);
+      if (shadeAlpha > 0.01) {
+        ctx.fillStyle = `rgba(0, 0, 0, ${shadeAlpha})`;
+        ctx.fillRect(x, drawStart, 1, drawEnd - drawStart);
+      }
+    } else {
+      const colorSource = side === 1 ? wallShadeRgb : wallBaseRgb;
+      const shadeColor = {
+        r: Math.floor(colorSource.r * shadeFactor),
+        g: Math.floor(colorSource.g * shadeFactor),
+        b: Math.floor(colorSource.b * shadeFactor),
+      };
+      ctx.fillStyle = `rgb(${shadeColor.r}, ${shadeColor.g}, ${shadeColor.b})`;
+      ctx.fillRect(x, drawStart, 1, drawEnd - drawStart);
+    }
   }
 
   const viewDistance = 6;
@@ -624,6 +726,18 @@ export function renderDungeonView(
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.chest) continue;
     drawBillboard(distance, chestSprite, "#b0742a", 0.85);
+  }
+
+  // Subtle global crack overlay to bind surfaces
+  if (globalOverlayTexture.complete && globalOverlayTexture.naturalWidth > 0) {
+    const offsetX =
+      -((viewState.x * globalOverlayTexture.width) % globalOverlayTexture.width);
+    const offsetY =
+      -((viewState.y * globalOverlayTexture.height) % globalOverlayTexture.height);
+    ctx.save();
+    ctx.globalAlpha = 0.18;
+    fillTiledTexture(ctx, globalOverlayTexture, 0, 0, width, height, offsetX, offsetY);
+    ctx.restore();
   }
 
   // Add atmospheric fog overlay
