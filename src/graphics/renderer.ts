@@ -196,39 +196,13 @@ function createFloorTexture(
 }
 
 /**
- * Render a gradient for ceiling or floor
+ * Create simple tiled ceiling texture
  */
-function renderGradient(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  color1: string,
-  color2: string,
-  vertical: boolean = true
-): void {
-  const gradient = vertical
-    ? ctx.createLinearGradient(x, y, x, y + height)
-    : ctx.createLinearGradient(x, y, x + width, y);
-
-  gradient.addColorStop(0, color1);
-  gradient.addColorStop(1, color2);
-
-  ctx.fillStyle = gradient;
-  ctx.fillRect(x, y, width, height);
-}
-
-/**
- * Create detailed pixel art stone texture
- */
-function createStoneTexture(
+function createCeilingTexture(
   width: number,
   height: number,
   baseColor: string,
-  shadeColor: string,
-  accentColor: string,
-  brightness: number
+  shadeColor: string
 ): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
   canvas.width = width;
@@ -236,46 +210,18 @@ function createStoneTexture(
   const ctx = canvas.getContext("2d");
   if (!ctx) return canvas;
 
-  // Parse colors
   const base = hexToRgb(baseColor);
   const shade = hexToRgb(shadeColor);
-  const accent = hexToRgb(accentColor);
 
-  // Create stone brick pattern
-  const brickWidth = Math.max(8, width / 8);
-  const brickHeight = Math.max(6, height / 12);
+  const tileSize = 8;
+  const altColor = interpolateColor(base, shade, 0.25);
 
-  for (let row = 0; row < Math.ceil(height / brickHeight); row++) {
-    const offset = (row % 2) * (brickWidth / 2);
-    for (let col = 0; col < Math.ceil(width / brickWidth) + 1; col++) {
-      const x = col * brickWidth - offset;
-      const y = row * brickHeight;
-
-      // Base brick color with variation
-      const variation = Math.random() * 0.2 - 0.1;
-      const brickColor = interpolateColor(shade, base, 0.7 + variation);
-      ctx.fillStyle = `rgba(${Math.floor(brickColor.r * brightness)}, ${Math.floor(brickColor.g * brightness)}, ${Math.floor(brickColor.b * brightness)}, 1)`;
-      ctx.fillRect(x, y, brickWidth - 2, brickHeight - 2);
-
-      // Mortar (gaps between bricks)
-      ctx.fillStyle = `rgba(${Math.floor(shade.r * brightness * 0.5)}, ${Math.floor(shade.g * brightness * 0.5)}, ${Math.floor(shade.b * brightness * 0.5)}, 1)`;
-      ctx.fillRect(x + brickWidth - 2, y, 2, brickHeight);
-      ctx.fillRect(x, y + brickHeight - 2, brickWidth, 2);
-
-      // Add texture details
-      const detailCount = Math.floor(Math.random() * 3);
-      for (let d = 0; d < detailCount; d++) {
-        const dx = x + Math.random() * (brickWidth - 4) + 2;
-        const dy = y + Math.random() * (brickHeight - 4) + 2;
-        const size = Math.random() * 2 + 1;
-        ctx.fillStyle = `rgba(${Math.floor(shade.r * brightness * 0.7)}, ${Math.floor(shade.g * brightness * 0.7)}, ${Math.floor(shade.b * brightness * 0.7)}, 0.5)`;
-        ctx.fillRect(dx, dy, size, size);
-      }
-
-      // Highlights on top-left
-      ctx.fillStyle = `rgba(${Math.floor(accent.r * brightness)}, ${Math.floor(accent.g * brightness)}, ${Math.floor(accent.b * brightness)}, 0.3)`;
-      ctx.fillRect(x, y, brickWidth - 2, 1);
-      ctx.fillRect(x, y, 1, brickHeight - 2);
+  for (let y = 0; y < height; y += tileSize) {
+    for (let x = 0; x < width; x += tileSize) {
+      const useAlt = ((x / tileSize + y / tileSize) | 0) % 2 === 1;
+      const color = useAlt ? altColor : base;
+      ctx.fillStyle = `rgb(${Math.floor(color.r)}, ${Math.floor(color.g)}, ${Math.floor(color.b)})`;
+      ctx.fillRect(x, y, tileSize, tileSize);
     }
   }
 
@@ -421,49 +367,6 @@ function interpolateColor(
 }
 
 /**
- * Draw a perspective wall segment with detailed texture
- */
-function drawWallSegment(
-  ctx: CanvasRenderingContext2D,
-  distance: number,
-  xStart: number,
-  width: number,
-  viewHeight: number,
-  baseColor: string,
-  shadeColor: string,
-  accentColor: string
-): void {
-  // Calculate wall height based on distance (perspective)
-  const scale = 1 / (distance + 1);
-  const wallHeight = viewHeight * scale * 0.8;
-  const wallTop = (viewHeight - wallHeight) / 2;
-
-  // Darken walls based on distance
-  const brightness = Math.max(0.3, 1 - distance * 0.15);
-
-  // Create detailed stone texture
-  const texture = createStoneTexture(
-    Math.floor(width),
-    Math.floor(wallHeight),
-    baseColor,
-    shadeColor,
-    accentColor,
-    brightness
-  );
-
-  // Draw textured wall
-  ctx.drawImage(texture, xStart, wallTop);
-
-  // Add depth shading
-  const gradient = ctx.createLinearGradient(xStart, wallTop, xStart + width, wallTop);
-  gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-  gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
-  gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-  ctx.fillStyle = gradient;
-  ctx.fillRect(xStart, wallTop, width, wallHeight);
-}
-
-/**
  * Main render function for the dungeon viewport
  */
 export function renderDungeonView(
@@ -473,6 +376,10 @@ export function renderDungeonView(
   const { ctx, config, depthMaps } = renderCtx;
   const { width, height } = config;
   const palette = getDepthPalette(viewState.depth);
+  const ceilingHeight = Math.ceil(height / 2);
+  const floorHeight = height - ceilingHeight;
+  const floorY = ceilingHeight;
+  const fov = config.fov || 60;
 
   // Clear viewport
   clearViewport(renderCtx);
@@ -484,91 +391,172 @@ export function renderDungeonView(
     return;
   }
 
-  // Render ceiling with gradient
-  renderGradient(ctx, 0, 0, width, height / 2, palette.ceiling, palette.wallShade);
+  // Render ceiling with tiled texture and subtle depth gradient
+  const ceilingTileSize = 8;
+  const ceilingTexture = createCeilingTexture(
+    ceilingTileSize * 2,
+    ceilingTileSize * 2,
+    palette.ceiling,
+    palette.wallShade
+  );
+  const ceilingPattern = ctx.createPattern(ceilingTexture, "repeat");
+  if (ceilingPattern) {
+    ctx.save();
+    const tileSpan = ceilingTileSize * 2;
+    const offsetX = -((viewState.x * ceilingTileSize) % tileSpan);
+    const offsetY = -((viewState.y * ceilingTileSize) % tileSpan);
+    ctx.translate(offsetX, offsetY);
+    ctx.fillStyle = ceilingPattern;
+    ctx.fillRect(0, 0, width + tileSpan, ceilingHeight + tileSpan);
+    ctx.restore();
+  } else {
+    ctx.drawImage(ceilingTexture, 0, 0, width, ceilingHeight);
+  }
+  const ceilingGradient = ctx.createLinearGradient(0, 0, 0, ceilingHeight);
+  ceilingGradient.addColorStop(0, "rgba(0, 0, 0, 0.25)");
+  ceilingGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+  ctx.fillStyle = ceilingGradient;
+  ctx.fillRect(0, 0, width, ceilingHeight);
+  // Darken ceiling edges toward the walls to anchor the surface
+  const ceilingSideFade = ctx.createLinearGradient(0, 0, width / 2, 0);
+  ceilingSideFade.addColorStop(0, "rgba(0, 0, 0, 0.35)");
+  ceilingSideFade.addColorStop(1, "rgba(0, 0, 0, 0)");
+  ctx.fillStyle = ceilingSideFade;
+  ctx.fillRect(0, 0, width / 2, ceilingHeight);
+  ctx.save();
+  ctx.translate(width, 0);
+  ctx.scale(-1, 1);
+  ctx.fillRect(0, 0, width / 2, ceilingHeight);
+  ctx.restore();
+  // Small lip where ceiling meets walls for a clear seam
+  ctx.fillStyle = palette.wallShade;
+  ctx.fillRect(0, ceilingHeight - 2, width, 2);
 
   // Render textured floor
-  const floorTexture = createFloorTexture(width, height / 2, palette.floor, palette.wallShade);
-  ctx.drawImage(floorTexture, 0, height / 2);
+  const floorTexture = createFloorTexture(width, floorHeight, palette.floor, palette.wallShade);
+  ctx.drawImage(floorTexture, 0, floorY);
   
   // Add perspective fade to floor
-  const floorGradient = ctx.createLinearGradient(0, height / 2, 0, height);
+  const floorGradient = ctx.createLinearGradient(0, floorY, 0, height);
   floorGradient.addColorStop(0, "rgba(0, 0, 0, 0.4)");
   floorGradient.addColorStop(1, "rgba(0, 0, 0, 0.1)");
   ctx.fillStyle = floorGradient;
-  ctx.fillRect(0, height / 2, width, height / 2);
+  ctx.fillRect(0, floorY, width, floorHeight);
 
-  // Render walls based on map data (back to front)
-  const viewDistance = 4; // How many tiles deep we can see
-  const sideWallWidth = width * 0.25;
+  // Render walls via grid-aligned raycasting (low-res, Eye of the Beholder style)
+  const posX = viewState.x + 0.5;
+  const posY = viewState.y + 0.5;
+  const fovRad = (fov * Math.PI) / 180;
+  const planeMag = Math.tan(fovRad / 2);
 
-  for (let distance = viewDistance; distance >= 0; distance--) {
-    const walls = getVisibleWalls(
-      map,
-      viewState.x,
-      viewState.y,
-      viewState.direction,
-      distance
-    );
-
-    const scale = 1 / (distance + 1);
-    const segmentWidth = width * scale * 0.8;
-    const adjacentFrontBlocked = distance === 1 && walls.front;
-
-    // Adjacent side walls as solid bands against screen edges
-    if (distance === 1 && walls.left && !adjacentFrontBlocked) {
-      drawWallSegment(
-        ctx,
-        0,
-        0,
-        sideWallWidth,
-        height,
-        palette.wallBase,
-        palette.wallShade,
-        palette.accent
-      );
-    }
-
-    if (distance === 1 && walls.right && !adjacentFrontBlocked) {
-      drawWallSegment(
-        ctx,
-        0,
-        width - sideWallWidth,
-        sideWallWidth,
-        height,
-        palette.wallBase,
-        palette.wallShade,
-        palette.accent
-      );
-    }
-
-    // Front wall (if blocked)
-    if (walls.front) {
-      const hasSideAnchorLeft = distance >= 1 && walls.left;
-      const hasSideAnchorRight = distance >= 1 && walls.right;
-      const frontStart =
-        distance === 1 || hasSideAnchorLeft
-          ? 0
-          : (width - segmentWidth) / 2;
-      const frontEnd =
-        distance === 1 || hasSideAnchorRight
-          ? width
-          : (width + segmentWidth) / 2;
-      drawWallSegment(
-        ctx,
-        distance,
-        frontStart,
-        Math.max(segmentWidth, frontEnd - frontStart),
-        height,
-        palette.wallBase,
-        palette.wallShade,
-        palette.accent
-      );
-    }
+  let dirX = 0;
+  let dirY = -1;
+  switch (viewState.direction) {
+    case "north":
+      dirX = 0;
+      dirY = -1;
+      break;
+    case "south":
+      dirX = 0;
+      dirY = 1;
+      break;
+    case "east":
+      dirX = 1;
+      dirY = 0;
+      break;
+    case "west":
+      dirX = -1;
+      dirY = 0;
+      break;
   }
 
-  // Draw chests within view as billboards
-  for (let distance = 1; distance <= viewDistance; distance++) {
+  const planeX = -dirY * planeMag;
+  const planeY = dirX * planeMag;
+
+  const wallBaseRgb = hexToRgb(palette.wallBase);
+  const wallShadeRgb = hexToRgb(palette.wallShade);
+
+  const maxRayDepth = 16;
+  for (let x = 0; x < width; x++) {
+    const cameraX = (2 * x) / width - 1;
+    const rayDirX = dirX + planeX * cameraX;
+    const rayDirY = dirY + planeY * cameraX;
+
+    let mapX = Math.floor(posX);
+    let mapY = Math.floor(posY);
+
+    const deltaDistX = rayDirX === 0 ? 1e30 : Math.abs(1 / rayDirX);
+    const deltaDistY = rayDirY === 0 ? 1e30 : Math.abs(1 / rayDirY);
+
+    let sideDistX: number;
+    let sideDistY: number;
+    let stepX: number;
+    let stepY: number;
+
+    if (rayDirX < 0) {
+      stepX = -1;
+      sideDistX = (posX - mapX) * deltaDistX;
+    } else {
+      stepX = 1;
+      sideDistX = (mapX + 1 - posX) * deltaDistX;
+    }
+
+    if (rayDirY < 0) {
+      stepY = -1;
+      sideDistY = (posY - mapY) * deltaDistY;
+    } else {
+      stepY = 1;
+      sideDistY = (mapY + 1 - posY) * deltaDistY;
+    }
+
+    let hit = false;
+    let side = 0;
+    let depth = 0;
+
+    while (!hit && depth < maxRayDepth) {
+      if (sideDistX < sideDistY) {
+        sideDistX += deltaDistX;
+        mapX += stepX;
+        side = 0;
+      } else {
+        sideDistY += deltaDistY;
+        mapY += stepY;
+        side = 1;
+      }
+
+      const cell = map[mapY]?.[mapX];
+      if (!cell || cell.wall) {
+        hit = true;
+      }
+      depth++;
+    }
+
+    if (!hit) continue;
+
+    let perpWallDist =
+      side === 0
+        ? (mapX - posX + (1 - stepX) / 2) / rayDirX
+        : (mapY - posY + (1 - stepY) / 2) / rayDirY;
+    if (perpWallDist < 0.0001) perpWallDist = 0.0001;
+
+    const lineHeight = Math.min(height, Math.floor(height / perpWallDist));
+    const drawStart = Math.max(0, Math.floor(-lineHeight / 2 + height / 2));
+    const drawEnd = Math.min(height, Math.floor(lineHeight / 2 + height / 2));
+
+    const shadeFactor = Math.max(0.35, 1 - perpWallDist * 0.15);
+    const colorSource = side === 1 ? wallShadeRgb : wallBaseRgb;
+    const shadeColor = {
+      r: Math.floor(colorSource.r * shadeFactor),
+      g: Math.floor(colorSource.g * shadeFactor),
+      b: Math.floor(colorSource.b * shadeFactor),
+    };
+    ctx.fillStyle = `rgb(${shadeColor.r}, ${shadeColor.g}, ${shadeColor.b})`;
+    ctx.fillRect(x, drawStart, 1, drawEnd - drawStart);
+  }
+
+  const viewDistance = 6;
+
+  const resolveTarget = (distance: number): { x: number; y: number } => {
     let targetX = viewState.x;
     let targetY = viewState.y;
     switch (viewState.direction) {
@@ -585,150 +573,57 @@ export function renderDungeonView(
         targetX -= distance;
         break;
     }
-    const cell = map[targetY]?.[targetX];
-    if (!cell || !cell.chest) continue;
+    return { x: targetX, y: targetY };
+  };
 
-    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.5;
-    const spriteSize = 96 * scale;
+  const drawBillboard = (
+    distance: number,
+    sprite: HTMLImageElement,
+    fallbackColor: string,
+    sizeFactor: number
+  ): void => {
+    const distScale = Math.max(0.3, 1 / (distance + 0.1));
+    const spriteSize = Math.max(32, 96 * distScale * sizeFactor);
     const spriteX = width / 2 - spriteSize / 2;
-    const spriteY = height * 0.6 - spriteSize * 0.5;
-    if (chestSprite.complete) {
-      ctx.drawImage(chestSprite, spriteX, spriteY, spriteSize, spriteSize);
+    const spriteY = height * 0.68 - spriteSize;
+    if (sprite.complete) {
+      ctx.drawImage(sprite, spriteX, spriteY, spriteSize, spriteSize);
     } else {
-      ctx.fillStyle = "#b0742a";
+      ctx.fillStyle = fallbackColor;
       ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
     }
-  }
+  };
 
   // Draw stairs up as billboards in view
   for (let distance = 1; distance <= viewDistance; distance++) {
-    let targetX = viewState.x;
-    let targetY = viewState.y;
-    switch (viewState.direction) {
-      case "north":
-        targetY -= distance;
-        break;
-      case "south":
-        targetY += distance;
-        break;
-      case "east":
-        targetX += distance;
-        break;
-      case "west":
-        targetX -= distance;
-        break;
-    }
-    const cell = map[targetY]?.[targetX];
+    const target = resolveTarget(distance);
+    const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsUp) continue;
-
-    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.5;
-    const spriteSize = 96 * scale;
-    const spriteX = width / 2 - spriteSize / 2;
-    const spriteY = height * 0.6 - spriteSize * 0.5;
-    if (stairsUpSprite.complete) {
-      ctx.drawImage(stairsUpSprite, spriteX, spriteY, spriteSize, spriteSize);
-    } else {
-      ctx.fillStyle = "#7fd0ff";
-      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
-    }
+    drawBillboard(distance, stairsUpSprite, "#7fd0ff", 1);
   }
 
   // Draw stairs down as billboards in view
   for (let distance = 1; distance <= viewDistance; distance++) {
-    let targetX = viewState.x;
-    let targetY = viewState.y;
-    switch (viewState.direction) {
-      case "north":
-        targetY -= distance;
-        break;
-      case "south":
-        targetY += distance;
-        break;
-      case "east":
-        targetX += distance;
-        break;
-      case "west":
-        targetX -= distance;
-        break;
-    }
-    const cell = map[targetY]?.[targetX];
+    const target = resolveTarget(distance);
+    const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsDown) continue;
-
-    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.5;
-    const spriteSize = 96 * scale;
-    const spriteX = width / 2 - spriteSize / 2;
-    const spriteY = height * 0.6 - spriteSize * 0.5;
-    if (stairsDownSprite.complete) {
-      ctx.drawImage(stairsDownSprite, spriteX, spriteY, spriteSize, spriteSize);
-    } else {
-      ctx.fillStyle = "#ff7f7f";
-      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
-    }
+    drawBillboard(distance, stairsDownSprite, "#ff7f7f", 1);
   }
 
   // Draw vendor as billboard
   for (let distance = 1; distance <= viewDistance; distance++) {
-    let targetX = viewState.x;
-    let targetY = viewState.y;
-    switch (viewState.direction) {
-      case "north":
-        targetY -= distance;
-        break;
-      case "south":
-        targetY += distance;
-        break;
-      case "east":
-        targetX += distance;
-        break;
-      case "west":
-        targetX -= distance;
-        break;
-    }
-    const cell = map[targetY]?.[targetX];
+    const target = resolveTarget(distance);
+    const cell = map[target.y]?.[target.x];
     if (!cell || !cell.vendor) continue;
-    const scale = Math.max(0.25, 1 / (distance + 0.4)) * 2.2;
-    const spriteSize = 96 * scale;
-    const spriteX = width / 2 - spriteSize / 2;
-    const spriteY = height * 0.6 - spriteSize * 0.5;
-    if (vendorSprite.complete) {
-      ctx.drawImage(vendorSprite, spriteX, spriteY, spriteSize, spriteSize);
-    } else {
-      ctx.fillStyle = "#b48bff";
-      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
-    }
+    drawBillboard(distance, vendorSprite, "#b48bff", 0.9);
   }
 
   // Draw chests within view as billboards
   for (let distance = 1; distance <= viewDistance; distance++) {
-    let targetX = viewState.x;
-    let targetY = viewState.y;
-    switch (viewState.direction) {
-      case "north":
-        targetY -= distance;
-        break;
-      case "south":
-        targetY += distance;
-        break;
-      case "east":
-        targetX += distance;
-        break;
-      case "west":
-        targetX -= distance;
-        break;
-    }
-    const cell = map[targetY]?.[targetX];
+    const target = resolveTarget(distance);
+    const cell = map[target.y]?.[target.x];
     if (!cell || !cell.chest) continue;
-
-    const scale = Math.max(0.25, 1 / (distance + 0.4));
-    const spriteSize = 96 * scale;
-    const spriteX = width / 2 - spriteSize / 2;
-    const spriteY = height * 0.6 - spriteSize * 0.5;
-    if (chestSprite.complete) {
-      ctx.drawImage(chestSprite, spriteX, spriteY, spriteSize, spriteSize);
-    } else {
-      ctx.fillStyle = "#b0742a";
-      ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
-    }
+    drawBillboard(distance, chestSprite, "#b0742a", 0.85);
   }
 
   // Add atmospheric fog overlay
@@ -745,48 +640,24 @@ export function renderDungeonView(
   ctx.fillStyle = fogGradient;
   ctx.fillRect(0, 0, width, height);
 
-  // Add torches on visible walls
-  for (let distance = 3; distance >= 1; distance--) {
-    const walls = getVisibleWalls(
-      map,
-      viewState.x,
-      viewState.y,
-      viewState.direction,
-      distance
-    );
+  // Add torches on nearest visible side walls
+  const nearestWalls = getVisibleWalls(
+    map,
+    viewState.x,
+    viewState.y,
+    viewState.direction,
+    1
+  );
+  const timestamp = Date.now();
+  const torchSize = Math.max(14, height * 0.08);
+  const torchY = height * 0.45;
 
-    const scale = 1 / (distance + 1);
-    const segmentWidth = width * scale * 0.8;
-    const wallHeight = height * scale * 0.8;
-    const wallTop = (height - wallHeight) / 2;
-    const adjacentFrontBlocked = distance === 1 && walls.front;
+  if (nearestWalls.left) {
+    drawTorchSconce(ctx, width * 0.08, torchY, torchSize, timestamp);
+  }
 
-    // Use consistent timestamp for animation
-    const timestamp = Date.now();
-
-    // Left wall torch
-    if (distance === 1 && walls.left && !adjacentFrontBlocked) {
-      const torchSize = Math.max(20, wallHeight * 0.15);
-      drawTorchSconce(
-        ctx,
-        (width - segmentWidth) / 4,
-        wallTop + wallHeight * 0.3,
-        torchSize,
-        timestamp
-      );
-    }
-
-    // Right wall torch
-    if (distance === 1 && walls.right && !adjacentFrontBlocked) {
-      const torchSize = Math.max(20, wallHeight * 0.15);
-      drawTorchSconce(
-        ctx,
-        width - (width - segmentWidth) / 4 - torchSize,
-        wallTop + wallHeight * 0.3,
-        torchSize,
-        timestamp
-      );
-    }
+  if (nearestWalls.right) {
+    drawTorchSconce(ctx, width * 0.92 - torchSize, torchY, torchSize, timestamp);
   }
 
   // Add vignette effect
