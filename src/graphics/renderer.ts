@@ -522,6 +522,9 @@ export function renderDungeonView(
     console.warn(`No map found for depth ${viewState.depth}`);
     return;
   }
+  const mapWidth = map[0]?.length ?? 0;
+  const mapHeight = map.length;
+  const maxVisibleDepth = Math.max(1, Math.max(mapWidth, mapHeight));
 
   // Render ceiling with perspective-aware tiling
   const ceilingPattern =
@@ -609,7 +612,7 @@ export function renderDungeonView(
   const wallBaseRgb = hexToRgb(palette.wallBase);
   const wallShadeRgb = hexToRgb(palette.wallShade);
 
-  const maxRayDepth = 16;
+  const maxRayDepth = maxVisibleDepth;
   for (let x = 0; x < width; x++) {
     const cameraX = (2 * x) / width - 1;
     const rayDirX = dirX + planeX * cameraX;
@@ -709,7 +712,7 @@ export function renderDungeonView(
     }
   }
 
-  const viewDistance = 6;
+  const viewDistance = maxVisibleDepth;
 
   const resolveTarget = (distance: number): { x: number; y: number } => {
     let targetX = viewState.x;
