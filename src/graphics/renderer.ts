@@ -738,12 +738,14 @@ export function renderDungeonView(
     distance: number,
     sprite: HTMLImageElement,
     fallbackColor: string,
-    sizeFactor: number
+    sizeFactor: number,
+    anchorToFloor: boolean = true
   ): void => {
     const distScale = Math.max(0.3, 1 / (distance + 0.1));
     const spriteSize = Math.max(32, 96 * distScale * sizeFactor);
     const spriteX = width / 2 - spriteSize / 2;
-    const spriteY = height * 0.68 - spriteSize;
+    const floorAnchor = height * 0.86;
+    const spriteY = anchorToFloor ? floorAnchor - spriteSize : height * 0.68 - spriteSize;
     if (sprite.complete) {
       ctx.drawImage(sprite, spriteX, spriteY, spriteSize, spriteSize);
     } else {
@@ -757,7 +759,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsUp) continue;
-    drawBillboard(distance, stairsUpSprite, "#7fd0ff", 1);
+    drawBillboard(distance, stairsUpSprite, "#7fd0ff", 2.5);
   }
 
   // Draw stairs down as billboards in view
@@ -765,7 +767,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsDown) continue;
-    drawBillboard(distance, stairsDownSprite, "#ff7f7f", 1);
+    drawBillboard(distance, stairsDownSprite, "#ff7f7f", 2.5);
   }
 
   // Draw vendor as billboard
@@ -773,7 +775,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.vendor) continue;
-    drawBillboard(distance, vendorSprite, "#b48bff", 0.9);
+    drawBillboard(distance, vendorSprite, "#b48bff", 2.5);
   }
 
   // Draw chests within view as billboards
@@ -781,7 +783,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.chest) continue;
-    drawBillboard(distance, chestSprite, "#b0742a", 0.85);
+    drawBillboard(distance, chestSprite, "#b0742a", 1.9);
   }
 
   // Subtle global crack overlay to bind surfaces

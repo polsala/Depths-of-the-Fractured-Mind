@@ -611,6 +611,14 @@ function renderExploration(
   });
   debugToggles.appendChild(nextFloorButton);
 
+  const spawnEntitiesButton = document.createElement("button");
+  spawnEntitiesButton.textContent = "Spawn debug entities nearby";
+  spawnEntitiesButton.addEventListener("click", () => {
+    controller.debugSpawnEntitiesAround();
+    rerender();
+  });
+  debugToggles.appendChild(spawnEntitiesButton);
+
   const lowHpButton = document.createElement("button");
   lowHpButton.textContent = "Set Party HP to 1";
   lowHpButton.addEventListener("click", () => {
