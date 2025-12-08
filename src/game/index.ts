@@ -11,9 +11,53 @@ import { createCombatState, type CombatAction, getCurrentActor } from "./combat/
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
 import { useItem, removeItem, addItem, ITEMS } from "./inventory";
+import type { MapTile } from "./exploration/map";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
+
+type DebugEntityApplier = (tile: MapTile) => void;
+const DEBUG_ENTITY_TEMPLATES: Array<{ id: string; apply: DebugEntityApplier }> = [
+  {
+    id: "chest",
+    apply: (tile) => {
+      tile.type = "floor";
+      tile.passable = true;
+      tile.chest = { loot: [], opened: false };
+    },
+  },
+  {
+    id: "vendor",
+    apply: (tile) => {
+      tile.type = "floor";
+      tile.passable = true;
+      tile.vendor = true;
+    },
+  },
+  {
+    id: "stairsUp",
+    apply: (tile) => {
+      tile.type = "stairsUp";
+      tile.passable = true;
+    },
+  },
+  {
+    id: "stairsDown",
+    apply: (tile) => {
+      tile.type = "stairsDown";
+      tile.passable = true;
+    },
+  },
+  {
+    id: "door",
+    apply: (tile) => {
+      tile.type = "door";
+      tile.passable = true;
+      tile.locked = false;
+      tile.discovered = true;
+    },
+  },
+];
 
 export class GameController {
   private state: GameState;
@@ -175,6 +219,33 @@ export class GameController {
       mode: "exploration",
     };
     this.stepsSinceLastEvent = 0;
+  }
+
+  public debugSpawnEntitiesAround(): void {
+    if (this.state.mode !== "exploration") return;
+    const map = getDepthMap(this.state.location.depth, this.state.depthMaps);
+    const { x, y } = this.state.location;
+    const offsets: Array<[number, number]> = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+      [1, 1],
+      [-1, 1],
+      [1, -1],
+      [-1, -1],
+    ];
+
+    DEBUG_ENTITY_TEMPLATES.forEach((template, idx) => {
+      const offset = offsets[idx % offsets.length];
+      const tx = x + offset[0];
+      const ty = y + offset[1];
+      const tile = map.tiles[ty]?.[tx];
+      if (!tile) return;
+      template.apply(tile);
+      tile.discovered = true;
+      tile.passable = true;
+    });
   }
 
   public moveNorth(): void {
