@@ -61,6 +61,8 @@ const globalTextures = {
   overlay: `${normalizedBasePath}assets/textures/global/global_overlay_cracks.png`,
 };
 
+const pendingTextureLoads = new WeakSet<HTMLImageElement>();
+
 export interface ViewportConfig {
   width: number;
   height: number;
@@ -196,6 +198,24 @@ function getTexture(src: string): HTMLImageElement {
   img.src = src;
   textureCache.set(src, img);
   return img;
+}
+
+function queueTextureRedraw(
+  texture: HTMLImageElement | undefined,
+  renderCtx: RenderContext,
+  viewState: ViewState
+): void {
+  if (!texture || texture.complete || pendingTextureLoads.has(texture)) {
+    return;
+  }
+  pendingTextureLoads.add(texture);
+  texture
+    .decode()
+    .then(() => {
+      pendingTextureLoads.delete(texture);
+      renderDungeonView(renderCtx, viewState);
+    })
+    .catch(() => pendingTextureLoads.delete(texture));
 }
 
 /**
@@ -454,6 +474,8 @@ export function renderDungeonView(
   const floorHeight = height - ceilingHeight;
   const floorY = ceilingHeight;
   const fov = config.fov || 60;
+  const posX = viewState.x + 0.5;
+  const posY = viewState.y + 0.5;
   const depthTexture = depthTextures[viewState.depth] || depthTextures[DEFAULT_DEPTH];
   const wallTexture = depthTexture ? getTexture(depthTexture.wall) : undefined;
   const wallAltTexture = depthTexture?.wallAlt ? getTexture(depthTexture.wallAlt) : undefined;
@@ -471,12 +493,28 @@ export function renderDungeonView(
     return;
   }
 
-  // Render ceiling with tiled texture (anchored to map) and subtle depth gradient
-  if (ceilingTextureImg.complete && ceilingTextureImg.naturalWidth > 0) {
-    const offsetX = -((viewState.x * ceilingTextureImg.width) % ceilingTextureImg.width);
-    const offsetY = -((viewState.y * ceilingTextureImg.height) % ceilingTextureImg.height);
-    fillTiledTexture(ctx, ceilingTextureImg, 0, 0, width, ceilingHeight, offsetX, offsetY);
+  // Render ceiling with perspective-aware tiling
+  const ceilingPattern =
+    ceilingTextureImg.complete && ceilingTextureImg.naturalWidth > 0
+      ? ctx.createPattern(ceilingTextureImg, "repeat")
+      : null;
+  if (ceilingPattern && ceilingPattern.setTransform) {
+    const texW = ceilingTextureImg.naturalWidth || 32;
+    const texH = ceilingTextureImg.naturalHeight || 32;
+    for (let y = 0; y < ceilingHeight; y++) {
+      const p = ceilingHeight - y;
+      const rowDist = (height / 2) / Math.max(1, p);
+      const scale = Math.min(8, Math.max(0.6, rowDist * 0.6));
+      const offsetX = -((posX * texW) % texW) * scale;
+      const offsetY = -((posY * texH) % texH) * scale;
+      ceilingPattern.setTransform(
+        new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY])
+      );
+      ctx.fillStyle = ceilingPattern;
+      ctx.fillRect(0, y, width, 1);
+    }
   } else {
+    queueTextureRedraw(ceilingTextureImg, renderCtx, viewState);
     const ceilingTileSize = 8;
     const ceilingTexture = createCeilingTexture(
       ceilingTileSize * 2,
@@ -506,12 +544,26 @@ export function renderDungeonView(
   ctx.fillStyle = palette.wallShade;
   ctx.fillRect(0, ceilingHeight - 2, width, 2);
 
-  // Render textured floor anchored to map
-  if (floorTextureImg && floorTextureImg.complete && floorTextureImg.naturalWidth > 0) {
-    const offsetX = -((viewState.x * floorTextureImg.width) % floorTextureImg.width);
-    const offsetY = -((viewState.y * floorTextureImg.height) % floorTextureImg.height);
-    fillTiledTexture(ctx, floorTextureImg, 0, floorY, width, floorHeight, offsetX, offsetY);
+  // Render textured floor with perspective-aware tiling
+  const floorPattern =
+    floorTextureImg && floorTextureImg.complete && floorTextureImg.naturalWidth > 0
+      ? ctx.createPattern(floorTextureImg, "repeat")
+      : null;
+  if (floorPattern && floorPattern.setTransform) {
+    const texW = floorTextureImg?.naturalWidth || 32;
+    const texH = floorTextureImg?.naturalHeight || 32;
+    for (let y = floorY; y < height; y++) {
+      const p = y - height / 2;
+      const rowDist = (height / 2) / Math.max(1, p);
+      const scale = Math.min(8, Math.max(0.6, rowDist * 0.6));
+      const offsetX = -((posX * texW) % texW) * scale;
+      const offsetY = -((posY * texH) % texH) * scale;
+      floorPattern.setTransform(new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY]));
+      ctx.fillStyle = floorPattern;
+      ctx.fillRect(0, y, width, 1);
+    }
   } else {
+    queueTextureRedraw(floorTextureImg, renderCtx, viewState);
     const floorTexture = createFloorTexture(width, floorHeight, palette.floor, palette.wallShade);
     ctx.drawImage(floorTexture, 0, floorY);
   }
@@ -524,8 +576,6 @@ export function renderDungeonView(
   ctx.fillRect(0, floorY, width, floorHeight);
 
   // Render walls via grid-aligned raycasting (low-res, Eye of the Beholder style)
-  const posX = viewState.x + 0.5;
-  const posY = viewState.y + 0.5;
   const fovRad = (fov * Math.PI) / 180;
   const planeMag = Math.tan(fovRad / 2);
 
