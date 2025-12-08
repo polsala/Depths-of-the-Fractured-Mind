@@ -460,6 +460,12 @@ function interpolateColor(
   };
 }
 
+function wrapMod(value: number, mod: number): number {
+  if (mod === 0) return 0;
+  const wrapped = value % mod;
+  return wrapped < 0 ? wrapped + mod : wrapped;
+}
+
 /**
  * Main render function for the dungeon viewport
  */
@@ -529,9 +535,9 @@ export function renderDungeonView(
     for (let y = 0; y < ceilingHeight; y++) {
       const p = horizon - y;
       const rowDist = horizon / Math.max(1, p);
-      const scale = Math.min(4, Math.max(0.15, 1 / rowDist));
-      const offsetX = -(posX * texW * scale);
-      const offsetY = -(posY * texH * scale);
+      const scale = Math.max(0.05, Math.min(1, 1 / rowDist));
+      const offsetX = -wrapMod(posX * texW, texW) * scale;
+      const offsetY = -wrapMod(posY * texH, texH) * scale;
       ceilingPattern.setTransform(new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY]));
       ctx.fillStyle = ceilingPattern;
       ctx.fillRect(0, y, width, 1);
@@ -579,9 +585,9 @@ export function renderDungeonView(
     for (let y = floorY; y < height; y++) {
       const p = y - horizon;
       const rowDist = horizon / Math.max(1, p);
-      const scale = Math.min(4, Math.max(0.15, 1 / rowDist));
-      const offsetX = -(posX * texW * scale);
-      const offsetY = -(posY * texH * scale);
+      const scale = Math.max(0.05, Math.min(1, 1 / rowDist));
+      const offsetX = -wrapMod(posX * texW, texW) * scale;
+      const offsetY = -wrapMod(posY * texH, texH) * scale;
       floorPattern.setTransform(new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY]));
       ctx.fillStyle = floorPattern;
       ctx.fillRect(0, y, width, 1);
