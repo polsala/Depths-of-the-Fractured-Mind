@@ -476,6 +476,30 @@ export function renderDungeonView(
   const fov = config.fov || 60;
   const posX = viewState.x + 0.5;
   const posY = viewState.y + 0.5;
+  let dirX = 0;
+  let dirY = -1;
+  switch (viewState.direction) {
+    case "north":
+      dirX = 0;
+      dirY = -1;
+      break;
+    case "south":
+      dirX = 0;
+      dirY = 1;
+      break;
+    case "east":
+      dirX = 1;
+      dirY = 0;
+      break;
+    case "west":
+      dirX = -1;
+      dirY = 0;
+      break;
+  }
+  const fovRad = (fov * Math.PI) / 180;
+  const planeMag = Math.tan(fovRad / 2);
+  const planeX = -dirY * planeMag;
+  const planeY = dirX * planeMag;
   const depthTexture = depthTextures[viewState.depth] || depthTextures[DEFAULT_DEPTH];
   const wallTexture = depthTexture ? getTexture(depthTexture.wall) : undefined;
   const wallAltTexture = depthTexture?.wallAlt ? getTexture(depthTexture.wallAlt) : undefined;
@@ -501,15 +525,14 @@ export function renderDungeonView(
   if (ceilingPattern && ceilingPattern.setTransform) {
     const texW = ceilingTextureImg.naturalWidth || 32;
     const texH = ceilingTextureImg.naturalHeight || 32;
+    const horizon = height / 2;
     for (let y = 0; y < ceilingHeight; y++) {
-      const p = ceilingHeight - y;
-      const rowDist = (height / 2) / Math.max(1, p);
-      const scale = Math.min(8, Math.max(0.6, rowDist * 0.6));
-      const offsetX = -((posX * texW) % texW) * scale;
-      const offsetY = -((posY * texH) % texH) * scale;
-      ceilingPattern.setTransform(
-        new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY])
-      );
+      const p = horizon - y;
+      const rowDist = horizon / Math.max(1, p);
+      const scale = Math.min(4, Math.max(0.15, 1 / rowDist));
+      const offsetX = -(posX * texW * scale);
+      const offsetY = -(posY * texH * scale);
+      ceilingPattern.setTransform(new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY]));
       ctx.fillStyle = ceilingPattern;
       ctx.fillRect(0, y, width, 1);
     }
@@ -552,12 +575,13 @@ export function renderDungeonView(
   if (floorPattern && floorPattern.setTransform) {
     const texW = floorTextureImg?.naturalWidth || 32;
     const texH = floorTextureImg?.naturalHeight || 32;
+    const horizon = height / 2;
     for (let y = floorY; y < height; y++) {
-      const p = y - height / 2;
-      const rowDist = (height / 2) / Math.max(1, p);
-      const scale = Math.min(8, Math.max(0.6, rowDist * 0.6));
-      const offsetX = -((posX * texW) % texW) * scale;
-      const offsetY = -((posY * texH) % texH) * scale;
+      const p = y - horizon;
+      const rowDist = horizon / Math.max(1, p);
+      const scale = Math.min(4, Math.max(0.15, 1 / rowDist));
+      const offsetX = -(posX * texW * scale);
+      const offsetY = -(posY * texH * scale);
       floorPattern.setTransform(new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY]));
       ctx.fillStyle = floorPattern;
       ctx.fillRect(0, y, width, 1);
@@ -567,7 +591,7 @@ export function renderDungeonView(
     const floorTexture = createFloorTexture(width, floorHeight, palette.floor, palette.wallShade);
     ctx.drawImage(floorTexture, 0, floorY);
   }
-  
+
   // Add perspective fade to floor
   const floorGradient = ctx.createLinearGradient(0, floorY, 0, height);
   floorGradient.addColorStop(0, "rgba(0, 0, 0, 0.4)");
@@ -576,33 +600,6 @@ export function renderDungeonView(
   ctx.fillRect(0, floorY, width, floorHeight);
 
   // Render walls via grid-aligned raycasting (low-res, Eye of the Beholder style)
-  const fovRad = (fov * Math.PI) / 180;
-  const planeMag = Math.tan(fovRad / 2);
-
-  let dirX = 0;
-  let dirY = -1;
-  switch (viewState.direction) {
-    case "north":
-      dirX = 0;
-      dirY = -1;
-      break;
-    case "south":
-      dirX = 0;
-      dirY = 1;
-      break;
-    case "east":
-      dirX = 1;
-      dirY = 0;
-      break;
-    case "west":
-      dirX = -1;
-      dirY = 0;
-      break;
-  }
-
-  const planeX = -dirY * planeMag;
-  const planeY = dirX * planeMag;
-
   const wallBaseRgb = hexToRgb(palette.wallBase);
   const wallShadeRgb = hexToRgb(palette.wallShade);
 
