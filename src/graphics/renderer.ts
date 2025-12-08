@@ -741,11 +741,13 @@ export function renderDungeonView(
     sizeFactor: number,
     anchorToFloor: boolean = true
   ): void => {
-    const distScale = Math.max(0.3, 1 / (distance + 0.1));
-    const spriteSize = Math.max(32, 96 * distScale * sizeFactor);
+    const distScale = Math.min(1, 1 / (distance + 0.3));
+    const spriteSize = Math.max(24, height * 0.35 * sizeFactor * distScale);
     const spriteX = width / 2 - spriteSize / 2;
-    const floorAnchor = height * 0.86;
-    const spriteY = anchorToFloor ? floorAnchor - spriteSize : height * 0.68 - spriteSize;
+    const floorAnchorBase = height * 0.88;
+    const liftedAnchor = floorAnchorBase - Math.max(0, distance - 1) * 8;
+    const clampedAnchor = Math.max(ceilingHeight + spriteSize * 0.4, liftedAnchor);
+    const spriteY = anchorToFloor ? clampedAnchor - spriteSize : height * 0.68 - spriteSize;
     if (sprite.complete) {
       ctx.drawImage(sprite, spriteX, spriteY, spriteSize, spriteSize);
     } else {
@@ -759,7 +761,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsUp) continue;
-    drawBillboard(distance, stairsUpSprite, "#7fd0ff", 2.5);
+    drawBillboard(distance, stairsUpSprite, "#7fd0ff", 2, true);
   }
 
   // Draw stairs down as billboards in view
@@ -767,7 +769,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsDown) continue;
-    drawBillboard(distance, stairsDownSprite, "#ff7f7f", 2.5);
+    drawBillboard(distance, stairsDownSprite, "#ff7f7f", 2, true);
   }
 
   // Draw vendor as billboard
@@ -775,7 +777,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.vendor) continue;
-    drawBillboard(distance, vendorSprite, "#b48bff", 3.2);
+    drawBillboard(distance, vendorSprite, "#b48bff", 2.5, true);
   }
 
   // Draw chests within view as billboards
@@ -783,7 +785,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.chest) continue;
-    drawBillboard(distance, chestSprite, "#b0742a", 1.9);
+    drawBillboard(distance, chestSprite, "#b0742a", 1.9, true);
   }
 
   // Subtle global crack overlay to bind surfaces
