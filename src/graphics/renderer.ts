@@ -535,7 +535,7 @@ export function renderDungeonView(
     for (let y = 0; y < ceilingHeight; y++) {
       const p = horizon - y;
       const rowDist = horizon / Math.max(1, p);
-      const scale = Math.max(0.05, Math.min(1, 1 / rowDist));
+      const scale = Math.max(0.08, Math.min(0.6, (1 / rowDist) * 0.6));
       const offsetX = -wrapMod(posX * texW, texW) * scale;
       const offsetY = -wrapMod(posY * texH, texH) * scale;
       ceilingPattern.setTransform(new DOMMatrix([scale, 0, 0, scale, offsetX, offsetY]));
