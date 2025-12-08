@@ -10,6 +10,13 @@ The game is deployed and playable at: **https://polsala.github.io/Depths-of-the-
 
 Depths of the Fractured Mind is a turn-based psychological horror dungeon crawler built with TypeScript and Vite. Players control a party of four flawed characters as they descend through five depths of an abandoned underground facility, making difficult moral choices that affect sanity, relationships, and ultimately determine one of multiple endings.
 
+### Systems at a Glance
+- **Exploration & Maps:** Procedural BSP-style rooms + corridors per depth (`src/game/exploration`). Renderer raycasts walls and tiles floor/ceiling textures from `public/assets/textures/**`.
+- **Combat:** Turn-based encounters and bosses (`src/game/combat`), driven by `GameController.startCombat`.
+- **Events & Narrative:** Data-driven events in `public/data/events.json` with mandatory/procedural hooks (`src/game/events/*`). Validate via `npm run validate:events`.
+- **Party/Inventory/Economy:** Party stats/equipment in `src/game/state` and `src/game/characters`; items/inventory/money in `src/game/inventory` and `src/game/items.ts`.
+- **Debug Panel:** In-game controls for combat tests, depth skip, one-hit kill, XP multiplier, and spawning showcase entities near the player (see `src/ui/app.ts`).
+
 ## 🛠️ Development
 
 ### Prerequisites
@@ -72,6 +79,7 @@ The game is automatically deployed to GitHub Pages when changes are pushed to th
 
 ## 📖 Documentation
 
+- [Systems Overview](docs/SYSTEMS_OVERVIEW.md) - Cross-system map (exploration, combat, rendering, economy, debug tools)
 - [Design Document](docs/design.md) - Comprehensive game design specification
 - [Deployment Guide](docs/deployment.md) - GitHub Pages deployment documentation
 - [CI/CD Guide](docs/ci-cd.md) - Continuous integration and deployment workflows
