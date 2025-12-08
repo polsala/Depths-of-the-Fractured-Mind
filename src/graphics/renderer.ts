@@ -741,8 +741,8 @@ export function renderDungeonView(
     sizeFactor: number,
     anchorToFloor: boolean = true
   ): void => {
-    const distScale = Math.min(1, 1 / (distance + 0.3));
-    const spriteSize = Math.max(24, height * 0.35 * sizeFactor * distScale);
+    const distScale = Math.min(0.85, 1 / (distance + 0.6));
+    const spriteSize = Math.max(24, height * 0.32 * sizeFactor * distScale);
     const spriteX = width / 2 - spriteSize / 2;
     const floorAnchorBase = height * 0.88;
     const liftedAnchor = floorAnchorBase - Math.max(0, distance - 1) * 8;
@@ -785,7 +785,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.chest) continue;
-    drawBillboard(distance, chestSprite, "#b0742a", 1.9, true);
+    drawBillboard(distance, chestSprite, "#b0742a", 1.4, true);
   }
 
   // Subtle global crack overlay to bind surfaces
