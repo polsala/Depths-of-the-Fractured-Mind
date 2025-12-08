@@ -544,12 +544,14 @@ export function renderDungeonView(
 
     // Front wall (if blocked)
     if (walls.front) {
+      const hasSideAnchorLeft = distance >= 1 && walls.left;
+      const hasSideAnchorRight = distance >= 1 && walls.right;
       const frontStart =
-        distance === 1
+        distance === 1 || hasSideAnchorLeft
           ? 0
           : (width - segmentWidth) / 2;
       const frontEnd =
-        distance === 1
+        distance === 1 || hasSideAnchorRight
           ? width
           : (width + segmentWidth) / 2;
       drawWallSegment(
