@@ -196,30 +196,6 @@ function createFloorTexture(
 }
 
 /**
- * Render a gradient for ceiling or floor
- */
-function renderGradient(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-  color1: string,
-  color2: string,
-  vertical: boolean = true
-): void {
-  const gradient = vertical
-    ? ctx.createLinearGradient(x, y, x, y + height)
-    : ctx.createLinearGradient(x, y, x + width, y);
-
-  gradient.addColorStop(0, color1);
-  gradient.addColorStop(1, color2);
-
-  ctx.fillStyle = gradient;
-  ctx.fillRect(x, y, width, height);
-}
-
-/**
  * Create simple tiled ceiling texture
  */
 function createCeilingTexture(
@@ -246,69 +222,6 @@ function createCeilingTexture(
       const color = useAlt ? altColor : base;
       ctx.fillStyle = `rgb(${Math.floor(color.r)}, ${Math.floor(color.g)}, ${Math.floor(color.b)})`;
       ctx.fillRect(x, y, tileSize, tileSize);
-    }
-  }
-
-  return canvas;
-}
-
-/**
- * Create detailed pixel art stone texture
- */
-function createStoneTexture(
-  width: number,
-  height: number,
-  baseColor: string,
-  shadeColor: string,
-  accentColor: string,
-  brightness: number
-): HTMLCanvasElement {
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return canvas;
-
-  // Parse colors
-  const base = hexToRgb(baseColor);
-  const shade = hexToRgb(shadeColor);
-  const accent = hexToRgb(accentColor);
-
-  // Create stone brick pattern
-  const brickWidth = Math.max(8, width / 8);
-  const brickHeight = Math.max(6, height / 12);
-
-  for (let row = 0; row < Math.ceil(height / brickHeight); row++) {
-    const offset = (row % 2) * (brickWidth / 2);
-    for (let col = 0; col < Math.ceil(width / brickWidth) + 1; col++) {
-      const x = col * brickWidth - offset;
-      const y = row * brickHeight;
-
-      // Base brick color with variation
-      const variation = Math.random() * 0.2 - 0.1;
-      const brickColor = interpolateColor(shade, base, 0.7 + variation);
-      ctx.fillStyle = `rgba(${Math.floor(brickColor.r * brightness)}, ${Math.floor(brickColor.g * brightness)}, ${Math.floor(brickColor.b * brightness)}, 1)`;
-      ctx.fillRect(x, y, brickWidth - 2, brickHeight - 2);
-
-      // Mortar (gaps between bricks)
-      ctx.fillStyle = `rgba(${Math.floor(shade.r * brightness * 0.5)}, ${Math.floor(shade.g * brightness * 0.5)}, ${Math.floor(shade.b * brightness * 0.5)}, 1)`;
-      ctx.fillRect(x + brickWidth - 2, y, 2, brickHeight);
-      ctx.fillRect(x, y + brickHeight - 2, brickWidth, 2);
-
-      // Add texture details
-      const detailCount = Math.floor(Math.random() * 3);
-      for (let d = 0; d < detailCount; d++) {
-        const dx = x + Math.random() * (brickWidth - 4) + 2;
-        const dy = y + Math.random() * (brickHeight - 4) + 2;
-        const size = Math.random() * 2 + 1;
-        ctx.fillStyle = `rgba(${Math.floor(shade.r * brightness * 0.7)}, ${Math.floor(shade.g * brightness * 0.7)}, ${Math.floor(shade.b * brightness * 0.7)}, 0.5)`;
-        ctx.fillRect(dx, dy, size, size);
-      }
-
-      // Highlights on top-left
-      ctx.fillStyle = `rgba(${Math.floor(accent.r * brightness)}, ${Math.floor(accent.g * brightness)}, ${Math.floor(accent.b * brightness)}, 0.3)`;
-      ctx.fillRect(x, y, brickWidth - 2, 1);
-      ctx.fillRect(x, y, 1, brickHeight - 2);
     }
   }
 
@@ -451,49 +364,6 @@ function interpolateColor(
     g: c1.g + (c2.g - c1.g) * factor,
     b: c1.b + (c2.b - c1.b) * factor,
   };
-}
-
-/**
- * Draw a perspective wall segment with detailed texture
- */
-function drawWallSegment(
-  ctx: CanvasRenderingContext2D,
-  distance: number,
-  xStart: number,
-  width: number,
-  viewHeight: number,
-  baseColor: string,
-  shadeColor: string,
-  accentColor: string
-): void {
-  // Calculate wall height based on distance (perspective)
-  const scale = 1 / (distance + 1);
-  const wallHeight = viewHeight * scale * 0.8;
-  const wallTop = (viewHeight - wallHeight) / 2;
-
-  // Darken walls based on distance
-  const brightness = Math.max(0.3, 1 - distance * 0.15);
-
-  // Create detailed stone texture
-  const texture = createStoneTexture(
-    Math.floor(width),
-    Math.floor(wallHeight),
-    baseColor,
-    shadeColor,
-    accentColor,
-    brightness
-  );
-
-  // Draw textured wall
-  ctx.drawImage(texture, xStart, wallTop);
-
-  // Add depth shading
-  const gradient = ctx.createLinearGradient(xStart, wallTop, xStart + width, wallTop);
-  gradient.addColorStop(0, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-  gradient.addColorStop(0.5, `rgba(0, 0, 0, ${0.1 * (1 - brightness)})`);
-  gradient.addColorStop(1, `rgba(0, 0, 0, ${0.3 * (1 - brightness)})`);
-  ctx.fillStyle = gradient;
-  ctx.fillRect(xStart, wallTop, width, wallHeight);
 }
 
 /**
