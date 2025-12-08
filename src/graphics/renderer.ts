@@ -775,7 +775,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.vendor) continue;
-    drawBillboard(distance, vendorSprite, "#b48bff", 2.5);
+    drawBillboard(distance, vendorSprite, "#b48bff", 3.2);
   }
 
   // Draw chests within view as billboards
