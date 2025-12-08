@@ -500,6 +500,7 @@ export function renderDungeonView(
 
   // Render walls based on map data (back to front)
   const viewDistance = 4; // How many tiles deep we can see
+  const sideWallWidth = width * 0.25;
 
   for (let distance = viewDistance; distance >= 0; distance--) {
     const walls = getVisibleWalls(
@@ -512,14 +513,15 @@ export function renderDungeonView(
 
     const scale = 1 / (distance + 1);
     const segmentWidth = width * scale * 0.8;
+    const adjacentFrontBlocked = distance === 1 && walls.front;
 
-    // Left wall (if visible)
-    if (distance > 0 && walls.left) {
+    // Adjacent side walls as solid bands against screen edges
+    if (distance === 1 && walls.left && !adjacentFrontBlocked) {
       drawWallSegment(
         ctx,
-        distance,
         0,
-        (width - segmentWidth) / 2,
+        0,
+        sideWallWidth,
         height,
         palette.wallBase,
         palette.wallShade,
@@ -527,13 +529,12 @@ export function renderDungeonView(
       );
     }
 
-    // Right wall (if visible)
-    if (distance > 0 && walls.right) {
+    if (distance === 1 && walls.right && !adjacentFrontBlocked) {
       drawWallSegment(
         ctx,
-        distance,
-        width - (width - segmentWidth) / 2,
-        (width - segmentWidth) / 2,
+        0,
+        width - sideWallWidth,
+        sideWallWidth,
         height,
         palette.wallBase,
         palette.wallShade,
@@ -543,11 +544,19 @@ export function renderDungeonView(
 
     // Front wall (if blocked)
     if (walls.front) {
+      const frontStart =
+        distance === 1
+          ? 0
+          : (width - segmentWidth) / 2;
+      const frontEnd =
+        distance === 1
+          ? width
+          : (width + segmentWidth) / 2;
       drawWallSegment(
         ctx,
         distance,
-        (width - segmentWidth) / 2,
-        segmentWidth,
+        frontStart,
+        Math.max(segmentWidth, frontEnd - frontStart),
         height,
         palette.wallBase,
         palette.wallShade,
@@ -748,12 +757,13 @@ export function renderDungeonView(
     const segmentWidth = width * scale * 0.8;
     const wallHeight = height * scale * 0.8;
     const wallTop = (height - wallHeight) / 2;
+    const adjacentFrontBlocked = distance === 1 && walls.front;
 
     // Use consistent timestamp for animation
     const timestamp = Date.now();
 
     // Left wall torch
-    if (walls.left && distance % 2 === 1) {
+    if (distance === 1 && walls.left && !adjacentFrontBlocked) {
       const torchSize = Math.max(20, wallHeight * 0.15);
       drawTorchSconce(
         ctx,
@@ -765,7 +775,7 @@ export function renderDungeonView(
     }
 
     // Right wall torch
-    if (walls.right && distance % 2 === 0) {
+    if (distance === 1 && walls.right && !adjacentFrontBlocked) {
       const torchSize = Math.max(20, wallHeight * 0.15);
       drawTorchSconce(
         ctx,
