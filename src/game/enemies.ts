@@ -71,7 +71,7 @@ const THRESHOLD_WARDEN: Enemy = {
     will: 5,
     focus: 6,
   },
-  abilities: ["crushing_blow", "intimidate", "call_backup", "defensive_stance"],
+  abilities: ["crushing_blow", "intimidate"],
   loot: ["access_card", "medkit", "sedative"],
   expReward: 100,
 };
@@ -199,7 +199,7 @@ const WARD_PHYSICIAN: Enemy = {
     will: 12,
     focus: 10,
   },
-  abilities: ["experimental_serum", "lobotomy", "mind_surgery", "heal_self", "induce_madness"],
+  abilities: ["experimental_serum_enemy", "lobotomy", "mind_surgery", "heal_self", "induce_madness"],
   loot: ["access_card", "medkit", "sedative", "crowbar"],
   expReward: 200,
 };
@@ -327,7 +327,7 @@ const THE_ENGINE_HEART: Enemy = {
     will: 16,
     focus: 14,
   },
-  abilities: ["guilt_wave", "trauma_burst", "reality_fracture", "absorb_sanity", "final_judgment", "engine_pulse"],
+  abilities: ["guilt_wave", "trauma_burst", "reality_fracture_enemy", "absorb_sanity", "final_judgment", "engine_pulse"],
   loot: [],
   expReward: 500,
 };

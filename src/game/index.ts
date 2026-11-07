@@ -9,7 +9,8 @@ import { loadEventDataFile } from "./events/loader";
 import { selectEventForLocation } from "./events/procedural";
 import { generateRandomEncounter, generateBossEncounter } from "./combat/encounters";
 import { createCombatState, type CombatAction, getCurrentActor, isPartyDefeated } from "./combat/state";
-import { submitAction } from "./combat/turn-manager";
+import { planEnemyIntents } from "./combat/intents";
+import { submitAction, clearCombatModifiers } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
 import { isRequiredBeat } from "./story";
 import { getEndingOptions } from "./endings";
@@ -147,6 +148,12 @@ export class GameController {
     if (snapshot.state.mode === "title") throw new Error("A title screen is not a resumable run");
     restoreRandomState(snapshot.randomState, snapshot.initialSeed);
     this.state = snapshot.state;
+    // Pack 05 combat saves had no telegraphed intents. Upgrade in memory while
+    // retaining the saved party/enemy state and the deterministic RNG stream.
+    if (this.state.combatState && !this.state.combatState.enemyIntents) {
+      this.state.combatState.enemyIntents = planEnemyIntents(
+        this.state.combatState.party, this.state.combatState.encounter);
+    }
     this.stepsSinceLastEvent = snapshot.stepsSinceLastEvent;
     this.lastProceduralEventId = snapshot.lastProceduralEventId;
   }
@@ -624,6 +631,7 @@ export class GameController {
    */
   public endCombat(): void {
     if (!this.state.combatState || this.state.mode !== "combat") return;
+    clearCombatModifiers(this.state.combatState);
     if (this.state.combatState.phase === "defeat") {
       this.state.party = this.state.combatState.party;
       this.state = resolvePartyDefeat(this.state, "combat");

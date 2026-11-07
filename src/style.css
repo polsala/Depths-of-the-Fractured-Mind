@@ -783,3 +783,15 @@ button:focus-visible {
     background-color: #1a1a1a;
   }
 }
+.combat-effects-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 6;
+  border: 1px solid #bd9a58;
+  background: #101820;
+  color: #f3dfa8;
+  padding: 7px 10px;
+  font: 12px monospace;
+  cursor: pointer;
+}

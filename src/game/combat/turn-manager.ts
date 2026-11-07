@@ -14,7 +14,7 @@ import {
   advanceToNextActor,
 } from "./state";
 import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "./engine";
-import { getAbility, type Ability, type AbilityEffect } from "../abilities";
+import { canUseAbility, getAbility, type Ability, type AbilityEffect } from "../abilities";
 import { useItem, addItem, ITEMS } from "../inventory";
 import { calculateExperienceReward, awardExperience, getCharacterExperience, getCharacterLevel, getExpToNextLevel } from "../experience";
 import { ENEMIES } from "../enemies";
@@ -28,28 +28,90 @@ function markLowHealthDialogueShown(state: CombatState, bossId: string): void {
   state.shownLowHealthDialogues.push(bossId);
 }
 
-// Helper function for type-safe stat modification
-function modifyStat(
-  stats: CharacterState["stats"] | EnemyState["stats"],
-  statName: string,
-  value: number,
-  operation: "add" | "subtract" = "add"
-): boolean {
-  const stat = statName as keyof typeof stats;
-  if (typeof stats[stat] === "number") {
-    const current = stats[stat] as number;
-    (stats[stat] as number) = operation === "add" 
-      ? current + value 
-      : Math.max(0, current - value);
-    return true;
+function changeTimedStat(state: CombatState, isPlayer: boolean, index: number,
+  stat: keyof CharacterState["stats"], value: number, duration = 1): void {
+  const target = isPlayer ? state.party.members[index] : state.encounter.enemies[index];
+  if (!target || !["attack", "defense", "focus", "will"].includes(stat)) return;
+  const before = target.stats[stat];
+  target.stats[stat] = Math.max(0, before + value);
+  state.timedModifiers ??= [];
+  state.timedModifiers.push({ isPlayer, index, stat, delta: target.stats[stat] - before,
+    expiresOnTurn: state.turn + Math.max(1, duration) });
+}
+
+export function clearCombatModifiers(state: CombatState): void {
+  for (const modifier of state.timedModifiers ?? []) {
+    const target = modifier.isPlayer ? state.party.members[modifier.index] : state.encounter.enemies[modifier.index];
+    if (target) target.stats[modifier.stat] = Math.max(0, target.stats[modifier.stat] - modifier.delta);
   }
-  return false;
+  state.timedModifiers = [];
+  for (const member of state.party.members) removeStatusEffect(member, "guarded");
+}
+
+function tickRoundEffects(state: CombatState): void {
+  const active = state.timedModifiers ?? [];
+  state.timedModifiers = active.filter((modifier) => {
+    if (modifier.expiresOnTurn > state.turn) return true;
+    const target = modifier.isPlayer ? state.party.members[modifier.index] : state.encounter.enemies[modifier.index];
+    if (target) target.stats[modifier.stat] = Math.max(0, target.stats[modifier.stat] - modifier.delta);
+    return false;
+  });
+  for (const participant of [...state.party.members, ...state.encounter.enemies]) {
+    if (!participant.alive) continue;
+    for (const status of [...participant.statusEffects]) {
+      if (status === "guarded" || status === "stunned") continue;
+      const damage = status === "poisoned" ? 3 : status === "bleeding" ? 2 : 0;
+      if (damage) {
+        participant.stats.hp = Math.max(0, participant.stats.hp - damage);
+        addCombatLog(state, `${participant.name} takes ${damage} ${status} damage!`, "damage");
+        if (participant.stats.hp === 0) {
+          participant.alive = false;
+          addCombatLog(state, `${participant.name} has fallen!`, "system");
+        }
+      }
+      participant.statusTurns ??= {};
+      const remaining = (participant.statusTurns[status] ?? 1) - 1;
+      if (remaining <= 0) removeStatusEffect(participant, status);
+      else participant.statusTurns[status] = remaining;
+    }
+  }
 }
 
 /**
  * Set the action for the current actor and execute it
  */
 export function submitAction(state: CombatState, action: CombatAction): void {
+  const current = getCurrentActor(state);
+  if (!current?.isPlayer || current.index !== action.actorIndex || !action.isPlayerAction) return;
+  if (action.type === "attack" && (action.targetIndex === undefined || !state.encounter.enemies[action.targetIndex]?.alive)) return;
+  if (action.type === "ability") {
+    const caster = state.party.members[action.actorIndex];
+    const ability = action.abilityId ? getAbility(action.abilityId) : undefined;
+    if (!caster || !ability || ability.characterId !== caster.id || !canUseAbility(ability, caster) ||
+        (ability.unlockLevel ?? 1) > getCharacterLevel(caster)) return;
+    if (ability.targetType === "enemy" && (action.targetIndex === undefined || !state.encounter.enemies[action.targetIndex]?.alive)) return;
+    if (ability.targetType === "ally" && (action.targetIndex === undefined || !state.party.members[action.targetIndex]?.alive)) return;
+  }
+  if (action.type === "item") {
+    const itemId = action.itemId ?? "";
+    const item = ITEMS[itemId];
+    if (!item || item.type !== "consumable" || !state.party.inventory.items.some((entry) =>
+      entry.item.id === itemId && entry.quantity > 0)) return;
+    if (itemId === "smoke_bomb") {
+      if (state.isBossFight) { addCombatLog(state, "Smoke cannot escape a boss fight.", "system"); return; }
+    } else if (itemId === "bomb") {
+      if (action.targetIndex === undefined || !state.encounter.enemies[action.targetIndex]?.alive) return;
+    } else {
+      const target = state.party.members[action.targetIndex ?? action.actorIndex];
+      if (!target?.alive) return;
+      if (["medkit", "healing_potion", "greater_healing_potion"].includes(itemId) &&
+          target.stats.hp >= target.stats.maxHp) { addCombatLog(state, `${target.name} already has full HP.`, "system"); return; }
+      if (["sedative", "sanity_tonic"].includes(itemId) &&
+          target.stats.sanity >= target.stats.maxSanity) { addCombatLog(state, `${target.name} already has full Sanity.`, "system"); return; }
+      if (itemId === "antidote" && !hasStatusEffect(target, "poisoned")) return;
+    }
+  }
+  state.lastEnemyActedIndex = undefined;
   state.pendingAction = action;
   state.phase = "execute-action";
   executeCurrentAction(state);
@@ -86,7 +148,9 @@ function executeCurrentAction(state: CombatState): void {
   }
   
   // Advance to next actor
-  advanceToNextActor(state);
+  advanceToNextActor(state, tickRoundEffects);
+  if (isPartyDefeated(state.party)) { state.phase = "defeat"; return; }
+  if (isEncounterDefeated(state.encounter)) { handleVictory(state); return; }
   state.pendingAction = undefined;
   state.phase = "select-action";
   
@@ -117,7 +181,9 @@ function processEnemyTurns(state: CombatState): void {
     }
     
     // Advance to next actor
-    advanceToNextActor(state);
+    advanceToNextActor(state, tickRoundEffects);
+    if (isPartyDefeated(state.party)) { state.phase = "defeat"; return; }
+    if (isEncounterDefeated(state.encounter)) { handleVictory(state); return; }
     nextActor = getCurrentActor(state);
   }
   
@@ -130,6 +196,7 @@ function executePlayerAction(state: CombatState): void {
   
   const character = state.party.members[action.actorIndex];
   if (!character || !character.alive) return;
+  removeStatusEffect(character, "guarded");
   
   // Check if character is stunned
   if (hasStatusEffect(character, "stunned")) {
@@ -172,6 +239,7 @@ function executeEnemyAction(state: CombatState): void {
   
   const enemy = state.encounter.enemies[actor.index];
   if (!enemy || !enemy.alive) return;
+  state.lastEnemyActedIndex = actor.index;
   
   // Check for boss low health dialogue
   if (state.isBossFight) {
@@ -193,38 +261,24 @@ function executeEnemyAction(state: CombatState): void {
     removeStatusEffect(enemy, "stunned");
     return;
   }
-  
-  // Simple AI: pick random alive target
-  const aliveTargets = state.party.members.filter(m => m.alive);
-  if (aliveTargets.length === 0) return;
-  
-  const targetIndex = state.party.members.indexOf(
-    aliveTargets[Math.floor(gameRandom() * aliveTargets.length)]
-  );
-  
-  // Get enemy data to check abilities
-  const enemyData = ENEMIES[enemy.id];
-  if (enemyData && enemyData.abilities && enemyData.abilities.length > 0) {
-    // 40% chance to use ability, higher for bosses
-    const abilityChance = enemyData.type === "boss" ? 0.6 : 0.4;
-    const useAbility = gameRandom() < abilityChance;
-    
-    if (useAbility) {
-      const abilityId = enemyData.abilities[Math.floor(gameRandom() * enemyData.abilities.length)];
-      executeEnemyAbility(state, enemy, targetIndex, abilityId);
-    } else {
-      executeEnemyBasicAttack(state, enemy, targetIndex);
-    }
-  } else {
-    executeEnemyBasicAttack(state, enemy, targetIndex);
+  if (hasStatusEffect(enemy, "feared") && gameRandom() < 0.5) {
+    addCombatLog(state, `${enemy.name} recoils in fear and loses its action!`, "status");
+    return;
   }
   
-  // Apply status effects (poison, bleeding, etc.)
-  applyStatusEffects(state);
+  // Intents are committed at round start, so the player can respond tactically.
+  const aliveTargets = state.party.members.filter(m => m.alive);
+  if (aliveTargets.length === 0) return;
+  const intent = state.enemyIntents?.[actor.index];
+  const targetIndex = intent && state.party.members[intent.targetIndex]?.alive
+    ? intent.targetIndex : state.party.members.indexOf(aliveTargets[0]);
+  if (intent?.abilityId) executeEnemyAbility(state, enemy, targetIndex, intent.abilityId);
+  else executeEnemyBasicAttack(state, enemy, targetIndex);
 }
 
 function handleVictory(state: CombatState): void {
   state.phase = "victory";
+  clearCombatModifiers(state);
   
   const beforeSnapshots = state.party.members.map((member) => ({
     id: member.id,
@@ -397,7 +451,7 @@ function executeAbility(state: CombatState, action: CombatAction): void {
   if (!caster || !action.abilityId) return;
   
   const ability = getAbility(action.abilityId);
-  if (!ability) return;
+  if (!ability || ability.characterId !== caster.id || !canUseAbility(ability, caster)) return;
   
   // Pay costs
   if (ability.cost.hp) {
@@ -500,7 +554,8 @@ function applyEffectsToCharacter(
         break;
       case "buff":
         if (effect.stat && effect.value) {
-          if (modifyStat(character.stats, effect.stat, effect.value, "add")) {
+          if (["attack", "defense", "focus", "will"].includes(effect.stat)) {
+            changeTimedStat(state, true, characterIndex, effect.stat, effect.value, effect.duration);
             addCombatLog(
               state,
               `${character.name}'s ${effect.stat} increased by ${effect.value}!`,
@@ -512,6 +567,9 @@ function applyEffectsToCharacter(
       case "status":
         if (effect.statusEffect && effect.duration) {
           applyStatusEffect(character, effect.statusEffect, effect.duration);
+          if (effect.statusEffect === "taunting") {
+            for (const intent of Object.values(state.enemyIntents ?? {})) intent.targetIndex = characterIndex;
+          }
           addCombatLog(
             state,
             `${character.name} is ${effect.statusEffect}!`,
@@ -528,16 +586,18 @@ function applyEffectsToEnemy(
   effects: AbilityEffect[],
   enemyIndex: number
 ): void {
-  const enemy = state.encounter.enemies[enemyIndex];
+  let enemy = state.encounter.enemies[enemyIndex];
   if (!enemy) return;
   
   for (const effect of effects) {
+    if (!enemy.alive) break;
     switch (effect.type) {
       case "damage":
         if (effect.value) {
           const damage = state.debugOptions?.oneHitKill ? enemy.stats.hp : effect.value;
           const updatedEnemy = applyDamageToEnemy(enemy, damage);
           state.encounter.enemies[enemyIndex] = updatedEnemy;
+          enemy = updatedEnemy;
           addCombatLog(state, `${enemy.name} takes ${damage} damage!`, "damage");
           
           if (!updatedEnemy.alive) {
@@ -554,7 +614,8 @@ function applyEffectsToEnemy(
         break;
       case "debuff":
         if (effect.stat && effect.value) {
-          if (modifyStat(enemy.stats, effect.stat, effect.value, "subtract")) {
+          if (["attack", "defense", "focus", "will"].includes(effect.stat)) {
+            changeTimedStat(state, false, enemyIndex, effect.stat, -effect.value, effect.duration);
             addCombatLog(
               state,
               `${enemy.name}'s ${effect.stat} decreased by ${effect.value}!`,
@@ -565,6 +626,13 @@ function applyEffectsToEnemy(
         break;
       case "status":
         if (effect.statusEffect && effect.duration) {
+          if (effect.statusEffect === "stunned" && ENEMIES[enemy.id]?.type === "boss") {
+            if ((enemy.stunResistUntilTurn ?? 0) > state.turn) {
+              addCombatLog(state, `${enemy.name} resists another stun this round!`, "status");
+              break;
+            }
+            enemy.stunResistUntilTurn = state.turn + 3;
+          }
           applyStatusEffect(enemy, effect.statusEffect, effect.duration);
           addCombatLog(
             state,
@@ -616,38 +684,43 @@ function applyItemEffect(
   switch (itemId) {
     case "medkit":
       if (target) {
+        const healed = Math.min(15, target.stats.maxHp - target.stats.hp);
         target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + 15);
-        addCombatLog(state, `${target.name} recovers 15 HP!`, "heal");
+        addCombatLog(state, `${target.name} recovers ${healed} HP!`, "heal");
       }
       break;
     case "sedative":
       if (target) {
+        const healed = Math.min(10, target.stats.maxSanity - target.stats.sanity);
         target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 10);
-        addCombatLog(state, `${target.name} recovers 10 Sanity!`, "sanity");
+        addCombatLog(state, `${target.name} recovers ${healed} Sanity!`, "sanity");
         emitSound("sanity_tick");
       }
       break;
     case "healing_potion": {
       const heal = 20;
       if (target) {
+        const actual = Math.min(heal, target.stats.maxHp - target.stats.hp);
         target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + heal);
-        addCombatLog(state, `${target.name} recovers ${heal} HP!`, "heal");
+        addCombatLog(state, `${target.name} recovers ${actual} HP!`, "heal");
       }
       break;
     }
     case "greater_healing_potion": {
       const heal = 40;
       if (target) {
+        const actual = Math.min(heal, target.stats.maxHp - target.stats.hp);
         target.stats.hp = Math.min(target.stats.maxHp, target.stats.hp + heal);
-        addCombatLog(state, `${target.name} recovers ${heal} HP!`, "heal");
+        addCombatLog(state, `${target.name} recovers ${actual} HP!`, "heal");
       }
       break;
     }
     case "sanity_tonic": {
       const heal = 20;
       if (target) {
+        const actual = Math.min(heal, target.stats.maxSanity - target.stats.sanity);
         target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + heal);
-        addCombatLog(state, `${target.name} recovers ${heal} Sanity!`, "sanity");
+        addCombatLog(state, `${target.name} recovers ${actual} Sanity!`, "sanity");
         emitSound("sanity_tick");
       }
       break;
@@ -660,8 +733,8 @@ function applyItemEffect(
       break;
     case "focus_draught":
       if (target) {
-        target.stats.focus += 2;
-        addCombatLog(state, `${target.name}'s focus increases!`, "status");
+        changeTimedStat(state, true, state.party.members.indexOf(target), "focus", 2, 3);
+        addCombatLog(state, `${target.name}'s focus increases for 3 rounds!`, "status");
       }
       break;
     case "bomb": {
@@ -695,10 +768,8 @@ function applyItemEffect(
 function executeDefend(state: CombatState, action: CombatAction): void {
   const defender = state.party.members[action.actorIndex];
   if (!defender) return;
-  
-  // Temporarily boost defense
-  defender.stats.defense += 5;
-  addCombatLog(state, `${defender.name} takes a defensive stance!`, "status");
+  applyStatusEffect(defender, "guarded", 1);
+  addCombatLog(state, `${defender.name} guards against the next attacks until their turn. Incoming HP damage is halved.`, "status");
 }
 
 function attemptFlee(state: CombatState): void {
@@ -738,15 +809,16 @@ function executeEnemyBasicAttack(
   if (!target) return;
   
   const result = performBasicAttack(enemy.stats, target.stats);
+  const actualDamage = hasStatusEffect(target, "guarded") ? Math.ceil(result.damage / 2) : result.damage;
   
   if (result.hit) {
-    const updatedCharacter = applyDamageToCharacter(target, result.damage);
+    const updatedCharacter = applyDamageToCharacter(target, actualDamage);
     state.party.members[targetIndex] = updatedCharacter;
     
     const critText = result.critical ? " (CRITICAL)" : "";
     addCombatLog(
       state,
-      `${enemy.name} attacks ${target.name} for ${result.damage} damage${critText}!`,
+      `${enemy.name} attacks ${target.name} for ${actualDamage} damage${critText}${actualDamage !== result.damage ? " (guarded)" : ""}!`,
       "damage"
     );
     
@@ -820,16 +892,19 @@ function applyEnemyAbilityToParty(
   effects: AbilityEffect[],
   targetIndex: number
 ): void {
-  const target = state.party.members[targetIndex];
+  let target = state.party.members[targetIndex];
   if (!target || !target.alive) return;
   
   for (const effect of effects) {
+    if (!target.alive) break;
     switch (effect.type) {
       case "damage":
         if (effect.value) {
-          const updatedCharacter = applyDamageToCharacter(target, effect.value);
+          const actualDamage = hasStatusEffect(target, "guarded") ? Math.ceil(effect.value / 2) : effect.value;
+          const updatedCharacter = applyDamageToCharacter(target, actualDamage);
           state.party.members[targetIndex] = updatedCharacter;
-          addCombatLog(state, `${target.name} takes ${effect.value} damage!`, "damage");
+          target = updatedCharacter;
+          addCombatLog(state, `${target.name} takes ${actualDamage} damage${actualDamage !== effect.value ? " (guarded)" : ""}!`, "damage");
           
           if (!updatedCharacter.alive) {
             addCombatLog(state, `${target.name} has fallen!`, "system");
@@ -848,7 +923,8 @@ function applyEnemyAbilityToParty(
         break;
       case "debuff":
         if (effect.stat && effect.value) {
-          if (modifyStat(target.stats, effect.stat, effect.value, "subtract")) {
+          if (["attack", "defense", "focus", "will"].includes(effect.stat)) {
+            changeTimedStat(state, true, targetIndex, effect.stat, -effect.value, effect.duration);
             addCombatLog(
               state,
               `${target.name}'s ${effect.stat} decreased by ${effect.value}!`,
@@ -867,51 +943,6 @@ function applyEnemyAbilityToParty(
           );
         }
         break;
-    }
-  }
-}
-
-function applyStatusEffects(state: CombatState): void {
-  // Apply poison, bleeding, etc.
-  for (const member of state.party.members) {
-    if (!member.alive) continue;
-    
-    if (hasStatusEffect(member, "poisoned")) {
-      const damage = 3;
-      member.stats.hp = Math.max(0, member.stats.hp - damage);
-      addCombatLog(state, `${member.name} takes ${damage} poison damage!`, "damage");
-      
-      if (member.stats.hp === 0) {
-        member.alive = false;
-        addCombatLog(state, `${member.name} has fallen!`, "system");
-      }
-    }
-    
-    if (hasStatusEffect(member, "bleeding")) {
-      const damage = 2;
-      member.stats.hp = Math.max(0, member.stats.hp - damage);
-      addCombatLog(state, `${member.name} takes ${damage} bleeding damage!`, "damage");
-      
-      if (member.stats.hp === 0) {
-        member.alive = false;
-        addCombatLog(state, `${member.name} has fallen!`, "system");
-      }
-    }
-  }
-  
-  // Same for enemies
-  for (const enemy of state.encounter.enemies) {
-    if (!enemy.alive) continue;
-    
-    if (hasStatusEffect(enemy, "poisoned")) {
-      const damage = 3;
-      enemy.stats.hp = Math.max(0, enemy.stats.hp - damage);
-      addCombatLog(state, `${enemy.name} takes ${damage} poison damage!`, "damage");
-      
-      if (enemy.stats.hp === 0) {
-        enemy.alive = false;
-        addCombatLog(state, `${enemy.name} has been defeated!`, "system");
-      }
     }
   }
 }

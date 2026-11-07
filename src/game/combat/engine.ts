@@ -8,6 +8,8 @@ export interface EnemyState {
   name: string;
   stats: Stats;
   statusEffects: string[];
+  statusTurns?: Record<string, number>;
+  stunResistUntilTurn?: number;
   alive: boolean;
 }
 

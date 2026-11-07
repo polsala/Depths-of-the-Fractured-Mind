@@ -65,12 +65,14 @@ export function awardExperience(
 }
 
 function applyLevelUpBonuses(character: CharacterState): void {
-  // Base stat increases per level
+  // A level is a respite, not a free full-party reset. Keep attrition and
+  // consumables relevant while ensuring the new maximum is immediately useful.
   character.stats.maxHp += 5;
-  character.stats.hp = character.stats.maxHp; // Full heal on level up
-  
+  character.stats.hp = Math.min(character.stats.maxHp,
+    character.stats.hp + Math.ceil(character.stats.maxHp * 0.3));
   character.stats.maxSanity += 3;
-  character.stats.sanity = character.stats.maxSanity; // Full sanity restore
+  character.stats.sanity = Math.min(character.stats.maxSanity,
+    character.stats.sanity + Math.ceil(character.stats.maxSanity * 0.25));
   
   character.stats.attack += 2;
   character.stats.defense += 1;

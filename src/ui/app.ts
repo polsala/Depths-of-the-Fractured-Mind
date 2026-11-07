@@ -912,9 +912,12 @@ function renderCombat(
     combatBackground = bossBg;
   }
   const backgroundImage = getCombatBackground(combatBackground);
+  const compactCombat = window.innerWidth < 650;
   const combatLayoutWidth = Math.min(1600, Math.floor(window.innerWidth * 0.995));
   const canvasWidth = Math.min(combatLayoutWidth, Math.floor(window.innerWidth * 0.985));
-  const canvasHeight = Math.max(520, Math.min(940, Math.floor(window.innerHeight * 0.72)));
+  const canvasHeight = compactCombat
+    ? Math.max(430, Math.min(560, Math.floor(window.innerHeight * 0.55)))
+    : Math.max(520, Math.min(940, Math.floor(window.innerHeight * 0.72)));
   const controlsHeight = Math.min(400, Math.max(200, Math.floor(window.innerHeight * 0.28)));
 
   // Create combat container
@@ -923,13 +926,27 @@ function renderCombat(
   combatContainer.style.cssText = `
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
+    height: ${compactCombat ? "auto" : "100vh"};
     background: #05050a;
     align-items: center;
     padding: 12px 10px;
     box-sizing: border-box;
   `;
   root.appendChild(combatContainer);
+  let effectsEnabled = !prefersReducedMotion();
+  const effectToggle = document.createElement("button");
+  effectToggle.type = "button";
+  effectToggle.className = "combat-effects-toggle";
+  effectToggle.textContent = `Effects: ${effectsEnabled ? "On" : "Off"}`;
+  effectToggle.setAttribute("aria-label", "Toggle combat motion effects");
+  effectToggle.addEventListener("click", () => {
+    effectsEnabled = !effectsEnabled;
+    effectToggle.textContent = `Effects: ${effectsEnabled ? "On" : "Off"}`;
+    if (!effectsEnabled) combatVisualCue = null;
+    drawCombatFrame(performance.now());
+  });
+  combatContainer.appendChild(effectToggle);
 
   if (combatState.isBossFight) {
     const consequence = getStoryConsequence(state);
@@ -964,7 +981,8 @@ function renderCombat(
     renderCombatUI(combatCanvas, latestState, {
       width: canvasWidth, height: canvasHeight,
       backgroundImage: backgroundImage?.complete ? backgroundImage : undefined,
-      nowMs: now, reducedMotion: prefersReducedMotion(), visualCue: combatVisualCue,
+      nowMs: now, reducedMotion: prefersReducedMotion() || !effectsEnabled,
+      visualCue: effectsEnabled ? combatVisualCue : null,
     });
   };
   drawCombatFrame(performance.now());
@@ -990,7 +1008,7 @@ function renderCombat(
   const controlsWrapper = document.createElement("div");
   controlsWrapper.style.cssText = `
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    grid-template-columns: ${compactCombat ? "1fr" : "repeat(auto-fit, minmax(0, 1fr))"};
     gap: 20px;
     padding: 12px;
     width: ${Math.max(840, combatLayoutWidth)}px;
@@ -998,7 +1016,7 @@ function renderCombat(
     box-sizing: border-box;
     justify-content: center;
     align-items: stretch;
-    height: ${controlsHeight}px;
+    height: ${compactCombat ? "auto" : `${controlsHeight}px`};
   `;
   controlsSection.appendChild(controlsWrapper);
 
@@ -1007,17 +1025,20 @@ function renderCombat(
   logContainer.style.cssText = `
     width: 100%;
     min-width: 0;
-    height: 100%;
+    height: ${compactCombat ? "160px" : "100%"};
+    order: ${compactCombat ? 2 : 0};
   `;
   controlsWrapper.appendChild(logContainer);
   renderCombatLog(logContainer, combatState, 15);
+  if (compactCombat) { logContainer.style.height = "160px"; logContainer.style.order = "2"; }
 
   // Action menu
   const actionContainer = document.createElement("div");
   actionContainer.style.cssText = `
     width: 100%;
     min-width: 0;
-    height: 100%;
+    height: ${compactCombat ? "auto" : "100%"};
+    order: ${compactCombat ? 1 : 0};
   `;
   controlsWrapper.appendChild(actionContainer);
 
@@ -1029,6 +1050,7 @@ function renderCombat(
     const actorId = before.party.members[action.actorIndex]?.id;
     if (!actorId) return;
     const hpBefore = before.party.members.map((member) => member.stats.hp);
+    const enemyHpBefore = before.encounter.enemies.map((enemy) => enemy.stats.hp);
     controller.submitCombatAction(action);
     const after = controller.getCombatState();
     if (!after) return;
@@ -1036,6 +1058,11 @@ function renderCombat(
       actorId,
       animation: action.type === "attack" ? "attack" : "cast",
       hitIds: after.party.members.filter((member, index) => member.stats.hp < hpBefore[index]).map((member) => member.id),
+      partyHeals: after.party.members.flatMap((member, index) => member.stats.hp > hpBefore[index]
+        ? [{ id: member.id, amount: member.stats.hp - hpBefore[index] }] : []),
+      enemyHits: after.encounter.enemies.flatMap((enemy, index) => enemy.stats.hp < enemyHpBefore[index]
+        ? [{ index, damage: enemyHpBefore[index] - enemy.stats.hp }] : []),
+      enemyActorIndex: after.lastEnemyActedIndex,
       startedAt: performance.now(),
     };
   };
@@ -1101,6 +1128,7 @@ function renderCombat(
   const renderActionMenu = () => {
     actionContainer.innerHTML = "";
     createActionMenu(actionContainer, combatState, handleAction);
+    if (compactCombat) { actionContainer.style.height = "auto"; actionContainer.style.order = "1"; }
   };
 
   const victorySummary = combatState.victorySummary;
