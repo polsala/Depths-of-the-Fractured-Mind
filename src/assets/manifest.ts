@@ -19,6 +19,7 @@ export const OBJECT_SPRITES = {
   stairsUp: assetUrl("assets/tilesets/floors/strais_up.png"),
   stairsDown: assetUrl("assets/tilesets/floors/strais_down.png"),
   vendor: assetUrl("assets/sprites/characters/npc/vendor.png"),
+  keeper: assetUrl("assets/sprites/characters/npc/vendor.png"), // Reuse existing NPC art until the Pack 5 atlas pass.
 };
 
 export const DEPTH_TEXTURES: Record<number, { wall: string; floor: string; door?: string; wallAlt?: string }> = {

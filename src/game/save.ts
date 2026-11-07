@@ -86,6 +86,7 @@ function validateState(value: unknown): asserts value is Record<string, unknown>
     throw new SaveFormatError("invalid", "The saved position is outside the map.");
   }
   if (value.mode === "event" && typeof value.currentEventId !== "string") throw new SaveFormatError("invalid", "The event is missing.");
+  if (value.mode === "conversation" && typeof value.currentDialogueId !== "string") throw new SaveFormatError("invalid", "The dialogue is missing.");
   if (value.mode === "combat" && (!record(value.combatState) || !record(value.combatState.encounter) ||
       !Array.isArray(value.combatState.encounter.enemies) || !Array.isArray(value.combatState.turnOrder) ||
       !stringArray(value.combatState.shownLowHealthDialogues) ||

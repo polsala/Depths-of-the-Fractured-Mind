@@ -156,6 +156,22 @@ export function generateProceduralMap(depth: number): DepthMap {
   // Place items, traps, and events in various rooms
   placeFeatures(tiles, rooms, depth, encounterChance);
 
+  // The first NPC is anchored to the entrance, not a random encounter roll.
+  // The cell is adjacent to the starting position in every seeded map.
+  if (depth === 1) {
+    const neighbor = directions
+      .map(([dx, dy]) => ({ x: startX + dx, y: startY + dy }))
+      .find(({ x, y }) => tiles[y]?.[x]?.type === "floor") ?? { x: startX, y: startY };
+    const tile = tiles[neighbor.y][neighbor.x];
+    delete tile.itemId;
+    delete tile.trap;
+    delete tile.chest;
+    delete tile.eventId;
+    delete tile.encounterChance;
+    tile.npcId = "keeper";
+    tile.discovered = true;
+  }
+
   return {
     depth,
     width,

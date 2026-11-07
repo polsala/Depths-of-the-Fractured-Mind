@@ -146,6 +146,7 @@ export interface GameState {
   debugOptions?: DebugOptions;
   chestLoot?: ChestLoot;
   currentEventId?: string;
+  currentDialogueId?: string;
   currentEncounterId?: string;
   gameOverCause?: GameOverCause;
   combatState?: CombatState;
@@ -197,6 +198,7 @@ export function createInitialGameState(): GameState {
     },
     chestLoot: undefined,
     currentEventId: undefined,
+    currentDialogueId: undefined,
     currentEncounterId: undefined,
     combatState: undefined,
     depthMaps,

@@ -2,7 +2,7 @@ import { gameRandom } from "./random";
 import type { DebugOptions, GameLocation, GameState } from "./state";
 import { createInitialGameState } from "./state";
 import { createDefaultParty } from "./characters/party";
-import { moveEast, moveNorth, moveSouth, moveWest, moveForward, moveBackward, strafeLeft, strafeRight } from "./exploration/movement";
+import { moveEast, moveNorth, moveSouth, moveWest, moveForward, moveBackward, strafeLeft, strafeRight, resolveDownStairs } from "./exploration/movement";
 import { applyEventChoice, startEvent } from "./events/engine";
 import { registerMandatoryEvents } from "./events/mandatory";
 import { loadEventDataFile } from "./events/loader";
@@ -11,6 +11,9 @@ import { generateRandomEncounter, generateBossEncounter } from "./combat/encount
 import { createCombatState, type CombatAction, getCurrentActor, isPartyDefeated } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
+import { isRequiredBeat } from "./story";
+import { NPCS, getDialogue, getDialogueChoiceUnavailableReason, markDialogueShown, shouldShowDialogue } from "./dialogue";
+import { applyEventEffect } from "./events/resolvers";
 import { useItem, removeItem, addItem, ITEMS } from "./inventory";
 import { resolvePartyDefeat, transitionToGameOver } from "./defeat";
 import type { MapTile } from "./exploration/map";
@@ -70,9 +73,9 @@ export class GameController {
   private stepsSinceLastEvent: number = 0;
   private lastProceduralEventId: string | null = null;
 
-  constructor() {
+  constructor(seed?: number) {
     registerMandatoryEvents();
-    startRun();
+    startRun(seed);
     this.state = createInitialGameState();
     this.state = {
       ...this.state,
@@ -110,8 +113,8 @@ export class GameController {
     return this.state;
   }
 
-  public newGame(): void {
-    startRun();
+  public newGame(seed?: number): void {
+    startRun(seed);
     this.state = {
       ...createInitialGameState(),
       party: createDefaultParty(),
@@ -344,7 +347,75 @@ export class GameController {
     if (this.state.mode !== "event" || !this.state.currentEventId) {
       return;
     }
+    const wasRequiredAtStair = isRequiredBeat(this.state.currentEventId) &&
+      getDepthMap(this.state.location.depth, this.state.depthMaps)
+        .tiles[this.state.location.y]?.[this.state.location.x]?.type === "stairsDown";
     this.state = applyEventChoice(this.state, choiceId);
+    if (wasRequiredAtStair && this.state.mode === "exploration") {
+      this.state = resolveDownStairs(this.state);
+    }
+  }
+
+  public getNearbyNpcId(): keyof typeof NPCS | null {
+    if (this.state.mode !== "exploration") return null;
+    const { x, y, depth } = this.state.location;
+    const map = getDepthMap(depth, this.state.depthMaps);
+    for (const [dx, dy] of [[0, 0], [0, -1], [1, 0], [0, 1], [-1, 0]]) {
+      const npcId = map.tiles[y + dy]?.[x + dx]?.npcId;
+      if (npcId && npcId in NPCS) return npcId;
+    }
+    return null;
+  }
+
+  public startDialogue(): boolean {
+    const npcId = this.getNearbyNpcId();
+    if (!npcId) return false;
+    const npc = NPCS[npcId];
+    this.state = {
+      ...this.state,
+      mode: "conversation",
+      currentDialogueId: shouldShowDialogue(this.state, npc.firstDialogueId)
+        ? npc.firstDialogueId : npc.returnDialogueId,
+    };
+    return true;
+  }
+
+  public chooseDialogueChoice(choiceId: string): boolean {
+    if (this.state.mode !== "conversation" || !this.state.currentDialogueId) return false;
+    const dialogue = getDialogue(this.state.currentDialogueId);
+    const choice = dialogue?.choices?.find((entry) => entry.id === choiceId);
+    if (!choice || getDialogueChoiceUnavailableReason(choice, this.state)) return false;
+    markDialogueShown(this.state, dialogue!.id);
+    this.state = applyEventEffect(this.state, choice.effects ?? {});
+    const nextEventId = choice.nextEventId ?? choice.eventId;
+    if (nextEventId) {
+      this.state = startEvent({ ...this.state, mode: "exploration", currentDialogueId: undefined }, nextEventId);
+    } else if (choice.nextDialogueId) {
+      this.state = { ...this.state, currentDialogueId: choice.nextDialogueId };
+    } else {
+      this.leaveDialogue();
+    }
+    return true;
+  }
+
+  public advanceDialogue(): void {
+    if (this.state.mode !== "conversation" || !this.state.currentDialogueId) return;
+    const dialogue = getDialogue(this.state.currentDialogueId);
+    if (!dialogue || dialogue.choices?.length) return;
+    markDialogueShown(this.state, dialogue.id);
+    if (dialogue.nextDialogueId) {
+      this.state = { ...this.state, currentDialogueId: dialogue.nextDialogueId };
+    } else if (dialogue.nextEventId) {
+      this.state = startEvent({ ...this.state, mode: "exploration", currentDialogueId: undefined }, dialogue.nextEventId);
+    } else {
+      this.leaveDialogue();
+    }
+  }
+
+  public leaveDialogue(): void {
+    if (this.state.mode === "conversation") {
+      this.state = { ...this.state, mode: "exploration", currentDialogueId: undefined };
+    }
   }
   
   /**

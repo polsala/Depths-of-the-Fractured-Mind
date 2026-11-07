@@ -126,8 +126,7 @@
           "specificDepth": 3,
           "requiredFlags": {
             "overflowWardResolved": false
-          },
-          "specificCharacterAlive": "miriam"
+          }
         },
         "priority": 10,
         "repeatable": false
@@ -187,8 +186,7 @@
           "specificDepth": 2,
           "requiredFlags": {
             "riotRecordingPlayed": false
-          },
-          "specificCharacterAlive": "elias"
+          }
         },
         "priority": 10,
         "repeatable": false
@@ -248,8 +246,7 @@
           "maxDepth": 4,
           "requiredFlags": {
             "confessionalUsed": false
-          },
-          "specificCharacterAlive": "anya"
+          }
         },
         "priority": 10,
         "repeatable": false
@@ -956,6 +953,23 @@
             "sanityDelta": -2,
             "setFlags": {
               "director_letter_read": true
+            }
+          }
+        },
+        {
+          "id": "follow_keepers_clue",
+          "label": "Follow the Keeper’s clue to the sealed drawer",
+          "description": "A precise warning reveals a hidden personnel report.",
+          "requiresFlags": {
+            "keeperTruthShared": true
+          },
+          "effects": {
+            "truthDelta": 2,
+            "addItems": [
+              "staff_memo"
+            ],
+            "setFlags": {
+              "keeperLeadFollowed": true
             }
           }
         },
@@ -4057,7 +4071,13 @@
         "tangled_wires",
         "freezer_drawer",
         "half_burnt_photo",
-        "old_memo"
+        "old_memo",
+        "personnel_files",
+        "video_surveillance",
+        "director_office",
+        "locked_safe",
+        "elias_discipline_chamber",
+        "anya_chapel_ruins"
       ],
       "selectionStrategy": "random"
     },
@@ -4080,7 +4100,13 @@
         "makeshift_altar",
         "acid_stain",
         "abandoned_barricade",
-        "nerve_gas_leak"
+        "nerve_gas_leak",
+        "medication_dispensary",
+        "therapy_session_recording",
+        "isolation_chamber",
+        "miriam_surgery_logs",
+        "subject13_containment",
+        "mutated_plants"
       ],
       "selectionStrategy": "random"
     },
@@ -4102,7 +4128,10 @@
         "warped_skeleton",
         "rationed_water",
         "code_stamped_door",
-        "cathode_smell"
+        "cathode_smell",
+        "fractured_memory",
+        "accusation_chamber",
+        "final_message"
       ],
       "selectionStrategy": "random"
     },
@@ -4113,7 +4142,9 @@
       "events": [
         "rusted_bedframe",
         "sleeping_patient",
-        "luminescent_mold"
+        "luminescent_mold",
+        "engine_whispers",
+        "subject13_vision"
       ],
       "selectionStrategy": "random"
     }

@@ -46,3 +46,26 @@ test("export/import, explicit deletion and corrupt-save recovery", async ({ page
   await page.locator("input[type=file]").setInputFiles({ name: "save.json", mimeType: "application/json", buffer: Buffer.from(original!) });
   await expect(page.getByRole("button", { name: "Save & Return to Title" })).toBeVisible();
 });
+
+test("touch NPC conversation survives reload and keyboard can reopen it", async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("./");
+  await page.getByRole("button", { name: "Begin Your Descent" }).tap();
+  await page.getByRole("button", { name: "Talk to the Keeper" }).tap();
+  await expect(page.locator(".dialogue-portrait")).toBeVisible();
+  await page.getByRole("button", { name: /Tell us where the director hid the evidence/ }).tap();
+  await expect(page.getByText(/Look behind the resignation letter/)).toBeVisible();
+  await page.reload();
+  await page.getByRole("button", { name: /Continue · Depth 1/ }).tap();
+  await expect(page.getByText(/Look behind the resignation letter/)).toBeVisible();
+  await page.getByRole("button", { name: "Continue", exact: true }).tap();
+  await expect(page.getByRole("button", { name: "Talk to the Keeper" })).toBeVisible();
+  await page.keyboard.press("t");
+  await expect(page.getByText(/What have you learned/)).toBeVisible();
+  await page.getByRole("button", { name: "Leave conversation" }).tap();
+  expect(errors).toEqual([]);
+  await context.close();
+});

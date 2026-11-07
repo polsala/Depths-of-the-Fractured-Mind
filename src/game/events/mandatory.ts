@@ -82,6 +82,30 @@ const FALLBACK_EVENTS: Record<string, GameEvent> = {
       }),
     ],
   },
+  riot_recording_event: {
+    id: "riot_recording_event",
+    title: "Riot Recording",
+    description: "A surviving tape records the orders given during the ward riot.",
+    choices: [makeChoice({ id: "listen", label: "Listen and acknowledge the recording", effect: {
+      truthDelta: 1, setFlags: { riotRecordingPlayed: true }, nextMode: "exploration",
+    } })],
+  },
+  overflow_ward_event: {
+    id: "overflow_ward_event",
+    title: "Overflow Ward",
+    description: "Failing life-support machines surround the remaining patients.",
+    choices: [makeChoice({ id: "attend", label: "Attend to the patients", effect: {
+      mercyDelta: 1, setFlags: { overflowWardResolved: true }, nextMode: "exploration",
+    } })],
+  },
+  confessional_chair_event: {
+    id: "confessional_chair_event",
+    title: "The Confessional Chair",
+    description: "Recorded confessions reveal the facility's abuse of trust.",
+    choices: [makeChoice({ id: "listen", label: "Hear the confessions", effect: {
+      truthDelta: 1, setFlags: { confessionalUsed: true }, nextMode: "exploration",
+    } })],
+  },
 };
 
 /**
@@ -95,4 +119,3 @@ export function registerMandatoryEvents(): void {
   });
   console.log(`Registered ${Object.keys(FALLBACK_EVENTS).length} fallback events`);
 }
-
