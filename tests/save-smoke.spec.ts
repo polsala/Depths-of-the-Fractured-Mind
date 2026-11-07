@@ -69,3 +69,49 @@ test("touch NPC conversation survives reload and keyboard can reopen it", async 
   expect(errors).toEqual([]);
   await context.close();
 });
+
+test("final choice and epilogue render on mobile and survive reload", async ({ browser }) => {
+  let context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  let page = await context.newPage();
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("./");
+  await page.getByRole("button", { name: "Begin Your Descent" }).tap();
+  await expect(page.getByRole("region", { name: "Current objective" })).toContainText("Find a witness");
+  await expect(page.getByText(/Map: blue = you/)).toBeVisible();
+
+  // A valid persisted post-victory checkpoint isolates the ending UI from the
+  // separate combat rules tested in campaign-endings.test.ts.
+  const raw = await page.evaluate((key) => {
+    const snapshot = JSON.parse(localStorage.getItem(key)!);
+    const map = structuredClone(snapshot.state.depthMaps[0][1]);
+    map.depth = 5;
+    snapshot.state.depthMaps.push([5, map]);
+    snapshot.state.location.depth = 5;
+    snapshot.state.flags.bossDefeatedDepths = [5];
+    snapshot.state.mode = "ending";
+    return JSON.stringify(snapshot);
+  }, SAVE_KEY);
+  const origin = new URL(page.url()).origin;
+  await context.close();
+  // A fresh browser context prevents the previous pagehide handler from
+  // overwriting the fixture with its still-active depth-one state.
+  context = await browser.newContext({
+    viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true,
+    storageState: { cookies: [], origins: [{ origin, localStorage: [{ name: SAVE_KEY, value: raw }] }] },
+  });
+  page = await context.newPage();
+  page.on("pageerror", (error) => errors.push(error.message));
+  await page.goto("./");
+  await page.getByRole("button", { name: /Continue · Depth 5/ }).tap();
+  await expect(page.getByRole("heading", { name: /Engine is silent/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Broadcast the evidence" })).toBeDisabled();
+  await page.getByRole("button", { name: "Seal the Engine" }).tap();
+  await expect(page.getByRole("heading", { name: "Containment" })).toBeVisible();
+  await expect(page.getByText(/Survivors: Elias Ward/)).toBeVisible();
+  await page.reload();
+  await page.getByRole("button", { name: /Continue · Depth 5/ }).tap();
+  await expect(page.getByRole("heading", { name: "Containment" })).toBeVisible();
+  expect(errors).toEqual([]);
+  await context.close();
+});

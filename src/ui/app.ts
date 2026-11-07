@@ -6,6 +6,8 @@ import { audioManager } from "./audio";
 import { renderTitle, resetTitleMusic } from "./screens/title";
 import { renderGameOver } from "./screens/game-over";
 import { renderDialogue } from "./screens/dialogue";
+import { renderEnding } from "./screens/ending";
+import { getCurrentObjective, getStoryConsequence } from "../game/objectives";
 import { getDialogue, getDialogueChoiceUnavailableReason } from "../game/dialogue";
 import type { SaveActions } from "./screens/types";
 import { setSoundSink } from "../game/sound";
@@ -94,6 +96,26 @@ function refreshExploration(root: HTMLElement, state: GameState, controller: Gam
   if (vendorButton) vendorButton.hidden = !state.depthMaps?.get(state.location.depth)?.tiles[state.location.y]?.[state.location.x]?.vendor;
   const npcButton = root.querySelector<HTMLButtonElement>(".npc-button");
   if (npcButton) npcButton.hidden = !controller.getNearbyNpcId();
+  const objective = root.querySelector<HTMLElement>(".current-objective");
+  if (objective) fillObjective(objective, state);
+}
+
+function fillObjective(element: HTMLElement, state: GameState): void {
+  const objective = getCurrentObjective(state);
+  element.replaceChildren();
+  const chapter = document.createElement("small");
+  chapter.textContent = objective.chapter;
+  const title = document.createElement("h3");
+  title.textContent = objective.title;
+  const guidance = document.createElement("p");
+  guidance.textContent = objective.guidance;
+  element.append(chapter, title, guidance);
+  if (objective.consequence) {
+    const consequence = document.createElement("p");
+    consequence.className = "objective-consequence";
+    consequence.textContent = objective.consequence;
+    element.appendChild(consequence);
+  }
 }
 
 function closeMinimapModal(): void {
@@ -238,6 +260,13 @@ function renderExploration(
   `;
   infoPanel.appendChild(locationInfo);
 
+  const objectivePanel = document.createElement("section");
+  objectivePanel.className = "current-objective";
+  objectivePanel.setAttribute("aria-label", "Current objective");
+  fillObjective(objectivePanel, state);
+  if (platform === "mobile") root.insertBefore(objectivePanel, container);
+  else infoPanel.appendChild(objectivePanel);
+
   // Create and render minimap
   if (dungeonRenderContext && dungeonRenderContext.depthMaps) {
     const map = dungeonRenderContext.depthMaps.get(state.location.depth);
@@ -299,6 +328,10 @@ function renderExploration(
           tileSize: tileSizeForMinimap,
         }
       );
+      const legend = document.createElement("p");
+      legend.className = "map-legend";
+      legend.textContent = "Map: blue = you · red = down stair · gold = event · teal = character · violet = vendor";
+      infoPanel.appendChild(legend);
 
       if (minimapModal) {
         renderMinimapModal(
@@ -862,6 +895,16 @@ function renderCombat(
     box-sizing: border-box;
   `;
   root.appendChild(combatContainer);
+
+  if (combatState.isBossFight) {
+    const consequence = getStoryConsequence(state);
+    if (consequence) {
+      const feedback = document.createElement("p");
+      feedback.className = "combat-story-feedback";
+      feedback.textContent = consequence;
+      combatContainer.appendChild(feedback);
+    }
+  }
 
   // Top section: Combat view
   const combatView = document.createElement("div");
@@ -2337,6 +2380,8 @@ export function initApp(root: HTMLElement): void {
         renderDialogue(root, controller, state, render);
         break;
       case "ending":
+        renderEnding(root, controller, state, render, saves);
+        break;
       case "pause": {
         const placeholder = document.createElement("p");
         placeholder.textContent = `Mode "${state.mode}" not yet implemented.`;

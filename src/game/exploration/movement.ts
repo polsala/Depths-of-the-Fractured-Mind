@@ -72,7 +72,7 @@ export function resolveDownStairs(state: GameState): GameState {
     }
   }
   const nextDepth = currentDepth + 1;
-  if (nextDepth > 5) return state; // The ending is implemented in Pack 4.
+  if (nextDepth > 5) return { ...state, mode: "ending", finalDecision: undefined };
   const nextMap = getDepthMap(nextDepth, state.depthMaps);
   const target = findTilePositionByType(nextMap, "stairsUp") ?? { x: nextMap.startX, y: nextMap.startY };
   const nextState: GameState = {

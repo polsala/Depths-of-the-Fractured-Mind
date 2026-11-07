@@ -16,6 +16,7 @@ Depths of the Fractured Mind is a turn-based psychological horror dungeon crawle
 - **Events & Narrative:** Data-driven events in `public/data/events.json` with mandatory/procedural hooks (`src/game/events/*`). Validate via `npm run validate:events`.
 - **Party/Inventory/Economy:** Party stats/equipment in `src/game/state` and `src/game/characters`; items/inventory/money in `src/game/inventory` and `src/game/items.ts`.
 - **Save/Continue:** Versioned browser save with map, combat and event checkpoints, plus JSON export/import (`src/game/save.ts`).
+- **Campaign/Endings:** Chapter objectives, stair-gated story beats, Engine Heart finale and choice-driven endings (`src/game/objectives.ts`, `src/game/endings.ts`).
 - **Debug Panel:** In-game controls for combat tests, depth skip, one-hit kill, XP multiplier, and spawning showcase entities near the player (see `src/ui/app.ts`).
 
 ## 🛠️ Development

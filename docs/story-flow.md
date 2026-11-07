@@ -6,13 +6,13 @@ the boss or opening the next depth:
 
 | Depth | Required beats before boss |
 | --- | --- |
-| 1 | None |
+| 1 | The First Body (guided first event) |
 | 2 | Riot recording, then pit fall |
 | 3 | Overflow ward |
 | 4 | Confessional chair |
 
 The gate uses both completion IDs and story flags so older saves with a resolved
-flag do not replay a beat. If event JSON fails to load, these four beats have
+flag do not replay a beat. If event JSON fails to load, these five beats have
 minimal fallback definitions; the chapter boundary must not become an invisible
 softlock. The other authored events are in depth pools and remain optional.
 `npm run validate:events` fails on unreferenced events and impossible depth
@@ -27,6 +27,7 @@ truthful introduction unlocks a clue choice in the director's office on depth
 two. The portrait currently reuses the vendor asset; dedicated NPC art belongs
 to the art/animation pack.
 
-**Remaining boundary:** reaching depth five is tested, but the final encounter
-and ending are not yet implemented. The ending acceptance criterion of #43
-depends on #41 (Pack 4) and should not be marked complete here.
+After a guardian victory, a party standing on the downward stair advances to
+the next depth without stepping off and back on. Depth five instead opens a
+final decision after the Engine Heart falls. The four ordinary outcomes and a
+hidden evidence route are specified in [the design document](design.md).

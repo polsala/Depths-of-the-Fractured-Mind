@@ -842,7 +842,41 @@ Volume should be adjustable or at least have a mute/toggle.
 
 ---
 
-## 12. Implementation Agent Instructions (Summary)
+## 12. Playable campaign and ending contract
+
+The first Depth introduces the Keeper beside the entrance. The first body is
+guaranteed before the Threshold guardian, even if the player does not find a
+random event tile. The objective panel names the next goal and explains the
+map's colored markers. Each guardian victory advances directly to the next
+Depth. The Engine Heart on Depth 5 opens a one-way final decision; defeat is a
+game over, not an ending.
+
+| Ending | Final decision and requirements | Consequence |
+| --- | --- | --- |
+| Testimony | Broadcast; riot recording and confessions faced, Truth ≥ Denial + 2 | Evidence reaches the city, including the party's complicity. |
+| The Open Ward | Evacuate; a ward patient saved, Mercy ≥ Cruelty + 2 | Surviving patients reach the surface. |
+| Containment | Seal; always available | The Engine is stopped, but some evidence is buried. |
+| Inheritance | Bind; always available | The party becomes the Engine's custodian. |
+| The Unbroken Witness (secret) | Subject 13 alive; all five story beats; redeemed Elias and Anya; ward patient saved; Keeper's hidden memo recovered; Truth ≥ 5, Mercy ≥ 3 | The joined memories are released without erasing their owners. |
+
+Each ending screen shows surviving party members and the actual decisions about
+the riot, ward, confessional and Keeper. The choice and epilogue survive a
+browser reload. Replaying starts a fresh run; the previous save is replaceable
+only after the normal confirmation.
+
+### Moderated first-depth playtest plan — not yet completed
+
+The implementation has a deterministic, no-debug scripted path through the
+first evidence event and a real guardian fight. It does **not** replace human
+observation. Run at least five moderated sessions with first-time players on
+desktop and mobile. Give only the game URL and ask each tester to narrate their
+goal, use the map, talk to the Keeper, resolve an event, prepare for combat and
+reach Depth 2. Record the time to first event and Depth 2, any confusion or
+softlocks, and the fix made for each repeated issue. A provisional target is
+30–45 minutes for this first Depth; validate or change it from the sessions.
+Until those sessions and fixes are recorded, #45 remains open.
+
+## 13. Implementation Agent Instructions (Summary)
 
 If you are an implementation agent (e.g. Codex):
 
@@ -860,4 +894,3 @@ If you are an implementation agent (e.g. Codex):
 
 > This `design.md` is the primary reference.  
 > Additional smaller docs can refine specific systems, but this should remain the “source of truth” for narrative tone, core mechanics, and structure.
-
