@@ -1,3 +1,4 @@
+import { gameRandom } from "../random";
 import type { GameState } from "../state";
 import { getRandomEnemy, getBossForDepth, type Enemy } from "../enemies";
 import type { EnemyState, EncounterState } from "./engine";
@@ -14,7 +15,7 @@ export function createEnemyState(enemy: Enemy): EnemyState {
 }
 
 export function generateRandomEncounter(depth: number): EncounterState | null {
-  const roll = Math.random();
+  const roll = gameRandom();
   
   // Determine number of enemies based on depth
   let numEnemies = 1;
@@ -57,7 +58,7 @@ export function shouldTriggerEncounter(
   if (state.debugOptions?.disableEncounters) return false;
   
   // Random check
-  return Math.random() < encounterChance;
+  return gameRandom() < encounterChance;
 }
 
 export function triggerEncounter(state: GameState, depth?: number): GameState {

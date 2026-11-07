@@ -3,6 +3,12 @@ import type { GameEvent } from "../game/events/engine";
 import { getChoiceUnavailableReason, getEventById } from "../game/events/engine";
 import { GameController } from "../game/index";
 import { audioManager } from "./audio";
+import { renderTitle, resetTitleMusic } from "./screens/title";
+import { renderGameOver } from "./screens/game-over";
+import type { SaveActions } from "./screens/types";
+import { setSoundSink } from "../game/sound";
+import { SaveRepository, type SaveStorage } from "../game/save";
+import { assetUrl, MUSIC_BY_DEPTH } from "../assets/manifest";
 import {
   createRenderContext,
   renderDungeonView,
@@ -29,12 +35,11 @@ import { ITEMS } from "../game/inventory";
 import { getCharacterLevel } from "../game/experience";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
 import { createMobileControls, type MobileControls } from "./mobile-controls";
-import type { DungeonMap } from "../graphics/map";
+import { generateDepthMap, type DungeonMap } from "../graphics/map";
 import { openVendorModal } from "./vendor";
 
 const combatBackgroundCache: Record<string, HTMLImageElement> = {};
 
-let titleMusicStarted = false;
 let dungeonRenderContext: RenderContext | null = null;
 let currentDepthMusic: number = -1; // Track current depth for music changes
 let selectedAbilityId: string | undefined;
@@ -44,16 +49,7 @@ let minimapModalCanvas: HTMLCanvasElement | null = null;
 let minimapModalConfig: MinimapConfig | null = null;
 let combatActionModal: HTMLDivElement | null = null;
 
-// Depth-to-music track mapping
-const DEPTH_MUSIC_MAP: Record<number, string> = {
-  1: "depth1_ambient",
-  2: "depth2_archive",
-  3: "depth3_ward",
-  4: "depth4_mirrors",
-  5: "core_heart",
-};
-
-// Helper to check if player location or mode changed
+// Used by movement input to avoid redrawing when a wall blocks the move.
 function hasLocationChanged(prevState: GameState, newState: GameState): boolean {
   return prevState.location.x !== newState.location.x || 
          prevState.location.y !== newState.location.y || 
@@ -62,158 +58,38 @@ function hasLocationChanged(prevState: GameState, newState: GameState): boolean 
          prevState.mode !== newState.mode;
 }
 
-function renderTitle(
-  root: HTMLElement,
-  controller: GameController,
-  _state: GameState,
-  rerender: () => void
-): void {
-  if (!titleMusicStarted) {
-    audioManager.playMusic("main_theme");
-    titleMusicStarted = true;
+// Preserve the exploration shell (and its listeners/canvases) for ordinary moves.
+// Mode and depth changes still build the appropriate new screen.
+function refreshExploration(root: HTMLElement, state: GameState): void {
+  if (!dungeonRenderContext) return;
+  // Keep the graphics projection in sync with mutable pickups, doors and traps.
+  dungeonRenderContext.depthMaps.set(state.location.depth, generateDepthMap(state.location.depth, state.depthMaps));
+  renderDungeonView(dungeonRenderContext, {
+    x: state.location.x,
+    y: state.location.y,
+    depth: state.location.depth,
+    direction: state.location.direction ?? "north",
+  });
+  const facing = state.location.direction ?? "north";
+  const location = root.querySelector<HTMLElement>(".location-info");
+  if (location) location.innerHTML = `<h3>Depth ${state.location.depth}</h3><p>Position: (${state.location.x}, ${state.location.y})</p><p class="direction-indicator">Facing: ${getDirectionArrow(facing)} ${getDirectionName(facing)}</p>`;
+  const map = dungeonRenderContext.depthMaps.get(state.location.depth);
+  const minimap = root.querySelector<HTMLCanvasElement>(".minimap-panel");
+  if (map && minimap) {
+    const platform = detectPlatform();
+    const size = getResponsiveUISize("minimap");
+    renderMinimap(minimap, map, state.location.x, state.location.y, facing, {
+      width: size.width, height: size.height, tileSize: platform === "mobile" ? 12 : 14,
+    });
+    if (minimapModal) renderMinimapModal(map, state.location.x, state.location.y, facing, platform);
   }
-
-  // Create title screen container
-  const titleContainer = document.createElement("div");
-  titleContainer.className = "title-screen";
-  root.appendChild(titleContainer);
-
-  // Create decorative header with atmospheric background
-  const header = document.createElement("div");
-  header.className = "title-header";
-  titleContainer.appendChild(header);
-
-  const title = document.createElement("h1");
-  title.className = "title-main";
-  title.textContent = "Depths of the Fractured Mind";
-  header.appendChild(title);
-
-  const subtitle = document.createElement("p");
-  subtitle.className = "title-subtitle";
-  subtitle.textContent = "A psychological, turn-based descent into madness";
-  header.appendChild(subtitle);
-
-  // Menu container
-  const menu = document.createElement("div");
-  menu.className = "title-menu";
-  titleContainer.appendChild(menu);
-
-  // Show loading state if events aren't ready
-  if (!controller.isEventsLoaded()) {
-    const loading = document.createElement("p");
-    loading.textContent = "Loading events...";
-    loading.style.fontStyle = "italic";
-    root.appendChild(loading);
-    
-    // Rerender when events are loaded (check every 250ms, reasonable interval for loading)
-    setTimeout(() => rerender(), 250);
-    return;
-  }
-
-  const button = document.createElement("button");
-  button.className = "title-button";
-  button.textContent = "Begin Your Descent";
-  button.addEventListener("click", () => {
-    audioManager.playSfx("ui_click");
-    controller.newGame();
-    const nextState = controller.getState();
-    if (nextState.mode === "title") {
-      // Auto-enter exploration after creating a new game.
-      nextState.mode = "exploration";
-    }
-    audioManager.playMusic("depth1_ambient");
-    rerender();
+  const partyCanvas = root.querySelector<HTMLCanvasElement>(".party-panel");
+  if (partyCanvas) renderPartyUI(partyCanvas, state.party, {
+    width: partyCanvas.width, height: partyCanvas.height,
+    portraitSize: detectPlatform() === "mobile" ? 48 : 64,
   });
-  menu.appendChild(button);
-
-  // Atmospheric flavor text
-  const flavorText = document.createElement("div");
-  flavorText.className = "title-flavor";
-  flavorText.innerHTML = `
-    <p>Four souls descend into the abandoned facility...</p>
-    <p>Seeking truth, redemption, or merely escape.</p>
-    <p>But the depths hold more than darkness.</p>
-    <p>They hold guilt made manifest.</p>
-  `;
-  titleContainer.appendChild(flavorText);
-}
-
-function renderGameOver(
-  root: HTMLElement,
-  controller: GameController,
-  state: GameState,
-  rerender: () => void
-): void {
-  const container = document.createElement("div");
-  container.className = "title-screen";
-  container.style.alignItems = "center";
-  container.style.justifyContent = "center";
-  root.appendChild(container);
-
-  const panel = document.createElement("div");
-  panel.style.cssText = `
-    background: rgba(10,10,14,0.9);
-    border: 2px solid #5a1a1a;
-    padding: 24px;
-    max-width: 640px;
-    width: 90%;
-    color: #e0e0e0;
-    text-align: center;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.6);
-  `;
-  container.appendChild(panel);
-
-  const title = document.createElement("h2");
-  title.textContent = "Game Over";
-  title.style.color = "#ff6b6b";
-  title.style.marginTop = "0";
-  panel.appendChild(title);
-
-  const depthInfo = document.createElement("p");
-  depthInfo.textContent = `The party fell on Depth ${state.location.depth}.`;
-  depthInfo.style.marginBottom = "12px";
-  panel.appendChild(depthInfo);
-
-  const cause = document.createElement("p");
-  cause.textContent = {
-    trap: "A trap claimed the last surviving party member.",
-    event: "A story choice claimed the last surviving party member.",
-    combat: "The party was defeated in combat.",
-    status: "A lingering condition claimed the last surviving party member.",
-  }[state.gameOverCause ?? "combat"];
-  panel.appendChild(cause);
-
-  const hint = document.createElement("p");
-  hint.textContent = "The corridors wait for another attempt. Regroup and descend once more.";
-  hint.style.opacity = "0.85";
-  panel.appendChild(hint);
-
-  const actions = document.createElement("div");
-  actions.style.display = "flex";
-  actions.style.justifyContent = "center";
-  actions.style.gap = "10px";
-  actions.style.marginTop = "16px";
-
-  const titleBtn = document.createElement("button");
-  titleBtn.textContent = "Return to Title";
-  titleBtn.addEventListener("click", () => {
-    controller.newGame();
-    rerender();
-  });
-  actions.appendChild(titleBtn);
-
-  const retryBtn = document.createElement("button");
-  retryBtn.textContent = "Begin New Run";
-  retryBtn.addEventListener("click", () => {
-    controller.newGame();
-    const next = controller.getState();
-    next.mode = "exploration";
-    audioManager.playMusic("depth1_ambient");
-    rerender();
-  });
-  actions.appendChild(retryBtn);
-
-  panel.appendChild(actions);
+  const vendorButton = root.querySelector<HTMLButtonElement>(".vendor-button");
+  if (vendorButton) vendorButton.hidden = !state.depthMaps?.get(state.location.depth)?.tiles[state.location.y]?.[state.location.x]?.vendor;
 }
 
 function closeMinimapModal(): void {
@@ -285,7 +161,8 @@ function renderExploration(
   root: HTMLElement,
   controller: GameController,
   state: GameState,
-  rerender: () => void
+  rerender: () => void,
+  saves: SaveActions
 ): void {
   // Ensure direction is initialized
   if (!state.location.direction) {
@@ -297,7 +174,7 @@ function renderExploration(
   // Play depth-appropriate music
   if (currentDepthMusic !== state.location.depth) {
     currentDepthMusic = state.location.depth;
-    const musicTrack = DEPTH_MUSIC_MAP[state.location.depth];
+    const musicTrack = MUSIC_BY_DEPTH[state.location.depth];
     if (musicTrack) {
       audioManager.playMusic(musicTrack);
     }
@@ -392,11 +269,14 @@ function renderExploration(
         </svg>
       `;
       zoomButton.addEventListener("click", () => {
+        const current = controller.getState();
+        const currentMap = dungeonRenderContext?.depthMaps.get(current.location.depth);
+        if (!currentMap) return;
         renderMinimapModal(
-          map as DungeonMap,
-          state.location.x,
-          state.location.y,
-          facingDirection,
+          currentMap,
+          current.location.x,
+          current.location.y,
+          current.location.direction ?? "north",
           platform
         );
       });
@@ -467,26 +347,39 @@ function renderExploration(
 
   const statusBtn = document.createElement("button");
   statusBtn.textContent = "Party Status";
-  statusBtn.addEventListener("click", () => openPartyStatusModal(state, controller, rerender));
+  statusBtn.addEventListener("click", () => openPartyStatusModal(controller.getState(), controller, rerender));
   utilityBox.appendChild(statusBtn);
 
   const inventoryBtn = document.createElement("button");
   inventoryBtn.textContent = "Inventory";
-  inventoryBtn.addEventListener("click", () => openInventoryModal(state, controller, rerender));
+  inventoryBtn.addEventListener("click", () => openInventoryModal(controller.getState(), controller, rerender));
   utilityBox.appendChild(inventoryBtn);
 
   infoPanel.appendChild(utilityBox);
 
+  const saveButton = document.createElement("button");
+  saveButton.textContent = "Save Now";
+  saveButton.addEventListener("click", saves.save);
+  utilityBox.appendChild(saveButton);
+  const exportButton = document.createElement("button");
+  exportButton.textContent = "Export Save";
+  exportButton.addEventListener("click", saves.export);
+  utilityBox.appendChild(exportButton);
+  const titleButton = document.createElement("button");
+  titleButton.textContent = "Save & Return to Title";
+  titleButton.addEventListener("click", saves.returnToTitle);
+  utilityBox.appendChild(titleButton);
+
   // Vendor button if on vendor tile
   const currentMap = dungeonRenderContext?.depthMaps?.get(state.location.depth);
   const vendorTile = currentMap?.[state.location.y]?.[state.location.x]?.vendor;
-  if (vendorTile) {
-    const vendorBtn = document.createElement("button");
-    vendorBtn.textContent = "Talk to Vendor";
-    vendorBtn.style.marginTop = "8px";
-    vendorBtn.addEventListener("click", () => openVendorModal(state, controller, rerender));
-    infoPanel.appendChild(vendorBtn);
-  }
+  const vendorBtn = document.createElement("button");
+  vendorBtn.className = "vendor-button";
+  vendorBtn.textContent = "Talk to Vendor";
+  vendorBtn.style.marginTop = "8px";
+  vendorBtn.hidden = !vendorTile;
+  vendorBtn.addEventListener("click", () => openVendorModal(controller.getState(), controller, rerender));
+  infoPanel.appendChild(vendorBtn);
 
   // Instructions - show appropriate controls based on platform
   const instructions = document.createElement("div");
@@ -534,17 +427,19 @@ function renderExploration(
       onStrafeLeft: () => executeMovement(() => controller.strafeLeft()),
       onStrafeRight: () => executeMovement(() => controller.strafeRight()),
       onTurnLeft: () => {
-        if (!state.location.direction) {
-          state.location.direction = "north";
+        const current = controller.getState();
+        if (!current.location.direction) {
+          current.location.direction = "north";
         }
-        state.location.direction = rotateCounterClockwise(state.location.direction);
+        current.location.direction = rotateCounterClockwise(current.location.direction);
         rerender();
       },
       onTurnRight: () => {
-        if (!state.location.direction) {
-          state.location.direction = "north";
+        const current = controller.getState();
+        if (!current.location.direction) {
+          current.location.direction = "north";
         }
-        state.location.direction = rotateClockwise(state.location.direction);
+        current.location.direction = rotateClockwise(current.location.direction);
         rerender();
       },
     });
@@ -929,9 +824,9 @@ function renderCombat(
   audioManager.playMusic(music);
 
   const combatDepth = combatState.combatDepth ?? state.location.depth;
-  let combatBackground = getAssetUrl("assets/backgrounds/battle/battle_bg1.png");
+  let combatBackground = assetUrl("assets/backgrounds/battle/battle_bg1.png");
   if (combatState.isBossFight) {
-    const bossBg = getAssetUrl(`assets/backgrounds/bosses/BG_BOSS_D${combatDepth}.png`);
+    const bossBg = assetUrl(`assets/backgrounds/bosses/BG_BOSS_D${combatDepth}.png`);
     combatBackground = bossBg;
   }
   const backgroundImage = getCombatBackground(combatBackground);
@@ -2284,10 +2179,117 @@ function openInventoryUseModal(
 
 export function initApp(root: HTMLElement): void {
   const controller = new GameController();
+  setSoundSink((cue) => audioManager.playSfx(cue));
+  const unavailableStorage: SaveStorage = {
+    getItem: () => { throw new Error("Storage unavailable"); },
+    setItem: () => { throw new Error("Storage unavailable"); },
+    removeItem: () => { throw new Error("Storage unavailable"); },
+  };
+  let storage: SaveStorage;
+  try { storage = window.localStorage; } catch { storage = unavailableStorage; }
+  const repository = new SaveRepository(storage);
+  let saveNotice: string | null = null;
+
+  const saveRun = (): boolean => {
+    if (controller.getState().mode === "title") return true;
+    try {
+      const error = repository.write(controller.snapshot());
+      if (error) { saveNotice = error; return false; }
+      return true;
+    } catch {
+      saveNotice = "Could not save this run.";
+      return false;
+    }
+  };
+
+  const saves: SaveActions = {
+    read: () => repository.read(),
+    notice: () => saveNotice,
+    begin: () => {
+      if (repository.read().kind !== "empty" && !window.confirm("Start a new run and replace the existing save? Export it first if you want a backup.")) return;
+      try { repository.clear(); } catch { /* The player may still start without browser storage. */ }
+      controller.newGame();
+      controller.getState().mode = "exploration";
+      currentDepthMusic = -1;
+      render();
+    },
+    resume: () => {
+      const result = repository.read();
+      if (result.kind !== "ready") { saveNotice = "No valid run to continue."; render(); return; }
+      controller.restore(result.snapshot);
+      currentDepthMusic = -1;
+      render();
+    },
+    save: () => {
+      saveNotice = saveRun() ? "Run saved." : saveNotice;
+      const status = root.querySelector<HTMLElement>(".save-status");
+      if (status) status.textContent = saveNotice ?? "";
+    },
+    returnToTitle: () => {
+      saveRun();
+      controller.returnToTitle();
+      resetTitleMusic();
+      render();
+    },
+    export: () => {
+      if (controller.getState().mode !== "title" && !saveRun()) { render(); return; }
+      try {
+        const raw = repository.exportRaw();
+        if (!raw) { saveNotice = "No save is available for export."; render(); return; }
+        const url = URL.createObjectURL(new Blob([raw], { type: "application/json" }));
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "depths-of-the-fractured-mind-save.json";
+        link.click();
+        window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch { saveNotice = "Could not export the save."; render(); }
+    },
+    import: async (file) => {
+      if (repository.read().kind !== "empty" && !window.confirm("Replace the existing run with this imported save?")) return;
+      try {
+        const snapshot = repository.import(await file.text());
+        controller.restore(snapshot);
+        currentDepthMusic = -1;
+        saveNotice = "Save imported.";
+      } catch (error) {
+        saveNotice = error instanceof Error ? error.message : "Could not import the save.";
+      }
+      render();
+    },
+    delete: () => {
+      if (!window.confirm("Delete the saved run? Export it first if you want a backup.")) return;
+      try { repository.clear(); saveNotice = "Save deleted."; }
+      catch { saveNotice = "Could not delete the save."; }
+      render();
+    },
+  };
+
+  let renderedMode: GameState["mode"] | null = null;
+  let renderedDepth = -1;
 
   const render = (): void => {
-    root.innerHTML = "";
     const state = controller.getState();
+    if (state.mode !== "title") saveRun();
+    if (state.mode === "exploration" && renderedMode === "exploration" &&
+        renderedDepth === state.location.depth && !state.chestLoot && dungeonRenderContext) {
+      if (saveNotice && !root.querySelector(".save-status")) {
+        const status = document.createElement("p");
+        status.className = "save-status";
+        status.textContent = saveNotice;
+        status.setAttribute("role", "status");
+        root.prepend(status);
+      }
+      refreshExploration(root, state);
+      return;
+    }
+    root.replaceChildren();
+    if (saveNotice && state.mode !== "title") {
+      const status = document.createElement("p");
+      status.className = "save-status";
+      status.textContent = saveNotice;
+      status.setAttribute("role", "status");
+      root.appendChild(status);
+    }
 
     // Clean up mobile controls when not in exploration mode
     if (state.mode !== "exploration" && mobileControls) {
@@ -2303,10 +2305,10 @@ export function initApp(root: HTMLElement): void {
 
     switch (state.mode) {
       case "title":
-        renderTitle(root, controller, state, render);
+        renderTitle(root, controller, state, render, saves);
         break;
       case "exploration":
-        renderExploration(root, controller, state, render);
+        renderExploration(root, controller, state, render, saves);
         break;
       case "event":
         renderEvent(root, controller, state, render);
@@ -2315,7 +2317,7 @@ export function initApp(root: HTMLElement): void {
         renderCombat(root, controller, state, render);
         break;
       case "gameover":
-        renderGameOver(root, controller, state, render);
+        renderGameOver(root, state, saves);
         break;
       case "conversation":
       case "ending":
@@ -2332,6 +2334,8 @@ export function initApp(root: HTMLElement): void {
         break;
       }
     }
+    renderedMode = state.mode;
+    renderedDepth = state.location.depth;
   };
 
   window.addEventListener("keydown", (event) => {
@@ -2392,6 +2396,8 @@ export function initApp(root: HTMLElement): void {
     }
   });
 
+  window.addEventListener("pagehide", saveRun);
+
   render();
 }
 
@@ -2401,13 +2407,6 @@ function getCombatBackground(src: string): HTMLImageElement | undefined {
   img.src = src;
   combatBackgroundCache[src] = img;
   return img;
-}
-
-function getAssetUrl(relativePath: string): string {
-  const base = import.meta.env.BASE_URL || "/";
-  const normalizedBase = base.endsWith("/") ? base : `${base}/`;
-  const normalizedPath = relativePath.startsWith("/") ? relativePath.slice(1) : relativePath;
-  return `${normalizedBase}${normalizedPath}`;
 }
 
 function closeCombatModal(): void {

@@ -1,3 +1,4 @@
+import { gameRandom } from "../random";
 /**
  * Example Integration: Procedural Event System
  * 
@@ -29,7 +30,7 @@ export function checkRandomEvent(
   encounterChance: number = 0.1
 ): void {
   // 10% chance per step by default
-  if (Math.random() < encounterChance) {
+  if (gameRandom() < encounterChance) {
     gameController.triggerProceduralEvent();
   }
 }
@@ -65,7 +66,7 @@ export function onCombatVictory(
   // Higher chance of event after difficult battles
   const eventChance = wasHardFight ? 0.5 : 0.2;
   
-  if (Math.random() < eventChance) {
+  if (gameRandom() < eventChance) {
     gameController.triggerProceduralEvent();
   }
 }
@@ -171,7 +172,7 @@ export class EventCooldown {
     currentStep: number,
     encounterChance: number = 0.1
   ): boolean {
-    if (this.canTriggerEvent(currentStep) && Math.random() < encounterChance) {
+    if (this.canTriggerEvent(currentStep) && gameRandom() < encounterChance) {
       gameController.triggerProceduralEvent();
       this.recordEventTriggered(currentStep);
       return true;

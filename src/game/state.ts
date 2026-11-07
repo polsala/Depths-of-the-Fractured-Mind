@@ -1,4 +1,6 @@
 import { getDepthMap } from "./exploration/map";
+import type { DepthMap } from "./exploration/map";
+import type { CombatState } from "./combat/state";
 
 export interface Stats {
   hp: number;
@@ -146,18 +148,18 @@ export interface GameState {
   currentEventId?: string;
   currentEncounterId?: string;
   gameOverCause?: GameOverCause;
-  combatState?: any; // Will be CombatState from combat/state.ts
-  depthMaps?: Map<number, any>; // Cache for generated maps (DepthMap type from exploration/map)
+  combatState?: CombatState;
+  depthMaps?: Map<number, DepthMap>;
 }
 
 export function createInitialGameState(): GameState {
   // Initialize map cache
-  const depthMaps = new Map();
+  const depthMaps = new Map<number, DepthMap>();
   
   // Get the starting map to get the correct starting position
   const startingMap = getDepthMap(1, depthMaps);
   
-  const initialState = {
+  const initialState: GameState = {
     party: {
       members: [],
     inventory: {
@@ -202,7 +204,7 @@ export function createInitialGameState(): GameState {
   
   // Mark starting tile as visited
   const startKey = `${initialState.location.depth}-${initialState.location.x}-${initialState.location.y}`;
-  initialState.flags.visitedTiles.add(startKey);
+  initialState.flags.visitedTiles?.add(startKey);
   
   return initialState;
 }

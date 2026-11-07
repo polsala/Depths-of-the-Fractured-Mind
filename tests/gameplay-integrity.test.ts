@@ -10,10 +10,6 @@ import { applyEventChoice, getChoiceUnavailableReason, getEventById, registerEve
 import { clearEventData, loadEventDataFile } from "../src/game/events/loader";
 import { getAvailableEvents } from "../src/game/events/procedural";
 
-vi.mock("../src/ui/audio", () => ({
-  audioManager: { playSfx: vi.fn(), playMusic: vi.fn() },
-}));
-
 function gameState(): GameState {
   const state = createInitialGameState();
   state.party = createDefaultParty();

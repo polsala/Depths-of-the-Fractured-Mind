@@ -86,6 +86,12 @@ jobs:
       - name: Validate events and run gameplay regression tests
         run: npm test
 
+      - name: Install headless Chromium
+        run: npx playwright install chromium-headless-shell
+
+      - name: Smoke-test save and resume in a browser
+        run: npm run test:smoke
+
   # Check for security vulnerabilities
   security:
     name: Security Check

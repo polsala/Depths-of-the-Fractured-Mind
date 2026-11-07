@@ -1,3 +1,5 @@
+import { emitSound } from "../sound";
+import { gameRandom } from "../random";
 import type { CharacterState } from "../state";
 import type { EnemyState } from "./engine";
 import type { CombatState, CombatAction } from "./state";
@@ -14,20 +16,16 @@ import {
 import { performBasicAttack, applyDamageToCharacter, applyDamageToEnemy } from "./engine";
 import { getAbility, type Ability, type AbilityEffect } from "../abilities";
 import { useItem, addItem, ITEMS } from "../inventory";
-import { audioManager } from "../../ui/audio";
 import { calculateExperienceReward, awardExperience, getCharacterExperience, getCharacterLevel, getExpToNextLevel } from "../experience";
 import { ENEMIES } from "../enemies";
 import { getBossDialogue } from "../boss-dialogues";
 
-// Track which bosses have shown their low health dialogue
-const lowHealthDialogueShown = new Set<string>();
-
-function hasShownLowHealthDialogue(_state: CombatState, bossId: string): boolean {
-  return lowHealthDialogueShown.has(bossId);
+function hasShownLowHealthDialogue(state: CombatState, bossId: string): boolean {
+  return state.shownLowHealthDialogues.includes(bossId);
 }
 
-function markLowHealthDialogueShown(_state: CombatState, bossId: string): void {
-  lowHealthDialogueShown.add(bossId);
+function markLowHealthDialogueShown(state: CombatState, bossId: string): void {
+  state.shownLowHealthDialogues.push(bossId);
 }
 
 // Helper function for type-safe stat modification
@@ -142,7 +140,7 @@ function executePlayerAction(state: CombatState): void {
   
   // Check if character is feared
   if (hasStatusEffect(character, "feared")) {
-    const roll = Math.random();
+    const roll = gameRandom();
     if (roll < 0.5) {
       addCombatLog(state, `${character.name} is too afraid to act!`, "status");
       return;
@@ -201,7 +199,7 @@ function executeEnemyAction(state: CombatState): void {
   if (aliveTargets.length === 0) return;
   
   const targetIndex = state.party.members.indexOf(
-    aliveTargets[Math.floor(Math.random() * aliveTargets.length)]
+    aliveTargets[Math.floor(gameRandom() * aliveTargets.length)]
   );
   
   // Get enemy data to check abilities
@@ -209,10 +207,10 @@ function executeEnemyAction(state: CombatState): void {
   if (enemyData && enemyData.abilities && enemyData.abilities.length > 0) {
     // 40% chance to use ability, higher for bosses
     const abilityChance = enemyData.type === "boss" ? 0.6 : 0.4;
-    const useAbility = Math.random() < abilityChance;
+    const useAbility = gameRandom() < abilityChance;
     
     if (useAbility) {
-      const abilityId = enemyData.abilities[Math.floor(Math.random() * enemyData.abilities.length)];
+      const abilityId = enemyData.abilities[Math.floor(gameRandom() * enemyData.abilities.length)];
       executeEnemyAbility(state, enemy, targetIndex, abilityId);
     } else {
       executeEnemyBasicAttack(state, enemy, targetIndex);
@@ -289,11 +287,11 @@ function handleVictory(state: CombatState): void {
   const loot: Array<{ id: string; quantity: number }> = [];
   // Consumable drops
   const lootTable = ["medkit", "sedative", "healing_potion", "sanity_tonic", "antidote", "bomb"];
-  const dropRoll = Math.random();
+  const dropRoll = gameRandom();
   const dropChance = Math.min(0.8, 0.2 + state.encounter.enemies.length * 0.1);
   if (dropRoll < dropChance) {
-    const itemId = lootTable[Math.floor(Math.random() * lootTable.length)];
-    const quantity = itemId === "bomb" ? 1 : 1 + Math.floor(Math.random() * 2);
+    const itemId = lootTable[Math.floor(gameRandom() * lootTable.length)];
+    const quantity = itemId === "bomb" ? 1 : 1 + Math.floor(gameRandom() * 2);
     if (addItem(state.party.inventory, itemId, quantity)) {
       loot.push({ id: itemId, quantity });
       addCombatLog(state, `Found loot: ${quantity}x ${itemId}`, "system");
@@ -335,8 +333,8 @@ function handleVictory(state: CombatState): void {
     });
   } else {
     const equipChance = Math.min(0.5, 0.15 + depth * 0.08);
-    if (Math.random() < equipChance && equipmentPool.length > 0) {
-      const equip = equipmentPool[Math.floor(Math.random() * equipmentPool.length)];
+    if (gameRandom() < equipChance && equipmentPool.length > 0) {
+      const equip = equipmentPool[Math.floor(gameRandom() * equipmentPool.length)];
       if (addItem(state.party.inventory, equip.id, 1)) {
         loot.push({ id: equip.id, quantity: 1 });
         addCombatLog(state, `Found equipment: ${equip.name}`, "system");
@@ -359,7 +357,7 @@ function handleVictory(state: CombatState): void {
     loot,
   };
   
-  audioManager.playSfx("ui_click"); // Victory sound
+  emitSound("ui_click"); // Victory sound
 }
 
 function executeBasicAttack(state: CombatState, action: CombatAction): void {
@@ -388,7 +386,7 @@ function executeBasicAttack(state: CombatState, action: CombatAction): void {
     }
     
     // Play hit sound
-    audioManager.playSfx(result.critical ? "hit_heavy" : "hit_light");
+    emitSound(result.critical ? "hit_heavy" : "hit_light");
   } else {
     addCombatLog(state, `${attacker.name} attacks ${target.name} but misses!`, "damage");
   }
@@ -415,7 +413,7 @@ function executeAbility(state: CombatState, action: CombatAction): void {
   applyAbilityEffects(state, ability, action.actorIndex, action.targetIndex);
   
   // Play ability sound
-  audioManager.playSfx("hit_light");
+  emitSound("hit_light");
 }
 
 function applyAbilityEffects(
@@ -551,7 +549,7 @@ function applyEffectsToEnemy(
         if (effect.value) {
           enemy.stats.sanity = Math.max(0, enemy.stats.sanity - effect.value);
           addCombatLog(state, `${enemy.name} loses ${effect.value} Sanity!`, "sanity");
-          audioManager.playSfx("sanity_tick");
+          emitSound("sanity_tick");
         }
         break;
       case "debuff":
@@ -626,7 +624,7 @@ function applyItemEffect(
       if (target) {
         target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 10);
         addCombatLog(state, `${target.name} recovers 10 Sanity!`, "sanity");
-        audioManager.playSfx("sanity_tick");
+        emitSound("sanity_tick");
       }
       break;
     case "healing_potion": {
@@ -650,7 +648,7 @@ function applyItemEffect(
       if (target) {
         target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + heal);
         addCombatLog(state, `${target.name} recovers ${heal} Sanity!`, "sanity");
-        audioManager.playSfx("sanity_tick");
+        emitSound("sanity_tick");
       }
       break;
     }
@@ -684,7 +682,7 @@ function applyItemEffect(
       break;
     }
     case "smoke_bomb":
-      if (!state.isBossFight && Math.random() < 0.9) {
+      if (!state.isBossFight && gameRandom() < 0.9) {
         state.phase = "fled";
         addCombatLog(state, "The smoke screen lets you escape!", "system");
       } else {
@@ -722,7 +720,7 @@ function attemptFlee(state: CombatState): void {
   // Flee chance scales with speed advantage; clamp between 10% and 95%
   const speedDelta = avgPlayerSpeed - avgEnemySpeed;
   const fleeChance = Math.min(0.95, Math.max(0.1, 0.4 + speedDelta * 0.03));
-  if (Math.random() < fleeChance) {
+  if (gameRandom() < fleeChance) {
     state.phase = "fled";
     addCombatLog(state, "Successfully fled from battle!", "system");
   } else {
@@ -754,9 +752,9 @@ function executeEnemyBasicAttack(
     
     if (!updatedCharacter.alive) {
       addCombatLog(state, `${target.name} has fallen!`, "system");
-      audioManager.playSfx("sanity_break");
+      emitSound("sanity_break");
     } else {
-      audioManager.playSfx(result.critical ? "hit_heavy" : "hit_light");
+      emitSound(result.critical ? "hit_heavy" : "hit_light");
     }
   } else {
     addCombatLog(state, `${enemy.name} attacks ${target.name} but misses!`, "damage");
@@ -797,7 +795,7 @@ function executeEnemyAbility(
       break;
   }
   
-  audioManager.playSfx("hit_light");
+  emitSound("hit_light");
 }
 
 function applyEnemyAbilityToSelf(
@@ -835,9 +833,9 @@ function applyEnemyAbilityToParty(
           
           if (!updatedCharacter.alive) {
             addCombatLog(state, `${target.name} has fallen!`, "system");
-            audioManager.playSfx("sanity_break");
+            emitSound("sanity_break");
           } else {
-            audioManager.playSfx("hit_light");
+            emitSound("hit_light");
           }
         }
         break;
@@ -845,7 +843,7 @@ function applyEnemyAbilityToParty(
         if (effect.value) {
           target.stats.sanity = Math.max(0, target.stats.sanity - effect.value);
           addCombatLog(state, `${target.name} loses ${effect.value} Sanity!`, "sanity");
-          audioManager.playSfx("sanity_tick");
+          emitSound("sanity_tick");
         }
         break;
       case "debuff":

@@ -1,3 +1,4 @@
+import { gameRandom } from "./random";
 import type { DebugOptions, GameLocation, GameState } from "./state";
 import { createInitialGameState } from "./state";
 import { createDefaultParty } from "./characters/party";
@@ -7,12 +8,14 @@ import { registerMandatoryEvents } from "./events/mandatory";
 import { loadEventDataFile } from "./events/loader";
 import { selectEventForLocation } from "./events/procedural";
 import { generateRandomEncounter, generateBossEncounter } from "./combat/encounters";
-import { createCombatState, type CombatAction, getCurrentActor } from "./combat/state";
+import { createCombatState, type CombatAction, getCurrentActor, isPartyDefeated } from "./combat/state";
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
 import { useItem, removeItem, addItem, ITEMS } from "./inventory";
 import { resolvePartyDefeat, transitionToGameOver } from "./defeat";
 import type { MapTile } from "./exploration/map";
+import type { RunSnapshot } from "./save";
+import { startRun, restoreRandomState, getRandomState, getRunSeed } from "./random";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
@@ -69,6 +72,7 @@ export class GameController {
 
   constructor() {
     registerMandatoryEvents();
+    startRun();
     this.state = createInitialGameState();
     this.state = {
       ...this.state,
@@ -107,6 +111,7 @@ export class GameController {
   }
 
   public newGame(): void {
+    startRun();
     this.state = {
       ...createInitialGameState(),
       party: createDefaultParty(),
@@ -114,6 +119,32 @@ export class GameController {
     this.state.party.inventory.money = 100;
     this.stepsSinceLastEvent = 0;
     this.lastProceduralEventId = null;
+  }
+
+  public returnToTitle(): void {
+    this.state.mode = "title";
+  }
+
+  public snapshot(): RunSnapshot {
+    const randomState = getRandomState();
+    const initialSeed = getRunSeed();
+    if (randomState === null || initialSeed === null) throw new Error("Run random state is unavailable");
+    return {
+      state: this.state,
+      initialSeed,
+      randomState,
+      stepsSinceLastEvent: this.stepsSinceLastEvent,
+      lastProceduralEventId: this.lastProceduralEventId,
+      savedAt: new Date().toISOString(),
+    };
+  }
+
+  public restore(snapshot: RunSnapshot): void {
+    if (snapshot.state.mode === "title") throw new Error("A title screen is not a resumable run");
+    restoreRandomState(snapshot.randomState, snapshot.initialSeed);
+    this.state = snapshot.state;
+    this.stepsSinceLastEvent = snapshot.stepsSinceLastEvent;
+    this.lastProceduralEventId = snapshot.lastProceduralEventId;
   }
   
   public triggerGameOver(): void {
@@ -178,7 +209,7 @@ export class GameController {
 
     // Apply to active combat state if present
     if (this.state.combatState?.party?.members) {
-      this.state.combatState.party.members.forEach((member: any) => {
+      this.state.combatState.party.members.forEach((member) => {
         member.stats.hp = 1;
         member.alive = true;
       });
@@ -377,7 +408,7 @@ export class GameController {
     
     // Submit and execute the action
     submitAction(this.state.combatState, action);
-    if (this.state.combatState.phase === "defeat") {
+    if (isPartyDefeated(this.state.combatState.party)) {
       this.state.party = this.state.combatState.party;
       this.state = resolvePartyDefeat(this.state, "combat");
     }
@@ -406,7 +437,7 @@ export class GameController {
       return;
     }
 
-    if (Math.random() < PROCEDURAL_EVENT_CHANCE) {
+    if (gameRandom() < PROCEDURAL_EVENT_CHANCE) {
       const previousMode = this.state.mode;
       this.triggerProceduralEvent();
       if (this.state.mode !== previousMode) {
@@ -485,7 +516,7 @@ export class GameController {
     if (!item?.equipment) return false;
     const { slot, requiredLevel, allowedCharacters } = item.equipment;
     const equipSlot = slot as import("./state").EquipmentSlot;
-    const level = (character as any).level || 1;
+    const level = character.level || 1;
     if (requiredLevel && level < requiredLevel) return false;
     if (allowedCharacters && !allowedCharacters.includes(character.id)) return false;
     // Ensure item in inventory
@@ -547,7 +578,7 @@ export class GameController {
   /**
    * Get current combat state
    */
-  public getCombatState(): any {
+  public getCombatState(): GameState["combatState"] {
     return this.state.combatState;
   }
 }

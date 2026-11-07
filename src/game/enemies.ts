@@ -1,3 +1,4 @@
+import { gameRandom } from "./random";
 import type { Stats } from "./state";
 
 export interface Enemy {
@@ -369,7 +370,7 @@ export function getRandomEnemy(depth: number, excludeBosses: boolean = true): En
   
   if (enemies.length === 0) return undefined;
   
-  return enemies[Math.floor(Math.random() * enemies.length)];
+  return enemies[Math.floor(gameRandom() * enemies.length)];
 }
 
 export function getBossForDepth(depth: number): Enemy | undefined {

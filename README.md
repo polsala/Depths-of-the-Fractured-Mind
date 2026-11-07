@@ -15,6 +15,7 @@ Depths of the Fractured Mind is a turn-based psychological horror dungeon crawle
 - **Combat:** Turn-based encounters and bosses (`src/game/combat`), driven by `GameController.startCombat`.
 - **Events & Narrative:** Data-driven events in `public/data/events.json` with mandatory/procedural hooks (`src/game/events/*`). Validate via `npm run validate:events`.
 - **Party/Inventory/Economy:** Party stats/equipment in `src/game/state` and `src/game/characters`; items/inventory/money in `src/game/inventory` and `src/game/items.ts`.
+- **Save/Continue:** Versioned browser save with map, combat and event checkpoints, plus JSON export/import (`src/game/save.ts`).
 - **Debug Panel:** In-game controls for combat tests, depth skip, one-hit kill, XP multiplier, and spawning showcase entities near the player (see `src/ui/app.ts`).
 
 ## 🛠️ Development
@@ -50,9 +51,12 @@ npm run ci
 npm run typecheck        # TypeScript type checking
 npm run validate:events  # Validate event JSON
 npm run test:unit        # Gameplay regression tests
+npm run test:smoke       # Production-build browser save/continue smoke (install browser first)
 npm run audit:security   # Dependency audit (fails on moderate or higher)
 npm test                 # Typecheck, event validation and gameplay tests
 ```
+
+For the browser smoke test, run `npx playwright install chromium-headless-shell` once. See [Save and Continue](docs/save-system.md) for browser storage, backup and recovery details.
 
 ## 🔄 CI/CD
 
