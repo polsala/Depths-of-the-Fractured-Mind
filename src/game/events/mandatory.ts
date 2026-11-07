@@ -23,6 +23,19 @@ function makeChoice(
  * They use the same IDs as the JSON versions to maintain compatibility.
  */
 const FALLBACK_EVENTS: Record<string, GameEvent> = {
+  first_corpse: {
+    id: "first_corpse",
+    title: "The First Body",
+    description: "A facility worker lies beside the stair. The absence of wounds is more frightening than any blood.",
+    choices: [
+      makeChoice({ id: "examine_body", label: "Examine the body", effect: {
+        truthDelta: 1, sanityDelta: -2, setFlags: { first_corpse_examined: true }, nextMode: "exploration",
+      } }),
+      makeChoice({ id: "pay_respects", label: "Pay respects and move on", effect: {
+        mercyDelta: 1, sanityDelta: -1, setFlags: { respects_paid: true }, nextMode: "exploration",
+      } }),
+    ],
+  },
   pit_fall_event: {
     id: "pit_fall_event",
     title: "The Broken Floor",

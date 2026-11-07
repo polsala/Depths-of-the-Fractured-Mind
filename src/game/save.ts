@@ -1,5 +1,6 @@
-import type { GameState, GameMode } from "./state";
+import type { GameState, GameMode, FinalDecision } from "./state";
 import type { DepthMap } from "./exploration/map";
+import { resolveEnding } from "./endings";
 
 export const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
 export const SAVE_VERSION = 1;
@@ -40,6 +41,7 @@ function stringArray(value: unknown): value is string[] {
 }
 
 const MODES: GameMode[] = ["title", "exploration", "combat", "event", "conversation", "ending", "gameover", "pause"];
+const FINAL_DECISIONS: FinalDecision[] = ["broadcast", "evacuate", "seal", "bind", "witness"];
 
 function validateMap(value: unknown, depth: number): value is DepthMap {
   if (!record(value) || value.depth !== depth || !Number.isInteger(value.width) || !Number.isInteger(value.height)) return false;
@@ -59,6 +61,10 @@ function validateState(value: unknown): asserts value is Record<string, unknown>
       !MODES.includes(value.mode as GameMode) || !Array.isArray(party.members) || party.members.length !== 4 ||
       !record(party.inventory) || !Array.isArray(party.inventory.items) || !record(flags.moral)) {
     throw new SaveFormatError("invalid", "The save contains invalid progression or party data.");
+  }
+  const moral = flags.moral as Record<string, unknown>;
+  if (["mercy", "cruelty", "truth", "denial"].some((key) => !finite(moral[key]) || (moral[key] as number) < 0)) {
+    throw new SaveFormatError("invalid", "The save contains invalid moral scores.");
   }
   if (value.mode === "title") throw new SaveFormatError("invalid", "A title screen is not a saved run.");
   if (!party.members.every((member) => record(member) && record(member.stats) &&
@@ -87,6 +93,16 @@ function validateState(value: unknown): asserts value is Record<string, unknown>
   }
   if (value.mode === "event" && typeof value.currentEventId !== "string") throw new SaveFormatError("invalid", "The event is missing.");
   if (value.mode === "conversation" && typeof value.currentDialogueId !== "string") throw new SaveFormatError("invalid", "The dialogue is missing.");
+  if (value.finalDecision !== undefined && !FINAL_DECISIONS.includes(value.finalDecision as FinalDecision)) {
+    throw new SaveFormatError("invalid", "The final decision is invalid.");
+  }
+  if (value.finalDecision !== undefined && value.mode !== "ending") {
+    throw new SaveFormatError("invalid", "The final decision is outside the ending.");
+  }
+  if (value.mode === "ending" && (location.depth !== 5 || !flags.bossDefeatedDepths.includes(5) ||
+      !party.members.some((member) => record(member) && member.alive && record(member.stats) && finite(member.stats.hp) && member.stats.hp > 0))) {
+    throw new SaveFormatError("invalid", "The ending is missing its final victory.");
+  }
   if (value.mode === "combat" && (!record(value.combatState) || !record(value.combatState.encounter) ||
       !Array.isArray(value.combatState.encounter.enemies) || !Array.isArray(value.combatState.turnOrder) ||
       !stringArray(value.combatState.shownLowHealthDialogues) ||
@@ -157,6 +173,9 @@ export function parseRun(raw: string): RunSnapshot {
     depthMaps: new Map(state.depthMaps),
   };
   if (restored.combatState) restored.combatState.party = restored.party;
+  if (restored.mode === "ending" && restored.finalDecision && !resolveEnding(restored)) {
+    throw new SaveFormatError("invalid", "The saved ending does not match the run's choices.");
+  }
   return {
     state: restored,
     initialSeed: parsed.initialSeed as number,

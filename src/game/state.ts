@@ -131,6 +131,7 @@ export type GameMode =
   | "pause";
 
 export type GameOverCause = "trap" | "event" | "combat" | "status";
+export type FinalDecision = "broadcast" | "evacuate" | "seal" | "bind" | "witness";
 
 export interface DebugOptions {
   disableEncounters?: boolean;
@@ -149,6 +150,7 @@ export interface GameState {
   currentDialogueId?: string;
   currentEncounterId?: string;
   gameOverCause?: GameOverCause;
+  finalDecision?: FinalDecision;
   combatState?: CombatState;
   depthMaps?: Map<number, DepthMap>;
 }
@@ -200,6 +202,7 @@ export function createInitialGameState(): GameState {
     currentEventId: undefined,
     currentDialogueId: undefined,
     currentEncounterId: undefined,
+    finalDecision: undefined,
     combatState: undefined,
     depthMaps,
   };

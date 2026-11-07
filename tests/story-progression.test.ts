@@ -90,14 +90,14 @@ describe("authored chapter path", () => {
   it("routes seeded maps to every chapter, forcing each beat before its boss", async () => {
     for (const seed of [1, 47, 2026]) {
       const controller = await controllerFor(seed);
-      for (let depth = 1; depth <= 4; depth++) {
+      for (let depth = 1; depth <= 5; depth++) {
         expect(routeExists(getDepthMap(depth, controller.getState().depthMaps))).toBe(true);
         approachStair(controller, depth);
-        const required = ({ 2: ["riot_recording_event", "pit_fall_event"], 3: ["overflow_ward_event"], 4: ["confessional_chair_event"] } as Record<number, string[]>)[depth] ?? [];
+        const required = ({ 1: ["first_corpse"], 2: ["riot_recording_event", "pit_fall_event"], 3: ["overflow_ward_event"], 4: ["confessional_chair_event"] } as Record<number, string[]>)[depth] ?? [];
         for (const id of required) {
           expect(controller.getState().mode).toBe("event");
           expect(controller.getState().currentEventId).toBe(id);
-          const choice = ({ riot_recording_event: "deny_recording", pit_fall_event: "abandon", overflow_ward_event: "leave_ward", confessional_chair_event: "refuse_engage" } as Record<string, string>)[id];
+          const choice = ({ first_corpse: "pay_respects", riot_recording_event: "deny_recording", pit_fall_event: "abandon", overflow_ward_event: "leave_ward", confessional_chair_event: "refuse_engage" } as Record<string, string>)[id];
           controller.chooseEventChoice(choice);
           expect(controller.getState().flags.completedEventIds?.has(id)).toBe(true);
         }
@@ -107,8 +107,13 @@ describe("authored chapter path", () => {
         // This test isolates story routing. Combat action balance is covered elsewhere.
         controller.getCombatState()!.phase = "victory";
         controller.endCombat();
-        approachStair(controller, depth);
-        expect(controller.getState().location.depth).toBe(depth + 1);
+        if (depth < 5) {
+          expect(controller.getState().location.depth).toBe(depth + 1);
+        } else {
+          expect(controller.getState().mode).toBe("ending");
+          expect(controller.chooseEnding("seal")).toBe(true);
+          expect(controller.getState().finalDecision).toBe("seal");
+        }
       }
       expect(controller.getState().location.depth).toBe(5);
     }

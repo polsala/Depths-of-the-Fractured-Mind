@@ -756,7 +756,7 @@
       ],
       "metadata": {
         "id": "first_corpse",
-        "category": "optional",
+        "category": "mandatory",
         "triggerConditions": {
           "minDepth": 1,
           "maxDepth": 1

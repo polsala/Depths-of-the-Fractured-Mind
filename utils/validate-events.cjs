@@ -237,6 +237,7 @@ function validateEvents() {
   // Check critical event IDs that are hardcoded in the source
   console.log('\n=== Critical Event Validation ===\n');
   const criticalEventIds = [
+    'first_corpse',
     'pit_fall_event',
     'overflow_ward_event', 
     'riot_recording_event',

@@ -12,6 +12,7 @@ import { createCombatState, type CombatAction, getCurrentActor, isPartyDefeated 
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
 import { isRequiredBeat } from "./story";
+import { getEndingOptions } from "./endings";
 import { NPCS, getDialogue, getDialogueChoiceUnavailableReason, markDialogueShown, shouldShowDialogue } from "./dialogue";
 import { applyEventEffect } from "./events/resolvers";
 import { useItem, removeItem, addItem, ITEMS } from "./inventory";
@@ -629,21 +630,39 @@ export class GameController {
       return;
     }
     if (this.state.combatState.phase !== "victory" && this.state.combatState.phase !== "fled") return;
+    const victoriousBossDepth = this.state.combatState.phase === "victory" && this.state.combatState.isBossFight
+      ? this.state.combatState.combatDepth : undefined;
     
     // Sync party state back from combat
     this.state.party = this.state.combatState.party;
+    this.state = resolvePartyDefeat(this.state, "combat");
+    if (this.state.mode === "gameover") return;
     
     // Mark boss defeated for this depth
-    if (this.state.combatState.phase === "victory" && this.state.combatState.isBossFight && this.state.combatState.combatDepth) {
-      const depth = this.state.combatState.combatDepth;
+    if (victoriousBossDepth) {
       if (!this.state.flags.bossDefeatedDepths) {
         this.state.flags.bossDefeatedDepths = new Set<number>();
       }
-      this.state.flags.bossDefeatedDepths.add(depth);
+      this.state.flags.bossDefeatedDepths.add(victoriousBossDepth);
     }
     
     this.state.combatState = undefined;
     this.state.mode = "exploration";
+    this.state.currentEncounterId = undefined;
+    if (victoriousBossDepth === this.state.location.depth &&
+        getDepthMap(this.state.location.depth, this.state.depthMaps)
+          .tiles[this.state.location.y]?.[this.state.location.x]?.type === "stairsDown") {
+      this.state = resolveDownStairs(this.state);
+    }
+  }
+
+  public chooseEnding(decision: import("./state").FinalDecision): boolean {
+    if (this.state.mode !== "ending" || this.state.finalDecision ||
+        !this.state.flags.bossDefeatedDepths?.has(5) ||
+        !this.state.party.members.some((member) => member.alive && member.stats.hp > 0)) return false;
+    if (!getEndingOptions(this.state).some((option) => option.id === decision && !option.unavailableReason)) return false;
+    this.state = { ...this.state, finalDecision: decision };
+    return true;
   }
 
   /**

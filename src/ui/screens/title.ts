@@ -116,10 +116,9 @@ export function renderTitle(
   const flavorText = document.createElement("div");
   flavorText.className = "title-flavor";
   flavorText.innerHTML = `
-    <p>Four souls descend into the abandoned facility...</p>
-    <p>Seeking truth, redemption, or merely escape.</p>
-    <p>But the depths hold more than darkness.</p>
-    <p>They hold guilt made manifest.</p>
+    <p>The Engine beneath the abandoned Facility is still awake.</p>
+    <p>Four people who once served it return to stop it—and face what they did.</p>
+    <p>Follow the evidence, survive the five Depths, and decide what reaches daylight.</p>
   `;
   titleContainer.appendChild(flavorText);
 }
