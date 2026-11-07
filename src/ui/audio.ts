@@ -1,10 +1,11 @@
 import { assetUrl } from "../assets/manifest";
+import { readPreferences, updatePreferences } from "./preferences";
 
 class AudioManager {
   private currentMusic?: HTMLAudioElement;
   private currentTrackName?: string;
-  private musicVolume = 0.7;
-  private sfxVolume = 0.8;
+  private musicVolume = readPreferences().music / 100;
+  private sfxVolume = readPreferences().sfx / 100;
 
   private clampVolume(value: number): number {
     if (Number.isNaN(value)) return 0;
@@ -40,6 +41,7 @@ class AudioManager {
 
   public setMusicVolume(volume: number): void {
     this.musicVolume = this.clampVolume(volume);
+    updatePreferences({ music: Math.round(this.musicVolume * 100) });
     if (this.currentMusic) {
       this.currentMusic.volume = this.musicVolume;
     }
@@ -54,6 +56,7 @@ class AudioManager {
 
   public setSfxVolume(volume: number): void {
     this.sfxVolume = this.clampVolume(volume);
+    updatePreferences({ sfx: Math.round(this.sfxVolume * 100) });
   }
 }
 

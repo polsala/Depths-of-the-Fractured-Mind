@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
 
-test("desktop and mobile combat show enemy bodies, telegraphs, and skippable effects", async ({ browser }) => {
+test("desktop and mobile combat show enemy bodies, telegraphs, and skippable effects", async ({ browser }, testInfo) => {
   for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
-    let context = await browser.newContext({ viewport, reducedMotion: viewport.width < 500 ? "reduce" : "no-preference" });
+    let context = await browser.newContext({ viewport, hasTouch: viewport.width < 500, reducedMotion: viewport.width < 500 ? "reduce" : "no-preference" });
     let page = await context.newPage();
     const errors: string[] = [];
     await page.goto("./");
@@ -32,7 +33,7 @@ test("desktop and mobile combat show enemy bodies, telegraphs, and skippable eff
     }, SAVE_KEY);
     const origin = new URL(page.url()).origin;
     await context.close();
-    context = await browser.newContext({ viewport, reducedMotion: viewport.width < 500 ? "reduce" : "no-preference",
+    context = await browser.newContext({ viewport, hasTouch: viewport.width < 500, reducedMotion: viewport.width < 500 ? "reduce" : "no-preference",
       storageState: { cookies: [], origins: [{ origin, localStorage: [{ name: SAVE_KEY, value: raw }] }] } });
     page = await context.newPage();
     page.on("pageerror", (error) => errors.push(error.message));
@@ -40,10 +41,23 @@ test("desktop and mobile combat show enemy bodies, telegraphs, and skippable eff
     await page.getByRole("button", { name: /Continue · Depth 1/ }).click();
     const canvas = page.locator(".combat-container canvas");
     await expect(canvas).toBeVisible();
-    await expect(page.getByRole("button", { name: "Toggle combat motion effects" }))
+    for (const action of ["Attack", "Abilities", "Items", "Defend", "Flee"]) {
+      await expect(page.getByRole("button", { name: action, exact: true })).toBeVisible();
+    }
+    await page.screenshot({ path: testInfo.outputPath(`combat-${viewport.width}.png`) });
+    if (viewport.width < 500) {
+      const gridColumns = await page.locator(".combat-action-grid").evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(" ").length);
+      expect(gridColumns).toBe(2);
+      const canvasBox = await canvas.boundingBox();
+      const actionBox = await page.getByRole("button", { name: "Attack", exact: true }).boundingBox();
+      expect(canvasBox && actionBox && actionBox.y >= canvasBox.y + canvasBox.height).toBe(true);
+      const fleeBox = await page.getByRole("button", { name: "Flee", exact: true }).boundingBox();
+      expect(fleeBox && fleeBox.y + fleeBox.height).toBeLessThanOrEqual(viewport.height);
+    }
+    await expect(page.getByRole("button", { name: /Effects: (On|Off)/ }))
       .toHaveText(viewport.width < 500 ? "Effects: Off" : "Effects: On");
-    await page.getByRole("button", { name: "Toggle combat motion effects" }).click();
-    await expect(page.getByRole("button", { name: "Toggle combat motion effects" }))
+    await page.getByRole("button", { name: /Effects: (On|Off)/ }).click();
+    await expect(page.getByRole("button", { name: /Effects: (On|Off)/ }))
       .toHaveText(viewport.width < 500 ? "Effects: On" : "Effects: Off");
     const pixels = await canvas.evaluate((element: HTMLCanvasElement) => {
       const ctx = element.getContext("2d")!;
@@ -62,7 +76,16 @@ test("desktop and mobile combat show enemy bodies, telegraphs, and skippable eff
     });
     expect(pixels.center).toBeGreaterThan(8);
     expect(pixels.center).toBeGreaterThan(pixels.left);
-    if (process.env.CAPTURE_COMBAT) await page.screenshot({ path: `/tmp/pack6-${viewport.width}.png`, fullPage: true });
+    const accessibility = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+    expect(accessibility.violations.map((violation) => violation.id)).toEqual([]);
+    if (viewport.width < 500) {
+      await page.getByRole("button", { name: "Attack", exact: true }).tap();
+      const targets = page.getByRole("dialog", { name: "Select enemy" });
+      await expect(targets).toBeVisible();
+      await targets.getByRole("button", { name: /Deranged Guard/ }).tap();
+      await expect(targets).toHaveCount(0);
+      await expect(page.locator(".combat-container canvas")).toBeVisible();
+    }
     expect(errors).toEqual([]);
     await context.close();
   }

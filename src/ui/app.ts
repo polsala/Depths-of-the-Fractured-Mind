@@ -3,6 +3,7 @@ import type { GameEvent } from "../game/events/engine";
 import { getChoiceUnavailableReason, getEventById } from "../game/events/engine";
 import { GameController } from "../game/index";
 import { audioManager } from "./audio";
+import { readPreferences, updatePreferences } from "./preferences";
 import { renderTitle, resetTitleMusic } from "./screens/title";
 import { renderGameOver } from "./screens/game-over";
 import { renderDialogue } from "./screens/dialogue";
@@ -35,7 +36,7 @@ import {
 } from "../graphics/combat-ui";
 import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
-import { getCharacterAbilities, canUseAbility } from "../game/abilities";
+import { getCharacterAbilities, canUseAbility, getAbility } from "../game/abilities";
 import { ITEMS } from "../game/inventory";
 import { getCharacterLevel } from "../game/experience";
 import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "../utils/platform";
@@ -58,7 +59,91 @@ let partyMotionUntil = 0;
 let partyMotionFacing: "north" | "south" | "east" | "west" = "north";
 
 function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const choice = readPreferences().motion;
+  return choice === "reduced" || (choice === "system" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+}
+
+function activateDialog(overlay: HTMLElement, panel: HTMLElement, label: string, close: () => void): void {
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", label);
+  panel.classList.add("modal-panel");
+  const opener = document.activeElement as HTMLElement | null;
+  overlay.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") { event.preventDefault(); close(); return; }
+    if (event.key !== "Tab") return;
+    const controls = [...overlay.querySelectorAll<HTMLElement>("button:not(:disabled), input:not(:disabled), select:not(:disabled), [href]")]
+      .filter((element) => element.getClientRects().length > 0);
+    if (!controls.length) return;
+    if (event.shiftKey && document.activeElement === controls[0]) { event.preventDefault(); controls.at(-1)?.focus(); }
+    else if (!event.shiftKey && document.activeElement === controls.at(-1)) { event.preventDefault(); controls[0].focus(); }
+  });
+  const observer = new MutationObserver(() => {
+    if (overlay.isConnected) return;
+    observer.disconnect();
+    if (opener?.isConnected) opener.focus();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  requestAnimationFrame(() => {
+    if (overlay.isConnected) (overlay.querySelector<HTMLElement>("button:not(:disabled), input:not(:disabled), select:not(:disabled)") ?? panel).focus();
+  });
+}
+
+function renderSettings(root: HTMLElement, rerender: () => void): void {
+  const preferences = readPreferences();
+  const settings = document.createElement("details");
+  settings.className = "settings-control";
+  const summary = document.createElement("summary");
+  summary.textContent = "Settings";
+  settings.appendChild(summary);
+  const panel = document.createElement("div");
+  panel.className = "settings-panel";
+  panel.innerHTML = "<h2>Audio & display</h2>";
+
+  const slider = (name: string, value: number, onChange: (value: number) => void) => {
+    const label = document.createElement("label");
+    label.textContent = `${name}: ${value}%`;
+    const input = document.createElement("input");
+    input.type = "range"; input.min = "0"; input.max = "100"; input.value = String(value);
+    input.setAttribute("aria-label", `${name} volume`);
+    input.addEventListener("input", () => {
+      label.firstChild!.textContent = `${name}: ${input.value}%`;
+      onChange(Number(input.value));
+    });
+    label.appendChild(input); panel.appendChild(label);
+  };
+  slider("Music", preferences.music, (value) => audioManager.setMusicVolume(value / 100));
+  slider("SFX", preferences.sfx, (value) => audioManager.setSfxVolume(value / 100));
+
+  const motionLabel = document.createElement("label");
+  motionLabel.textContent = "Motion";
+  const motion = document.createElement("select");
+  for (const [value, label] of [["system", "Follow device"], ["reduced", "Reduce"], ["full", "Full"]]) {
+    const option = document.createElement("option");
+    option.value = value; option.textContent = label; motion.appendChild(option);
+  }
+  motion.value = preferences.motion;
+  motion.addEventListener("change", () => { updatePreferences({ motion: motion.value as typeof preferences.motion }); rerender(); });
+  motionLabel.appendChild(motion); panel.appendChild(motionLabel);
+
+  const textLabel = document.createElement("label");
+  textLabel.textContent = "Text size";
+  const textSize = document.createElement("select");
+  for (const value of [100, 125, 150, 200]) {
+    const option = document.createElement("option");
+    option.value = String(value); option.textContent = `${value}%`; textSize.appendChild(option);
+  }
+  textSize.value = String(preferences.textScale);
+  textSize.addEventListener("change", () => {
+    const next = updatePreferences({ textScale: Number(textSize.value) });
+    document.documentElement.style.fontSize = `${next.textScale}%`;
+  });
+  textLabel.appendChild(textSize); panel.appendChild(textLabel);
+  settings.appendChild(panel);
+  settings.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") { settings.open = false; summary.focus(); }
+  });
+  root.prepend(settings);
 }
 
 function animateCanvas(canvas: HTMLCanvasElement, draw: (now: number) => void): void {
@@ -116,6 +201,13 @@ function refreshExploration(root: HTMLElement, state: GameState, controller: Gam
     facing: performance.now() < partyMotionUntil ? partyMotionFacing : undefined,
     timeMs: performance.now(), reducedMotion: prefersReducedMotion(),
   });
+  const partyDescription = root.querySelector<HTMLElement>(".party-description");
+  if (partyDescription) partyDescription.textContent = state.party.members.map((member) =>
+    `${member.name}: ${member.alive ? "alive" : "fallen"}, HP ${member.stats.hp}/${member.stats.maxHp}, sanity ${member.stats.sanity}/${member.stats.maxSanity}${member.statusEffects.length ? `, ${member.statusEffects.join(", ")}` : ""}`).join("; ");
+  root.querySelector(".dungeon-viewport")?.setAttribute("aria-label",
+    `First-person view, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facing)}`);
+  root.querySelector(".minimap-panel")?.setAttribute("aria-label",
+    `Map of depth ${state.location.depth}; current position ${state.location.x}, ${state.location.y}`);
   const vendorButton = root.querySelector<HTMLButtonElement>(".vendor-button");
   if (vendorButton) vendorButton.hidden = !state.depthMaps?.get(state.location.depth)?.tiles[state.location.y]?.[state.location.x]?.vendor;
   const npcButton = root.querySelector<HTMLButtonElement>(".npc-button");
@@ -200,6 +292,7 @@ function renderMinimapModal(
     });
 
     document.body.appendChild(minimapModal);
+    activateDialog(minimapModal, modal, "Expanded minimap", closeMinimapModal);
   }
 
   if (minimapModalCanvas && minimapModalConfig) {
@@ -249,6 +342,8 @@ function renderExploration(
   // Create and add dungeon viewport canvas
   const viewportCanvas = document.createElement("canvas");
   viewportCanvas.className = "dungeon-viewport";
+  viewportCanvas.setAttribute("role", "img");
+  viewportCanvas.setAttribute("aria-label", `First-person view, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facingDirection)}`);
   viewportContainer.appendChild(viewportCanvas);
 
   // Always create a new renderer context for the new canvas with responsive size
@@ -309,6 +404,8 @@ function renderExploration(
 
       const minimapCanvas = document.createElement("canvas");
       minimapCanvas.className = "minimap-panel";
+      minimapCanvas.setAttribute("role", "img");
+      minimapCanvas.setAttribute("aria-label", `Map of depth ${state.location.depth}; current position ${state.location.x}, ${state.location.y}`);
       minimapCanvas.style.flex = "1 1 auto";
       minimapWrapper.appendChild(minimapCanvas);
 
@@ -379,6 +476,7 @@ function renderExploration(
   `;
   const partyCanvas = document.createElement("canvas");
   partyCanvas.className = "party-panel";
+  partyCanvas.setAttribute("aria-hidden", "true");
   partyCanvas.style.width = "100%";
   partyWrapper.appendChild(partyCanvas);
   infoPanel.appendChild(partyWrapper);
@@ -395,6 +493,11 @@ function renderExploration(
     portraitSize: portraitSizeForParty,
     timeMs: performance.now(), reducedMotion: prefersReducedMotion(),
   });
+  const partyDescription = document.createElement("p");
+  partyDescription.className = "party-description";
+  partyDescription.textContent = state.party.members.map((member) =>
+    `${member.name}: ${member.alive ? "alive" : "fallen"}, HP ${member.stats.hp}/${member.stats.maxHp}, sanity ${member.stats.sanity}/${member.stats.maxSanity}${member.statusEffects.length ? `, ${member.statusEffects.join(", ")}` : ""}`).join("; ");
+  partyWrapper.appendChild(partyDescription);
   animateCanvas(partyCanvas, (now) => {
     const current = controller.getState();
     if (current.mode !== "exploration") return;
@@ -526,8 +629,10 @@ function renderExploration(
       },
     });
 
-    // Append mobile controls to body (not to root, since root gets cleared)
-    document.body.appendChild(mobileControls.container);
+    // Keep controls in document flow, adjacent to the view they operate. A
+    // fixed overlay obscured the minimap and essential actions at phone sizes.
+    mobileControls.container.setAttribute("aria-label", "Touch movement and turning controls");
+    viewportContainer.appendChild(mobileControls.container);
   } else {
     // Clean up mobile controls on desktop
     if (mobileControls) {
@@ -561,6 +666,7 @@ function renderExploration(
   debugSection.appendChild(bossCombatBtn);
 
   const bossSelect = document.createElement("select");
+  bossSelect.setAttribute("aria-label", "Boss depth for developer test");
   bossSelect.style.marginLeft = "8px";
   [1, 2, 3, 4, 5].forEach((depth) => {
     const opt = document.createElement("option");
@@ -727,35 +833,9 @@ function renderExploration(
     modal.appendChild(closeBtn);
     overlay.appendChild(modal);
     root.appendChild(overlay);
+    activateDialog(overlay, modal, "Chest loot", () => { controller.clearChestLoot(); overlay.remove(); rerender(); });
   }
 
-  // Audio controls
-  const audioControls = document.createElement("div");
-  audioControls.className = "audio-controls";
-  audioControls.innerHTML = `
-    <p><strong>Audio:</strong></p>
-    <label>Music: <input type="range" id="music-volume" min="0" max="100" value="70" /></label>
-    <label>SFX: <input type="range" id="sfx-volume" min="0" max="100" value="80" /></label>
-  `;
-  infoPanel.appendChild(audioControls);
-
-  // Add event listeners for volume controls
-  const musicVolumeControl = audioControls.querySelector("#music-volume") as HTMLInputElement;
-  const sfxVolumeControl = audioControls.querySelector("#sfx-volume") as HTMLInputElement;
-
-  if (musicVolumeControl) {
-    musicVolumeControl.addEventListener("input", (e) => {
-      const target = e.target as HTMLInputElement;
-      audioManager.setMusicVolume(parseInt(target.value, 10) / 100);
-    });
-  }
-
-  if (sfxVolumeControl) {
-    sfxVolumeControl.addEventListener("input", (e) => {
-      const target = e.target as HTMLInputElement;
-      audioManager.setSfxVolume(parseInt(target.value, 10) / 100);
-    });
-  }
 }
 
 function renderEvent(
@@ -939,10 +1019,11 @@ function renderCombat(
   effectToggle.type = "button";
   effectToggle.className = "combat-effects-toggle";
   effectToggle.textContent = `Effects: ${effectsEnabled ? "On" : "Off"}`;
-  effectToggle.setAttribute("aria-label", "Toggle combat motion effects");
+  effectToggle.setAttribute("aria-pressed", String(effectsEnabled));
   effectToggle.addEventListener("click", () => {
     effectsEnabled = !effectsEnabled;
     effectToggle.textContent = `Effects: ${effectsEnabled ? "On" : "Off"}`;
+    effectToggle.setAttribute("aria-pressed", String(effectsEnabled));
     if (!effectsEnabled) combatVisualCue = null;
     drawCombatFrame(performance.now());
   });
@@ -972,9 +1053,31 @@ function renderCombat(
 
   // Combat canvas
   const combatCanvas = document.createElement("canvas");
+  combatCanvas.setAttribute("aria-hidden", "true");
   combatCanvas.style.maxWidth = "100%";
   combatCanvas.style.boxShadow = "0 8px 24px rgba(0,0,0,0.45)";
   combatView.appendChild(combatCanvas);
+  const textSummary = document.createElement("section");
+  textSummary.className = "combat-text-summary";
+  textSummary.setAttribute("aria-label", "Combat status and enemy intentions");
+  const roundHeading = document.createElement("h2");
+  roundHeading.textContent = `Round ${combatState.turn} · ${combatState.phase}`;
+  textSummary.appendChild(roundHeading);
+  const enemiesText = document.createElement("p");
+  enemiesText.textContent = "Enemies: " + combatState.encounter.enemies.map((enemy, index) => {
+    const intent = combatState.enemyIntents?.[index];
+    const ability = intent?.abilityId ? getAbility(intent.abilityId) : undefined;
+    const target = ability?.targetType === "self" ? "self"
+      : ability?.targetType === "all-enemies" ? "all party members"
+      : combatState.party.members[intent?.targetIndex ?? -1]?.name ?? "unknown target";
+    return `${enemy.name}: ${enemy.alive ? `${enemy.stats.hp}/${enemy.stats.maxHp} HP, ${enemy.statusEffects.join(", ") || "no status"}; plans ${ability?.name ?? "Attack"} on ${target}` : "defeated"}`;
+  }).join("; ");
+  textSummary.appendChild(enemiesText);
+  const partyText = document.createElement("p");
+  partyText.textContent = "Party: " + combatState.party.members.map((member) =>
+    `${member.name}: ${member.alive ? `${member.stats.hp}/${member.stats.maxHp} HP, ${member.stats.sanity}/${member.stats.maxSanity} sanity, ${member.statusEffects.join(", ") || "no status"}` : "fallen"}`).join("; ");
+  textSummary.appendChild(partyText);
+  combatContainer.appendChild(textSummary);
   const drawCombatFrame = (now: number) => {
     const latestState = controller.getCombatState();
     if (!latestState) return;
@@ -996,6 +1099,7 @@ function renderCombat(
 
   // Bottom section: Controls and log
   const controlsSection = document.createElement("div");
+  controlsSection.className = "combat-controls-section";
   controlsSection.style.cssText = `
     display: flex;
     justify-content: center;
@@ -1304,6 +1408,7 @@ function renderCombat(
     panel.appendChild(closeBtn);
     overlay.appendChild(panel);
     combatContainer.appendChild(overlay);
+    activateDialog(overlay, panel, "Victory rewards", () => handleAction({ type: "end-combat" }));
   }
 
   const openCombatModal = (
@@ -1378,6 +1483,7 @@ function renderCombat(
 
     document.body.appendChild(overlay);
     combatActionModal = overlay;
+    activateDialog(overlay, modal, title, closeCombatModal);
   };
 
   const submitAbilityAction = (abilityId: string, targetIndex?: number) => {
@@ -1954,6 +2060,7 @@ function openPartyStatusModal(state: GameState, controller: GameController, rere
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  activateDialog(overlay, modal, "Party status", () => overlay.remove());
 }
 
 function openAbilityListModal(member: GameState["party"]["members"][number]): void {
@@ -2035,6 +2142,7 @@ function openAbilityListModal(member: GameState["party"]["members"][number]): vo
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  activateDialog(overlay, modal, `${member.name} abilities`, () => overlay.remove());
 }
 
 function openEquipModal(
@@ -2139,6 +2247,7 @@ function openEquipModal(
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  activateDialog(overlay, modal, `Equip ${slot} for ${member.name}`, () => overlay.remove());
 }
 
 function openInventoryModal(state: GameState, controller: GameController, rerender: () => void): void {
@@ -2237,6 +2346,7 @@ function openInventoryModal(state: GameState, controller: GameController, rerend
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  activateDialog(overlay, modal, "Inventory", () => overlay.remove());
 }
 
 function openInventoryUseModal(
@@ -2312,6 +2422,7 @@ function openInventoryUseModal(
 
   overlay.appendChild(modal);
   document.body.appendChild(overlay);
+  activateDialog(overlay, modal, `Use ${ITEMS[itemId]?.name ?? itemId}`, () => overlay.remove());
 }
 
 export function initApp(root: HTMLElement): void {
@@ -2405,6 +2516,9 @@ export function initApp(root: HTMLElement): void {
   let renderedDepth = -1;
 
   const render = (): void => {
+    const preferences = readPreferences();
+    document.documentElement.style.fontSize = `${preferences.textScale}%`;
+    document.documentElement.dataset.motion = preferences.motion;
     const state = controller.getState();
     if (state.mode !== "title") saveRun();
     if (state.mode === "exploration" && renderedMode === "exploration" &&
@@ -2477,9 +2591,12 @@ export function initApp(root: HTMLElement): void {
     }
     renderedMode = state.mode;
     renderedDepth = state.location.depth;
+    renderSettings(root, render);
   };
 
   window.addEventListener("keydown", (event) => {
+    const target = event.target as HTMLElement | null;
+    if (target?.closest("button, input, select, textarea, a, summary, [role='dialog'], [contenteditable='true']")) return;
     const state = controller.getState();
     if (state.mode === "exploration") {
       if (event.key.toLowerCase() === "t" && controller.startDialogue()) {
@@ -2493,14 +2610,17 @@ export function initApp(root: HTMLElement): void {
 
       // Rotation controls
       if (event.key.toLowerCase() === "q") {
+        event.preventDefault();
         state.location.direction = rotateCounterClockwise(state.location.direction);
         render();
       } else if (event.key.toLowerCase() === "e") {
+        event.preventDefault();
         state.location.direction = rotateClockwise(state.location.direction);
         render();
       }
       // Movement controls - direction-relative
       else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
+        event.preventDefault();
         const prevState = controller.getState();
         controller.moveForward();
         const newState = controller.getState();
@@ -2508,6 +2628,7 @@ export function initApp(root: HTMLElement): void {
           render();
         }
       } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
+        event.preventDefault();
         const prevState = controller.getState();
         controller.moveBackward();
         const newState = controller.getState();
@@ -2515,6 +2636,7 @@ export function initApp(root: HTMLElement): void {
           render();
         }
       } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
+        event.preventDefault();
         const prevState = controller.getState();
         controller.strafeLeft();
         const newState = controller.getState();
@@ -2522,6 +2644,7 @@ export function initApp(root: HTMLElement): void {
           render();
         }
       } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
+        event.preventDefault();
         const prevState = controller.getState();
         controller.strafeRight();
         const newState = controller.getState();
