@@ -39,6 +39,7 @@ export const ELIAS_ABILITIES: Record<string, Ability> = {
     cost: { sanity: 2 },
     effects: [
       { type: "buff", stat: "defense", value: 5, duration: 2 },
+      { type: "status", statusEffect: "taunting", duration: 2 },
     ],
     unlockLevel: 1,
   },
@@ -272,7 +273,7 @@ export const ANYA_ABILITIES: Record<string, Ability> = {
     description: "Soothing prayer that restores sanity and HP.",
     characterId: "anya",
     targetType: "all-allies",
-    cost: {},
+    cost: { sanity: 8 },
     effects: [
       { type: "sanity-heal", value: 6 },
       { type: "heal", value: 5 },

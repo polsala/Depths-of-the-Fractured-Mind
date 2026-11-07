@@ -70,6 +70,7 @@ export interface CharacterState {
   level?: number;
   experience?: number;
   statusEffects: string[];
+  statusTurns?: Record<string, number>;
   alive: boolean;
   equipment?: Partial<Record<EquipmentSlot, string | null>>;
 }

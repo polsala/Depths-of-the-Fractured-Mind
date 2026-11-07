@@ -1,13 +1,18 @@
 import type { CombatState } from "../game/combat/state";
 import type { CharacterId } from "../game/state";
 import { drawHero, type HeroAnimation } from "../assets/hero-sprites";
-import { getAliveEnemies, getCurrentActor } from "../game/combat/state";
+import { drawEnemy } from "../assets/enemy-visuals";
+import { getAbility } from "../game/abilities";
+import { getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
 
 export interface CombatVisualCue {
   actorId: CharacterId;
   animation: "attack" | "cast";
   hitIds: CharacterId[];
+  enemyHits?: Array<{ index: number; damage: number }>;
+  enemyActorIndex?: number;
+  partyHeals?: Array<{ id: CharacterId; amount: number }>;
   startedAt: number;
 }
 
@@ -62,7 +67,7 @@ export function renderCombatUI(
   const bottomHeight = options.height - topHeight;
 
   // Top: Enemies
-  renderEnemies(ctx, state, 0, 0, options.width, topHeight);
+  renderEnemies(ctx, state, 0, 0, options.width, topHeight, options);
 
   // Bottom: Party
   renderParty(ctx, state, 0, topHeight, options.width, bottomHeight, options);
@@ -74,23 +79,42 @@ function renderEnemies(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  options: CombatUIOptions,
 ): void {
   ctx.fillStyle = COLORS.panel;
   ctx.fillRect(x, y, width, height);
+  ctx.fillStyle = COLORS.textDim;
+  ctx.font = "bold 10px monospace";
+  ctx.textAlign = "left";
+  ctx.fillText(`TURN ${state.turn} · ENEMY INTENT`, x + 8, y + 14);
 
-  const aliveEnemies = getAliveEnemies(state.encounter);
-  if (aliveEnemies.length === 0) return;
+  const enemies = state.encounter.enemies;
+  if (enemies.length === 0) return;
+  const enemyWidth = Math.min(210, Math.floor(width / enemies.length) - 10);
+  const startX = Math.floor((width - enemyWidth * enemies.length - 10 * (enemies.length - 1)) / 2);
+  const now = options.nowMs ?? 0;
+  const cue = options.visualCue;
+  const cueActive = !!cue && now >= cue.startedAt && now - cue.startedAt < 650;
 
-  const enemyWidth = Math.min(120, Math.floor(width / aliveEnemies.length) - 10);
-  const startX = Math.floor((width - enemyWidth * aliveEnemies.length) / 2);
-
-  aliveEnemies.forEach((enemy, index) => {
+  enemies.forEach((enemy, index) => {
     const enemyX = startX + index * (enemyWidth + 10);
     const enemyY = y + 20;
+    const intent = enemy.alive ? state.enemyIntents?.[index] : undefined;
+    const target = intent ? state.party.members[intent.targetIndex] : undefined;
+    const targetName = target ? ({ elias: "Elias", miriam: "Miriam", subject13: "Subject 13", anya: "Anya" }[target.id]) : undefined;
+    const plannedAbility = intent?.abilityId ? getAbility(intent.abilityId) : undefined;
+    const intentName = plannedAbility?.name ?? "Attack";
+    const targetLabel = plannedAbility?.targetType === "self" ? "SELF"
+      : plannedAbility?.targetType === "all-enemies" ? "ALL PARTY"
+      : targetName;
+    const intentLabel = !enemy.alive ? "DEFEATED" : enemy.statusEffects.includes("stunned")
+      ? "STUNNED" : intentName + (targetLabel ? ` → ${targetLabel}` : "");
 
     // Enemy box
-    ctx.strokeStyle = COLORS.border;
+    ctx.fillStyle = enemy.alive ? "rgba(10, 16, 23, 0.78)" : "rgba(13, 13, 19, 0.58)";
+    ctx.fillRect(enemyX, enemyY, enemyWidth, height - 40);
+    ctx.strokeStyle = cueActive && cue?.enemyHits?.some((hit) => hit.index === index) ? "#fff0c2" : COLORS.border;
     ctx.lineWidth = 2;
     ctx.strokeRect(enemyX, enemyY, enemyWidth, height - 40);
 
@@ -98,7 +122,7 @@ function renderEnemies(
     ctx.fillStyle = COLORS.enemy;
     ctx.font = "bold 12px monospace";
     ctx.textAlign = "center";
-    ctx.fillText(enemy.name, enemyX + enemyWidth / 2, enemyY + 20);
+    ctx.fillText(enemy.name, enemyX + enemyWidth / 2, enemyY + 20, enemyWidth - 8);
 
     // HP bar
     const hpBarY = enemyY + 35;
@@ -130,18 +154,38 @@ function renderEnemies(
       );
     }
 
-    // Status effects
+    const spriteY = enemyY + 78;
+    const spriteHeight = Math.max(44, height - 165);
+    const spriteWidth = Math.min(enemyWidth - 12, spriteHeight * 0.95);
+    const enemyHit = cueActive ? cue?.enemyHits?.find((hit) => hit.index === index) : undefined;
+    const pose = !enemy.alive ? "death" : enemyHit ? "hit" : cueActive && cue?.enemyActorIndex === index ? "attack" : "idle";
+    if (!drawEnemy(ctx, enemy.id, pose, enemyHit || pose === "attack" ? now - (cue?.startedAt ?? now) : now,
+      enemyX + (enemyWidth - spriteWidth) / 2, spriteY, spriteWidth, spriteHeight, options.reducedMotion)) {
+      ctx.fillStyle = COLORS.enemy;
+      ctx.font = "bold 28px monospace";
+      ctx.fillText(enemy.name[0], enemyX + enemyWidth / 2, spriteY + spriteHeight / 2);
+    }
+    if (enemyHit) {
+      ctx.fillStyle = "#fff1b0";
+      ctx.font = "bold 16px monospace";
+      ctx.fillText(`-${enemyHit.damage}`, enemyX + enemyWidth / 2, spriteY + 17);
+    }
+
+    // Status and telegraphed intent remain visible during animation.
     if (enemy.statusEffects.length > 0) {
       ctx.fillStyle = COLORS.textDim;
       ctx.font = "10px monospace";
       ctx.textAlign = "center";
-      const statusY = hpBarY + (enemy.stats.maxSanity > 0 ? 40 : 20);
+      const statusY = enemyY + height - 83;
       ctx.fillText(
         enemy.statusEffects.join(", "),
         enemyX + enemyWidth / 2,
-        statusY
+        statusY, enemyWidth - 8,
       );
     }
+    ctx.fillStyle = target?.statusEffects.includes("guarded") ? COLORS.ally : COLORS.selected;
+    ctx.font = "bold 9px monospace";
+    ctx.fillText(intentLabel, enemyX + enemyWidth / 2, enemyY + height - 51, enemyWidth - 8);
   });
 }
 
@@ -196,6 +240,12 @@ function renderParty(
     if (!drawHero(ctx, member.id, animation, elapsed, spriteX, spriteY, spriteWidth, spriteHeight, options.reducedMotion)) {
       ctx.fillStyle = COLORS.text;
       ctx.fillText(member.name[0], memberX + memberWidth / 2, memberY + 62);
+    }
+    const healed = cueActive ? cue?.partyHeals?.find((entry) => entry.id === member.id) : undefined;
+    if (healed) {
+      ctx.fillStyle = COLORS.ally;
+      ctx.font = "bold 14px monospace";
+      ctx.fillText(`+${healed.amount} HP`, memberX + memberWidth / 2, memberY + 40);
     }
     if (!member.alive) {
       ctx.fillStyle = "rgba(0,0,0,0.45)";

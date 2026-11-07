@@ -8,6 +8,7 @@
     "build": "npm run sprites:check && tsc && vite build",
     "sprites:build": "node utils/build-hero-atlases.mjs",
     "sprites:check": "node utils/build-hero-atlases.mjs --check",
+    "bench:combat": "node utils/benchmark-combat.mjs",
     "preview": "vite preview",
     "validate:events": "node utils/validate-events.cjs",
     "test:unit": "vitest run tests/*.test.ts",

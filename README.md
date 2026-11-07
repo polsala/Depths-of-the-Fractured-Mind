@@ -12,7 +12,7 @@ Depths of the Fractured Mind is a turn-based psychological horror dungeon crawle
 
 ### Systems at a Glance
 - **Exploration & Maps:** Procedural BSP-style rooms + corridors per depth (`src/game/exploration`). Renderer raycasts walls and tiles floor/ceiling textures from `public/assets/textures/**`.
-- **Combat:** Turn-based encounters and bosses (`src/game/combat`), driven by `GameController.startCombat`.
+- **Combat:** Turn-based encounters and bosses with telegraphed intents, timed conditions and authored enemy silhouettes (`src/game/combat`, `src/assets/enemy-visuals.ts`). See the [combat balance report](docs/combat-balance.md).
 - **Events & Narrative:** Data-driven events in `public/data/events.json` with mandatory/procedural hooks (`src/game/events/*`). Validate via `npm run validate:events`.
 - **Party/Inventory/Economy:** Party stats/equipment in `src/game/state` and `src/game/characters`; items/inventory/money in `src/game/inventory` and `src/game/items.ts`.
 - **Save/Continue:** Versioned browser save with map, combat and event checkpoints, plus JSON export/import (`src/game/save.ts`).
@@ -53,7 +53,8 @@ npm run ci
 npm run typecheck        # TypeScript type checking
 npm run validate:events  # Validate event JSON
 npm run test:unit        # Gameplay regression tests
-npm run test:smoke       # Production-build browser save/continue smoke (install browser first)
+npm run test:smoke       # Production-build browser save/continue and combat visuals
+npm run bench:combat     # Desktop and 4x CPU-throttled mobile Canvas render proxy
 npm run audit:security   # Dependency audit (fails on moderate or higher)
 npm run sprites:build    # Regenerate four hero atlases and the art sample
 npm run sprites:check    # Validate source, alpha, frames and generated-file freshness

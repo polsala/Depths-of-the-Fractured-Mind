@@ -1,6 +1,7 @@
 import type { CharacterState, DebugOptions, PartyState } from "../state";
 import type { EnemyState, EncounterState } from "./engine";
 import { getBossDialogue } from "../boss-dialogues";
+import { planEnemyIntents, type EnemyIntent } from "./intents";
 
 export type CombatActionType = "attack" | "ability" | "item" | "defend" | "flee";
 
@@ -52,6 +53,9 @@ export interface CombatState {
   isBossFight: boolean;
   debugOptions?: DebugOptions;
   combatDepth?: number;
+  enemyIntents?: Record<number, EnemyIntent>;
+  lastEnemyActedIndex?: number;
+  timedModifiers?: Array<{ isPlayer: boolean; index: number; stat: keyof CharacterState["stats"]; delta: number; expiresOnTurn: number }>;
   victorySummary?: {
     expGained: number;
     characters: Array<{
@@ -100,6 +104,8 @@ export function createCombatState(
   
   // Build initial turn order based on focus (speed) stat
   const turnOrder = buildTurnOrder(party, encounter);
+  // The first exchange is a player opening. Later rounds use focus order.
+  turnOrder.sort((a, b) => Number(b.isPlayer) - Number(a.isPlayer) || b.speed - a.speed);
   
   return {
     party,
@@ -114,6 +120,8 @@ export function createCombatState(
     isBossFight: isBoss,
     debugOptions,
     combatDepth,
+    enemyIntents: planEnemyIntents(party, encounter),
+    timedModifiers: [],
   };
 }
 
@@ -179,7 +187,7 @@ export function isEncounterDefeated(encounter: EncounterState): boolean {
 export function applyStatusEffect(
   participant: CharacterState | EnemyState,
   statusId: string,
-  _duration: number // Duration tracking not yet implemented - TODO: Add turn-based duration system
+  duration: number
 ): void {
   // Check if status already exists
   const existing = participant.statusEffects.findIndex(
@@ -187,11 +195,14 @@ export function applyStatusEffect(
   );
   
   if (existing >= 0) {
-    // Status already applied, don't stack
+    participant.statusTurns ??= {};
+    participant.statusTurns[statusId] = Math.max(participant.statusTurns[statusId] ?? 0, duration);
     return;
   }
   
   participant.statusEffects.push(statusId);
+  participant.statusTurns ??= {};
+  participant.statusTurns[statusId] = duration;
 }
 
 export function removeStatusEffect(
@@ -202,6 +213,7 @@ export function removeStatusEffect(
   if (index >= 0) {
     participant.statusEffects.splice(index, 1);
   }
+  if (participant.statusTurns) delete participant.statusTurns[statusId];
 }
 
 export function hasStatusEffect(
@@ -226,20 +238,22 @@ export function getCurrentActor(state: CombatState): { isPlayer: boolean; index:
  * Advance to the next actor in turn order
  * Returns true if we've completed a full round
  */
-export function advanceToNextActor(state: CombatState): boolean {
-  state.currentTurnIndex++;
-  
-  // If we've gone through all actors, start a new round
-  if (state.currentTurnIndex >= state.turnOrder.length) {
-    state.currentTurnIndex = 0;
-    state.turn++;
-    
-    // Rebuild turn order for the new round (in case someone died or stats changed)
-    state.turnOrder = buildTurnOrder(state.party, state.encounter);
-    
-    addCombatLog(state, `--- Turn ${state.turn} ---`, "system");
-    return true;
+export function advanceToNextActor(state: CombatState, onNewRound?: (state: CombatState) => void): boolean {
+  let newRound = false;
+  for (let n = 0; n <= state.turnOrder.length; n++) {
+    state.currentTurnIndex++;
+    if (state.currentTurnIndex >= state.turnOrder.length) {
+      state.currentTurnIndex = 0;
+      state.turn++;
+      // Resolve expiring effects before ordering and telegraphing the new round.
+      onNewRound?.(state);
+      state.turnOrder = buildTurnOrder(state.party, state.encounter);
+      state.enemyIntents = planEnemyIntents(state.party, state.encounter);
+      addCombatLog(state, `--- Turn ${state.turn} ---`, "system");
+      newRound = true;
+    }
+    const actor = state.turnOrder[state.currentTurnIndex];
+    if (!actor || (actor.isPlayer ? state.party.members[actor.index] : state.encounter.enemies[actor.index])?.alive) break;
   }
-  
-  return false;
+  return newRound;
 }

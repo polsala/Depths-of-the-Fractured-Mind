@@ -73,6 +73,12 @@ describe("versioned run saves", () => {
     expect(resumed.getCombatState()?.party).toBe(resumed.getState().party);
     expect(resumed.getCombatState()?.encounter.enemies[0].stats.hp).toBe(2);
     expect(resumed.getCombatState()?.shownLowHealthDialogues).toEqual(combat!.shownLowHealthDialogues);
+    const olderSave = JSON.parse(serializeRun(controller.snapshot()));
+    delete olderSave.state.combatState.enemyIntents;
+    const upgraded = new GameController();
+    upgraded.restore(parseRun(JSON.stringify(olderSave)));
+    expect(upgraded.getCombatState()?.enemyIntents?.[0]).toBeDefined();
+    expect(upgraded.getCombatState()?.encounter.enemies[0].stats.hp).toBe(2);
     resumed.getCombatState()!.phase = "victory";
     resumed.endCombat();
     expect(resumed.getState().mode).toBe("exploration");
