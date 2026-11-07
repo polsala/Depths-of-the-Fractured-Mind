@@ -88,6 +88,9 @@ test("display/audio preferences survive reload and basic WCAG checks pass", asyn
   for (const mode of ["title", "exploration"] as const) {
     if (mode === "exploration") await page.getByRole("button", { name: "Begin Your Descent" }).click();
     const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
-    expect(result.violations.map((violation) => violation.id)).toEqual([]);
+    expect(result.violations.map((violation) => ({
+      id: violation.id,
+      nodes: violation.nodes.map((node) => ({ target: node.target, summary: node.failureSummary })),
+    }))).toEqual([]);
   }
 });
