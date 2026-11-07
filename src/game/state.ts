@@ -52,6 +52,7 @@ export interface GameFlags {
   
   // Exploration flags
   visitedTiles?: Set<string>;
+  completedEventIds?: Set<string>;
   
   // Allow dynamic flags for future expansion
   [key: string]: number | boolean | undefined | MoralFlags | Set<string | number>;
@@ -127,6 +128,8 @@ export type GameMode =
   | "gameover"
   | "pause";
 
+export type GameOverCause = "trap" | "event" | "combat" | "status";
+
 export interface DebugOptions {
   disableEncounters?: boolean;
   xpMultiplier?: number;
@@ -142,6 +145,7 @@ export interface GameState {
   chestLoot?: ChestLoot;
   currentEventId?: string;
   currentEncounterId?: string;
+  gameOverCause?: GameOverCause;
   combatState?: any; // Will be CombatState from combat/state.ts
   depthMaps?: Map<number, any>; // Cache for generated maps (DepthMap type from exploration/map)
 }
@@ -181,6 +185,7 @@ export function createInitialGameState(): GameState {
       riotRecordingPlayed: false,
       confessionalUsed: false,
       visitedTiles: new Set<string>(),
+      completedEventIds: new Set<string>(),
       bossDefeatedDepths: new Set<number>(),
     },
     debugOptions: {

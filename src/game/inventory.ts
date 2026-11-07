@@ -365,7 +365,7 @@ export function addItem(inventory: Inventory, itemId: string, quantity: number =
 
 export function removeItem(inventory: Inventory, itemId: string, quantity: number = 1): boolean {
   const index = inventory.items.findIndex((i) => i.item.id === itemId);
-  if (index < 0) return false;
+  if (quantity < 1 || index < 0 || inventory.items[index].quantity < quantity) return false;
 
   inventory.items[index].quantity -= quantity;
   if (inventory.items[index].quantity <= 0) {

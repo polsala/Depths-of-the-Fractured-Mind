@@ -8,8 +8,26 @@
 
 const fs = require('fs');
 const path = require('path');
+const ts = require('typescript');
 
-const eventsFilePath = path.join(__dirname, '..', 'public', 'data', 'events.json');
+const eventsFilePath = process.argv[2]
+  ? path.resolve(process.argv[2])
+  : path.join(__dirname, '..', 'public', 'data', 'events.json');
+
+function getKnownItemIds() {
+  const inventoryPath = path.join(__dirname, '..', 'src', 'game', 'inventory.ts');
+  const source = ts.createSourceFile(inventoryPath, fs.readFileSync(inventoryPath, 'utf8'), ts.ScriptTarget.Latest, true);
+  const declaration = source.statements
+    .filter(ts.isVariableStatement)
+    .flatMap((statement) => [...statement.declarationList.declarations])
+    .find((entry) => entry.name.getText(source) === 'ITEMS');
+  if (!declaration || !ts.isObjectLiteralExpression(declaration.initializer)) {
+    throw new Error('Unable to read ITEMS catalogue from src/game/inventory.ts');
+  }
+  return new Set(declaration.initializer.properties
+    .filter(ts.isPropertyAssignment)
+    .map((entry) => entry.name.getText(source).replace(/^['"]|['"]$/g, '')));
+}
 
 function validateEvents() {
   console.log('=== Event Data Validator ===\n');
@@ -48,6 +66,7 @@ function validateEvents() {
   const eventIds = new Set();
   const errors = [];
   const warnings = [];
+  const knownItemIds = getKnownItemIds();
   
   data.events.forEach((event, index) => {
     const eventNum = index + 1;
@@ -90,6 +109,24 @@ function validateEvents() {
         if (!choice.effects) {
           warnings.push(`Event ${event.id || eventNum}, Choice ${choice.id || choiceIndex + 1}: No effects defined`);
         }
+        const label = `Event ${event.id || eventNum}, Choice ${choice.id || choiceIndex + 1}`;
+        if (choice.requiresFlags !== undefined &&
+            (typeof choice.requiresFlags !== 'object' || choice.requiresFlags === null ||
+             Array.isArray(choice.requiresFlags) ||
+             Object.entries(choice.requiresFlags).some(([flag, required]) => !flag || typeof required !== 'boolean'))) {
+          errors.push(`${label}: requiresFlags must map flag names to booleans`);
+        }
+        if (choice.requiresMinSanity !== undefined &&
+            (!Number.isFinite(choice.requiresMinSanity) || choice.requiresMinSanity < 0)) {
+          errors.push(`${label}: requiresMinSanity must be a non-negative number`);
+        }
+        for (const field of ['requiresItems', 'removeItems', 'addItems']) {
+          const items = field === 'requiresItems' ? choice.requiresItems : choice.effects?.[field];
+          if (items === undefined) continue;
+          if (!Array.isArray(items) || items.some((id) => typeof id !== 'string' || !knownItemIds.has(id))) {
+            errors.push(`${label}: ${field} must contain known item IDs`);
+          }
+        }
       });
     }
     
@@ -97,6 +134,9 @@ function validateEvents() {
     if (event.metadata) {
       if (event.metadata.id !== event.id) {
         warnings.push(`Event ${event.id || eventNum}: metadata.id doesn't match event.id`);
+      }
+      if (event.metadata.repeatable !== undefined && typeof event.metadata.repeatable !== 'boolean') {
+        errors.push(`Event ${event.id}: metadata.repeatable must be boolean`);
       }
       
       const validCategories = ['mandatory', 'optional', 'character_specific', 'environmental'];

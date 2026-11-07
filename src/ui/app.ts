@@ -1,6 +1,6 @@
 import type { GameState } from "../game/state";
 import type { GameEvent } from "../game/events/engine";
-import { getEventById } from "../game/events/engine";
+import { getChoiceUnavailableReason, getEventById } from "../game/events/engine";
 import { GameController } from "../game/index";
 import { audioManager } from "./audio";
 import {
@@ -173,6 +173,15 @@ function renderGameOver(
   depthInfo.textContent = `The party fell on Depth ${state.location.depth}.`;
   depthInfo.style.marginBottom = "12px";
   panel.appendChild(depthInfo);
+
+  const cause = document.createElement("p");
+  cause.textContent = {
+    trap: "A trap claimed the last surviving party member.",
+    event: "A story choice claimed the last surviving party member.",
+    combat: "The party was defeated in combat.",
+    status: "A lingering condition claimed the last surviving party member.",
+  }[state.gameOverCause ?? "combat"];
+  panel.appendChild(cause);
 
   const hint = document.createElement("p");
   hint.textContent = "The corridors wait for another attempt. Regroup and descend once more.";
@@ -866,18 +875,34 @@ function renderEvent(
   container.appendChild(choicesContainer);
 
   event.choices.forEach((choice, index) => {
+    const choiceRow = document.createElement("div");
+    choiceRow.className = "event-choice";
     const choiceButton = document.createElement("button");
     choiceButton.className = "event-choice-button";
-    choiceButton.innerHTML = `
-      <span class="choice-number">${index + 1}</span>
-      <span class="choice-text">${choice.label}</span>
-    `;
+    const number = document.createElement("span");
+    number.className = "choice-number";
+    number.textContent = String(index + 1);
+    choiceButton.appendChild(number);
+    const label = document.createElement("span");
+    label.className = "choice-text";
+    label.textContent = choice.label;
+    choiceButton.appendChild(label);
+    const blockedReason = getChoiceUnavailableReason(choice, state);
+    choiceButton.disabled = !!blockedReason;
+    if (blockedReason) choiceButton.title = blockedReason;
     choiceButton.addEventListener("click", () => {
       audioManager.playSfx("event_choice");
       controller.chooseEventChoice(choice.id);
       rerender();
     });
-    choicesContainer.appendChild(choiceButton);
+    choiceRow.appendChild(choiceButton);
+    if (blockedReason) {
+      const reason = document.createElement("span");
+      reason.className = "choice-reason";
+      reason.textContent = blockedReason;
+      choiceRow.appendChild(reason);
+    }
+    choicesContainer.appendChild(choiceRow);
   });
 }
 
@@ -2226,6 +2251,9 @@ function openInventoryUseModal(
     .forEach(({ m, idx }) => {
       const btn = document.createElement("button");
       btn.textContent = `${m.name} (HP ${m.stats.hp}/${m.stats.maxHp}, SAN ${m.stats.sanity}/${m.stats.maxSanity})`;
+      const blockedReason = controller.getConsumableUnavailableReason(itemId, idx);
+      btn.disabled = !!blockedReason;
+      if (blockedReason) btn.title = blockedReason;
       btn.addEventListener("click", () => {
         const success = controller.useConsumableOutOfCombat(itemId, idx);
         overlay.remove();
@@ -2235,6 +2263,11 @@ function openInventoryUseModal(
         rerender();
       });
       list.appendChild(btn);
+      if (blockedReason) {
+        const reason = document.createElement("small");
+        reason.textContent = blockedReason;
+        list.appendChild(reason);
+      }
     });
 
   modal.appendChild(list);

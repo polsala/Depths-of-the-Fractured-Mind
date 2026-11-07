@@ -11,6 +11,7 @@ import { createCombatState, type CombatAction, getCurrentActor } from "./combat/
 import { submitAction } from "./combat/turn-manager";
 import { getDepthMap } from "./exploration/map";
 import { useItem, removeItem, addItem, ITEMS } from "./inventory";
+import { resolvePartyDefeat, transitionToGameOver } from "./defeat";
 import type { MapTile } from "./exploration/map";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
@@ -116,8 +117,8 @@ export class GameController {
   }
   
   public triggerGameOver(): void {
-    this.state.mode = "gameover";
-    this.state.combatState = undefined;
+    if (this.state.combatState) this.state.party = this.state.combatState.party;
+    this.state = transitionToGameOver(this.state, "combat");
   }
 
   private recomputeStats(character: GameState["party"]["members"][number]): void {
@@ -343,6 +344,7 @@ export class GameController {
    * Start a random combat encounter
    */
   public startCombat(isBoss: boolean = false, depthOverride?: number): void {
+    if (this.state.mode !== "exploration") return;
     const depth = depthOverride ?? this.state.location.depth;
     const encounter = isBoss
       ? generateBossEncounter(depth)
@@ -375,6 +377,10 @@ export class GameController {
     
     // Submit and execute the action
     submitAction(this.state.combatState, action);
+    if (this.state.combatState.phase === "defeat") {
+      this.state.party = this.state.combatState.party;
+      this.state = resolvePartyDefeat(this.state, "combat");
+    }
   }
 
   /**
@@ -421,22 +427,10 @@ export class GameController {
    * Use a consumable item outside of combat on a target party member
    */
   public useConsumableOutOfCombat(itemId: string, targetIndex: number): boolean {
-    if (this.state.mode !== "exploration") return false;
+    if (this.getConsumableUnavailableReason(itemId, targetIndex)) return false;
     const inventory = this.state.party.inventory;
     const target = this.state.party.members[targetIndex];
-    if (!target || !target.alive) return false;
-
-    // Only allow consumables we handle
-    const allowed = new Set([
-      "medkit",
-      "sedative",
-      "healing_potion",
-      "greater_healing_potion",
-      "sanity_tonic",
-      "antidote",
-    ]);
-    if (!allowed.has(itemId)) return false;
-
+    if (!target) return false;
     const item = useItem(inventory, itemId);
     if (!item) return false;
 
@@ -457,14 +451,34 @@ export class GameController {
         target.stats.sanity = Math.min(target.stats.maxSanity, target.stats.sanity + 20);
         break;
       case "antidote":
-        // No status tracking outside combat yet; leave as a no-op cure hook
+        target.statusEffects = target.statusEffects.filter((effect) => effect !== "poisoned");
         break;
     }
 
     return true;
   }
 
+  public getConsumableUnavailableReason(itemId: string, targetIndex: number): string | null {
+    if (this.state.mode !== "exploration") return "Items cannot be used right now.";
+    const target = this.state.party.members[targetIndex];
+    if (!target || !target.alive) return "Choose a living party member.";
+    if (!ITEMS[itemId]?.usable || !this.state.party.inventory.items.some(
+      (entry) => entry.item.id === itemId && entry.quantity > 0
+    )) return "This item is not available.";
+    if (itemId === "antidote") {
+      return target.statusEffects.includes("poisoned") ? null : "Target is not poisoned.";
+    }
+    if (["medkit", "healing_potion", "greater_healing_potion"].includes(itemId)) {
+      return target.stats.hp >= target.stats.maxHp ? "HP is already full." : null;
+    }
+    if (["sedative", "sanity_tonic"].includes(itemId)) {
+      return target.stats.sanity >= target.stats.maxSanity ? "Sanity is already full." : null;
+    }
+    return "This item has no out-of-combat effect.";
+  }
+
   public equipItem(characterIndex: number, itemId: string): boolean {
+    if (this.state.mode !== "exploration") return false;
     const character = this.state.party.members[characterIndex];
     if (!character) return false;
     const item = ITEMS[itemId];
@@ -491,6 +505,7 @@ export class GameController {
   }
 
   public unequipItem(characterIndex: number, slot: import("./state").EquipmentSlot): boolean {
+    if (this.state.mode !== "exploration") return false;
     const character = this.state.party.members[characterIndex];
     if (!character?.equipment) return false;
     const current = character.equipment[slot];
@@ -505,13 +520,19 @@ export class GameController {
    * End combat and return to exploration
    */
   public endCombat(): void {
-    if (!this.state.combatState) return;
+    if (!this.state.combatState || this.state.mode !== "combat") return;
+    if (this.state.combatState.phase === "defeat") {
+      this.state.party = this.state.combatState.party;
+      this.state = resolvePartyDefeat(this.state, "combat");
+      return;
+    }
+    if (this.state.combatState.phase !== "victory" && this.state.combatState.phase !== "fled") return;
     
     // Sync party state back from combat
     this.state.party = this.state.combatState.party;
     
     // Mark boss defeated for this depth
-    if (this.state.combatState.isBossFight && this.state.combatState.combatDepth) {
+    if (this.state.combatState.phase === "victory" && this.state.combatState.isBossFight && this.state.combatState.combatDepth) {
       const depth = this.state.combatState.combatDepth;
       if (!this.state.flags.bossDefeatedDepths) {
         this.state.flags.bossDefeatedDepths = new Set<number>();

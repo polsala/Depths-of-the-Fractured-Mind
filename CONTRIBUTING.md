@@ -53,7 +53,8 @@ npm run ci
 npm run typecheck        # TypeScript type checking
 npm run build           # Production build
 npm run validate:events # Event data validation
-npm test               # Quick test (typecheck + events)
+npm run test:unit      # Gameplay regression tests
+npm test               # Typecheck + events + gameplay tests
 ```
 
 ### Making Changes

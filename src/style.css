@@ -381,6 +381,18 @@ h1 {
   gap: 15px;
 }
 
+.event-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.choice-reason {
+  color: #f0bd8d;
+  font-size: 0.85em;
+  padding-left: 12px;
+}
+
 .event-choice-button {
   display: flex;
   align-items: center;
@@ -396,7 +408,15 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.event-choice-button:hover {
+.event-choice-button:disabled,
+.event-choice-button:disabled:hover {
+  cursor: not-allowed;
+  opacity: 0.62;
+  transform: none;
+  box-shadow: none;
+}
+
+.event-choice-button:not(:disabled):hover {
   background: linear-gradient(135deg, #2a2f4a 0%, #1f2430 100%);
   border-color: #4a5f8f;
   box-shadow: 0 0 15px rgba(74, 95, 143, 0.4), 0 2px 4px rgba(0, 0, 0, 0.5);
