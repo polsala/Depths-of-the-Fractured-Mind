@@ -5,61 +5,24 @@
 
 import { generateDepthMap, getVisibleWalls, type DungeonMap } from "./map";
 import type { DepthMap } from "../game/exploration/map";
+import { OBJECT_SPRITES, DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../assets/manifest";
 
 // Constants
 const MIN_DEPTH = 1;
 const MAX_DEPTH = 5;
 const DEFAULT_DEPTH = 1;
 const chestSprite = new Image();
-const basePath = import.meta.env.BASE_URL || "/";
-const normalizedBasePath = basePath.endsWith("/") ? basePath : `${basePath}/`;
-chestSprite.src = `${normalizedBasePath}assets/sprites/objects/chest.png`;
+chestSprite.src = OBJECT_SPRITES.chest;
 const stairsUpSprite = new Image();
-stairsUpSprite.src = `${normalizedBasePath}assets/tilesets/floors/strais_up.png`;
+stairsUpSprite.src = OBJECT_SPRITES.stairsUp;
 const stairsDownSprite = new Image();
-stairsDownSprite.src = `${normalizedBasePath}assets/tilesets/floors/strais_down.png`;
+stairsDownSprite.src = OBJECT_SPRITES.stairsDown;
 const vendorSprite = new Image();
-vendorSprite.src = `${normalizedBasePath}assets/sprites/characters/npc/vendor.png`;
+vendorSprite.src = OBJECT_SPRITES.vendor;
 
 const textureCache = new Map<string, HTMLImageElement>();
-
-const depthTextures: Record<
-  number,
-  { wall: string; floor: string; door?: string; wallAlt?: string }
-> = {
-  1: {
-    wall: `${normalizedBasePath}assets/textures/depth1/d1_wall_base_threshold.png`,
-    wallAlt: `${normalizedBasePath}assets/textures/depth1/d1_wall_warning_stripes.png`,
-    floor: `${normalizedBasePath}assets/textures/depth1/d1_floor_linoleum.png`,
-    door: `${normalizedBasePath}assets/textures/depth1/d1_door_metal_security.png`,
-  },
-  2: {
-    wall: `${normalizedBasePath}assets/textures/depth2/d2_wall_archive_cabinets.png`,
-    floor: `${normalizedBasePath}assets/textures/depth2/d2_floor_office_tiles.png`,
-    door: `${normalizedBasePath}assets/textures/depth2/d2_door_records.png`,
-  },
-  3: {
-    wall: `${normalizedBasePath}assets/textures/depth3/d3_wall_hospital.png`,
-    wallAlt: `${normalizedBasePath}assets/textures/depth3/d3_wall_padded_cell.png`,
-    floor: `${normalizedBasePath}assets/textures/depth3/d3_floor_hospital_tiles.png`,
-    door: `${normalizedBasePath}assets/textures/depth3/d3_door_medical.png`,
-  },
-  4: {
-    wall: `${normalizedBasePath}assets/textures/depth4/d4_wall_mirrored_panels.png`,
-    wallAlt: `${normalizedBasePath}assets/textures/depth4/d4_wall_fractured_mirror.png`,
-    floor: `${normalizedBasePath}assets/textures/depth4/d4_floor_dark_reflective.png`,
-  },
-  5: {
-    wall: `${normalizedBasePath}assets/textures/depth5/d5_wall_biomech.png`,
-    floor: `${normalizedBasePath}assets/textures/depth5/d5_floor_metal_grate.png`,
-    door: `${normalizedBasePath}assets/textures/depth5/d5_door_core_bulkhead.png`,
-  },
-};
-
-const globalTextures = {
-  ceiling: `${normalizedBasePath}assets/textures/global/ceiling_concrete_panels.png`,
-  overlay: `${normalizedBasePath}assets/textures/global/global_overlay_cracks.png`,
-};
+const depthTextures = DEPTH_TEXTURES;
+const globalTextures = GLOBAL_TEXTURES;
 
 const pendingTextureLoads = new WeakSet<HTMLImageElement>();
 

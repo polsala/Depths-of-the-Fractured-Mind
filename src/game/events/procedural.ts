@@ -1,3 +1,4 @@
+import { gameRandom } from "../random";
 import type { GameState } from "../state";
 import type { EventTriggerConditions } from "./types";
 import { getEventMetadata, getEventPool } from "./loader";
@@ -134,7 +135,7 @@ export function selectRandomEvent(
   }
   
   // Random selection
-  let random = Math.random() * totalWeight;
+  let random = gameRandom() * totalWeight;
   for (let i = 0; i < available.length; i++) {
     random -= weights[i];
     if (random <= 0) {

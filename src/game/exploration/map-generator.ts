@@ -1,3 +1,4 @@
+import { gameRandom } from "../random";
 import type { DepthMap, MapTile, TileType, TrapData } from "./map";
 
 interface Room {
@@ -44,10 +45,10 @@ export function generateProceduralMap(depth: number): DepthMap {
   
   // Try to create rooms
   for (let i = 0; i < roomAttempts; i++) {
-    const roomWidth = Math.floor(Math.random() * (maxRoomSize - minRoomSize + 1)) + minRoomSize;
-    const roomHeight = Math.floor(Math.random() * (maxRoomSize - minRoomSize + 1)) + minRoomSize;
-    const x = Math.floor(Math.random() * (width - roomWidth - 2)) + 1;
-    const y = Math.floor(Math.random() * (height - roomHeight - 2)) + 1;
+    const roomWidth = Math.floor(gameRandom() * (maxRoomSize - minRoomSize + 1)) + minRoomSize;
+    const roomHeight = Math.floor(gameRandom() * (maxRoomSize - minRoomSize + 1)) + minRoomSize;
+    const x = Math.floor(gameRandom() * (width - roomWidth - 2)) + 1;
+    const y = Math.floor(gameRandom() * (height - roomHeight - 2)) + 1;
 
     const newRoom: Room = { x, y, width: roomWidth, height: roomHeight };
 
@@ -201,7 +202,7 @@ function connectRooms(tiles: MapTile[][], rooms: Room[]): void {
     const y2 = room2.y + Math.floor(room2.height / 2);
 
     // Randomly choose horizontal-first or vertical-first corridors
-    if (Math.random() < 0.5) {
+    if (gameRandom() < 0.5) {
       createHorizontalCorridor(tiles, x1, x2, y1);
       createVerticalCorridor(tiles, y1, y2, x2);
     } else {
@@ -304,11 +305,11 @@ function placeFeatures(
   
   for (let i = 0; i < itemsToPlace && i < featureRooms.length; i++) {
     const room = featureRooms[i];
-    const x = room.x + Math.floor(Math.random() * room.width);
-    const y = room.y + Math.floor(Math.random() * room.height);
+    const x = room.x + Math.floor(gameRandom() * room.width);
+    const y = room.y + Math.floor(gameRandom() * room.height);
     
     if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor") {
-      const itemId = itemPool[Math.floor(Math.random() * itemPool.length)];
+      const itemId = itemPool[Math.floor(gameRandom() * itemPool.length)];
       tiles[y][x].itemId = itemId;
     }
   }
@@ -316,7 +317,7 @@ function placeFeatures(
   // Add encounter chances to corridors and some rooms
   for (let y = 0; y < tiles.length; y++) {
     for (let x = 0; x < tiles[y].length; x++) {
-      if (tiles[y][x].type === "floor" && Math.random() < 0.3) {
+      if (tiles[y][x].type === "floor" && gameRandom() < 0.3) {
         tiles[y][x].encounterChance = encounterChance;
       }
     }
@@ -326,8 +327,8 @@ function placeFeatures(
   const trapsToPlace = Math.min(featureRooms.length, 2 + depth);
   for (let i = 0; i < trapsToPlace && i < featureRooms.length; i++) {
     const room = featureRooms[featureRooms.length - 1 - i];
-    const x = room.x + Math.floor(Math.random() * room.width);
-    const y = room.y + Math.floor(Math.random() * room.height);
+    const x = room.x + Math.floor(gameRandom() * room.width);
+    const y = room.y + Math.floor(gameRandom() * room.height);
     
     if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor" && !tiles[y][x].itemId) {
       const trapTypes: TrapData[] = [
@@ -350,7 +351,7 @@ function placeFeatures(
         },
       ];
       
-      tiles[y][x].trap = trapTypes[Math.floor(Math.random() * trapTypes.length)];
+      tiles[y][x].trap = trapTypes[Math.floor(gameRandom() * trapTypes.length)];
     }
   }
   
@@ -359,14 +360,14 @@ function placeFeatures(
   const chestLootPool = ["healing_potion", "greater_healing_potion", "sanity_tonic", "antidote", "bomb", "focus_draught", "smoke_bomb"];
   for (let i = 0; i < chestsToPlace && i < featureRooms.length; i++) {
     const room = featureRooms[i];
-    const x = room.x + Math.floor(Math.random() * room.width);
-    const y = room.y + Math.floor(Math.random() * room.height);
+    const x = room.x + Math.floor(gameRandom() * room.width);
+    const y = room.y + Math.floor(gameRandom() * room.height);
     
     if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor" && !tiles[y][x].itemId && !tiles[y][x].trap && !tiles[y][x].eventId) {
-      const lootCount = 1 + Math.floor(Math.random() * 2); // 1-2 items
+      const lootCount = 1 + Math.floor(gameRandom() * 2); // 1-2 items
       const loot: Array<{ itemId: string; quantity: number }> = [];
       for (let j = 0; j < lootCount; j++) {
-        const lootId = chestLootPool[Math.floor(Math.random() * chestLootPool.length)];
+        const lootId = chestLootPool[Math.floor(gameRandom() * chestLootPool.length)];
         const quantity = lootId === "bomb" || lootId === "smoke_bomb" ? 1 : 2;
         loot.push({ itemId: lootId, quantity });
       }
@@ -376,9 +377,9 @@ function placeFeatures(
 
   // Place vendor (one per depth after depth 1)
   if (depth >= 2 && featureRooms.length > 0) {
-    const vendorRoom = featureRooms[Math.floor(Math.random() * featureRooms.length)];
-    const x = vendorRoom.x + Math.floor(Math.random() * vendorRoom.width);
-    const y = vendorRoom.y + Math.floor(Math.random() * vendorRoom.height);
+    const vendorRoom = featureRooms[Math.floor(gameRandom() * featureRooms.length)];
+    const x = vendorRoom.x + Math.floor(gameRandom() * vendorRoom.width);
+    const y = vendorRoom.y + Math.floor(gameRandom() * vendorRoom.height);
     if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor") {
       tiles[y][x].vendor = true;
     }
@@ -393,9 +394,9 @@ function placeFeatures(
   
   const eventsForDepth = eventMapping[depth] || [];
   for (let i = 0; i < eventsForDepth.length && i < featureRooms.length; i++) {
-    const room = featureRooms[Math.floor(Math.random() * featureRooms.length)];
-    const x = room.x + Math.floor(Math.random() * room.width);
-    const y = room.y + Math.floor(Math.random() * room.height);
+    const room = featureRooms[Math.floor(gameRandom() * featureRooms.length)];
+    const x = room.x + Math.floor(gameRandom() * room.width);
+    const y = room.y + Math.floor(gameRandom() * room.height);
     
     if (tiles[y] && tiles[y][x] && tiles[y][x].type === "floor" && !tiles[y][x].itemId && !tiles[y][x].trap) {
       tiles[y][x].eventId = eventsForDepth[i];

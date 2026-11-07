@@ -48,6 +48,7 @@ export interface CombatState {
   currentTurnIndex: number; // Index in turnOrder for current actor
   pendingAction?: CombatAction; // Action selected by current actor
   log: CombatLogEntry[];
+  shownLowHealthDialogues: string[];
   isBossFight: boolean;
   debugOptions?: DebugOptions;
   combatDepth?: number;
@@ -103,6 +104,7 @@ export function createCombatState(
   return {
     party,
     encounter,
+    shownLowHealthDialogues: [],
     turn: 1,
     phase: "select-action",
     turnOrder,

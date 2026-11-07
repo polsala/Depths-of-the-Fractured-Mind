@@ -1,3 +1,4 @@
+import { gameRandom } from "../random";
 import type { CharacterState, PartyState, Stats } from "../state";
 
 export type EnemyId = string;
@@ -39,7 +40,7 @@ export interface AttackResult {
 export function performBasicAttack(
   attacker: Stats,
   defender: Stats,
-  rng: () => number = Math.random
+  rng: () => number = gameRandom
 ): AttackResult {
   const hitChance = calculateHitChance(attacker, defender);
   const roll = rng();

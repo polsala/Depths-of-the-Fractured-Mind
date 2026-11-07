@@ -1,3 +1,5 @@
+import { assetUrl } from "../assets/manifest";
+
 class AudioManager {
   private currentMusic?: HTMLAudioElement;
   private currentTrackName?: string;
@@ -18,8 +20,7 @@ class AudioManager {
     this.stopMusic();
 
     // Use correct base path for both dev and production
-    const basePath = import.meta.env.BASE_URL || '/';
-    const audio = new Audio(`${basePath}audio/music/${trackName}.ogg`);
+    const audio = new Audio(assetUrl(`audio/music/${trackName}.ogg`));
     audio.loop = true;
     audio.volume = this.musicVolume;
     this.currentMusic = audio;
@@ -46,8 +47,7 @@ class AudioManager {
 
   public playSfx(name: string): void {
     // Use correct base path for both dev and production
-    const basePath = import.meta.env.BASE_URL || '/';
-    const sfx = new Audio(`${basePath}audio/sfx/${name}.ogg`);
+    const sfx = new Audio(assetUrl(`audio/sfx/${name}.ogg`));
     sfx.volume = this.sfxVolume;
     void sfx.play().catch(() => {});
   }

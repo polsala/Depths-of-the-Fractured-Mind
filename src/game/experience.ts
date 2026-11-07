@@ -1,5 +1,5 @@
+import { emitSound } from "./sound";
 import type { CharacterState, PartyState } from "./state";
-import { audioManager } from "../ui/audio";
 
 export interface ExperienceReward {
   total: number;
@@ -55,7 +55,7 @@ export function awardExperience(
   }
   
   if (leveledCharacters.length > 0) {
-    audioManager.playSfx("ui_click"); // Level up sound
+    emitSound("ui_click"); // Level up sound
   }
   
   return {

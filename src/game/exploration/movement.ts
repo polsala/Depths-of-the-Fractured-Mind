@@ -1,8 +1,8 @@
+import { emitSound } from "../sound";
 import type { GameLocation, GameMode, GameState } from "../state";
 import { getCurrentDepthMap, getTile, getDepthMap, type TileType } from "./map";
 import { getEventById, startEvent } from "../events/engine";
 import { resolvePartyDefeat } from "../defeat";
-import { audioManager } from "../../ui/audio";
 import { addItem } from "../inventory";
 import { shouldTriggerEncounter, generateRandomEncounter, generateBossEncounter } from "../combat/encounters";
 import { createCombatState } from "../combat/state";
@@ -65,7 +65,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   }
 
   // Play footstep sound
-  audioManager.playSfx("step");
+  emitSound("step");
 
   const map = getCurrentDepthMap(state);
   const tile = getTile(map, targetX, targetY);
@@ -147,7 +147,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   if (tile?.itemId && !tile.trap?.triggered) {
     if (addItem(nextState.party.inventory, tile.itemId)) {
       tile.itemId = undefined; // Remove item from map
-      audioManager.playSfx("ui_click");
+      emitSound("ui_click");
     }
   }
 
@@ -164,7 +164,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
     if (addedItems.length > 0) {
       tile.chest.opened = true;
       nextState.chestLoot = { items: addedItems };
-      audioManager.playSfx("ui_click");
+      emitSound("ui_click");
     }
   }
 
@@ -190,7 +190,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
           member.stats.sanity = Math.max(0, member.stats.sanity - (tile.trap?.sanityLoss || 0));
         }
       });
-      audioManager.playSfx("sanity_tick");
+      emitSound("sanity_tick");
     }
   }
 
