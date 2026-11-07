@@ -9,10 +9,11 @@
     "preview": "vite preview",
     "validate:events": "node utils/validate-events.cjs",
     "test:unit": "vitest run",
+    "audit:security": "npm audit --audit-level=moderate",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "test": "npm run typecheck && npm run validate:events && npm run test:unit",
-    "ci": "npm run lint && npm run build && npm run validate:events && npm run test:unit"
+    "ci": "npm run lint && npm run build && npm run validate:events && npm run test:unit && npm run audit:security"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

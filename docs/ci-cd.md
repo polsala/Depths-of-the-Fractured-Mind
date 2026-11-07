@@ -23,20 +23,18 @@ This project uses GitHub Actions for automated testing, building, and deployment
 - Uploads build artifacts for verification
 - Ensures the project can be successfully built
 
-#### Validate Events
-- Runs event JSON validation (`npm run validate:events`)
-- Checks event data structure and integrity
-- Ensures all events have valid schema
+#### Validate Events & Gameplay Tests
+- Runs type checking, event JSON validation and gameplay regression tests (`npm test`)
+- Ensures all events have valid schema and the gameplay invariants remain intact
 
 #### Security Check
-- Runs `npm audit` to check for vulnerabilities
-- Warns about potential security issues
-- Does not fail the build (continues on error)
+- Runs `npm run audit:security` to check for moderate-or-higher dependency vulnerabilities
+- Fails the build if the audit fails
 
 #### CI Success
 - Final check that all jobs passed
 - Required status check for PR merging
-- Fails if any critical check fails
+- Fails if any check, including the security audit, fails
 
 **Features:**
 - ✅ Automatic cancellation of outdated runs
@@ -68,7 +66,9 @@ npm run ci
 npm run lint          # TypeScript type check
 npm run build         # Build the project
 npm run validate:events  # Validate event data
-npm test              # Run typecheck + event validation
+npm run test:unit     # Run gameplay regression tests
+npm run audit:security  # Audit dependencies
+npm test              # Run typecheck + event validation + gameplay tests
 ```
 
 #### Before creating a PR:

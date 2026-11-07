@@ -104,8 +104,7 @@ jobs:
         run: npm ci
 
       - name: Run npm audit
-        run: npm audit --audit-level=moderate
-        continue-on-error: true
+        run: npm run audit:security
 
   # All checks must pass
   ci-success:
@@ -118,7 +117,8 @@ jobs:
         run: |
           if [ "${{ needs.lint.result }}" != "success" ] || \
              [ "${{ needs.build.result }}" != "success" ] || \
-             [ "${{ needs.validate-events.result }}" != "success" ]; then
+             [ "${{ needs.validate-events.result }}" != "success" ] || \
+             [ "${{ needs.security.result }}" != "success" ]; then
             echo "❌ One or more CI checks failed"
             exit 1
           fi

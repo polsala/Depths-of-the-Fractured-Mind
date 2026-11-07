@@ -50,6 +50,7 @@ npm run ci
 npm run typecheck        # TypeScript type checking
 npm run validate:events  # Validate event JSON
 npm run test:unit        # Gameplay regression tests
+npm run audit:security   # Dependency audit (fails on moderate or higher)
 npm test                 # Typecheck, event validation and gameplay tests
 ```
 
