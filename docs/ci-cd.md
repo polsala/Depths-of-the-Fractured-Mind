@@ -23,9 +23,10 @@ This project uses GitHub Actions for automated testing, building, and deployment
 - Uploads build artifacts for verification
 - Ensures the project can be successfully built
 
-#### Validate Events & Gameplay Tests
+#### Validate Events
 - Runs type checking, event JSON validation and gameplay regression tests (`npm test`)
 - Ensures all events have valid schema and the gameplay invariants remain intact
+- Keeps the `Validate Events` check name stable for existing required-check settings
 
 #### Security Check
 - Runs `npm run audit:security` to check for moderate-or-higher dependency vulnerabilities

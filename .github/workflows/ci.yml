@@ -68,7 +68,7 @@ jobs:
 
   # Validate event data and gameplay invariants
   validate-events:
-    name: Validate Events & Gameplay Tests
+    name: Validate Events
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
