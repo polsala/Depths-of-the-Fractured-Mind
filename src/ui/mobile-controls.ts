@@ -29,10 +29,6 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   // Forward button
   const forwardBtn = createControlButton('↑', 'control-btn forward-btn');
-  forwardBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    callbacks.onMoveForward();
-  });
   forwardBtn.addEventListener('click', (e) => {
     e.preventDefault();
     callbacks.onMoveForward();
@@ -40,10 +36,6 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   // Backward button
   const backBtn = createControlButton('↓', 'control-btn back-btn');
-  backBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    callbacks.onMoveBackward();
-  });
   backBtn.addEventListener('click', (e) => {
     e.preventDefault();
     callbacks.onMoveBackward();
@@ -51,10 +43,6 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   // Left button
   const leftBtn = createControlButton('←', 'control-btn left-btn');
-  leftBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    callbacks.onStrafeLeft();
-  });
   leftBtn.addEventListener('click', (e) => {
     e.preventDefault();
     callbacks.onStrafeLeft();
@@ -62,10 +50,6 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   // Right button
   const rightBtn = createControlButton('→', 'control-btn right-btn');
-  rightBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    callbacks.onStrafeRight();
-  });
   rightBtn.addEventListener('click', (e) => {
     e.preventDefault();
     callbacks.onStrafeRight();
@@ -94,10 +78,6 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   const turnLeftBtn = createControlButton('Q', 'control-btn turn-btn');
   turnLeftBtn.title = 'Turn Left';
-  turnLeftBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    callbacks.onTurnLeft();
-  });
   turnLeftBtn.addEventListener('click', (e) => {
     e.preventDefault();
     callbacks.onTurnLeft();
@@ -105,10 +85,6 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   const turnRightBtn = createControlButton('E', 'control-btn turn-btn');
   turnRightBtn.title = 'Turn Right';
-  turnRightBtn.addEventListener('touchstart', (e) => {
-    e.preventDefault();
-    callbacks.onTurnRight();
-  });
   turnRightBtn.addEventListener('click', (e) => {
     e.preventDefault();
     callbacks.onTurnRight();
@@ -124,6 +100,14 @@ export function createMobileControls(callbacks: ControlCallbacks): MobileControl
   
   container.appendChild(rotationPad);
   
+  // One click is synthesized for touch, while keyboard and switch users can
+  // activate the same native buttons without a separate touchstart action.
+  for (const [button, label] of [
+    [forwardBtn, 'Move forward'], [backBtn, 'Move backward'],
+    [leftBtn, 'Strafe left'], [rightBtn, 'Strafe right'],
+    [turnLeftBtn, 'Turn left'], [turnRightBtn, 'Turn right'],
+  ] as const) button.setAttribute('aria-label', label);
+
   const cleanup = () => {
     container.remove();
   };

@@ -433,6 +433,7 @@ export function createActionMenu(
 
   // Main actions
   const actionsDiv = document.createElement("div");
+  actionsDiv.className = "combat-action-grid";
   actionsDiv.style.cssText = `
     margin-bottom: 10px;
     display: grid;

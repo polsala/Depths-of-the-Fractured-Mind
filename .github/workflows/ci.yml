@@ -92,6 +92,15 @@ jobs:
       - name: Smoke-test save and resume in a browser
         run: npm run test:smoke
 
+      - name: Upload responsive UI captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: responsive-ui-captures
+          path: test-results/**/*.png
+          if-no-files-found: ignore
+          retention-days: 7
+
   # Check for security vulnerabilities
   security:
     name: Security Check
