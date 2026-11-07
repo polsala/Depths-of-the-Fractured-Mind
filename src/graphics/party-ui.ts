@@ -3,195 +3,46 @@
  */
 
 import type { PartyState, CharacterState } from "../game/state";
+import { drawHero, type HeroAnimation } from "../assets/hero-sprites";
 import { getCharacterLevel, getCharacterExperience, getExpToNextLevel } from "../game/experience";
 
 export interface PartyUIConfig {
   width: number;
   height: number;
   portraitSize: number;
+  facing?: "north" | "south" | "east" | "west";
+  timeMs?: number;
+  reducedMotion?: boolean;
 }
 
-// Cache for portrait canvases to avoid recreating them on every render
-const portraitCache = new Map<string, HTMLCanvasElement>();
-
-/**
- * Generate detailed pixel art character portrait
- * Creates distinctive visual representations for each character
- */
-function generatePortrait(
-  character: CharacterState,
-  size: number
-): HTMLCanvasElement {
-  // Check cache first - use separator to avoid collisions
-  const cacheKey = `${character.id}|${size}|${character.alive}|${character.stats.hp}|${character.stats.maxHp}|${character.stats.sanity}|${character.stats.maxSanity}`;
-  
-  const cached = portraitCache.get(cacheKey);
-  if (cached) {
-    return cached;
-  }
-
-  // Create new portrait canvas
-  const canvas = document.createElement("canvas");
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    return canvas;
-  }
-
-  ctx.imageSmoothingEnabled = false; // Pixel-perfect rendering
-
-  // Character-specific colors and features
-  const characterData: Record<string, { bg: string; skin: string; hair: string; eyes: string; clothing: string }> = {
-    elias: {
-      bg: "#2a3540",
-      skin: "#d4a574",
-      hair: "#4a3020",
-      eyes: "#6b8ca3",
-      clothing: "#3d4e5c"
-    },
-    miriam: {
-      bg: "#3d2a40",
-      skin: "#c9a885",
-      hair: "#2a1520",
-      eyes: "#8b6f9e",
-      clothing: "#5c3d4e"
-    },
-    subject13: {
-      bg: "#2a402a",
-      skin: "#a8b8a0",
-      hair: "#3d4e3d",
-      eyes: "#7d9e6f",
-      clothing: "#4e5c3d"
-    },
-    anya: {
-      bg: "#403d2a",
-      skin: "#d4b894",
-      hair: "#2a2015",
-      eyes: "#6f5d4e",
-      clothing: "#5c4e3d"
-    }
-  };
-
-  const data = characterData[character.id] || characterData.elias;
-
-  // Background
-  ctx.fillStyle = data.bg;
-  ctx.fillRect(0, 0, size, size);
-
-  // Draw pixel art portrait
-  const pixelSize = Math.max(2, Math.floor(size / 32));
-  
-  // Head/face outline
-  ctx.fillStyle = data.skin;
-  const faceWidth = 18 * pixelSize;
-  const faceHeight = 22 * pixelSize;
-  const faceX = (size - faceWidth) / 2;
-  const faceY = size * 0.25;
-  
-  // Draw head shape
-  ctx.fillRect(faceX + 4 * pixelSize, faceY, faceWidth - 8 * pixelSize, faceHeight);
-  ctx.fillRect(faceX + 2 * pixelSize, faceY + 2 * pixelSize, faceWidth - 4 * pixelSize, faceHeight - 4 * pixelSize);
-  ctx.fillRect(faceX, faceY + 4 * pixelSize, faceWidth, faceHeight - 8 * pixelSize);
-
-  // Hair
-  ctx.fillStyle = data.hair;
-  ctx.fillRect(faceX, faceY, faceWidth, 10 * pixelSize);
-  ctx.fillRect(faceX - 2 * pixelSize, faceY + 4 * pixelSize, 4 * pixelSize, 8 * pixelSize);
-  ctx.fillRect(faceX + faceWidth - 2 * pixelSize, faceY + 4 * pixelSize, 4 * pixelSize, 8 * pixelSize);
-
-  // Eyes
-  ctx.fillStyle = data.eyes;
-  ctx.fillRect(faceX + 5 * pixelSize, faceY + 10 * pixelSize, 3 * pixelSize, 3 * pixelSize);
-  ctx.fillRect(faceX + faceWidth - 8 * pixelSize, faceY + 10 * pixelSize, 3 * pixelSize, 3 * pixelSize);
-
-  // Eye highlights
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(faceX + 6 * pixelSize, faceY + 11 * pixelSize, pixelSize, pixelSize);
-  ctx.fillRect(faceX + faceWidth - 7 * pixelSize, faceY + 11 * pixelSize, pixelSize, pixelSize);
-
-  // Nose
-  ctx.fillStyle = "#a08060";
-  ctx.fillRect(faceX + faceWidth / 2 - pixelSize, faceY + 14 * pixelSize, 2 * pixelSize, 3 * pixelSize);
-
-  // Mouth
-  ctx.fillStyle = "#604040";
-  ctx.fillRect(faceX + faceWidth / 2 - 2 * pixelSize, faceY + 18 * pixelSize, 4 * pixelSize, pixelSize);
-
-  // Shoulders/clothing
-  ctx.fillStyle = data.clothing;
-  const shoulderY = faceY + faceHeight;
-  ctx.fillRect(faceX - 4 * pixelSize, shoulderY, faceWidth + 8 * pixelSize, size - shoulderY);
-
-  // Add border frame
-  ctx.strokeStyle = character.alive ? "#8b9da9" : "#4a3333";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(0, 0, size, size);
-
-  // Inner decorative frame
-  ctx.strokeStyle = character.alive ? "#6d7d89" : "#3a2323";
-  ctx.lineWidth = 1;
-  ctx.strokeRect(4, 4, size - 8, size - 8);
-
-  // Status overlays
-  if (!character.alive) {
-    ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-    ctx.fillRect(0, 0, size, size);
-    
-    // Skull icon for death
-    ctx.fillStyle = "#ff4444";
-    ctx.font = `${size * 0.4}px serif`;
+/** Draw the authored protagonist atlas, with health/sanity state overlays. */
+function drawPortrait(
+  ctx: CanvasRenderingContext2D, character: CharacterState,
+  x: number, y: number, size: number, config: PartyUIConfig,
+): void {
+  ctx.fillStyle = "#1b2227";
+  ctx.fillRect(x, y, size, size);
+  const animation: HeroAnimation = !character.alive ? "death" :
+    config.facing ? (`walk${config.facing[0].toUpperCase()}${config.facing.slice(1)}` as HeroAnimation) : "idle";
+  const displayed = drawHero(ctx, character.id, animation, config.timeMs ?? 0,
+    x + size * 0.1, y + size * 0.02, size * 0.8, size * 0.94, config.reducedMotion);
+  if (!displayed) {
+    ctx.fillStyle = "#d6e3e7";
+    ctx.font = `bold ${Math.floor(size * 0.45)}px sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText("☠", size / 2, size / 2);
-    
-    ctx.fillStyle = "#ffffff";
-    ctx.font = `${size * 0.15}px sans-serif`;
-    ctx.fillText("DEAD", size / 2, size * 0.75);
-  } else if (character.stats.hp < character.stats.maxHp * 0.3) {
-    // Low HP indicator
-    ctx.fillStyle = "rgba(255, 68, 68, 0.3)";
-    ctx.fillRect(0, 0, size, size);
-    
-    // Damage marks
-    ctx.strokeStyle = "#ff4444";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(size * 0.2, size * 0.2);
-    ctx.lineTo(size * 0.3, size * 0.3);
-    ctx.moveTo(size * 0.7, size * 0.25);
-    ctx.lineTo(size * 0.8, size * 0.35);
-    ctx.stroke();
+    ctx.fillText(character.name[0], x + size / 2, y + size / 2);
+  }
+  if (!character.alive || character.stats.hp < character.stats.maxHp * 0.3) {
+    ctx.fillStyle = character.alive ? "rgba(230, 40, 40, 0.22)" : "rgba(0, 0, 0, 0.55)";
+    ctx.fillRect(x, y, size, size);
   } else if (character.stats.sanity < character.stats.maxSanity * 0.3) {
-    // Low sanity indicator - distortion effect
-    ctx.fillStyle = "rgba(138, 68, 255, 0.3)";
-    ctx.fillRect(0, 0, size, size);
-    
-    // Add glitch effect
-    for (let i = 0; i < 3; i++) {
-      ctx.strokeStyle = `rgba(138, 68, 255, ${0.5 - i * 0.15})`;
-      ctx.lineWidth = 1;
-      const y = size * (0.3 + i * 0.2);
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(size, y);
-      ctx.stroke();
-    }
+    ctx.fillStyle = "rgba(128, 65, 220, 0.22)";
+    ctx.fillRect(x, y, size, size);
   }
-
-  // Cache the portrait
-  portraitCache.set(cacheKey, canvas);
-
-  // Limit cache size to prevent memory leaks - remove oldest entries
-  if (portraitCache.size > 50) {
-    const entriesToRemove = portraitCache.size - 40; // Bring back to 40
-    const keys = Array.from(portraitCache.keys());
-    for (let i = 0; i < entriesToRemove; i++) {
-      portraitCache.delete(keys[i]);
-    }
-  }
-
-  return canvas;
+  ctx.strokeStyle = character.alive ? "#758e97" : "#914949";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x, y, size, size);
 }
 
 /**
@@ -242,8 +93,8 @@ export function renderPartyUI(
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  canvas.width = config.width;
-  canvas.height = config.height;
+  if (canvas.width !== config.width) canvas.width = config.width;
+  if (canvas.height !== config.height) canvas.height = config.height;
 
   // Clear canvas
   ctx.clearRect(0, 0, config.width, config.height);
@@ -260,15 +111,14 @@ export function renderPartyUI(
   const members = party.members;
   const spacing = 10;
   const portraitSize = config.portraitSize;
+  const rowHeight = Math.max(portraitSize + spacing * 2, 84);
   const barWidth = config.width - portraitSize - spacing * 3;
   const barHeight = 16;
 
   members.forEach((character, index) => {
-    const yOffset = index * (portraitSize + spacing * 2);
+    const yOffset = index * rowHeight;
 
-    // Get or generate portrait
-    const portraitCanvas = generatePortrait(character, portraitSize);
-    ctx.drawImage(portraitCanvas, spacing, yOffset + spacing);
+    drawPortrait(ctx, character, spacing, yOffset + spacing, portraitSize, config);
 
     // Character name
     ctx.fillStyle = character.alive ? "#ffffff" : "#666666";

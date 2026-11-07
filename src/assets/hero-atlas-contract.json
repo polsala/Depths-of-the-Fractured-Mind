@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "size": 512,
+  "sourceSize": 1024,
+  "columns": 4,
+  "rows": 3,
+  "sourceFrameWidth": 256,
+  "sourceFrameHeight": 320,
+  "frameWidth": 128,
+  "frameHeight": 160,
+  "pivot": [0.5, 0.92],
+  "animations": {
+    "idle": { "frames": [0, 3], "frameMs": 500, "loop": true },
+    "walkNorth": { "frames": [1, 2], "frameMs": 180, "loop": true },
+    "walkSouth": { "frames": [4, 5], "frameMs": 180, "loop": true },
+    "walkEast": { "frames": [6, 7], "frameMs": 180, "loop": true },
+    "walkWest": { "frames": [6, 7], "frameMs": 180, "loop": true, "flipX": true },
+    "attack": { "frames": [7, 8], "frameMs": 140, "loop": false },
+    "cast": { "frames": [9, 10], "frameMs": 180, "loop": false },
+    "hit": { "frames": [6, 10], "frameMs": 120, "loop": false },
+    "death": { "frames": [11], "frameMs": 1000, "loop": false }
+  },
+  "characters": {
+    "elias": { "source": "elias/CHAR_001.png", "atlas": "elias/hero-atlas.png" },
+    "miriam": { "source": "miriam/CHAR_002.png", "atlas": "miriam/hero-atlas.png" },
+    "subject13": { "source": "subject13/CHAR_003.png", "atlas": "subject13/hero-atlas.png" },
+    "anya": { "source": "anya/CHAR_004.png", "atlas": "anya/hero-atlas.png", "matte": "dark-checker" }
+  }
+}

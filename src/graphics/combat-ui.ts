@@ -1,11 +1,23 @@
 import type { CombatState } from "../game/combat/state";
+import type { CharacterId } from "../game/state";
+import { drawHero, type HeroAnimation } from "../assets/hero-sprites";
 import { getAliveEnemies, getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
+
+export interface CombatVisualCue {
+  actorId: CharacterId;
+  animation: "attack" | "cast";
+  hitIds: CharacterId[];
+  startedAt: number;
+}
 
 export interface CombatUIOptions {
   width: number;
   height: number;
   backgroundImage?: HTMLImageElement;
+  nowMs?: number;
+  reducedMotion?: boolean;
+  visualCue?: CombatVisualCue | null;
 }
 
 const COLORS = {
@@ -31,8 +43,8 @@ export function renderCombatUI(
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
-  canvas.width = options.width;
-  canvas.height = options.height;
+  if (canvas.width !== options.width) canvas.width = options.width;
+  if (canvas.height !== options.height) canvas.height = options.height;
 
   // Background image or fallback fill
   if (options.backgroundImage && options.backgroundImage.complete && options.backgroundImage.naturalWidth > 0) {
@@ -53,7 +65,7 @@ export function renderCombatUI(
   renderEnemies(ctx, state, 0, 0, options.width, topHeight);
 
   // Bottom: Party
-  renderParty(ctx, state, 0, topHeight, options.width, bottomHeight);
+  renderParty(ctx, state, 0, topHeight, options.width, bottomHeight, options);
 }
 
 function renderEnemies(
@@ -139,88 +151,69 @@ function renderParty(
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number,
+  options: CombatUIOptions,
 ): void {
   ctx.fillStyle = COLORS.panel;
   ctx.fillRect(x, y, width, height);
+  const members = state.party.members;
+  if (!members.length) return;
+  const slotWidth = width / members.length;
+  const currentActor = getCurrentActor(state);
+  const now = options.nowMs ?? 0;
+  const cue = options.visualCue;
+  const cueActive = cue && now - cue.startedAt < 650 && now >= cue.startedAt;
 
-  const aliveMembers = state.party.members
-    .map((member, index) => ({ member, index }))
-    .filter(({ member }) => member.alive);
+  members.forEach((member, partyIndex) => {
+    const memberX = x + slotWidth * partyIndex + 4;
+    const memberY = y + 6;
+    const memberWidth = slotWidth - 8;
+    const memberHeight = height - 12;
+    const selected = state.phase === "select-action" && currentActor?.isPlayer && partyIndex === currentActor.index;
+    ctx.fillStyle = member.alive ? "rgba(10, 20, 24, 0.72)" : "rgba(15, 12, 16, 0.78)";
+    ctx.fillRect(memberX, memberY, memberWidth, memberHeight);
+    ctx.strokeStyle = selected ? COLORS.selected : member.alive ? COLORS.border : "#795252";
+    ctx.lineWidth = selected ? 3 : 1;
+    ctx.strokeRect(memberX, memberY, memberWidth, memberHeight);
 
-  if (aliveMembers.length === 0) return;
-
-  const memberWidth = Math.floor(width / Math.max(aliveMembers.length, 1)) - 10;
-
-  aliveMembers.forEach(({ member, index: partyIndex }, position) => {
-    const memberX = x + position * (memberWidth + 5);
-    const memberY = y + 10;
-
-    // Highlight current actor if it's their turn
-    const currentActor = getCurrentActor(state);
-    if (state.phase === "select-action" && currentActor?.isPlayer && partyIndex === currentActor.index) {
-      ctx.strokeStyle = COLORS.selected;
-      ctx.lineWidth = 3;
-      ctx.strokeRect(memberX - 2, memberY - 2, memberWidth + 4, height - 16);
-    }
-
-    // Member box
-    ctx.strokeStyle = COLORS.border;
-    ctx.lineWidth = 1;
-    ctx.strokeRect(memberX, memberY, memberWidth, height - 20);
-
-    // Member name
-    ctx.fillStyle = COLORS.ally;
+    ctx.fillStyle = member.alive ? COLORS.ally : "#b38080";
     ctx.font = "bold 11px monospace";
-    ctx.textAlign = "left";
-    ctx.fillText(member.name.substring(0, 15), memberX + 5, memberY + 15);
+    ctx.textAlign = "center";
+    const nameLabel = memberWidth < 140 ? ({ elias: "Elias", miriam: "Miriam", subject13: "Subject 13", anya: "Anya" }[member.id]) : member.name;
+    ctx.fillText(nameLabel, memberX + memberWidth / 2, memberY + 15, memberWidth - 8);
 
-    // HP bar
-    renderBar(
-      ctx,
-      memberX + 5,
-      memberY + 25,
-      memberWidth - 10,
-      10,
-      member.stats.hp,
-      member.stats.maxHp,
-      member.stats.hp < member.stats.maxHp * 0.3 ? COLORS.hpLow : COLORS.hp,
-      "HP"
-    );
-
-    // SAN bar
-    renderBar(
-      ctx,
-      memberX + 5,
-      memberY + 42,
-      memberWidth - 10,
-      10,
-      member.stats.sanity,
-      member.stats.maxSanity,
-      member.stats.sanity < member.stats.maxSanity * 0.3
-        ? COLORS.sanityLow
-        : COLORS.sanity,
-      "SAN"
-    );
-
-    // Stats
+    let animation: HeroAnimation = member.alive ? "idle" : "death";
+    let elapsed = now;
+    if (member.alive && cueActive) {
+      if (cue.actorId === member.id) { animation = cue.animation; elapsed = now - cue.startedAt; }
+      else if (cue.hitIds.includes(member.id)) { animation = "hit"; elapsed = now - cue.startedAt; }
+    }
+    const availableHeight = Math.max(56, memberHeight - 87);
+    const spriteWidth = Math.max(35, Math.min(memberWidth - 12, availableHeight * 0.8));
+    const spriteHeight = spriteWidth / 0.8;
+    const spriteX = memberX + (memberWidth - spriteWidth) / 2;
+    const spriteY = memberY + 20 + Math.max(0, (availableHeight - spriteHeight) / 2);
+    if (!drawHero(ctx, member.id, animation, elapsed, spriteX, spriteY, spriteWidth, spriteHeight, options.reducedMotion)) {
+      ctx.fillStyle = COLORS.text;
+      ctx.fillText(member.name[0], memberX + memberWidth / 2, memberY + 62);
+    }
+    if (!member.alive) {
+      ctx.fillStyle = "rgba(0,0,0,0.45)";
+      ctx.fillRect(spriteX, spriteY, spriteWidth, spriteHeight);
+    }
+    const barY = memberY + memberHeight - 55;
+    renderBar(ctx, memberX + 5, barY, memberWidth - 10, 11,
+      member.stats.hp, member.stats.maxHp,
+      member.stats.hp < member.stats.maxHp * 0.3 ? COLORS.hpLow : COLORS.hp, "HP");
+    renderBar(ctx, memberX + 5, barY + 18, memberWidth - 10, 11,
+      member.stats.sanity, member.stats.maxSanity,
+      member.stats.sanity < member.stats.maxSanity * 0.3 ? COLORS.sanityLow : COLORS.sanity, "SAN");
     ctx.fillStyle = COLORS.textDim;
     ctx.font = "9px monospace";
-    ctx.fillText(`ATK ${member.stats.attack}`, memberX + 5, memberY + 62);
-    ctx.fillText(`DEF ${member.stats.defense}`, memberX + 5, memberY + 72);
-    ctx.fillText(`WILL ${member.stats.will}`, memberX + 5, memberY + 82);
-
-    // Status effects
-    if (member.statusEffects.length > 0) {
-      ctx.fillStyle = COLORS.textDim;
-      ctx.font = "8px monospace";
-      const statusText = member.statusEffects.join(", ");
-      ctx.fillText(
-        statusText.substring(0, 12),
-        memberX + 5,
-        memberY + 95
-      );
-    }
+    ctx.textAlign = "center";
+    const footer = !member.alive ? "FALLEN" : member.statusEffects.length
+      ? member.statusEffects.join(", ") : `ATK ${member.stats.attack} · DEF ${member.stats.defense}`;
+    ctx.fillText(footer, memberX + memberWidth / 2, memberY + memberHeight - 8, memberWidth - 10);
   });
 }
 
