@@ -6,6 +6,7 @@ import { resolvePartyDefeat } from "../defeat";
 import { addItem } from "../inventory";
 import { shouldTriggerEncounter, generateRandomEncounter, generateBossEncounter } from "../combat/encounters";
 import { createCombatState } from "../combat/state";
+import { nextRequiredBeat } from "../story";
 
 // Default facing direction when not specified
 const DEFAULT_DIRECTION = "north" as const;
@@ -54,6 +55,34 @@ function markTileDiscovered(state: GameState, x: number, y: number): void {
   }
 }
 
+export function resolveDownStairs(state: GameState): GameState {
+  const required = nextRequiredBeat(state);
+  if (required) return startEvent(state, required);
+
+  const currentDepth = state.location.depth;
+  if (!state.flags.bossDefeatedDepths?.has(currentDepth)) {
+    const bossEncounter = generateBossEncounter(currentDepth);
+    if (bossEncounter) {
+      return {
+        ...state,
+        mode: "combat" satisfies GameMode,
+        combatState: createCombatState(state.party, bossEncounter, true, state.debugOptions, currentDepth),
+        currentEncounterId: `boss_${currentDepth}_${Date.now()}`,
+      };
+    }
+  }
+  const nextDepth = currentDepth + 1;
+  if (nextDepth > 5) return state; // The ending is implemented in Pack 4.
+  const nextMap = getDepthMap(nextDepth, state.depthMaps);
+  const target = findTilePositionByType(nextMap, "stairsUp") ?? { x: nextMap.startX, y: nextMap.startY };
+  const nextState: GameState = {
+    ...state,
+    location: { depth: nextDepth, x: target.x, y: target.y, direction: state.location.direction },
+  };
+  markTileDiscovered(nextState, target.x, target.y);
+  return nextState;
+}
+
 export function moveBy(state: GameState, dx: number, dy: number): GameState {
   if (state.mode !== "exploration") return state;
   const current: GameLocation = state.location;
@@ -84,44 +113,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
 
   // Handle stairs
   if (tile?.type === "stairsDown") {
-    const currentDepth = state.location.depth;
-    const alreadyDefeated = state.flags.bossDefeatedDepths?.has(currentDepth);
-    if (!alreadyDefeated) {
-      const bossEncounter = generateBossEncounter(currentDepth);
-      if (bossEncounter) {
-        const combatState = createCombatState(
-          nextState.party,
-          bossEncounter,
-          true,
-          nextState.debugOptions,
-          currentDepth
-        );
-        return {
-          ...nextState,
-          mode: "combat" satisfies GameMode,
-          combatState,
-          currentEncounterId: `boss_${currentDepth}_${Date.now()}`,
-        };
-      }
-    }
-    const nextDepth = state.location.depth + 1;
-    if (nextDepth <= 5) {
-      const nextMap = getDepthMap(nextDepth, nextState.depthMaps);
-      const stairsUpTarget = findTilePositionByType(nextMap, "stairsUp") ?? {
-        x: nextMap.startX,
-        y: nextMap.startY,
-      };
-      nextState = {
-        ...nextState,
-        location: {
-          depth: nextDepth,
-          x: stairsUpTarget.x,
-          y: stairsUpTarget.y,
-          direction: state.location.direction,
-        },
-      };
-      markTileDiscovered(nextState, stairsUpTarget.x, stairsUpTarget.y);
-    }
+    return resolveDownStairs(nextState);
   } else if (tile?.type === "stairsUp") {
     const prevDepth = state.location.depth - 1;
     if (prevDepth >= 1) {

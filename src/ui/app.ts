@@ -5,6 +5,8 @@ import { GameController } from "../game/index";
 import { audioManager } from "./audio";
 import { renderTitle, resetTitleMusic } from "./screens/title";
 import { renderGameOver } from "./screens/game-over";
+import { renderDialogue } from "./screens/dialogue";
+import { getDialogue, getDialogueChoiceUnavailableReason } from "../game/dialogue";
 import type { SaveActions } from "./screens/types";
 import { setSoundSink } from "../game/sound";
 import { SaveRepository, type SaveStorage } from "../game/save";
@@ -60,7 +62,7 @@ function hasLocationChanged(prevState: GameState, newState: GameState): boolean 
 
 // Preserve the exploration shell (and its listeners/canvases) for ordinary moves.
 // Mode and depth changes still build the appropriate new screen.
-function refreshExploration(root: HTMLElement, state: GameState): void {
+function refreshExploration(root: HTMLElement, state: GameState, controller: GameController): void {
   if (!dungeonRenderContext) return;
   // Keep the graphics projection in sync with mutable pickups, doors and traps.
   dungeonRenderContext.depthMaps.set(state.location.depth, generateDepthMap(state.location.depth, state.depthMaps));
@@ -90,6 +92,8 @@ function refreshExploration(root: HTMLElement, state: GameState): void {
   });
   const vendorButton = root.querySelector<HTMLButtonElement>(".vendor-button");
   if (vendorButton) vendorButton.hidden = !state.depthMaps?.get(state.location.depth)?.tiles[state.location.y]?.[state.location.x]?.vendor;
+  const npcButton = root.querySelector<HTMLButtonElement>(".npc-button");
+  if (npcButton) npcButton.hidden = !controller.getNearbyNpcId();
 }
 
 function closeMinimapModal(): void {
@@ -381,6 +385,15 @@ function renderExploration(
   vendorBtn.addEventListener("click", () => openVendorModal(controller.getState(), controller, rerender));
   infoPanel.appendChild(vendorBtn);
 
+  const npcBtn = document.createElement("button");
+  npcBtn.className = "npc-button";
+  npcBtn.textContent = "Talk to the Keeper";
+  npcBtn.hidden = !controller.getNearbyNpcId();
+  npcBtn.addEventListener("click", () => {
+    if (controller.startDialogue()) rerender();
+  });
+  infoPanel.appendChild(npcBtn);
+
   // Instructions - show appropriate controls based on platform
   const instructions = document.createElement("div");
   instructions.className = "instructions";
@@ -399,6 +412,7 @@ function renderExploration(
       <p>A/← - Strafe Left</p>
       <p>D/→ - Strafe Right</p>
       <p>Q - Turn Left, E - Turn Right</p>
+      <p>T - Talk to a nearby character</p>
       <p>Step onto marked tiles to trigger events</p>
     `;
   }
@@ -2279,7 +2293,7 @@ export function initApp(root: HTMLElement): void {
         status.setAttribute("role", "status");
         root.prepend(status);
       }
-      refreshExploration(root, state);
+      refreshExploration(root, state, controller);
       return;
     }
     root.replaceChildren();
@@ -2320,6 +2334,8 @@ export function initApp(root: HTMLElement): void {
         renderGameOver(root, state, saves);
         break;
       case "conversation":
+        renderDialogue(root, controller, state, render);
+        break;
       case "ending":
       case "pause": {
         const placeholder = document.createElement("p");
@@ -2341,6 +2357,10 @@ export function initApp(root: HTMLElement): void {
   window.addEventListener("keydown", (event) => {
     const state = controller.getState();
     if (state.mode === "exploration") {
+      if (event.key.toLowerCase() === "t" && controller.startDialogue()) {
+        render();
+        return;
+      }
       // Ensure direction is initialized
       if (!state.location.direction) {
         state.location.direction = "north";
@@ -2391,6 +2411,16 @@ export function initApp(root: HTMLElement): void {
       if (!Number.isNaN(index) && index >= 1 && index <= eventData.choices.length) {
         const choice = eventData.choices[index - 1];
         controller.chooseEventChoice(choice.id);
+        render();
+      }
+    } else if (state.mode === "conversation" && state.currentDialogueId) {
+      if (event.key === "Escape") { controller.leaveDialogue(); render(); return; }
+      const dialogue = getDialogue(state.currentDialogueId);
+      if (event.key === "Enter" && !dialogue?.choices?.length) { controller.advanceDialogue(); render(); return; }
+      const index = Number.parseInt(event.key, 10);
+      const choice = dialogue?.choices?.[index - 1];
+      if (choice && !getDialogueChoiceUnavailableReason(choice, state)) {
+        controller.chooseDialogueChoice(choice.id);
         render();
       }
     }

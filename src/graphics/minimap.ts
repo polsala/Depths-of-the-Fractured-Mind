@@ -158,6 +158,10 @@ export function renderMinimap(
         );
         ctx.fill();
       }
+      if (cell.npc) {
+        ctx.fillStyle = "#78d6c6";
+        ctx.fillRect(tileX + tileSize * 0.3, tileY + tileSize * 0.3, tileSize * 0.4, tileSize * 0.4);
+      }
     }
   }
 

@@ -29,6 +29,7 @@ export interface MapTile {
     opened?: boolean;
   };
   vendor?: boolean;
+  npcId?: "keeper";
 }
 
 export interface DepthMap {

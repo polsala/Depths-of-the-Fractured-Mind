@@ -19,6 +19,8 @@ const stairsDownSprite = new Image();
 stairsDownSprite.src = OBJECT_SPRITES.stairsDown;
 const vendorSprite = new Image();
 vendorSprite.src = OBJECT_SPRITES.vendor;
+const keeperSprite = new Image();
+keeperSprite.src = OBJECT_SPRITES.keeper;
 
 const textureCache = new Map<string, HTMLImageElement>();
 const depthTextures = DEPTH_TEXTURES;
@@ -741,6 +743,13 @@ export function renderDungeonView(
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.vendor) continue;
     drawBillboard(distance, vendorSprite, "#b48bff", 2.5, true);
+  }
+
+  for (let distance = 1; distance <= viewDistance; distance++) {
+    const target = resolveTarget(distance);
+    const cell = map[target.y]?.[target.x];
+    if (!cell?.npc) continue;
+    drawBillboard(distance, keeperSprite, "#78d6c6", 2.5, true);
   }
 
   // Draw chests within view as billboards

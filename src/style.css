@@ -117,6 +117,39 @@ h1 {
   box-sizing: border-box;
 }
 
+.dialogue-screen {
+  max-width: 900px;
+  margin: 24px auto;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(150px, 240px) 1fr;
+  gap: 24px;
+  align-items: start;
+  text-align: left;
+  background: #11131b;
+  border: 2px solid #4a6570;
+  border-radius: 10px;
+}
+
+.dialogue-portrait {
+  width: 100%;
+  max-height: 330px;
+  object-fit: contain;
+  border: 1px solid #567076;
+}
+
+.dialogue-content h2 { margin-top: 0; color: #b8ded9; }
+.dialogue-content p { line-height: 1.65; color: #d6e0e4; }
+.dialogue-content strong { color: #b8ded9; }
+.dialogue-actions { display: grid; gap: 8px; margin-top: 20px; }
+.dialogue-actions button, .npc-button { min-height: 44px; }
+.dialogue-actions small { color: #b7bbc3; }
+
+@media (max-width: 600px) {
+  .dialogue-screen { grid-template-columns: 1fr; padding: 16px; }
+  .dialogue-portrait { max-height: 180px; }
+}
+
 /* Exploration mode layout */
 .exploration-container {
   display: flex;

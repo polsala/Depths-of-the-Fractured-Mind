@@ -91,6 +91,7 @@ The game is automatically deployed to GitHub Pages when changes are pushed to th
 - [Deployment Guide](docs/deployment.md) - GitHub Pages deployment documentation
 - [CI/CD Guide](docs/ci-cd.md) - Continuous integration and deployment workflows
 - [Event System](docs/event-system.md) - Complete event system documentation
+- [Story Flow and Keeper NPC](docs/story-flow.md) - Chapter gates, dialogue, and current ending boundary
 - [Event System Quick Start](docs/event-system-quickstart.md) - Quick guide to the procedural event system
 
 ## 🎯 Game Features

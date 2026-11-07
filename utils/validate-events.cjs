@@ -67,6 +67,7 @@ function validateEvents() {
   const errors = [];
   const warnings = [];
   const knownItemIds = getKnownItemIds();
+  const references = new Set();
   
   data.events.forEach((event, index) => {
     const eventNum = index + 1;
@@ -110,6 +111,7 @@ function validateEvents() {
           warnings.push(`Event ${event.id || eventNum}, Choice ${choice.id || choiceIndex + 1}: No effects defined`);
         }
         const label = `Event ${event.id || eventNum}, Choice ${choice.id || choiceIndex + 1}`;
+        if (choice.effects?.nextEventId) references.add(choice.effects.nextEventId);
         if (choice.requiresFlags !== undefined &&
             (typeof choice.requiresFlags !== 'object' || choice.requiresFlags === null ||
              Array.isArray(choice.requiresFlags) ||
@@ -148,7 +150,16 @@ function validateEvents() {
       if (event.metadata.characterFocus && !validCharacters.includes(event.metadata.characterFocus)) {
         warnings.push(`Event ${event.id}: Invalid characterFocus '${event.metadata.characterFocus}'`);
       }
+      const trigger = event.metadata.triggerConditions || {};
+      const min = trigger.minDepth ?? 1;
+      const max = trigger.maxDepth ?? 5;
+      if (!Number.isInteger(min) || !Number.isInteger(max) || min < 1 || max > 5 || min > max ||
+          (trigger.specificDepth !== undefined && (!Number.isInteger(trigger.specificDepth) ||
+            trigger.specificDepth < min || trigger.specificDepth > max))) {
+        errors.push(`Event ${event.id}: impossible depth trigger conditions`);
+      }
     }
+    if (event.nextEventId) references.add(event.nextEventId);
   });
   
   // Validate pools
@@ -165,8 +176,16 @@ function validateEvents() {
       } else {
         // Check that referenced events exist
         pool.events.forEach((eventId) => {
+          references.add(eventId);
           if (!eventIds.has(eventId)) {
-            warnings.push(`Pool ${pool.id}: References unknown event '${eventId}'`);
+            errors.push(`Pool ${pool.id}: references unknown event '${eventId}'`);
+          } else {
+            const depth = Number(/^depth_(\d+)_events$/.exec(pool.id)?.[1]);
+            const trigger = data.events.find((event) => event.id === eventId)?.metadata?.triggerConditions || {};
+            if (depth && (depth < (trigger.minDepth ?? 1) || depth > (trigger.maxDepth ?? 5) ||
+                (trigger.specificDepth !== undefined && depth !== trigger.specificDepth))) {
+              errors.push(`Pool ${pool.id}: event '${eventId}' cannot trigger at depth ${depth}`);
+            }
           }
         });
       }
@@ -176,6 +195,13 @@ function validateEvents() {
         warnings.push(`Pool ${pool.id}: Invalid selectionStrategy '${pool.selectionStrategy}'`);
       }
     });
+  }
+
+  for (const id of references) {
+    if (!eventIds.has(id)) errors.push(`Unknown event reference '${id}'`);
+  }
+  for (const id of eventIds) {
+    if (!references.has(id)) errors.push(`Unreachable event '${id}': no pool or chain references it`);
   }
   
   // Report results

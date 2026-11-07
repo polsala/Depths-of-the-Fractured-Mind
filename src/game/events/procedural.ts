@@ -3,6 +3,7 @@ import type { GameState } from "../state";
 import type { EventTriggerConditions } from "./types";
 import { getEventMetadata, getEventPool } from "./loader";
 import { isEventAvailable } from "./engine";
+import { nextRequiredBeat } from "../story";
 
 /**
  * Check if an event's trigger conditions are met
@@ -185,16 +186,8 @@ export function selectEventFromPool(
  * Get mandatory events that haven't been completed yet
  */
 export function getIncompleteMandatoryEvents(state: GameState): string[] {
-  const mandatoryFlags = [
-    { id: "pit_fall_event", flag: "pitEventResolved" },
-    { id: "overflow_ward_event", flag: "overflowWardResolved" },
-    { id: "riot_recording_event", flag: "riotRecordingPlayed" },
-    { id: "confessional_chair_event", flag: "confessionalUsed" },
-  ];
-  
-  return mandatoryFlags
-    .filter(({ flag }) => !(state.flags as Record<string, boolean>)[flag])
-    .map(({ id }) => id);
+  const next = nextRequiredBeat(state);
+  return next ? [next] : [];
 }
 
 /**

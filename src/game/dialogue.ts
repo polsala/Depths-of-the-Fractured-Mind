@@ -1,7 +1,8 @@
 import type { GameState } from "./state";
+import { getItemCount } from "./inventory";
 
 export interface DialogueLine {
-  speaker: "narrator" | "elias" | "miriam" | "subject13" | "anya" | "unknown";
+  speaker: "narrator" | "elias" | "miriam" | "subject13" | "anya" | "keeper" | "unknown";
   text: string;
   emotion?: "calm" | "fearful" | "angry" | "confused" | "sad" | "cryptic";
 }
@@ -12,12 +13,15 @@ export interface DialogueChoice {
   nextDialogueId?: string;
   nextEventId?: string;
   eventId?: string;
+  requiresFlags?: Record<string, boolean>;
+  requiresItems?: string[];
   effects?: {
     sanityDelta?: number;
     mercyDelta?: number;
     crueltyDelta?: number;
     truthDelta?: number;
     denialDelta?: number;
+    setFlags?: Record<string, boolean>;
   };
 }
 
@@ -234,7 +238,46 @@ const DIALOGUES: Record<string, Dialogue> = {
   game_intro: INTRO_DIALOGUE,
   depth1_start: DEPTH1_START,
   ...EVENT_DIALOGUES,
+  keeper_intro: {
+    id: "keeper_intro",
+    lines: [
+      { speaker: "keeper", text: "I kept the keys. Not the people. The recordings below remember what we did." },
+      { speaker: "keeper", text: "The Archive lies beyond the first stair. Decide whether you want its truth before you descend." },
+    ],
+    choices: [
+      { id: "listen", text: "Tell us where the director hid the evidence.", effects: { truthDelta: 1, setFlags: { keeperTruthShared: true } }, nextDialogueId: "keeper_revelation" },
+      { id: "dismiss", text: "We have no time for another confession.", effects: { denialDelta: 1, setFlags: { keeperDismissed: true } } },
+    ],
+  },
+  keeper_revelation: {
+    id: "keeper_revelation",
+    lines: [{ speaker: "keeper", text: "Look behind the resignation letter in the director's office. There is a second drawer. Read it before you choose your story." }],
+    autoAdvance: true,
+  },
+  keeper_return: {
+    id: "keeper_return",
+    lines: [{ speaker: "keeper", text: "The doors below are still open. What have you learned?" }],
+    choices: [
+      { id: "share_logs", text: "Show the security logs you recovered.", requiresFlags: { security_logs_read: true, keeperSecurityBriefed: false }, effects: { truthDelta: 1, setFlags: { keeperSecurityBriefed: true } } },
+      { id: "show_card", text: "Show the Archive access card.", requiresItems: ["access_card"], requiresFlags: { keeperCardShown: false }, effects: { setFlags: { keeperCardShown: true } } },
+      { id: "leave", text: "Leave the Keeper to the silence." },
+    ],
+  },
 };
+
+export const NPCS = {
+  keeper: { name: "The Keeper", firstDialogueId: "keeper_intro", returnDialogueId: "keeper_return" },
+} as const;
+
+export function getDialogueChoiceUnavailableReason(choice: DialogueChoice, state: GameState): string | null {
+  for (const [flag, required] of Object.entries(choice.requiresFlags ?? {})) {
+    if (Boolean(state.flags[flag]) !== required) return `Requires ${flag}.`;
+  }
+  for (const item of choice.requiresItems ?? []) {
+    if (getItemCount(state.party.inventory, item) < 1) return `Requires ${item}.`;
+  }
+  return null;
+}
 
 export function getDialogue(id: string): Dialogue | undefined {
   return DIALOGUES[id];
