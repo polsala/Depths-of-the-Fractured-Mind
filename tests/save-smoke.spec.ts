@@ -2,6 +2,25 @@ import { test, expect } from "@playwright/test";
 
 const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
 
+test("four authored protagonist atlases load into the HUD on mobile", async ({ browser }) => {
+  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const page = await context.newPage();
+  const errors: string[] = [];
+  const loaded = new Set<string>();
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("response", (response) => {
+    if (response.url().endsWith("hero-atlas.png") && response.ok()) loaded.add(response.url());
+  });
+  await page.goto("./");
+  await page.getByRole("button", { name: "Begin Your Descent" }).tap();
+  await expect(page.locator(".party-panel")).toBeVisible();
+  await expect.poll(() => loaded.size).toBe(4);
+  const fits = await page.locator(".party-panel").evaluate((canvas: HTMLCanvasElement) => canvas.height >= 4 * 84 + 8);
+  expect(fits).toBe(true);
+  expect(errors).toEqual([]);
+  await context.close();
+});
+
 test("Begin → progress → reload → Continue keeps the exploration screen and map view", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));

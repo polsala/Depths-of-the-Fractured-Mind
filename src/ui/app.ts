@@ -31,6 +31,7 @@ import {
   renderCombatUI,
   renderCombatLog,
   createActionMenu,
+  type CombatVisualCue,
 } from "../graphics/combat-ui";
 import type { CombatState, CombatAction } from "../game/combat/state";
 import { getCurrentActor } from "../game/combat/state";
@@ -52,9 +53,30 @@ let minimapModal: HTMLDivElement | null = null;
 let minimapModalCanvas: HTMLCanvasElement | null = null;
 let minimapModalConfig: MinimapConfig | null = null;
 let combatActionModal: HTMLDivElement | null = null;
+let combatVisualCue: CombatVisualCue | null = null;
+let partyMotionUntil = 0;
+let partyMotionFacing: "north" | "south" | "east" | "west" = "north";
+
+function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function animateCanvas(canvas: HTMLCanvasElement, draw: (now: number) => void): void {
+  let lastFrame = 0;
+  const tick = (now: number) => {
+    if (!canvas.isConnected) return;
+    if (now - lastFrame >= 120) { draw(now); lastFrame = now; }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
 
 // Used by movement input to avoid redrawing when a wall blocks the move.
 function hasLocationChanged(prevState: GameState, newState: GameState): boolean {
+  if (prevState.location.x !== newState.location.x || prevState.location.y !== newState.location.y) {
+    partyMotionUntil = performance.now() + 420;
+    partyMotionFacing = newState.location.direction ?? "north";
+  }
   return prevState.location.x !== newState.location.x || 
          prevState.location.y !== newState.location.y || 
          prevState.location.depth !== newState.location.depth ||
@@ -91,6 +113,8 @@ function refreshExploration(root: HTMLElement, state: GameState, controller: Gam
   if (partyCanvas) renderPartyUI(partyCanvas, state.party, {
     width: partyCanvas.width, height: partyCanvas.height,
     portraitSize: detectPlatform() === "mobile" ? 48 : 64,
+    facing: performance.now() < partyMotionUntil ? partyMotionFacing : undefined,
+    timeMs: performance.now(), reducedMotion: prefersReducedMotion(),
   });
   const vendorButton = root.querySelector<HTMLButtonElement>(".vendor-button");
   if (vendorButton) vendorButton.hidden = !state.depthMaps?.get(state.location.depth)?.tiles[state.location.y]?.[state.location.x]?.vendor;
@@ -362,12 +386,23 @@ function renderExploration(
   // Render party UI with responsive size
   const portraitSizeForParty = platform === 'mobile' ? 48 : 64;
   const wrapperWidth = Math.max(240, (partyWrapper.clientWidth || partyUISize.width || 240) - 16);
+  const partyPanelHeight = Math.max(partyUISize.height, state.party.members.length * Math.max(portraitSizeForParty + 20, 84) + 8);
   partyCanvas.width = wrapperWidth;
-  partyCanvas.height = partyUISize.height;
+  partyCanvas.height = partyPanelHeight;
   renderPartyUI(partyCanvas, state.party, {
     width: wrapperWidth,
-    height: partyUISize.height,
+    height: partyPanelHeight,
     portraitSize: portraitSizeForParty,
+    timeMs: performance.now(), reducedMotion: prefersReducedMotion(),
+  });
+  animateCanvas(partyCanvas, (now) => {
+    const current = controller.getState();
+    if (current.mode !== "exploration") return;
+    renderPartyUI(partyCanvas, current.party, {
+      width: wrapperWidth, height: partyPanelHeight, portraitSize: portraitSizeForParty,
+      facing: now < partyMotionUntil ? partyMotionFacing : undefined,
+      timeMs: now, reducedMotion: prefersReducedMotion(),
+    });
   });
 
   // Party status and inventory box
@@ -923,23 +958,21 @@ function renderCombat(
   combatCanvas.style.maxWidth = "100%";
   combatCanvas.style.boxShadow = "0 8px 24px rgba(0,0,0,0.45)";
   combatView.appendChild(combatCanvas);
-  renderCombatUI(combatCanvas, combatState, {
-    width: canvasWidth,
-    height: canvasHeight,
-    backgroundImage: backgroundImage?.complete ? backgroundImage : undefined,
-  });
+  const drawCombatFrame = (now: number) => {
+    const latestState = controller.getCombatState();
+    if (!latestState) return;
+    renderCombatUI(combatCanvas, latestState, {
+      width: canvasWidth, height: canvasHeight,
+      backgroundImage: backgroundImage?.complete ? backgroundImage : undefined,
+      nowMs: now, reducedMotion: prefersReducedMotion(), visualCue: combatVisualCue,
+    });
+  };
+  drawCombatFrame(performance.now());
+  animateCanvas(combatCanvas, drawCombatFrame);
 
   if (backgroundImage && !backgroundImage.complete) {
     backgroundImage.onload = () => {
-      // Re-render to apply the loaded background; pull fresh state in case combat progressed
-      const latestState = controller.getCombatState();
-      if (latestState) {
-        renderCombatUI(combatCanvas, latestState as CombatState, {
-          width: canvasWidth,
-          height: canvasHeight,
-          backgroundImage,
-        });
-      }
+      drawCombatFrame(performance.now());
     };
   }
 
@@ -988,6 +1021,25 @@ function renderCombat(
   `;
   controlsWrapper.appendChild(actionContainer);
 
+  const submitWithVisualCue = (action: CombatAction) => {
+    const before = controller.getCombatState();
+    if (!before || before.phase !== "select-action") return;
+    const actor = getCurrentActor(before);
+    if (!actor?.isPlayer || actor.index !== action.actorIndex) return;
+    const actorId = before.party.members[action.actorIndex]?.id;
+    if (!actorId) return;
+    const hpBefore = before.party.members.map((member) => member.stats.hp);
+    controller.submitCombatAction(action);
+    const after = controller.getCombatState();
+    if (!after) return;
+    combatVisualCue = {
+      actorId,
+      animation: action.type === "attack" ? "attack" : "cast",
+      hitIds: after.party.members.filter((member, index) => member.stats.hp < hpBefore[index]).map((member) => member.id),
+      startedAt: performance.now(),
+    };
+  };
+
   const handleAction = (action: any) => {
     if (action.type === "end-combat") {
       controller.endCombat();
@@ -1029,7 +1081,7 @@ function renderCombat(
         actorIndex: action.actorIndex,
         isPlayerAction: true,
       };
-      controller.submitCombatAction(combatAction);
+      submitWithVisualCue(combatAction);
       rerender();
       return;
     }
@@ -1040,7 +1092,7 @@ function renderCombat(
         actorIndex: action.actorIndex,
         isPlayerAction: true,
       };
-      controller.submitCombatAction(combatAction);
+      submitWithVisualCue(combatAction);
       rerender();
       return;
     }
@@ -1312,7 +1364,7 @@ function renderCombat(
       abilityId,
       isPlayerAction: true,
     };
-    controller.submitCombatAction(combatAction);
+    submitWithVisualCue(combatAction);
     selectedAbilityId = undefined;
     closeCombatModal();
     rerender();
@@ -1331,7 +1383,7 @@ function renderCombat(
         abilityId: selectedAbilityId,
         isPlayerAction: true,
       };
-      controller.submitCombatAction(combatAction);
+      submitWithVisualCue(combatAction);
       selectedAbilityId = undefined;
     } else {
       const combatAction: CombatAction = {
@@ -1340,7 +1392,7 @@ function renderCombat(
         targetIndex,
         isPlayerAction: true,
       };
-      controller.submitCombatAction(combatAction);
+      submitWithVisualCue(combatAction);
     }
 
     closeCombatModal();
@@ -1555,7 +1607,7 @@ function renderCombat(
           isPlayerAction: true,
           targetIsEnemy: targetType === "enemy",
         };
-        controller.submitCombatAction(combatAction);
+        submitWithVisualCue(combatAction);
         closeCombatModal();
         rerender();
       };
@@ -1688,7 +1740,7 @@ function renderCombat(
               itemId: item.id,
               isPlayerAction: true,
             };
-            controller.submitCombatAction(combatAction);
+            submitWithVisualCue(combatAction);
             closeCombatModal();
             rerender();
           } else {
