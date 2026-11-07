@@ -1,6 +1,7 @@
 import type { GameState } from "../state";
 import type { EventTriggerConditions } from "./types";
 import { getEventMetadata, getEventPool } from "./loader";
+import { isEventAvailable } from "./engine";
 
 /**
  * Check if an event's trigger conditions are met
@@ -94,6 +95,7 @@ export function getAvailableEvents(
   eventIds: string[]
 ): string[] {
   return eventIds.filter((eventId) => {
+    if (!isEventAvailable(state, eventId)) return false;
     const metadata = getEventMetadata(eventId);
     if (!metadata) {
       return true; // Events without metadata are always available

@@ -66,9 +66,9 @@ jobs:
           path: dist/
           retention-days: 7
 
-  # Validate event data
+  # Validate event data and gameplay invariants
   validate-events:
-    name: Validate Events
+    name: Validate Events & Gameplay Tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -83,8 +83,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate event JSON
-        run: npm run validate:events
+      - name: Validate events and run gameplay regression tests
+        run: npm test
 
   # Check for security vulnerabilities
   security:

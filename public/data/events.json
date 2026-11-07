@@ -800,6 +800,17 @@
               "emergency_cache_shared": true
             }
           }
+        },
+        {
+          "id": "leave_supplies",
+          "label": "Leave the supplies",
+          "description": "Leave the cache for someone else, whether or not you have room.",
+          "effects": {
+            "mercyDelta": 1,
+            "setFlags": {
+              "emergency_cache_shared": true
+            }
+          }
         }
       ],
       "metadata": {

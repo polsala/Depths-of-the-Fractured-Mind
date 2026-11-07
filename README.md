@@ -49,7 +49,8 @@ npm run ci
 # Individual checks
 npm run typecheck        # TypeScript type checking
 npm run validate:events  # Validate event JSON
-npm test                 # Run typecheck + event validation
+npm run test:unit        # Gameplay regression tests
+npm test                 # Typecheck, event validation and gameplay tests
 ```
 
 ## 🔄 CI/CD
@@ -60,6 +61,7 @@ The project uses GitHub Actions for automated testing and deployment:
   - TypeScript compilation check
   - Build verification
   - Event data validation
+  - Gameplay regression tests
   - Security audit
   
 - **Deploy Workflow**: Automatic deployment to GitHub Pages on merge to `main`

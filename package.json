@@ -8,14 +8,16 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "validate:events": "node utils/validate-events.cjs",
+    "test:unit": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
-    "test": "npm run typecheck && npm run validate:events",
-    "ci": "npm run lint && npm run build && npm run validate:events"
+    "test": "npm run typecheck && npm run validate:events && npm run test:unit",
+    "ci": "npm run lint && npm run build && npm run validate:events && npm run test:unit"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
     "typescript": "~5.9.3",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vitest": "^4.1.12"
   }
 }

@@ -1,6 +1,7 @@
 import type { GameLocation, GameMode, GameState } from "../state";
 import { getCurrentDepthMap, getTile, getDepthMap, type TileType } from "./map";
-import { getEventById } from "../events/engine";
+import { getEventById, startEvent } from "../events/engine";
+import { resolvePartyDefeat } from "../defeat";
 import { audioManager } from "../../ui/audio";
 import { addItem } from "../inventory";
 import { shouldTriggerEncounter, generateRandomEncounter, generateBossEncounter } from "../combat/encounters";
@@ -54,6 +55,7 @@ function markTileDiscovered(state: GameState, x: number, y: number): void {
 }
 
 export function moveBy(state: GameState, dx: number, dy: number): GameState {
+  if (state.mode !== "exploration") return state;
   const current: GameLocation = state.location;
   const targetX = current.x + dx;
   const targetY = current.y + dy;
@@ -192,15 +194,14 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
     }
   }
 
+  nextState = resolvePartyDefeat(nextState, "trap");
+  if (nextState.mode === "gameover") return nextState;
+
   // Handle events
   if (tile?.eventId) {
     const eventExists = getEventById(tile.eventId);
     if (eventExists) {
-      nextState = {
-        ...nextState,
-        currentEventId: tile.eventId,
-        mode: "event" satisfies GameMode,
-      };
+      nextState = startEvent(nextState, tile.eventId);
     } else {
       console.warn(`Event ${tile.eventId} referenced by map tile but not registered. Event loading may not be complete.`);
     }
