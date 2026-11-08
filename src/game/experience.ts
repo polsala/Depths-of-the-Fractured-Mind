@@ -55,7 +55,7 @@ export function awardExperience(
   }
   
   if (leveledCharacters.length > 0) {
-    emitSound("ui_click"); // Level up sound
+    emitSound("level_up");
   }
   
   return {

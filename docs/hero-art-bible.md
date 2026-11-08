@@ -30,6 +30,6 @@ Reduced-motion mode uses the first frame of each state. Enemy/boss art and impac
 
 ## Pipeline and review gate
 
-`npm run sprites:build` derives four atlases and this sample from the original sheets. `npm run sprites:check` recomputes them and fails if a generated file is stale, any frame is empty, the dimensions are wrong or true alpha is absent. Anya's opaque dark checker matte is removed via a bounded flood-fill and per-cell silhouette filter before premultiplied 2× downsampling. The original `CHAR_004.png` is preserved; replacement art can omit that repair step.
+`npm run sprites:build` derives four atlases and this sample from the original sheets under `source-assets/assets/sprites/characters/`. `npm run sprites:check` recomputes them and fails if a generated file is stale, any frame is empty, the dimensions are wrong or true alpha is absent. Anya's opaque dark checker matte is removed via a bounded flood-fill and per-cell silhouette filter before premultiplied 2× downsampling. The original `CHAR_004.png` is preserved in `source-assets`; replacement art can omit that repair step.
 
 Before final art-direction sign-off, compare these samples in the actual HUD/combat at desktop and mobile sizes, confirm the silhouettes and palette with the owner, and repaint any pose whose limb motion or edge quality is still unclear. The legacy sheets are functional but visibly soft at large scale; this contract is **not** a declaration that all four characters have final-quality commissioned art. Rights/source proof is tracked separately in #57.

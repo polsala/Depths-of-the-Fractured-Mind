@@ -11,17 +11,6 @@ import { OBJECT_SPRITES, DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../assets/manif
 const MIN_DEPTH = 1;
 const MAX_DEPTH = 5;
 const DEFAULT_DEPTH = 1;
-const chestSprite = new Image();
-chestSprite.src = OBJECT_SPRITES.chest;
-const stairsUpSprite = new Image();
-stairsUpSprite.src = OBJECT_SPRITES.stairsUp;
-const stairsDownSprite = new Image();
-stairsDownSprite.src = OBJECT_SPRITES.stairsDown;
-const vendorSprite = new Image();
-vendorSprite.src = OBJECT_SPRITES.vendor;
-const keeperSprite = new Image();
-keeperSprite.src = OBJECT_SPRITES.keeper;
-
 const textureCache = new Map<string, HTMLImageElement>();
 const depthTextures = DEPTH_TEXTURES;
 const globalTextures = GLOBAL_TEXTURES;
@@ -701,11 +690,14 @@ export function renderDungeonView(
 
   const drawBillboard = (
     distance: number,
-    sprite: HTMLImageElement,
+    spriteUrl: string,
     fallbackColor: string,
     sizeFactor: number,
     anchorToFloor: boolean = true
   ): void => {
+    // Only request a sprite when its tile is actually visible. In particular,
+    // the title screen must not fetch every stair, chest and vendor image.
+    const sprite = getTexture(spriteUrl);
     const distScale = Math.min(0.85, 1 / (distance + 0.6));
     const spriteSize = Math.max(24, height * 0.32 * sizeFactor * distScale);
     const spriteX = width / 2 - spriteSize / 2;
@@ -713,9 +705,10 @@ export function renderDungeonView(
     const liftedAnchor = floorAnchorBase - Math.max(0, distance - 1) * 8;
     const clampedAnchor = Math.max(ceilingHeight + spriteSize * 0.4, liftedAnchor);
     const spriteY = anchorToFloor ? clampedAnchor - spriteSize : height * 0.68 - spriteSize;
-    if (sprite.complete) {
+    if (sprite.complete && sprite.naturalWidth > 0) {
       ctx.drawImage(sprite, spriteX, spriteY, spriteSize, spriteSize);
     } else {
+      queueTextureRedraw(sprite, renderCtx, viewState);
       ctx.fillStyle = fallbackColor;
       ctx.fillRect(spriteX, spriteY, spriteSize, spriteSize * 0.6);
     }
@@ -726,7 +719,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsUp) continue;
-    drawBillboard(distance, stairsUpSprite, "#7fd0ff", 2, true);
+    drawBillboard(distance, OBJECT_SPRITES.stairsUp, "#7fd0ff", 2, true);
   }
 
   // Draw stairs down as billboards in view
@@ -734,7 +727,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.stairsDown) continue;
-    drawBillboard(distance, stairsDownSprite, "#ff7f7f", 2, true);
+    drawBillboard(distance, OBJECT_SPRITES.stairsDown, "#ff7f7f", 2, true);
   }
 
   // Draw vendor as billboard
@@ -742,14 +735,14 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.vendor) continue;
-    drawBillboard(distance, vendorSprite, "#b48bff", 2.5, true);
+    drawBillboard(distance, OBJECT_SPRITES.vendor, "#b48bff", 2.5, true);
   }
 
   for (let distance = 1; distance <= viewDistance; distance++) {
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell?.npc) continue;
-    drawBillboard(distance, keeperSprite, "#78d6c6", 2.5, true);
+    drawBillboard(distance, OBJECT_SPRITES.keeper, "#78d6c6", 2.5, true);
   }
 
   // Draw chests within view as billboards
@@ -757,7 +750,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell || !cell.chest) continue;
-    drawBillboard(distance, chestSprite, "#b0742a", 1.4, true);
+    drawBillboard(distance, OBJECT_SPRITES.chest, "#b0742a", 1.4, true);
   }
 
   // Subtle global crack overlay to bind surfaces

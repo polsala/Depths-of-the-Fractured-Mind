@@ -5,7 +5,8 @@ import { PNG } from "pngjs";
 
 const root = resolve(import.meta.dirname, "..");
 const contract = JSON.parse(await readFile(resolve(root, "src/assets/hero-atlas-contract.json"), "utf8"));
-const base = resolve(root, "public/assets/sprites/characters");
+const sourceBase = resolve(root, "source-assets/assets/sprites/characters");
+const outputBase = resolve(root, "public/assets/sprites/characters");
 const check = process.argv.includes("--check");
 
 if (contract.version !== 1 || contract.columns !== 4 || contract.rows !== 3 || contract.size !== 512 || contract.sourceSize !== 1024 || contract.frameWidth !== 128 || contract.frameHeight !== 160) {
@@ -152,13 +153,13 @@ export function validateFrames(name, image) {
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const atlases = [];
   for (const [name, entry] of Object.entries(contract.characters)) {
-    const source = PNG.sync.read(await readFile(resolve(base, entry.source)));
+    const source = PNG.sync.read(await readFile(resolve(sourceBase, entry.source)));
     if (entry.matte === "dark-checker") removeCheckerMatte(source);
     const atlas = downsample(source);
     validateFrames(name, atlas);
     atlases.push(atlas);
     const encoded = PNG.sync.write(atlas, { colorType: 6, inputColorType: 6, deflateLevel: 9 });
-    const destination = resolve(base, entry.atlas);
+    const destination = resolve(outputBase, entry.atlas);
     if (check) {
       const current = await readFile(destination).catch(() => null);
       if (!current?.equals(encoded)) throw new Error(`${name}: generated atlas is stale; run npm run sprites:build`);

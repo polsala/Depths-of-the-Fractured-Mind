@@ -2,6 +2,28 @@ import { test, expect } from "@playwright/test";
 
 const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
 
+test("title does not download dungeon props and exploration loads optimized art", async ({ page }) => {
+  const assets: string[] = [];
+  const missing: string[] = [];
+  page.on("response", (response) => {
+    if (!response.url().includes("/Depths-of-the-Fractured-Mind/assets/")) return;
+    assets.push(response.url());
+    if (!response.ok()) missing.push(`${response.status()} ${response.url()}`);
+  });
+  await page.goto("./");
+  await page.waitForTimeout(400);
+  expect(assets.filter((url) => /\/(chest|strais_up|strais_down|vendor)\./.test(url))).toEqual([]);
+  const nonAudioBytes = () => page.evaluate(() => performance.getEntriesByType("resource")
+    .filter((entry) => !entry.name.endsWith(".ogg"))
+    .reduce((total, entry) => total + (entry as PerformanceResourceTiming).transferSize, 0));
+  expect(await nonAudioBytes()).toBeLessThan(512 * 1024);
+  await page.getByRole("button", { name: "Begin Your Descent" }).click();
+  await expect(page.locator(".dungeon-viewport")).toBeVisible();
+  await expect.poll(() => assets.some((url) => url.endsWith(".webp"))).toBe(true);
+  expect(await nonAudioBytes()).toBeLessThan(2 * 1024 * 1024);
+  expect(missing).toEqual([]);
+});
+
 test("four authored protagonist atlases load into the HUD on mobile", async ({ browser }) => {
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   const page = await context.newPage();

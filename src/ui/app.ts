@@ -986,9 +986,9 @@ function renderCombat(
   audioManager.playMusic(music);
 
   const combatDepth = combatState.combatDepth ?? state.location.depth;
-  let combatBackground = assetUrl("assets/backgrounds/battle/battle_bg1.png");
+  let combatBackground = assetUrl("assets/backgrounds/battle/battle_bg1.webp");
   if (combatState.isBossFight) {
-    const bossBg = assetUrl(`assets/backgrounds/bosses/BG_BOSS_D${combatDepth}.png`);
+    const bossBg = assetUrl(`assets/backgrounds/bosses/BG_BOSS_D${combatDepth}.webp`);
     combatBackground = bossBg;
   }
   const backgroundImage = getCombatBackground(combatBackground);
@@ -1185,7 +1185,6 @@ function renderCombat(
 
     if (action.type === "game-over") {
       controller.triggerGameOver();
-      audioManager.playMusic("main_theme");
       rerender();
       return;
     }
@@ -2520,6 +2519,10 @@ export function initApp(root: HTMLElement): void {
     document.documentElement.style.fontSize = `${preferences.textScale}%`;
     document.documentElement.dataset.motion = preferences.motion;
     const state = controller.getState();
+    if (state.mode === "gameover" && renderedMode !== "gameover") {
+      audioManager.stopMusic();
+      audioManager.playSfx("defeat");
+    }
     if (state.mode !== "title") saveRun();
     if (state.mode === "exploration" && renderedMode === "exploration" &&
         renderedDepth === state.location.depth && !state.chestLoot && dungeonRenderContext) {
