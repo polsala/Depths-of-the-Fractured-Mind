@@ -87,10 +87,13 @@ test("display/audio preferences survive reload and basic WCAG checks pass", asyn
   expect(await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).motion, PREF_KEY)).toBe("reduced");
   for (const mode of ["title", "exploration"] as const) {
     if (mode === "exploration") await page.getByRole("button", { name: "Begin Your Descent" }).click();
-    const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
-    expect(result.violations.map((violation) => ({
-      id: violation.id,
-      nodes: violation.nodes.map((node) => ({ target: node.target, summary: node.failureSummary })),
-    }))).toEqual([]);
+    for (const colorScheme of ["dark", "light"] as const) {
+      await page.emulateMedia({ colorScheme });
+      const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+      expect(result.violations.map((violation) => ({
+        id: violation.id,
+        nodes: violation.nodes.map((node) => ({ target: node.target, summary: node.failureSummary })),
+      }))).toEqual([]);
+    }
   }
 });
