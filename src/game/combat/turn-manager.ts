@@ -251,6 +251,7 @@ function executeEnemyAction(state: CombatState): void {
           addCombatLog(state, line, "dialogue");
         });
         markLowHealthDialogueShown(state, enemy.id);
+        emitSound("boss_phase");
       }
     }
   }
@@ -411,7 +412,7 @@ function handleVictory(state: CombatState): void {
     loot,
   };
   
-  emitSound("ui_click"); // Victory sound
+  emitSound("victory");
 }
 
 function executeBasicAttack(state: CombatState, action: CombatAction): void {
@@ -443,6 +444,7 @@ function executeBasicAttack(state: CombatState, action: CombatAction): void {
     emitSound(result.critical ? "hit_heavy" : "hit_light");
   } else {
     addCombatLog(state, `${attacker.name} attacks ${target.name} but misses!`, "damage");
+    emitSound("miss");
   }
 }
 
@@ -467,7 +469,7 @@ function executeAbility(state: CombatState, action: CombatAction): void {
   applyAbilityEffects(state, ability, action.actorIndex, action.targetIndex);
   
   // Play ability sound
-  emitSound("hit_light");
+  emitSound("cast");
 }
 
 function applyAbilityEffects(
@@ -567,6 +569,7 @@ function applyEffectsToCharacter(
       case "status":
         if (effect.statusEffect && effect.duration) {
           applyStatusEffect(character, effect.statusEffect, effect.duration);
+          emitSound("status");
           if (effect.statusEffect === "taunting") {
             for (const intent of Object.values(state.enemyIntents ?? {})) intent.targetIndex = characterIndex;
           }
@@ -634,6 +637,7 @@ function applyEffectsToEnemy(
             enemy.stunResistUntilTurn = state.turn + 3;
           }
           applyStatusEffect(enemy, effect.statusEffect, effect.duration);
+          emitSound("status");
           addCombatLog(
             state,
             `${enemy.name} is ${effect.statusEffect}!`,
@@ -770,6 +774,7 @@ function executeDefend(state: CombatState, action: CombatAction): void {
   if (!defender) return;
   applyStatusEffect(defender, "guarded", 1);
   addCombatLog(state, `${defender.name} guards against the next attacks until their turn. Incoming HP damage is halved.`, "status");
+  emitSound("defend");
 }
 
 function attemptFlee(state: CombatState): void {
@@ -830,6 +835,7 @@ function executeEnemyBasicAttack(
     }
   } else {
     addCombatLog(state, `${enemy.name} attacks ${target.name} but misses!`, "damage");
+    emitSound("miss");
   }
 }
 
@@ -867,7 +873,7 @@ function executeEnemyAbility(
       break;
   }
   
-  emitSound("hit_light");
+  emitSound("cast");
 }
 
 function applyEnemyAbilityToSelf(

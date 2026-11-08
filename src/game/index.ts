@@ -21,6 +21,7 @@ import { resolvePartyDefeat, transitionToGameOver } from "./defeat";
 import type { MapTile } from "./exploration/map";
 import type { RunSnapshot } from "./save";
 import { startRun, restoreRandomState, getRandomState, getRunSeed } from "./random";
+import { emitSound } from "./sound";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
@@ -565,6 +566,7 @@ export class GameController {
         break;
     }
 
+    emitSound("item_use");
     return true;
   }
 
