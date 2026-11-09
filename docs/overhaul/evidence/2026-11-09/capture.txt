@@ -1,0 +1,35 @@
+
+> depths-of-the-fractured-mind@0.0.0 baseline:capture
+> npm run build && node utils/capture-baseline.mjs
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 12 validated RGBA frames (current)
+miriam: 12 validated RGBA frames (current)
+subject13: 12 validated RGBA frames (current)
+anya: 12 validated RGBA frames (current)
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 54 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.57 kB │ gzip:  0.32 kB
+dist/assets/index-CVxdpKSU.css   14.96 kB │ gzip:  4.13 kB
+dist/assets/index-JfLKidEF.js   208.81 kB │ gzip: 61.18 kB
+✓ built in 555ms
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 34.0 MiB / 45 MiB; 25 WebP files
+{
+  "output": "/home/psala/src/Depths-of-the-Fractured-Mind/artifacts/baseline/latest",
+  "captures": 6,
+  "failures": []
+}

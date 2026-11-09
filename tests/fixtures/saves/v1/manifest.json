@@ -1,0 +1,42 @@
+{
+  "sourceHead": "48d713e1717b7764b4fa2e59c0c1278866627252",
+  "seed": 130013,
+  "saveVersion": 1,
+  "files": [
+    {
+      "path": "exploration.json",
+      "mode": "exploration",
+      "depth": 1,
+      "sha256": "629116b08970a2039d18272c99571a7603ce846b94b7225a8aa2333d3960c0fc",
+      "nextRandom": 0.3030443890020251
+    },
+    {
+      "path": "event.json",
+      "mode": "event",
+      "depth": 1,
+      "sha256": "9ddaa8483da8748c16c6564e23b220e2d13e55b7e347885aed8215f97a7797b8",
+      "nextRandom": 0.3030443890020251
+    },
+    {
+      "path": "combat.json",
+      "mode": "combat",
+      "depth": 1,
+      "sha256": "cf565de2cd3c699173ba82007caa69639fbc10fa6bef6b74330145058739bafa",
+      "nextRandom": 0.17973201139830053
+    },
+    {
+      "path": "conversation.json",
+      "mode": "conversation",
+      "depth": 1,
+      "sha256": "0380bebf2e14a8d143bdb8795dd011cbf83b434074992bd419bdf0a2628bc77f",
+      "nextRandom": 0.3030443890020251
+    },
+    {
+      "path": "progressed.json",
+      "mode": "exploration",
+      "depth": 2,
+      "sha256": "8b061a7d68efd63e638740afd1bb39c43710026cf6f375f43b868cb7646b5b57",
+      "nextRandom": 0.10688777058385313
+    }
+  ]
+}

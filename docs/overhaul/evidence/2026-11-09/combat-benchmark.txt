@@ -1,0 +1,6 @@
+
+> depths-of-the-fractured-mind@0.0.0 bench:combat
+> node utils/benchmark-combat.mjs
+
+{"profile":"desktop","samples":80,"medianMs":0.2,"p95Ms":0.5,"budgetMs":16.7}
+{"profile":"mobile-4x","samples":80,"medianMs":0.5,"p95Ms":1.1,"budgetMs":33}

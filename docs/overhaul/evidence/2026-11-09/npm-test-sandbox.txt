@@ -1,0 +1,97 @@
+
+> depths-of-the-fractured-mind@0.0.0 test
+> npm run typecheck && npm run validate:events && npm run test:unit
+
+
+> depths-of-the-fractured-mind@0.0.0 typecheck
+> tsc --noEmit
+
+
+> depths-of-the-fractured-mind@0.0.0 validate:events
+> node utils/validate-events.cjs
+
+=== Event Data Validator ===
+
+✓ JSON is valid
+✓ Version: 1.0.0
+✓ Found 83 events
+✓ Found 7 event pools
+
+=== Validation Results ===
+
+✓ No errors found
+✓ No warnings
+
+=== Summary ===
+
+Total events: 83
+Total pools: 7
+  - Mandatory: 5
+  - Optional: 45
+  - Character-specific: 9
+
+=== Critical Event Validation ===
+
+✓ first_corpse is defined
+✓ pit_fall_event is defined
+✓ overflow_ward_event is defined
+✓ riot_recording_event is defined
+✓ confessional_chair_event is defined
+
+✅ Validation passed
+
+> depths-of-the-fractured-mind@0.0.0 test:unit
+> vitest run tests/*.test.ts
+
+
+ RUN  v4.1.12 /home/psala/src/Depths-of-the-Fractured-Mind
+
+ ❯ tests/event-validator.test.ts (2 tests | 2 failed) 517ms
+   × rejects unknown prerequisite item IDs before shipping event data 279ms
+   × rejects orphan events and invalid progression references 237ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/event-validator.test.ts > rejects unknown prerequisite item IDs before shipping event data
+AssertionError: expected '' to match /requiresItems must contain known item…/
+
+- Expected:
+/requiresItems must contain known item IDs/
+
++ Received:
+""
+
+ ❯ tests/event-validator.test.ts:26:25
+     24|   const result = validateFixture(fixture);
+     25|   expect(result.status).toBe(1);
+     26|   expect(result.stderr).toMatch(/requiresItems must contain known item…
+       |                         ^
+     27| });
+     28|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/event-validator.test.ts > rejects orphan events and invalid progression references
+AssertionError: expected '' to match /Unreachable event 'director_office'/
+
+- Expected:
+/Unreachable event 'director_office'/
+
++ Received:
+""
+
+ ❯ tests/event-validator.test.ts:36:25
+     34|   const result = validateFixture(fixture);
+     35|   expect(result.status).toBe(1);
+     36|   expect(result.stderr).toMatch(/Unreachable event 'director_office'/);
+       |                         ^
+     37|   expect(result.stderr).toMatch(/cannot trigger at depth 1/);
+     38| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  2 failed | 51 passed (53)
+   Start at  10:45:19
+   Duration  1.42s (transform 1.66s, setup 0ms, import 2.26s, tests 2.81s, environment 1ms)

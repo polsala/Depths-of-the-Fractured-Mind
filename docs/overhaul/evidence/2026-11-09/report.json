@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-09T09:59:47.110Z",
+  "sourceHead": "48d713e1717b7764b4fa2e59c0c1278866627252",
+  "workingTree": "M .github/workflows/ci.yml\n M .gitignore\n M docs/README.md\n M package.json\n?? AGENTS.md\n?? docs/overhaul/\n?? tests/fixtures/\n?? tests/save-fixtures.test.ts\n?? utils/capture-baseline.mjs\n?? utils/check-asset-provenance.mjs\n?? utils/compare-baseline.mjs\n?? utils/freeze-v1-fixtures.mjs",
+  "seed": 130013,
+  "fixedTime": "2026-11-09T12:00:00.000Z",
+  "lockSha256": "83c3bab8fef974434ffe205c06a88f533ab3d0d4852d16a530953b4095d52cce",
+  "sourceHashes": {
+    "package-lock.json": "83c3bab8fef974434ffe205c06a88f533ab3d0d4852d16a530953b4095d52cce",
+    "package.json": "fc318a30f3ad292144d9335664679dbc9652b8c8fc868db6a45713b48c5932b3",
+    "public/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "src/assets/enemy-visuals.ts": "c6da8fbe40d528614d41b166485f9bfbc1da5b577f16f6b07cc117205986cd64",
+    "src/assets/hero-atlas-contract.json": "90a6d8bff69083968b6c65a899e959a2587165eea0dc3975e3bbb565903b1196",
+    "src/assets/hero-sprites.ts": "366cc1062a787773954d82a6079e7a79526140411a2aa6c75b8bcb1cbf739184",
+    "src/assets/manifest.ts": "e0625b8b2de9d57e21551f8551c4082ffd7a8929782b129e1a99441b10b5ccc7",
+    "src/counter.ts": "7580ce935ad5fd8f5598ee53533fbddbd5d34e5aaf6cfbb7f81f3ef1969bf4e3",
+    "src/game/abilities.ts": "909e5c7318cd9df6ba85bd1784aa91635f5bb71c820a8da8e20c1186f2fdc55e",
+    "src/game/boss-dialogues.ts": "d13846a5d1b468f66f63c990ea406faa6179e32f9d369e6d9415781cf0dc6898",
+    "src/game/characters/party.ts": "78f7b3ce99515640b0d333dc2e4e2d96ef501a68671ea7cb1cc749eeade0dc15",
+    "src/game/combat/actions.ts": "3536b6c285538a57f2f055e3bfd1947e74ba139ed319ee2add52f087cc7c36c8",
+    "src/game/combat/encounters.ts": "b6d34fc4a97df2ffb3648f9f7003ddc12245fa2067ce7682021c0e71f99c008e",
+    "src/game/combat/engine.ts": "0229d8f9ac94210f3119b1cf8738df5c80b0c3676bfbf5c9316f6568521c81f2",
+    "src/game/combat/intents.ts": "fc2ccf3ab29fff4a3b0011be2baf1fdc085fc0da1a9482ff1b9ded365c2c3573",
+    "src/game/combat/state.ts": "4ce4429c5fe11723ca90ebd02c0ee3573444ac0c6b1ce877bd66e745d46b1c8f",
+    "src/game/combat/turn-manager.ts": "b4777de4c6531c4ba287f08b39838df2febdc0347b3f5c3b4f6e17eda7b8a3f7",
+    "src/game/defeat.ts": "50721be8a981cf62fe317a9dad43e5097e9f31f15f234ab15649c73fb7ed90ae",
+    "src/game/dialogue.ts": "8abaa592e4f7492ebef05d7e4581998bdcf28519d21d6f41d0a737caed958578",
+    "src/game/endings.ts": "d3031d9af1fccab29c658b870020b1630b19b47144e6c75dfdf1e55dc665305c",
+    "src/game/enemies.ts": "5f50f5a30c61102a8dfde6f17ef9794032c493e809a2404cb35295404b377f61",
+    "src/game/events/engine.ts": "d76fbc4370785bee0431b260ff581ed17ec8c61bf43beac2e522210cf34501ae",
+    "src/game/events/examples.ts": "f93271c76ef7dce94aef7c70efedb235f2daa6780fc5488e2ef5f3242aa6910d",
+    "src/game/events/loader.ts": "990edf656dd12d732f0903f63c03681e49efaf2f4fd0626389717d635d771ffb",
+    "src/game/events/mandatory.ts": "70c776c9b267dc73b95fd5ae6bd5753978498e7c58c1206ce21d6edef0d77f0f",
+    "src/game/events/procedural.ts": "03a137ecfb33537804bf13e3d6fe3ec24ed215e26d2df6384369cb31e4d35868",
+    "src/game/events/resolvers.ts": "6e007a966e300700f9ddf81aa76ba6861b13bb1f68fc0d277fbe8cad85326caf",
+    "src/game/events/types.ts": "52a11a5b6f6e022a19c817e1bc8b470434c49f4210124c722188e5e5bcbc391f",
+    "src/game/experience.ts": "74de870a229dff4a0859e04eb96b0e2b783cf7aff544803b06eebb3df37069bd",
+    "src/game/exploration/map-generator.ts": "3d440025c19b906847277dad15e1fe0edcaefe0daae49786e2282e73e4c7758d",
+    "src/game/exploration/map.ts": "5daae4c4a7ede4a8d58334dcef020487f6ff5ad9597d16065e943f5b733e781b",
+    "src/game/exploration/movement.ts": "cab623f9a0e80e8456fe1a2db79046f15388700fd905a80d80ab8b7fc0ecb1f1",
+    "src/game/index.ts": "72728862cf28c6bdd48a853faa3f13858a2920b6bae9c3eadf394ce0039b5e0a",
+    "src/game/inventory.ts": "0233ca2905e49db3959816281962e69d1b344aa37719997df1df65d686240272",
+    "src/game/morality.ts": "ea892dd574eface7f5d20095f07d2857316471bb9282aafcadc163a537898f13",
+    "src/game/objectives.ts": "b0d7dacdcc883da2485844eec5981f91cda4ed6e1bc78467f29f4d415fcf35d2",
+    "src/game/random.ts": "8491138b779c4631bcc06e2be7d1c2a00ff8cd302b3ebec68c4ade5698a9c394",
+    "src/game/sanity.ts": "145d6d3eb271e3795c8a1faaa76b06a2d60a37fde705c7080789ce5c73160b57",
+    "src/game/save.ts": "a830cefd3273221e080ba96a15d55668564ff49aec47ef7ae3672ca28bc05430",
+    "src/game/sound.ts": "2aa4bdab56e8323c48b2270a5c997bd0b241f9bce2d5914a4c47b4e9d60f5141",
+    "src/game/state.ts": "515e71469a8327d067d2a8ffee3076ab6d26958731621dcaaf0645d4050de4a1",
+    "src/game/story.ts": "62012e642cd49d124fe0572929fe8f629727cac05076bac71a637ff5c703feaa",
+    "src/graphics/combat-ui.ts": "01a7930e659ff481c0e9e50b69cf75cb4f9ded2e78b7209682cdde3a326f3369",
+    "src/graphics/direction.ts": "cfbc155524aee3732cfa71e0d8da94885c0ec05e68ebc351dd50826a283c7b29",
+    "src/graphics/map.ts": "b3acfd70dfa4d7ae4e387ad0c3ea8d32a46cee339ab999038f5acd779f3188b0",
+    "src/graphics/minimap.ts": "70a684f1fb50ffadb5b05c88a240f682c71f163e7b25da9ff4c6cde465767c7a",
+    "src/graphics/party-ui.ts": "8a30912c0e7ef5af8e2a11aee2e0397d5f63628004e33e1ba6cb710f833ea04f",
+    "src/graphics/renderer.ts": "ab0beb20d2746f269b0a11c585fdb3408dd64b3b6c12088796553dde13c6f46e",
+    "src/main.ts": "486d5d56200b951a516fccd9a5584a0ed2942bd701bc4538223be68ea52af428",
+    "src/style.css": "890ac66d073dd1d9030cdefb35687135770a6f0049c89783b08e68f5ffd3eaa8",
+    "src/typescript.svg": "f6ead1af17acc3f55ad857f3bc936df8754281e2932c1b472dbb9b36ab873f1c",
+    "src/ui/app.ts": "6b19961d0741cb7572a5e17e672bbf538df2e4dfad3ef66ba700df620397e61d",
+    "src/ui/audio.ts": "72a2e04b4de3773f5ee9f56473649890a1a6cd134c73a867241af6fceb6485d1",
+    "src/ui/mobile-controls.ts": "0756efe708262d6625b69f914f0acd0984178f7fabf6ee9e155571bfb282798d",
+    "src/ui/preferences.ts": "ef78ab2d7d54077afe606bc90fe52f0743a4084cc9642807467f68276873695f",
+    "src/ui/screens/dialogue.ts": "85865b66a6d50a3a684114473843178c98c6f665cea9d844e10f7d0526974518",
+    "src/ui/screens/ending.ts": "e378b6ea843119e0093262a0108064d780bd8b63f26bf62061ff15dde28ee721",
+    "src/ui/screens/game-over.ts": "f3e3fb04e7894874475d107021bd98db46e2db9b776bded008e33891de464219",
+    "src/ui/screens/title.ts": "277d7311779c341ac3c4575707a342d2d73fda718b49f91474c3189bc75cb8f1",
+    "src/ui/screens/types.ts": "8c3f1c377c7c1882d548d8531c5c0822cf5d0076cfc74beb6976a5c84da49709",
+    "src/ui/vendor.ts": "ed8deea46259c8f36137520a16e10f27198e19794ae017f1c876b3b535b017ba",
+    "src/utils/platform.ts": "b0d3572ca558b54d39f27265fbe2fa9cbf5612177329e445e715d80d395372b6",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "utils/capture-baseline.mjs": "be2ed01c748c2b8e96e4f92c5a60e577e966dee1fda2ec841ea440c546bf4709",
+    "vite.config.ts": "fd6a67797952c4eceb1c1f34401d2ad0b55321fe62f547b8742f78e2fa10f6ac"
+  },
+  "environment": {
+    "node": "v24.13.0",
+    "npm": "11.19.1",
+    "os": "linux",
+    "kernel": "7.1.5+kali-amd64",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+    "logicalCpus": 8,
+    "hostMemoryMiB": 31818,
+    "browser": "158.0.8127.18"
+  },
+  "settings": {
+    "headless": true,
+    "deviceScaleFactor": 1,
+    "locale": "en-US",
+    "timezoneId": "UTC",
+    "colorScheme": "dark",
+    "reducedMotion": "reduce",
+    "music": 0,
+    "sfx": 0,
+    "cpuThrottle": 1,
+    "networkThrottle": "none",
+    "launchArgs": "Playwright defaults; no WebGL override"
+  },
+  "captures": [
+    {
+      "name": "title",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": null,
+      "fixtureSha256": null,
+      "screenshotSha256": "356f143c158fbbd3674ee926ca44b259c883a003f55f41e4fa8d3a867a724b1f",
+      "location": null,
+      "jsHeapUsedBytes": 2975868,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.700000000000045,
+        "p95Ms": 16.799999999999955,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [],
+      "horizontalOverflow": false,
+      "resourceBytes": 82225,
+      "nonAudioResourceBytes": 82225,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "first-room",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "exploration.json",
+      "fixtureSha256": "629116b08970a2039d18272c99571a7603ce846b94b7225a8aa2333d3960c0fc",
+      "screenshotSha256": "8aee6bc9f1dfea2a8e5d43b124a81f17b1ee0d903d3ccc3e0cfdcb80912f99e7",
+      "location": {
+        "depth": 1,
+        "x": 48,
+        "y": 18,
+        "direction": "north"
+      },
+      "jsHeapUsedBytes": 8561624,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.699999999999818,
+        "p95Ms": 16.799999999999955,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 860,
+          "height": 645
+        },
+        {
+          "class": "minimap-panel",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "class": "party-panel",
+          "width": 362,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1092881,
+      "nonAudioResourceBytes": 1092881,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "corridor",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "corridor-checkpoint.json (camera only)",
+      "fixtureSha256": "25fbcb32579c9c32b9baec52eb107f028dc50014f904e83201ab90fbbfbbdedb",
+      "screenshotSha256": "5876e98813bbcf19499c5ece83863e4e0635b93c9273d1acfb2177f150252872",
+      "location": {
+        "depth": 1,
+        "x": 42,
+        "y": 17,
+        "direction": "north"
+      },
+      "corridorRoute": [
+        "west",
+        "west",
+        "west",
+        "west",
+        "west",
+        "west",
+        "north"
+      ],
+      "jsHeapUsedBytes": 8003172,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.699999999999932,
+        "p95Ms": 16.799999999999955,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 860,
+          "height": 645
+        },
+        {
+          "class": "minimap-panel",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "class": "party-panel",
+          "width": 362,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 939493,
+      "nonAudioResourceBytes": 939493,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "combat",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "combat.json",
+      "fixtureSha256": "cf565de2cd3c699173ba82007caa69639fbc10fa6bef6b74330145058739bafa",
+      "screenshotSha256": "d64201001413e476606e8f09928f176763c84ba949385a492db98bcd70fc92e1",
+      "location": {
+        "depth": 1,
+        "x": 48,
+        "y": 18,
+        "direction": "north"
+      },
+      "jsHeapUsedBytes": 4322412,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.700000000000045,
+        "p95Ms": 16.700000000000045,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "",
+          "width": 1260,
+          "height": 648
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 934479,
+      "nonAudioResourceBytes": 934479,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "inventory-party",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "progressed.json",
+      "fixtureSha256": "8b061a7d68efd63e638740afd1bb39c43710026cf6f375f43b868cb7646b5b57",
+      "screenshotSha256": "48baa450ea36f41402f669d38ed3e0bdc8f9ecd187e504e9f9eba9d54be639a5",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 67,
+        "direction": "west"
+      },
+      "jsHeapUsedBytes": 10328628,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.700000000000045,
+        "p95Ms": 16.700000000000045,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 860,
+          "height": 645
+        },
+        {
+          "class": "minimap-panel",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "class": "party-panel",
+          "width": 362,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 947323,
+      "nonAudioResourceBytes": 947323,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fixture": "exploration.json",
+      "fixtureSha256": "629116b08970a2039d18272c99571a7603ce846b94b7225a8aa2333d3960c0fc",
+      "screenshotSha256": "8d40458932ad7bb41211473e6e0b30148ae343f2ac6b40303740cc25e27e74dc",
+      "location": {
+        "depth": 1,
+        "x": 48,
+        "y": 18,
+        "direction": "north"
+      },
+      "jsHeapUsedBytes": 8253660,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.699999999999932,
+        "p95Ms": 16.799999999999955,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 370,
+          "height": 277
+        },
+        {
+          "class": "minimap-panel",
+          "width": 140,
+          "height": 140
+        },
+        {
+          "class": "party-panel",
+          "width": 332,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1092881,
+      "nonAudioResourceBytes": 1092881,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    }
+  ],
+  "diagnostics": [
+    {
+      "capture": "title",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "first-room",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "corridor",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "combat",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "inventory-party",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "mobile",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    }
+  ],
+  "failures": [],
+  "files": [
+    "combat-viewport.png",
+    "combat.png",
+    "corridor-checkpoint.json",
+    "corridor-viewport.png",
+    "corridor.png",
+    "first-room-viewport.png",
+    "first-room.png",
+    "inventory-party-viewport.png",
+    "inventory-party.png",
+    "mobile-viewport.png",
+    "mobile.png",
+    "party.png",
+    "report.json",
+    "title-viewport.png",
+    "title.png"
+  ]
+}

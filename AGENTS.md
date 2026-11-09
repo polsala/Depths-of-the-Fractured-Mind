@@ -1,0 +1,14 @@
+# Depths of the Fractured Mind
+
+- Read `docs/overhaul/PROGRESS.md`, then the relevant production-contract document before changing game behavior. `docs/design.md` remains the canonical character/backstory reference; the overhaul documents refine presentation and production acceptance.
+- Preserve first-person 2.5D exploration, an authoritative grid, the four named protagonists, five psychological environments, turn-based combat, consequential choices, sanity, relationships and multiple endings. Do not equate automated completion with fun.
+- Keep TypeScript/Vite and static GitHub Pages support. Extend working controller, event, combat, save and asset contracts; justify any replacement with measured failure of the existing system.
+- Inspect Git status first. Preserve user changes. Never reset, force-push, regenerate historical fixtures or overwrite unrelated work.
+- Game rules own collision, interactions, rewards and persistence. Presentation interpolates committed grid actions; rendering must not consume gameplay RNG or generate maps. That last rule is a target: the legacy renderer currently violates it; fix with compatibility evidence.
+- Use authored room purposes and sightlines for the Depth-1 slice before adding procedural scale. Every required mechanism must have an available solution; no progression by random encounters or hidden perception changes.
+- Keep mechanics and navigation readable in darkness, muted audio and reduced motion. Preserve DOM alternatives for Canvas information, keyboard focus, touch input and 200% text. Do not remove existing checks or raise budgets to make a change pass.
+- Keep source art separate from runtime outputs. Follow `docs/hero-art-bible.md` and `docs/overhaul/ART_DIRECTION.md`. Never mark legacy/generated media cleared merely because it is committed; update `ASSET_PROVENANCE.json` with retained evidence.
+- Validate relevant behavior with `npm test`, `npm run build`, `npm run test:smoke`, and `npm run assets:provenance`. Rendering/UI changes also require `npm run baseline:capture`, direct image inspection and applicable benchmarks. Linux sandbox failures are environment failures until reproduced with required permissions; do not alter tests to hide them.
+- `tests/fixtures/saves/v1/` is an immutable compatibility corpus. Add migrations and new fixtures separately. Match its saved map mutations, party, events, conversations, combat, RNG and next actions.
+- Capture fixed seed 130013, pinned Playwright Chromium, DPR 1 and documented viewports. Store repeat runs under ignored `artifacts/`; preserve reviewed milestone evidence under `docs/overhaul/evidence/`. A screenshot is evidence, not automatic visual approval.
+- Update `PROGRESS.md` with changed files, checks, evidence, open gates and the exact next action. Separate verified facts, decisions and hypotheses. Do not claim physical-device, listening, human-playtest or rights sign-off without that evidence.

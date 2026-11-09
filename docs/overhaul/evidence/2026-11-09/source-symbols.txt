@@ -1,0 +1,360 @@
+src/game/abilities.ts:5:export interface AbilityEffect {
+src/game/abilities.ts:13:export interface Ability {
+src/game/abilities.ts:32:export const ELIAS_ABILITIES: Record<string, Ability> = {
+src/game/abilities.ts:112:export const MIRIAM_ABILITIES: Record<string, Ability> = {
+src/game/abilities.ts:190:export const SUBJECT13_ABILITIES: Record<string, Ability> = {
+src/game/abilities.ts:269:export const ANYA_ABILITIES: Record<string, Ability> = {
+src/game/abilities.ts:344:export const ENEMY_ABILITIES: Record<string, Ability> = {
+src/game/abilities.ts:784:export const ALL_ABILITIES: Record<string, Ability> = {
+src/game/abilities.ts:792:export function getAbility(abilityId: string): Ability | undefined {
+src/game/abilities.ts:796:export function getCharacterAbilities(characterId: string): Ability[] {
+src/game/abilities.ts:802:export function canUseAbility(
+src/game/inventory.ts:3:export const ITEMS: Record<string, Item> = {
+src/game/inventory.ts:347:export function addItem(inventory: Inventory, itemId: string, quantity: number = 1): boolean {
+src/game/inventory.ts:366:export function removeItem(inventory: Inventory, itemId: string, quantity: number = 1): boolean {
+src/game/inventory.ts:378:export function hasItem(inventory: Inventory, itemId: string): boolean {
+src/game/inventory.ts:382:export function getItemCount(inventory: Inventory, itemId: string): number {
+src/game/inventory.ts:387:export function useItem(inventory: Inventory, itemId: string): Item | null {
+src/game/story.ts:5:export const REQUIRED_BEATS: Partial<Record<number, readonly { id: string; flag?: string }[]>> = {
+src/game/story.ts:15:export function nextRequiredBeat(state: GameState): string | null {
+src/game/story.ts:22:export function isRequiredBeat(id: string): boolean {
+src/game/combat/actions.ts:5:export interface CombatContext {
+src/game/combat/actions.ts:11:export function createCombatContext(
+src/game/combat/actions.ts:22:export function playerAttack(
+src/graphics/map.ts:10:export interface MapCell {
+src/graphics/map.ts:28:export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number, DepthMap>): DungeonMap {
+src/graphics/map.ts:57:function isDoorTile(tileType: string): boolean {
+src/graphics/map.ts:64:export function getMapCell(
+src/graphics/map.ts:78:export function hasWallAt(map: DungeonMap, x: number, y: number): boolean {
+src/graphics/map.ts:87:export function getVisibleWalls(
+src/ui/vendor.ts:5:export function openVendorModal(state: GameState, controller: GameController, rerender: () => void): void {
+src/graphics/direction.ts:10:export function rotateClockwise(direction: Direction): Direction {
+src/graphics/direction.ts:23:export function rotateCounterClockwise(direction: Direction): Direction {
+src/graphics/direction.ts:36:export function getDirectionArrow(direction: Direction): string {
+src/graphics/direction.ts:49:export function getDirectionName(direction: Direction): string {
+src/ui/preferences.ts:1:export interface Preferences {
+src/ui/preferences.ts:11:export function readPreferences(): Preferences {
+src/ui/preferences.ts:25:function validPercent(value: unknown, fallback: number): number {
+src/ui/preferences.ts:29:export function updatePreferences(patch: Partial<Preferences>): Preferences {
+src/game/events/types.ts:6:export interface EventTriggerConditions {
+src/game/events/types.ts:35:export interface EventMetadata {
+src/game/events/types.ts:61:export interface SerializableEventChoice {
+src/game/events/types.ts:90:export interface SerializableEvent {
+src/game/events/types.ts:102:export interface EventPool {
+src/game/events/types.ts:113:export interface EventDataFile {
+src/game/state.ts:5:export interface Stats {
+src/game/state.ts:18:export interface MoralFlags {
+src/game/state.ts:25:export interface GameFlags {
+src/game/state.ts:65:export interface CharacterState {
+src/game/state.ts:78:export interface Item {
+src/game/state.ts:96:export interface InventoryItem {
+src/game/state.ts:101:export interface Inventory {
+src/game/state.ts:107:export interface ChestLoot {
+src/game/state.ts:112:export interface PartyState {
+src/game/state.ts:117:export interface GameLocation {
+src/game/state.ts:137:export interface DebugOptions {
+src/game/state.ts:143:export interface GameState {
+src/game/state.ts:159:export function createInitialGameState(): GameState {
+src/graphics/combat-ui.ts:9:export interface CombatVisualCue {
+src/graphics/combat-ui.ts:19:export interface CombatUIOptions {
+src/graphics/combat-ui.ts:43:export function renderCombatUI(
+src/graphics/combat-ui.ts:76:function renderEnemies(
+src/graphics/combat-ui.ts:192:function renderParty(
+src/graphics/combat-ui.ts:270:function renderBar(
+src/graphics/combat-ui.ts:302:export function renderCombatLog(
+src/graphics/combat-ui.ts:361:export function createActionMenu(
+src/graphics/combat-ui.ts:484:export function createAbilityMenu(
+src/graphics/combat-ui.ts:538:export function createTargetSelector(
+src/graphics/combat-ui.ts:583:function createButton(
+src/graphics/combat-ui.ts:621:function drawCoverImage(
+src/ui/mobile-controls.ts:5:export interface MobileControls {
+src/ui/mobile-controls.ts:10:export interface ControlCallbacks {
+src/ui/mobile-controls.ts:22:export function createMobileControls(callbacks: ControlCallbacks): MobileControls {
+src/ui/mobile-controls.ts:118:function createControlButton(text: string, className: string): HTMLButtonElement {
+src/ui/mobile-controls.ts:125:function createEmptyCell(): HTMLDivElement {
+src/game/events/resolvers.ts:4:export interface EventEffect {
+src/game/events/resolvers.ts:15:export function applyEventEffect(
+src/game/sound.ts:4:export function setSoundSink(sink: (cue: string) => void): void {
+src/game/sound.ts:8:export function emitSound(cue: string): void {
+src/game/combat/turn-manager.ts:23:function hasShownLowHealthDialogue(state: CombatState, bossId: string): boolean {
+src/game/combat/turn-manager.ts:27:function markLowHealthDialogueShown(state: CombatState, bossId: string): void {
+src/game/combat/turn-manager.ts:31:function changeTimedStat(state: CombatState, isPlayer: boolean, index: number,
+src/game/combat/turn-manager.ts:42:export function clearCombatModifiers(state: CombatState): void {
+src/game/combat/turn-manager.ts:51:function tickRoundEffects(state: CombatState): void {
+src/game/combat/turn-manager.ts:83:export function submitAction(state: CombatState, action: CombatAction): void {
+src/game/combat/turn-manager.ts:123:function executeCurrentAction(state: CombatState): void {
+src/game/combat/turn-manager.ts:164:function processEnemyTurns(state: CombatState): void {
+src/game/combat/turn-manager.ts:193:function executePlayerAction(state: CombatState): void {
+src/game/combat/turn-manager.ts:236:function executeEnemyAction(state: CombatState): void {
+src/game/combat/turn-manager.ts:280:function handleVictory(state: CombatState): void {
+src/game/combat/turn-manager.ts:418:function executeBasicAttack(state: CombatState, action: CombatAction): void {
+src/game/combat/turn-manager.ts:451:function executeAbility(state: CombatState, action: CombatAction): void {
+src/game/combat/turn-manager.ts:475:function applyAbilityEffects(
+src/game/combat/turn-manager.ts:525:function applyEffectsToCharacter(
+src/game/combat/turn-manager.ts:587:function applyEffectsToEnemy(
+src/game/combat/turn-manager.ts:652:function executeItemUse(state: CombatState, action: CombatAction): void {
+src/game/combat/turn-manager.ts:681:function applyItemEffect(
+src/game/combat/turn-manager.ts:772:function executeDefend(state: CombatState, action: CombatAction): void {
+src/game/combat/turn-manager.ts:780:function attemptFlee(state: CombatState): void {
+src/game/combat/turn-manager.ts:808:function executeEnemyBasicAttack(
+src/game/combat/turn-manager.ts:842:function executeEnemyAbility(
+src/game/combat/turn-manager.ts:879:function applyEnemyAbilityToSelf(
+src/game/combat/turn-manager.ts:896:function applyEnemyAbilityToParty(
+src/ui/audio.ts:23:export class AudioManager {
+src/ui/audio.ts:24:  private currentMusic?: AudioElement;
+src/ui/audio.ts:25:  private outgoingMusic?: AudioElement;
+src/ui/audio.ts:26:  private currentTrackName?: string;
+src/ui/audio.ts:27:  private musicVolume = readPreferences().music / 100;
+src/ui/audio.ts:28:  private sfxVolume = readPreferences().sfx / 100;
+src/ui/audio.ts:29:  private fadeTimer?: ReturnType<typeof setInterval>;
+src/ui/audio.ts:30:  private transition = 0;
+src/ui/audio.ts:31:  private sfxPool = new Map<string, AudioElement[]>();
+src/ui/audio.ts:32:  private createAudio: (url: string) => AudioElement;
+src/ui/audio.ts:38:  private clampVolume(value: number): number {
+src/ui/audio.ts:42:  private cancelFade(): void {
+src/ui/audio.ts:49:  public playMusic(trackName: string): void {
+src/ui/audio.ts:95:  public stopMusic(): void {
+src/ui/audio.ts:103:  public setMusicVolume(volume: number): void {
+src/ui/audio.ts:117:  public playSfx(name: string): void {
+src/ui/audio.ts:139:  public setSfxVolume(volume: number): void {
+src/ui/audio.ts:149:export const audioManager = new AudioManager();
+src/game/events/procedural.ts:11:export function checkTriggerConditions(
+src/game/events/procedural.ts:95:export function getAvailableEvents(
+src/game/events/procedural.ts:113:export function selectRandomEvent(
+src/game/events/procedural.ts:154:export function selectEventFromPool(
+src/game/events/procedural.ts:188:export function getIncompleteMandatoryEvents(state: GameState): string[] {
+src/game/events/procedural.ts:197:export function selectEventForLocation(
+src/game/save.ts:5:export const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
+src/game/save.ts:6:export const SAVE_VERSION = 1;
+src/game/save.ts:8:export interface RunSnapshot {
+src/game/save.ts:23:export class SaveFormatError extends Error {
+src/game/save.ts:31:function record(value: unknown): value is Record<string, unknown> {
+src/game/save.ts:35:function finite(value: unknown): value is number {
+src/game/save.ts:39:function stringArray(value: unknown): value is string[] {
+src/game/save.ts:46:function validateMap(value: unknown, depth: number): value is DepthMap {
+src/game/save.ts:56:function validateState(value: unknown): asserts value is Record<string, unknown> {
+src/game/save.ts:114:export function serializeRun(snapshot: RunSnapshot): string {
+src/game/save.ts:136:export function parseRun(raw: string): RunSnapshot {
+src/game/save.ts:189:export interface SaveStorage {
+src/game/save.ts:195:export class SaveRepository {
+src/game/save.ts:196:  private readonly storage: SaveStorage;
+src/game/combat/state.ts:8:export interface CombatAction {
+src/game/combat/state.ts:18:export interface StatusEffect {
+src/game/combat/state.ts:29:export interface CombatParticipant {
+src/game/combat/state.ts:37:export interface TurnOrderEntry {
+src/game/combat/state.ts:43:export interface CombatState {
+src/game/combat/state.ts:75:export interface CombatLogEntry {
+src/game/combat/state.ts:80:export function createCombatState(
+src/game/combat/state.ts:132:function buildTurnOrder(party: PartyState, encounter: EncounterState): TurnOrderEntry[] {
+src/game/combat/state.ts:159:export function addCombatLog(
+src/game/combat/state.ts:171:export function getAlivePartyMembers(party: PartyState): CharacterState[] {
+src/game/combat/state.ts:175:export function getAliveEnemies(encounter: EncounterState): EnemyState[] {
+src/game/combat/state.ts:179:export function isPartyDefeated(party: PartyState): boolean {
+src/game/combat/state.ts:183:export function isEncounterDefeated(encounter: EncounterState): boolean {
+src/game/combat/state.ts:187:export function applyStatusEffect(
+src/game/combat/state.ts:208:export function removeStatusEffect(
+src/game/combat/state.ts:219:export function hasStatusEffect(
+src/game/combat/state.ts:229:export function getCurrentActor(state: CombatState): { isPlayer: boolean; index: number } | null {
+src/game/combat/state.ts:241:export function advanceToNextActor(state: CombatState, onNewRound?: (state: CombatState) => void): boolean {
+src/ui/app.ts:61:function prefersReducedMotion(): boolean {
+src/ui/app.ts:66:function activateDialog(overlay: HTMLElement, panel: HTMLElement, label: string, close: () => void): void {
+src/ui/app.ts:92:function renderSettings(root: HTMLElement, rerender: () => void): void {
+src/ui/app.ts:149:function animateCanvas(canvas: HTMLCanvasElement, draw: (now: number) => void): void {
+src/ui/app.ts:160:function hasLocationChanged(prevState: GameState, newState: GameState): boolean {
+src/ui/app.ts:174:function refreshExploration(root: HTMLElement, state: GameState, controller: GameController): void {
+src/ui/app.ts:219:function fillObjective(element: HTMLElement, state: GameState): void {
+src/ui/app.ts:237:function closeMinimapModal(): void {
+src/ui/app.ts:246:function renderMinimapModal(
+src/ui/app.ts:303:function renderExploration(
+src/ui/app.ts:841:function renderEvent(
+src/ui/app.ts:966:function renderCombat(
+src/ui/app.ts:1927:function openPartyStatusModal(state: GameState, controller: GameController, rerender: () => void): void {
+src/ui/app.ts:2065:function openAbilityListModal(member: GameState["party"]["members"][number]): void {
+src/ui/app.ts:2147:function openEquipModal(
+src/ui/app.ts:2252:function openInventoryModal(state: GameState, controller: GameController, rerender: () => void): void {
+src/ui/app.ts:2351:function openInventoryUseModal(
+src/ui/app.ts:2427:export function initApp(root: HTMLElement): void {
+src/ui/app.ts:2685:function getCombatBackground(src: string): HTMLImageElement | undefined {
+src/ui/app.ts:2693:function closeCombatModal(): void {
+src/game/events/mandatory.ts:6:function withEffect(effect: EventEffect): (state: GameState) => GameState {
+src/game/events/mandatory.ts:10:function makeChoice(
+src/game/events/mandatory.ts:129:export function registerMandatoryEvents(): void {
+src/game/sanity.ts:3:export function adjustSanity(
+src/game/sanity.ts:21:export function adjustPartySanity(
+src/game/sanity.ts:33:export function adjustMoralFlags(
+src/game/sanity.ts:45:export function getSanityStage(
+src/game/events/loader.ts:27:function getChoiceBlockReason(choice: SerializableEventChoice, state: GameState): string | null {
+src/game/events/loader.ts:59:function convertChoice(choice: SerializableEventChoice): GameEventChoice {
+src/game/events/loader.ts:145:function convertEvent(serializableEvent: SerializableEvent): GameEvent {
+src/game/events/loader.ts:196:export function getEventMetadata(eventId: string): EventMetadata | undefined {
+src/game/events/loader.ts:203:export function getEventPool(poolId: string): EventPool | undefined {
+src/game/events/loader.ts:210:export function getPoolEventIds(poolId: string): string[] {
+src/game/events/loader.ts:218:export function getAllPoolIds(): string[] {
+src/game/events/loader.ts:225:export function clearEventData(): void {
+src/game/combat/intents.ts:7:export interface EnemyIntent {
+src/game/combat/intents.ts:14:export function planEnemyIntents(party: PartyState, encounter: EncounterState): Record<number, EnemyIntent> {
+src/graphics/renderer.ts:20:export interface ViewportConfig {
+src/graphics/renderer.ts:26:export interface RenderContext {
+src/graphics/renderer.ts:35:export interface ViewState {
+src/graphics/renderer.ts:50:export function createRenderContext(
+src/graphics/renderer.ts:79:export function clearViewport(renderCtx: RenderContext): void {
+src/graphics/renderer.ts:86:export function getDepthPalette(depth: number): {
+src/graphics/renderer.ts:145:function getTexture(src: string): HTMLImageElement {
+src/graphics/renderer.ts:157:function queueTextureRedraw(
+src/graphics/renderer.ts:178:function createFloorTexture(
+src/graphics/renderer.ts:227:function createCeilingTexture(
+src/graphics/renderer.ts:257:function fillTiledTexture(
+src/graphics/renderer.ts:282:function drawTorchSconce(
+src/graphics/renderer.ts:337:export function drawDungeonDoor(
+src/graphics/renderer.ts:388:function hexToRgb(hex: string): { r: number; g: number; b: number } {
+src/graphics/renderer.ts:405:function interpolateColor(
+src/graphics/renderer.ts:417:function wrapMod(value: number, mod: number): number {
+src/graphics/renderer.ts:426:export function renderDungeonView(
+src/game/random.ts:6:export function startRun(seed?: number): number {
+src/game/random.ts:15:export function restoreRandomState(value: number, seed: number): void {
+src/game/random.ts:24:export function getRandomState(): number | null {
+src/game/random.ts:28:export function getRunSeed(): number | null {
+src/game/random.ts:32:export function gameRandom(): number {
+src/game/dialogue.ts:4:export interface DialogueLine {
+src/game/dialogue.ts:10:export interface DialogueChoice {
+src/game/dialogue.ts:28:export interface Dialogue {
+src/game/dialogue.ts:268:export const NPCS = {
+src/game/dialogue.ts:272:export function getDialogueChoiceUnavailableReason(choice: DialogueChoice, state: GameState): string | null {
+src/game/dialogue.ts:282:export function getDialogue(id: string): Dialogue | undefined {
+src/game/dialogue.ts:286:export function shouldShowDialogue(state: GameState, dialogueId: string): boolean {
+src/game/dialogue.ts:292:export function markDialogueShown(state: GameState, dialogueId: string): void {
+src/game/experience.ts:4:export interface ExperienceReward {
+src/game/experience.ts:9:export function calculateExperienceReward(enemyExpRewards: number[]): ExperienceReward {
+src/game/experience.ts:17:export function getExpRequiredForLevel(level: number): number {
+src/game/experience.ts:22:export function awardExperience(
+src/game/experience.ts:67:function applyLevelUpBonuses(character: CharacterState): void {
+src/game/experience.ts:116:export function getCharacterLevel(character: CharacterState): number {
+src/game/experience.ts:121:export function getCharacterExperience(character: CharacterState): number {
+src/game/experience.ts:126:export function getExpToNextLevel(character: CharacterState): number {
+src/game/events/examples.ts:16:export function handleTileEvent(gameController: GameController, tileType: string): void {
+src/game/events/examples.ts:28:export function checkRandomEvent(
+src/game/events/examples.ts:43:export function onDepthEntered(
+src/game/events/examples.ts:62:export function onCombatVictory(
+src/game/events/examples.ts:79:export function triggerStoryCheckpoint(
+src/game/events/examples.ts:102:export class EventQueue {
+src/game/events/examples.ts:103:  private queue: string[] = [];
+src/game/events/examples.ts:105:  public enqueue(eventId: string): void {
+src/game/events/examples.ts:109:  public processNext(gameController: GameController): boolean {
+src/game/events/examples.ts:118:  public hasEvents(): boolean {
+src/game/events/examples.ts:128:export function checkConditionalEvents(gameController: GameController): void {
+src/game/events/examples.ts:154:export class EventCooldown {
+src/game/events/examples.ts:155:  private lastEventStep: number = 0;
+src/game/events/examples.ts:156:  private minStepsBetweenEvents: number = 10;
+src/game/events/examples.ts:162:  public canTriggerEvent(currentStep: number): boolean {
+src/game/events/examples.ts:166:  public recordEventTriggered(currentStep: number): void {
+src/game/events/examples.ts:170:  public tryTriggerEvent(
+src/game/events/examples.ts:189:export function explorationStep(
+src/game/events/examples.ts:217:export function testEventSystem(gameController: GameController): void {
+src/game/events/examples.ts:261:export function setupEventSystem(): {
+src/game/events/examples.ts:274:export function gameLoopTick(
+src/game/objectives.ts:4:export const CHAPTERS = ["", "The Threshold", "The Archive", "The Ward", "The Labyrinth", "The Core"] as const;
+src/game/objectives.ts:14:export interface Objective {
+src/game/objectives.ts:21:export function getStoryConsequence(state: GameState): string | null {
+src/game/objectives.ts:43:export function getCurrentObjective(state: GameState): Objective {
+src/game/combat/engine.ts:6:export interface EnemyState {
+src/game/combat/engine.ts:16:export interface EncounterState {
+src/game/combat/engine.ts:20:export function isEnemyAlive(enemy: EnemyState): boolean {
+src/game/combat/engine.ts:24:export function isEncounterOver(encounter: EncounterState): boolean {
+src/game/combat/engine.ts:28:export function calculateHitChance(attacker: Stats, defender: Stats): number {
+src/game/combat/engine.ts:36:export interface AttackResult {
+src/game/combat/engine.ts:42:export function performBasicAttack(
+src/game/combat/engine.ts:63:export function applyDamageToCharacter(
+src/game/combat/engine.ts:78:export function applyDamageToEnemy(
+src/game/combat/engine.ts:93:export interface CombatLogEntry {
+src/game/combat/engine.ts:97:export interface PlayerAttackOutcome {
+src/game/combat/engine.ts:103:export function playerBasicAttackEnemy(
+src/game/defeat.ts:3:export function transitionToGameOver(state: GameState, cause: GameOverCause): GameState {
+src/game/defeat.ts:15:export function resolvePartyDefeat(state: GameState, cause: GameOverCause): GameState {
+src/graphics/party-ui.ts:9:export interface PartyUIConfig {
+src/graphics/party-ui.ts:19:function drawPortrait(
+src/graphics/party-ui.ts:51:function drawStatBar(
+src/graphics/party-ui.ts:88:export function renderPartyUI(
+src/graphics/minimap.ts:9:export interface MinimapConfig {
+src/graphics/minimap.ts:18:export function renderMinimap(
+src/game/events/engine.ts:4:export interface GameEventChoice {
+src/game/events/engine.ts:13:export interface GameEvent {
+src/game/events/engine.ts:24:export function registerEvent(event: GameEvent): void {
+src/game/events/engine.ts:28:export function getEventById(id: string): GameEvent | undefined {
+src/game/events/engine.ts:32:export function listRegisteredEventIds(): string[] {
+src/game/events/engine.ts:36:export function getChoiceUnavailableReason(choice: GameEventChoice, state: GameState): string | null {
+src/game/events/engine.ts:41:export function isEventAvailable(state: GameState, eventId: string): boolean {
+src/game/events/engine.ts:46:export function startEvent(state: GameState, eventId: string): GameState {
+src/game/events/engine.ts:63:export function applyEventChoice(
+src/game/combat/encounters.ts:7:export function createEnemyState(enemy: Enemy): EnemyState {
+src/game/combat/encounters.ts:17:export function generateRandomEncounter(depth: number): EncounterState | null {
+src/game/combat/encounters.ts:43:export function generateBossEncounter(depth: number): EncounterState | null {
+src/game/combat/encounters.ts:52:export function shouldTriggerEncounter(
+src/game/combat/encounters.ts:64:export function triggerEncounter(state: GameState, depth?: number): GameState {
+src/game/boss-dialogues.ts:1:export interface BossDialogue {
+src/game/boss-dialogues.ts:9:export const BOSS_DIALOGUES: Record<string, BossDialogue> = {
+src/game/boss-dialogues.ts:138:export function getBossDialogue(bossId: string): BossDialogue | undefined {
+src/game/morality.ts:4:function updateMoral(
+src/game/morality.ts:20:export function addMercy(state: GameState, amount: number): GameState {
+src/game/morality.ts:24:export function addCruelty(state: GameState, amount: number): GameState {
+src/game/morality.ts:28:export function addTruth(state: GameState, amount: number): GameState {
+src/game/morality.ts:32:export function addDenial(state: GameState, amount: number): GameState {
+src/game/morality.ts:36:export function getDominantMoralAxis(
+src/game/index.ts:72:export class GameController {
+src/game/index.ts:73:  private state: GameState;
+src/game/index.ts:74:  private eventsReady: boolean = false;
+src/game/index.ts:75:  private eventLoadingError: Error | null = null;
+src/game/index.ts:76:  private stepsSinceLastEvent: number = 0;
+src/game/index.ts:77:  private lastProceduralEventId: string | null = null;
+src/game/index.ts:92:  private async loadEvents(): Promise<void> {
+src/game/index.ts:107:  public isEventsLoaded(): boolean {
+src/game/index.ts:111:  public hasEventLoadingError(): boolean {
+src/game/index.ts:115:  public getState(): GameState {
+src/game/index.ts:119:  public newGame(seed?: number): void {
+src/game/index.ts:130:  public returnToTitle(): void {
+src/game/index.ts:134:  public snapshot(): RunSnapshot {
+src/game/index.ts:148:  public restore(snapshot: RunSnapshot): void {
+src/game/index.ts:162:  public triggerGameOver(): void {
+src/game/index.ts:167:  private recomputeStats(character: GameState["party"]["members"][number]): void {
+src/game/index.ts:201:  public getDebugOptions(): DebugOptions {
+src/game/index.ts:205:  public updateDebugOptions(options: Partial<DebugOptions>): void {
+src/game/index.ts:215:  public debugSetPartyLowHealth(): void {
+src/game/index.ts:231:  public clearChestLoot(): void {
+src/game/index.ts:237:  public debugNextDepth(): void {
+src/game/index.ts:268:  public debugSpawnEntitiesAround(): void {
+src/game/index.ts:295:  public moveNorth(): void {
+src/game/index.ts:302:  public moveSouth(): void {
+src/game/index.ts:309:  public moveEast(): void {
+src/game/index.ts:316:  public moveWest(): void {
+src/game/index.ts:323:  public moveForward(): void {
+src/game/index.ts:330:  public moveBackward(): void {
+src/game/index.ts:337:  public strafeLeft(): void {
+src/game/index.ts:344:  public strafeRight(): void {
+src/game/index.ts:351:  public startEvent(eventId: string): void {
+src/game/index.ts:355:  public chooseEventChoice(choiceId: string): void {
+src/game/index.ts:368:  public getNearbyNpcId(): keyof typeof NPCS | null {
+src/game/index.ts:379:  public startDialogue(): boolean {
+src/game/index.ts:392:  public chooseDialogueChoice(choiceId: string): boolean {
+src/game/index.ts:410:  public advanceDialogue(): void {
+src/game/index.ts:424:  public leaveDialogue(): void {
+src/game/index.ts:433:  public triggerProceduralEvent(): boolean {
+src/game/index.ts:457:  public startCombat(isBoss: boolean = false, depthOverride?: number): void {
+src/game/index.ts:483:  public submitCombatAction(action: CombatAction): void {
+src/game/index.ts:500:  private handlePostMove(previousLocation: GameLocation): void {
+src/game/index.ts:532:  public getCurrentCombatActor(): { isPlayer: boolean; index: number } | null {
+src/game/index.ts:540:  public useConsumableOutOfCombat(itemId: string, targetIndex: number): boolean {
+src/game/index.ts:573:  public getConsumableUnavailableReason(itemId: string, targetIndex: number): string | null {
+src/game/index.ts:592:  public equipItem(characterIndex: number, itemId: string): boolean {
+src/game/index.ts:619:  public unequipItem(characterIndex: number, slot: import("./state").EquipmentSlot): boolean {
+src/game/index.ts:634:  public endCombat(): void {
+src/game/index.ts:669:  public chooseEnding(decision: import("./state").FinalDecision): boolean {
+src/game/index.ts:681:  public getCombatState(): GameState["combatState"] {
+src/game/enemies.ts:4:export interface Enemy {
+src/game/enemies.ts:335:export const ENEMIES: Record<string, Enemy> = {
+src/game/enemies.ts:362:export function getEnemiesByDepth(depth: number): Enemy[] {
+src/game/enemies.ts:366:export function getRandomEnemy(depth: number, excludeBosses: boolean = true): Enemy | undefined {
+src/game/enemies.ts:376:export function getBossForDepth(depth: number): Enemy | undefined {
+src/game/endings.ts:4:export interface EndingOption {
+src/game/endings.ts:11:export interface EndingResult {
+src/game/endings.ts:21:function witnessReady(state: GameState): boolean {
+src/game/endings.ts:33:export function getEndingOptions(state: GameState): EndingOption[] {
+src/game/endings.ts:111:export function resolveEnding(state: GameState): EndingResult | null {

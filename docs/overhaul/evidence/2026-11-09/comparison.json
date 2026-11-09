@@ -1,0 +1,85 @@
+{
+  "reference": "/home/psala/src/Depths-of-the-Fractured-Mind/artifacts/baseline/latest",
+  "candidate": "/home/psala/src/Depths-of-the-Fractured-Mind/artifacts/baseline/repeat",
+  "tolerance": "zero pixels; same browser and host",
+  "results": [
+    {
+      "name": "combat-viewport.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "combat.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "corridor-viewport.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "corridor.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "first-room-viewport.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "first-room.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "inventory-party-viewport.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "inventory-party.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "mobile-viewport.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "mobile.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "party.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "title-viewport.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    },
+    {
+      "name": "title.png",
+      "equalSize": true,
+      "changedPixels": 0,
+      "changedPercent": 0
+    }
+  ]
+}

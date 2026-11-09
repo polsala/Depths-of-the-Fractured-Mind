@@ -1,0 +1,53 @@
+
+> depths-of-the-fractured-mind@0.0.0 test:smoke
+> npm run build && playwright test
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 12 validated RGBA frames (current)
+miriam: 12 validated RGBA frames (current)
+subject13: 12 validated RGBA frames (current)
+anya: 12 validated RGBA frames (current)
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 54 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.57 kB │ gzip:  0.32 kB
+dist/assets/index-CVxdpKSU.css   14.96 kB │ gzip:  4.13 kB
+dist/assets/index-JfLKidEF.js   208.81 kB │ gzip: 61.18 kB
+✓ built in 464ms
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 34.0 MiB / 45 MiB; 25 WebP files
+[WebServer] (node:84987) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 3 workers
+
+(node:85011) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:85004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/save-smoke.spec.ts:5:1 › title does not download dungeon props and exploration loads optimized art (953ms)
+  ✓   4 tests/save-smoke.spec.ts:27:1 › four authored protagonist atlases load into the HUD on mobile (575ms)
+  ✓   5 tests/save-smoke.spec.ts:46:1 › Begin → progress → reload → Continue keeps the exploration screen and map view (1.2s)
+  ✓   2 tests/ux-accessibility.spec.ts:7:1 › 320/390/768 layouts, touch input, keyboard modal and 200% text stay usable (3.3s)
+  ✓   3 tests/combat-visuals.spec.ts:6:1 › desktop and mobile combat show enemy bodies, telegraphs, and skippable effects (3.8s)
+  ✓   6 tests/save-smoke.spec.ts:64:1 › export/import, explicit deletion and corrupt-save recovery (1.9s)
+  ✓   7 tests/ux-accessibility.spec.ts:44:1 › touch event choice, inventory and resume remain operable with a deterministic event fixture (2.0s)
+  ✓   8 tests/save-smoke.spec.ts:91:1 › touch NPC conversation survives reload and keyboard can reopen it (1.4s)
+  ✓   9 tests/ux-accessibility.spec.ts:75:1 › display/audio preferences survive reload and basic WCAG checks pass (2.0s)
+  ✓  10 tests/save-smoke.spec.ts:114:1 › final choice and epilogue render on mobile and survive reload (1.5s)
+
+  10 passed (8.6s)

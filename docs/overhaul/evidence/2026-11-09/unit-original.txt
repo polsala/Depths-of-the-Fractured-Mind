@@ -1,0 +1,12 @@
+
+> depths-of-the-fractured-mind@0.0.0 test:unit
+> vitest run tests/*.test.ts
+
+
+ RUN  v4.1.12 /home/psala/src/Depths-of-the-Fractured-Mind
+
+
+ Test Files  8 passed (8)
+      Tests  53 passed (53)
+   Start at  10:46:18
+   Duration  1.25s (transform 1.12s, setup 0ms, import 1.63s, tests 2.53s, environment 1ms)

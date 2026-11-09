@@ -1,5 +1,14 @@
 # Documentation
 
+## Overhaul production contract
+
+- [Progress and next action](overhaul/PROGRESS.md)
+- [Verified baseline and evidence](overhaul/BASELINE_AUDIT.md)
+- [Creative vision](overhaul/CREATIVE_VISION.md) · [Art direction](overhaul/ART_DIRECTION.md)
+- [Technical architecture](overhaul/TECHNICAL_ARCHITECTURE.md) · [Quality gates](overhaul/QUALITY_GATES.md)
+- [Production roadmap and Depth-1 slice](overhaul/PRODUCTION_ROADMAP.md)
+- [Asset provenance ledger](overhaul/ASSET_PROVENANCE.json)
+
 ## System Docs
 - **[SYSTEMS_OVERVIEW.md](SYSTEMS_OVERVIEW.md)** — Cross-system map: exploration, maps, rendering, combat, inventory/economy, events, and debug tooling.
 - **[design.md](design.md)** — Full game design spec (fiction, systems, UX, tone).
