@@ -1,0 +1,2 @@
+{"name":"desktop","width":1280,"height":800,"cpu":1,"frames":534,"medianMs":100,"p95Ms":200,"p95RenderMs":1.199999999254942,"longTasks":535,"calls":46,"errors":[]}
+{"name":"mobile-4x","width":390,"height":844,"cpu":4,"frames":1210,"medianMs":33.400000000001455,"p95Ms":116.69999999999891,"p95RenderMs":4.799999998882413,"longTasks":275,"calls":36,"errors":[]}

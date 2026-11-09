@@ -1,6 +1,6 @@
 # Quality gates — evidence is the contract
 
-Status as of 2026-11-09: technical baseline largely passes; artistic, human-play, physical-device and distribution approvals remain open. See [audit](BASELINE_AUDIT.md) and [progress](PROGRESS.md). Criteria below are **required target behavior**, not claims that the current game meets them.
+Status as of 2026-11-09: Phase-01 integrated Three.js/intake implementation has automated evidence; artistic, human-play, physical-device and distribution approvals remain open. See [Phase-01 evidence](evidence/phase01/README.md), [historical audit](BASELINE_AUDIT.md) and [progress](PROGRESS.md). Criteria below remain **required target behavior**, not claims that every gate passes.
 
 ## Severity and decision rule
 
@@ -99,12 +99,14 @@ Current ledger inventories 83 image/audio/vector files, including 45 copied from
 
 ## Current gate disposition
 
-| Area | Phase-00 evidence | Disposition |
+Reviewer/date: Codex automated verification and direct image/motion-frame inspection, 2026-11-09. This is not an independent human art, device, accessibility or player sign-off. Exact source/build hashes and command results are retained in the linked evidence bundle.
+
+| Area | Phase-01 evidence | Disposition |
 | --- | --- | --- |
-| A | Build, typecheck, events, 53 original tests, 5 added compatibility tests, 10 browser tests pass; known renderer/RNG and parser risks remain | Baseline captured; target A2/A7 open |
-| B | Six scene captures plus party crop inspected; overlap, HUD composition and style mismatch documented | Fail for slice approval |
-| C | Existing automated campaign/combat simulations pass; no moderated slice sessions | Not measured for new slice |
-| D | Budget and warm combat proxy pass; WebGL2 probe recorded | Partial; movement/network/device/memory gates open |
-| E | Existing automated scans/reflow/focus pass on tested screens | Partial; manual reader/new slice review open |
-| F | Existing campaign/83 events present; new authored slice specified only | New slice not implemented |
-| G | Complete media inventory; 45 distributed files unverified | Public distribution blocked |
+| A | 77 units, 15 browser cases, real-input route, immutable v1 browser map/RNG comparison, closed/open sprite pixel occlusion, absent/lost WebGL and ten lifecycle cycles; production subpath/debug gating | Automated coverage passes on tested flows. Hosted CI and exhaustive malformed legacy saves remain unobserved; no general data-integrity certification |
+| B | Ten authored room/corridor/door/counter/NPC/evidence views, before/reference images, full-motion route and correction record | **Fail for artistic slice approval (S1):** retained sprite-family mismatch, limited evidence-figure expression and sparse surface storytelling still need an authored reference-family pass and human review |
+| C | Required path/mechanism/reward/flee/death/full-inventory tests and no-cheat browser combat/return; one basic policy wins the seeded fight | **Not measured / open S1:** five uncoached sessions, comparative tactical policies, SAN/branch interpretation and 3–6 round tuning. Automation does not prove fun |
+| D | 34.6/45 MiB; cold title/Depth-1 ~90.7 kB/1.352 MB; Intel Iris Xe 60-second desktop median/p95 16.7/16.7 ms, mobile-4× 16.7/16.8 ms; separate earlier-revision failing SwiftShader report; ten-cycle heap samples | **Measured hardware desktop/emulated D3 frame component passes; software profile fails.** Physical phone, bounded long-session/process/GPU memory, true input-to-photon and controlled-network D4 remain open (S1). No physical-mobile claim |
+| E | Existing axe, keyboard focus, touch, 320/390/768 reflow, 200% text and preference checks retained; reduced-motion camera and text interactions tested | Automated tested screens pass; **manual E4–E6 and physical touch review open (S1)** |
+| F | Authored intro, counter landmark, purposeful connector, breaker/shutter, Keeper, finite secret, existing event/tactical fight, optional perception and named return payoff implemented | Beat types playable; **slice/campaign content approval open (S1)** for full voice/style/audio and human route review. Later depths retain existing procedural content rather than new golden kits |
+| G | 83 media files inventoried; all 45 legacy distributed files still unverified; new code-art source/evidence recorded; Three.js MIT notice included | **Public distribution blocked (S0).** No legacy media or new code-art originality review was silently marked cleared |

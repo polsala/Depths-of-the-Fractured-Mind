@@ -1,0 +1,90 @@
+{
+  "seed": 130013,
+  "debug": false,
+  "combatActions": 8,
+  "flags": {
+    "moral": {
+      "mercy": 0,
+      "cruelty": 0,
+      "truth": 2,
+      "denial": 0
+    },
+    "pitEventResolved": false,
+    "overflowWardResolved": false,
+    "riotRecordingPlayed": false,
+    "confessionalUsed": false,
+    "visitedTiles": [
+      "1-4-15",
+      "1-4-14",
+      "1-5-14",
+      "1-6-14",
+      "1-7-14",
+      "1-8-14",
+      "1-9-14",
+      "1-10-14",
+      "1-11-14",
+      "1-12-14",
+      "1-12-13",
+      "1-12-12",
+      "1-12-11",
+      "1-12-10",
+      "1-12-9",
+      "1-12-8",
+      "1-13-8",
+      "1-14-8",
+      "1-15-8",
+      "1-16-8",
+      "1-16-7",
+      "1-17-7",
+      "1-18-7",
+      "1-18-8",
+      "1-17-8",
+      "1-14-7",
+      "1-13-7",
+      "1-12-7",
+      "1-12-6",
+      "1-12-5",
+      "1-12-4",
+      "1-6-13",
+      "1-5-13",
+      "1-4-13"
+    ],
+    "completedEventIds": [
+      "first_corpse"
+    ],
+    "bossDefeatedDepths": [],
+    "dialogue_keeper_intro_shown": true,
+    "keeperTruthShared": true,
+    "dialogue_keeper_revelation_shown": true,
+    "intakePerceptionSeen": true,
+    "intakePowerRestored": true,
+    "first_corpse_examined": true,
+    "intakeEvidenceResolved": true,
+    "intakeEncounterWon": true,
+    "intakeTagRecovered": true,
+    "intakeComplete": true
+  },
+  "party": [
+    {
+      "name": "Elias Ward",
+      "hp": 40,
+      "sanity": 20
+    },
+    {
+      "name": "Dr. Miriam Kessler",
+      "hp": 30,
+      "sanity": 24
+    },
+    {
+      "name": "Subject 13",
+      "hp": 22,
+      "sanity": 26
+    },
+    {
+      "name": "Sister Anya Velasquez",
+      "hp": 16,
+      "sanity": 30
+    }
+  ],
+  "errors": []
+}

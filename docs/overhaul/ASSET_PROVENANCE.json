@@ -2,6 +2,17 @@
   "schemaVersion": 1,
   "auditedHead": "48d713e1717b7764b4fa2e59c0c1278866627252",
   "policy": "Cleared requires named creator, terms permitting intended distribution, and retained file-specific evidence; keep unknown assets local until resolved.",
+  "phase01CodeAuthoredAdditions": {
+    "date": "2026-11-09",
+    "method": "Original TypeScript geometry, Canvas signage/wear/contact plates authored by Codex under the repository owner's Phase-01 instruction and the institutional-ritual art direction. No external model, image-generation job, photograph, font or new binary media was imported.",
+    "sources": ["docs/overhaul/ART_DIRECTION.md", "src/graphics/dungeon/SceneBuilder.ts", "src/graphics/dungeon/MaterialLibrary.ts"],
+    "evidence": ["docs/overhaul/evidence/phase01/README.md", "docs/overhaul/evidence/phase01/source-manifest.json"],
+    "status": "pending-originality-and-contributor-review",
+    "legacyMedia": "Existing wall/floor/ceiling, Keeper, Subject13, combat and audio files retain their original unverified entries below. Runtime use or new geometry does not clear them."
+  },
+  "dependencyNotices": [
+    { "name": "three", "version": "0.187.0", "license": "MIT", "source": "node_modules/three/LICENSE", "retainedNotice": "public/THIRD_PARTY_NOTICES.txt", "lockfile": "package-lock.json" }
+  ],
   "assets": [
     {
       "path": "docs/art/hero-reference.png",

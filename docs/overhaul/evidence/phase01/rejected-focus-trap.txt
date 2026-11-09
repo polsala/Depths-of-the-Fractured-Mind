@@ -1,0 +1,33 @@
+[WebServer] (node:405350) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:405367) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 tests/dungeon-engine.spec.ts:165:1 › a modal discards queued input and a cold renderer load queues only one grid action (11.2s)
+
+
+  1) tests/dungeon-engine.spec.ts:165:1 › a modal discards queued input and a cold renderer load queues only one grid action 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 14
+    Received: 13
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      194 |   await expect(inventory).toBeFocused();
+      195 |   await page.keyboard.press("s");
+    > 196 |   await expect.poll(async () => (await snapshot(page)).state.location.y).toBe(14);
+          |                                                                          ^
+      197 |   await expect.poll(async () => (await diagnostics(page)).moving).toBe(false);
+      198 | });
+      199 |
+        at /home/psala/src/Depths-of-the-Fractured-Mind/tests/dungeon-engine.spec.ts:196:74
+
+    Error Context: test-results/dungeon-engine-a-modal-dis-e948c-queues-only-one-grid-action/error-context.md
+
+  1 failed
+    tests/dungeon-engine.spec.ts:165:1 › a modal discards queued input and a cold renderer load queues only one grid action 

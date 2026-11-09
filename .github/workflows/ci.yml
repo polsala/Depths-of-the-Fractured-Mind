@@ -98,6 +98,9 @@ jobs:
       - name: Capture deterministic production baseline
         run: npm run baseline:capture
 
+      - name: Capture authored room with actual WebGL2
+        run: npm run capture:golden
+
       - name: Upload responsive UI captures
         if: always()
         uses: actions/upload-artifact@v4
@@ -113,6 +116,17 @@ jobs:
         with:
           name: production-baseline
           path: artifacts/baseline/latest/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload authored renderer evidence and lifecycle reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase01-renderer-evidence
+          path: |
+            artifacts/phase01/current/
+            test-results/**/*.json
           if-no-files-found: error
           retention-days: 14
 

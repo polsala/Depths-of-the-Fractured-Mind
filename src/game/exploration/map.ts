@@ -30,9 +30,13 @@ export interface MapTile {
   };
   vendor?: boolean;
   npcId?: "keeper";
+  /** Stable authored interaction identity; rules, not the renderer, resolve it. */
+  featureId?: string;
 }
 
 export interface DepthMap {
+  /** Missing on legacy/procedural maps. Persisted maps are never replaced. */
+  layoutId?: string;
   depth: number;
   width: number;
   height: number;

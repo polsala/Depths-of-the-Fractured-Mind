@@ -3,7 +3,9 @@ import type { DepthMap } from "./exploration/map";
 import { resolveEnding } from "./endings";
 
 export const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
-export const SAVE_VERSION = 1;
+// v2 adds optional authored layout/features, notices and escaped encounter state.
+// v0/v1 maps/flags/RNG remain unchanged in memory; absence means legacy play.
+export const SAVE_VERSION = 2;
 
 export interface RunSnapshot {
   state: GameState;
@@ -49,13 +51,24 @@ function validateMap(value: unknown, depth: number): value is DepthMap {
   const height = value.height as number;
   if (width < 1 || width > 200 || height < 1 || height > 200 || !Array.isArray(value.tiles) || value.tiles.length !== height) return false;
   if (!Number.isInteger(value.startX) || !Number.isInteger(value.startY) || (value.startX as number) < 0 || (value.startX as number) >= width || (value.startY as number) < 0 || (value.startY as number) >= height) return false;
+  if (value.layoutId !== undefined && (value.layoutId !== "depth1-intake-v1" || depth !== 1 || width !== 22 || height !== 20 || value.startX !== 4 || value.startY !== 15)) return false;
   return value.tiles.every((row) => Array.isArray(row) && row.length === width && row.every((tile) =>
-    record(tile) && ["wall", "floor", "stairsDown", "stairsUp", "door"].includes(String(tile.type)) && typeof tile.passable === "boolean"));
+    record(tile) && ["wall", "floor", "stairsDown", "stairsUp", "door"].includes(String(tile.type)) && typeof tile.passable === "boolean" &&
+    (tile.featureId === undefined || typeof tile.featureId === "string") && (tile.locked === undefined || typeof tile.locked === "boolean")));
 }
 
 function validateState(value: unknown): asserts value is Record<string, unknown> {
   if (!record(value) || !record(value.location) || !record(value.party) || !record(value.flags)) throw new SaveFormatError("invalid", "The save is missing game state.");
   const { location, party, flags } = value;
+  if (value.explorationNotice !== undefined && typeof value.explorationNotice !== "string") throw new SaveFormatError("invalid", "The exploration notice is invalid.");
+  if (value.intakeEncounter !== undefined && (!record(value.intakeEncounter) || !Array.isArray(value.intakeEncounter.enemies) ||
+      value.intakeEncounter.enemies.length < 1 || value.intakeEncounter.enemies.length > 3 || !value.intakeEncounter.enemies.every((enemy) => record(enemy) &&
+        ["deranged_guard", "corrupted_rat"].includes(String(enemy.id)) && typeof enemy.name === "string" && record(enemy.stats) &&
+        ["hp", "maxHp", "sanity", "maxSanity", "attack", "defense", "will", "focus"].every((key) => finite((enemy.stats as Record<string, unknown>)[key])) &&
+        (enemy.stats.hp as number) >= 0 && (enemy.stats.maxHp as number) > 0 && (enemy.stats.hp as number) <= (enemy.stats.maxHp as number) &&
+        typeof enemy.alive === "boolean" && stringArray(enemy.statusEffects)))) {
+    throw new SaveFormatError("invalid", "The intake encounter checkpoint is invalid.");
+  }
   if (!Number.isInteger(location.depth) || (location.depth as number) < 1 || (location.depth as number) > 5 ||
       !Number.isInteger(location.x) || !Number.isInteger(location.y) ||
       !MODES.includes(value.mode as GameMode) || !Array.isArray(party.members) || party.members.length !== 4 ||

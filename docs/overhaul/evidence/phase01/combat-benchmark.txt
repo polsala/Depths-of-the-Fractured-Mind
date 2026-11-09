@@ -1,0 +1,7 @@
+
+> depths-of-the-fractured-mind@0.0.0 bench:combat
+> node utils/benchmark-combat.mjs
+
+4:18:36 PM [vite] (client) Re-optimizing dependencies because lockfile has changed
+{"profile":"desktop","samples":80,"medianMs":0.1,"p95Ms":0.3,"budgetMs":16.7}
+{"profile":"mobile-4x","samples":80,"medianMs":0.9,"p95Ms":2.1,"budgetMs":33}

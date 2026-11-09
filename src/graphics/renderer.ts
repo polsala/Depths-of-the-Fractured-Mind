@@ -8,8 +8,6 @@ import type { DepthMap } from "../game/exploration/map";
 import { OBJECT_SPRITES, DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../assets/manifest";
 
 // Constants
-const MIN_DEPTH = 1;
-const MAX_DEPTH = 5;
 const DEFAULT_DEPTH = 1;
 const textureCache = new Map<string, HTMLImageElement>();
 const depthTextures = DEPTH_TEXTURES;
@@ -66,7 +64,7 @@ export function createRenderContext(
 
   // Initialize depth maps cache, using the game's cached maps if provided
   const depthMaps = new Map<number, DungeonMap>();
-  for (let depth = MIN_DEPTH; depth <= MAX_DEPTH; depth++) {
+  for (const depth of gameDepthMapsCache?.keys() ?? []) {
     depthMaps.set(depth, generateDepthMap(depth, gameDepthMapsCache));
   }
 

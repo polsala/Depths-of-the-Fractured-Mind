@@ -17,6 +17,7 @@ export interface MapCell {
   stairsDown?: boolean;
   vendor?: boolean;
   npc?: string;
+  discovered?: boolean;
 }
 
 export type DungeonMap = MapCell[][];
@@ -26,7 +27,9 @@ export type DungeonMap = MapCell[][];
  * This ensures the graphics rendering matches the actual playable map
  */
 export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number, DepthMap>): DungeonMap {
-  const gameMap: DepthMap = getDepthMap(depth, gameDepthMapsCache);
+  const gameMap: DepthMap = gameDepthMapsCache
+    ? gameDepthMapsCache.get(depth) ?? (() => { throw new Error("Presentation cannot generate a missing depth"); })()
+    : getDepthMap(depth);
   const map: DungeonMap = [];
 
   // Convert game map tiles to graphics map cells
@@ -36,7 +39,7 @@ export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number,
       const tile: MapTile = gameMap.tiles[y][x];
       map[y][x] = {
         walkable: tile.passable,
-        wall: !tile.passable, // Non-passable tiles are walls
+        wall: !tile.passable || (tile.type === "door" && !!tile.locked),
         door: isDoorTile(tile.type),
         event: tile.eventId,
         chest: !!tile.chest && !tile.chest.opened,
@@ -44,6 +47,7 @@ export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number,
         stairsDown: tile.type === "stairsDown",
         vendor: !!tile.vendor,
         npc: tile.npcId,
+        discovered: tile.discovered,
       };
     }
   }
@@ -55,7 +59,7 @@ export function generateDepthMap(depth: number, gameDepthMapsCache?: Map<number,
  * Determine if a tile type represents a door
  */
 function isDoorTile(tileType: string): boolean {
-  return tileType === "stairsDown" || tileType === "stairsUp";
+  return tileType === "door";
 }
 
 /**

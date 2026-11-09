@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "runId": "phase01-delivery-v1",
+  "captures": [
+    {"mode":"desktop","state":"opening-room","report":"artifacts/phase01/inspector/desktop-opening.json"},
+    {"mode":"desktop","state":"corridor","report":"artifacts/phase01/inspector/desktop-corridor.json"},
+    {"mode":"desktop","state":"door-occlusion","report":"artifacts/phase01/inspector/desktop-door.json"},
+    {"mode":"desktop","state":"interaction","report":"artifacts/phase01/inspector/desktop-counter.json"},
+    {"mode":"desktop","state":"npc","report":"artifacts/phase01/inspector/desktop-npc.json"},
+    {"mode":"mobile","state":"opening-room","report":"artifacts/phase01/inspector/mobile-opening.json"},
+    {"mode":"mobile","state":"npc","report":"artifacts/phase01/inspector/mobile-npc.json"}
+  ],
+  "artifacts": ["artifacts/phase01/motion/intake-walkthrough.webm"]
+}

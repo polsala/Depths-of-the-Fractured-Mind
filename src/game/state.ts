@@ -1,6 +1,7 @@
 import { getDepthMap } from "./exploration/map";
 import type { DepthMap } from "./exploration/map";
 import type { CombatState } from "./combat/state";
+import type { EncounterState } from "./combat/engine";
 
 export interface Stats {
   hp: number;
@@ -154,14 +155,19 @@ export interface GameState {
   finalDecision?: FinalDecision;
   combatState?: CombatState;
   depthMaps?: Map<number, DepthMap>;
+  /** Persistent contextual feedback, available to the DOM accessibility layer. */
+  explorationNotice?: string;
+  /** An escaped authored encounter retains enemy HP; no reroll or reward reset. */
+  intakeEncounter?: EncounterState;
 }
 
-export function createInitialGameState(): GameState {
+export function createInitialGameState(authoredStart?: DepthMap): GameState {
   // Initialize map cache
   const depthMaps = new Map<number, DepthMap>();
   
   // Get the starting map to get the correct starting position
-  const startingMap = getDepthMap(1, depthMaps);
+  const startingMap = authoredStart ?? getDepthMap(1, depthMaps);
+  if (authoredStart) depthMaps.set(1, authoredStart);
   
   const initialState: GameState = {
     party: {

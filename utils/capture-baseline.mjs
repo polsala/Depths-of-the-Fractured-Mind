@@ -144,6 +144,7 @@ try {
     // For the inventory capture, preserve a second image of the party it overlays.
     if (spec.inventory) {
       await page.getByRole("dialog", { name: "Inventory" }).getByRole("button", { name: "Close" }).click();
+      await page.locator(".party-vitals summary").click();
       await page.locator(".party-panel").screenshot({ path: join(output, "party.png") });
     }
     const metrics = await cdp.send("Performance.getMetrics");

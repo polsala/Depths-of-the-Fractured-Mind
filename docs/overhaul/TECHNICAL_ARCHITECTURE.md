@@ -1,6 +1,10 @@
 # Technical architecture — retain, isolate, prove
 
-Status: decisions for subsequent implementation. Phase 00 adds evidence and compatibility infrastructure, not a renderer replacement. [Baseline](BASELINE_AUDIT.md) distinguishes existing behavior from these targets.
+Status: Phase-00 historical decisions below are superseded for the viewport by the user's Phase-01 Three.js requirement. [Phase-01 implementation](PHASE01_ENGINE.md) records the current architecture. [Baseline](BASELINE_AUDIT.md) remains an immutable account of the original engine.
+
+## Phase-01 decision amendment
+
+ADR-01 is replaced: use pinned **Three.js 0.187.0 WebGLRenderer** and actual instanced 3D environment geometry for the primary exploration viewport. The original Canvas raycaster is a temporary explicitly labeled compatibility fallback, selected when WebGL2 is unavailable/context-lost or by `?renderer=canvas`. This follows the user's explicit Phase-01 rendering strategy, rather than inferring a switch from capability alone. TypeScript/Vite, the authoritative grid, RPG/controller/combat/event/save contracts and DOM accessibility remain. ADR-02 through ADR-09 still apply; current module responsibilities, integration evidence and unresolved gates are in `PHASE01_ENGINE.md`.
 
 ## Verified foundation
 

@@ -1,5 +1,6 @@
 import type { GameState } from "./state";
 import { nextRequiredBeat } from "./story";
+import { isIntakeMap } from "./exploration/authored/depth1-intake";
 
 export const CHAPTERS = ["", "The Threshold", "The Archive", "The Ward", "The Labyrinth", "The Core"] as const;
 
@@ -44,6 +45,21 @@ export function getCurrentObjective(state: GameState): Objective {
   const depth = state.location.depth;
   const chapter = `Depth ${depth} · ${CHAPTERS[depth] ?? "The Facility"}`;
   const consequence = getStoryConsequence(state);
+  if (isIntakeMap(state.depthMaps?.get(depth))) {
+    if (!state.flags.dialogue_keeper_intro_shown) return { chapter, title: "Find a witness and the way down",
+      guidance: "Talk to the Keeper beside you with T. Read the amber patient counter to the north; the eastern passage leads to release control.", consequence };
+    if (!state.flags.intakePowerRestored) return { chapter, title: "Restore the release circuit",
+      guidance: "Follow the queue passage east, then north. The amber cable leads from the locked shutter to the eastern breaker booth.", consequence };
+    if (!state.flags.completedEventIds?.has("first_corpse")) return { chapter, title: "Confront The First Body",
+      guidance: "The shutter is open. Enter the evidence bay to the north and inspect the worker beside the admission chair.", consequence };
+    if (!state.flags.intakeTagRecovered) return { chapter, title: "Recover Mara's intake tag",
+      guidance: "Prepare your party, then interact with the body to confront the guard and rat. Their intentions will be shown before you act.", consequence };
+    if (!state.flags.intakeComplete) return { chapter, title: "Return a name to Admissions",
+      guidance: "Retrace the open shutter and queue passage. Place Mara Voss's tag in the amber counter on the north wall of Admissions.", consequence };
+    return { chapter, title: "Mara Voss — released",
+      guidance: "The counter opens the western descent. Prepare your party, then step onto the stair to face the Threshold's guardian.",
+      consequence: state.flags.intakePerceptionAcknowledged ? "You listened to the queue's echo. Mara's name has replaced a number." : "Mara's name has replaced a number." };
+  }
   if (depth === 1 && !state.flags.dialogue_keeper_intro_shown) {
     return {
       chapter,

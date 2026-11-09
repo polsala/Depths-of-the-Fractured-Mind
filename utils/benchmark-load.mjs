@@ -38,7 +38,7 @@ try {
         cumulativeKiB: Math.round(total / 1024), jsHeapMiB: +(heap / 1048576).toFixed(1), top }));
       return total;
     };
-    await page.goto(`http://127.0.0.1:${port}${server.config.base}`);
+    await page.goto(`http://127.0.0.1:${port}${server.config.base}?qa=1`);
     let previous = await snapshot("title", 0);
     await page.getByRole("button", { name: "Begin Your Descent" }).click();
     for (let depth = 1; depth <= 5; depth++) {

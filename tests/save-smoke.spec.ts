@@ -35,6 +35,9 @@ test("four authored protagonist atlases load into the HUD on mobile", async ({ b
   });
   await page.goto("./");
   await page.getByRole("button", { name: "Begin Your Descent" }).tap();
+  // Compact party summaries stay in the viewport; full portraits are now an
+  // intentional disclosure so they do not crowd the mobile exploration view.
+  await page.locator(".party-vitals summary").tap();
   await expect(page.locator(".party-panel")).toBeVisible();
   await expect.poll(() => loaded.size).toBe(4);
   const fits = await page.locator(".party-panel").evaluate((canvas: HTMLCanvasElement) => canvas.height >= 4 * 84 + 8);
@@ -51,6 +54,9 @@ test("Begin → progress → reload → Continue keeps the exploration screen an
   const viewport = await page.locator(".viewport-container").elementHandle();
   await page.keyboard.press("q");
   expect(await viewport?.evaluate((node) => node === document.querySelector(".viewport-container"))).toBe(true);
+  // The first intent may wait for the lazy 3D viewport. Observe the committed
+  // action before reloading; the direction/save assertion remains unchanged.
+  await expect.poll(() => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state.location.direction, SAVE_KEY)).toBe("west");
   const beforeReload = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state.location, SAVE_KEY);
   expect(beforeReload.direction).toBe("west");
   await page.reload();
@@ -127,6 +133,9 @@ test("final choice and epilogue render on mobile and survive reload", async ({ b
     const snapshot = JSON.parse(localStorage.getItem(key)!);
     const map = structuredClone(snapshot.state.depthMaps[0][1]);
     map.depth = 5;
+    // This synthetic ending checkpoint is not the authored Depth-1 intake.
+    delete map.layoutId;
+    for (const row of map.tiles) for (const tile of row) delete tile.featureId;
     snapshot.state.depthMaps.push([5, map]);
     snapshot.state.location.depth = 5;
     snapshot.state.flags.bossDefeatedDepths = [5];

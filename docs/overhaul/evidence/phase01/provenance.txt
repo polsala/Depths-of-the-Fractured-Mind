@@ -1,0 +1,10 @@
+
+> depths-of-the-fractured-mind@0.0.0 assets:provenance
+> node utils/check-asset-provenance.mjs
+
+{
+  "inventoried": 83,
+  "distributedUnverified": 45,
+  "scope": "binary/vector media files; code-authored art and dependency notices also need release review",
+  "failures": []
+}

@@ -7,7 +7,8 @@ import { applyEventChoice, startEvent } from "./events/engine";
 import { registerMandatoryEvents } from "./events/mandatory";
 import { loadEventDataFile } from "./events/loader";
 import { selectEventForLocation } from "./events/procedural";
-import { generateRandomEncounter, generateBossEncounter } from "./combat/encounters";
+import { generateRandomEncounter, generateBossEncounter, createEnemyState } from "./combat/encounters";
+import { ENEMIES } from "./enemies";
 import { createCombatState, type CombatAction, getCurrentActor, isPartyDefeated } from "./combat/state";
 import { planEnemyIntents } from "./combat/intents";
 import { submitAction, clearCombatModifiers } from "./combat/turn-manager";
@@ -22,9 +23,16 @@ import type { MapTile } from "./exploration/map";
 import type { RunSnapshot } from "./save";
 import { startRun, restoreRandomState, getRandomState, getRunSeed } from "./random";
 import { emitSound } from "./sound";
+import { createIntakeMap, isIntakeMap, INTAKE_FEATURES } from "./exploration/authored/depth1-intake";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
+
+export interface ExplorationInteraction {
+  id: string;
+  label: string;
+  description: string;
+}
 
 type DebugEntityApplier = (tile: MapTile) => void;
 const DEBUG_ENTITY_TEMPLATES: Array<{ id: string; apply: DebugEntityApplier }> = [
@@ -119,12 +127,13 @@ export class GameController {
   public newGame(seed?: number): void {
     startRun(seed);
     this.state = {
-      ...createInitialGameState(),
+      ...createInitialGameState(createIntakeMap()),
       party: createDefaultParty(),
     };
     this.state.party.inventory.money = 100;
     this.stepsSinceLastEvent = 0;
     this.lastProceduralEventId = null;
+    this.state.explorationNotice = "The intake bell rings once. Four arrivals. No releases. The amber patient counter has been left running.";
   }
 
   public returnToTitle(): void {
@@ -299,6 +308,18 @@ export class GameController {
     this.handlePostMove(previousLocation);
   }
 
+  public turnLeft(): void {
+    if (this.state.mode !== "exploration") return;
+    const left = { north: "west", west: "south", south: "east", east: "north" } as const;
+    this.state = { ...this.state, location: { ...this.state.location, direction: left[this.state.location.direction ?? "north"] } };
+  }
+
+  public turnRight(): void {
+    if (this.state.mode !== "exploration") return;
+    const right = { north: "east", east: "south", south: "west", west: "north" } as const;
+    this.state = { ...this.state, location: { ...this.state.location, direction: right[this.state.location.direction ?? "north"] } };
+  }
+
   public moveSouth(): void {
     if (this.state.mode !== "exploration") return;
     const previousLocation: GameLocation = { ...this.state.location };
@@ -356,10 +377,18 @@ export class GameController {
     if (this.state.mode !== "event" || !this.state.currentEventId) {
       return;
     }
+    const resolvingIntakeEvidence = this.state.currentEventId === "first_corpse" &&
+      isIntakeMap(this.state.depthMaps?.get(this.state.location.depth));
     const wasRequiredAtStair = isRequiredBeat(this.state.currentEventId) &&
       getDepthMap(this.state.location.depth, this.state.depthMaps)
         .tiles[this.state.location.y]?.[this.state.location.x]?.type === "stairsDown";
     this.state = applyEventChoice(this.state, choiceId);
+    if (resolvingIntakeEvidence && this.state.mode === "exploration" && this.state.flags.completedEventIds?.has("first_corpse")) {
+      this.state.flags.intakeEvidenceResolved = true;
+      this.state.explorationNotice = (this.state.party.members.some((member) => member.id === "miriam" && member.alive)
+        ? "Miriam reads a name on the tag: Mara Voss. " : "The tag bears a name: Mara Voss. ") +
+        "A guard and a rat stir beyond the admission chair. Prepare your party, then interact with the body again to confront them.";
+    }
     if (wasRequiredAtStair && this.state.mode === "exploration") {
       this.state = resolveDownStairs(this.state);
     }
@@ -374,6 +403,110 @@ export class GameController {
       if (npcId && npcId in NPCS) return npcId;
     }
     return null;
+  }
+
+  /** Presentation asks for the same validated interaction that the command executes. */
+  public getInteraction(): ExplorationInteraction | null {
+    if (this.state.mode !== "exploration") return null;
+    const map = this.state.depthMaps?.get(this.state.location.depth);
+    if (!isIntakeMap(map) || !map) return null;
+    const { x, y } = this.state.location;
+    const offsets = { north: [0, -1], east: [1, 0], south: [0, 1], west: [-1, 0] } as const;
+    const [dx, dy] = offsets[this.state.location.direction ?? "north"];
+    const adjacent = map.tiles[y + dy]?.[x + dx];
+    // The wall counter is deliberately read from across its desk. This is a
+    // two-cell, facing-only exception; all other features stay current/adjacent.
+    // Missing, solid or locked intermediate cells never permit reaching through.
+    const distantCounter = adjacent?.passable && !adjacent.locked &&
+      map.tiles[y + dy * 2]?.[x + dx * 2]?.featureId === "intake-counter";
+    const id = map.tiles[y]?.[x]?.featureId ?? adjacent?.featureId ?? (distantCounter ? "intake-counter" : undefined);
+    const flags = this.state.flags;
+    switch (id) {
+      case "intake-counter": return { id, label: flags.intakeTagRecovered && !flags.intakeComplete ? "Return Mara's intake tag" : "Read the patient counter",
+        description: flags.intakeComplete ? "Mara Voss is recorded as released. The descent is open." : "Four arrivals. Zero releases. A name is missing from the register." };
+      case "release-breaker": return { id, label: flags.intakePowerRestored ? "Inspect the release circuit" : "Restore release power",
+        description: "A manual breaker feeds the security shutter. Its wire was routed around the patient-call circuit." };
+      case "release-shutter": return { id, label: flags.intakePowerRestored ? "Inspect the open shutter" : "Inspect the locked shutter",
+        description: flags.intakePowerRestored ? "The release shutter is lifted. The evidence bay lies beyond." : "RELEASE POWER OFF. Follow the amber cable east to the control booth." };
+      case "intake-evidence": return { id, label: !flags.completedEventIds?.has("first_corpse") ? "Examine the first body" : !flags.intakeEncounterWon ? "Confront the security detail" : "Read the empty admission chair",
+        description: !flags.completedEventIds?.has("first_corpse") ? "A worker holds a patient tag beside an overturned admission chair." : !flags.intakeEncounterWon ? "A guard blocks the tag; a rat circles its feet. Interact to begin combat. You can retreat and return without restoring their health." : "The tag is safe. Bring it back to the amber counter in Admissions." };
+      case "linen-shelf": return { id, label: flags.intakeLinenTaken ? "Read the linen label" : "Search the linen shelf",
+        description: "Someone wrote a name underneath the number. There may be medical supplies behind the folded clothes." };
+      case "queue-shadow": return { id, label: "Listen to the queue echo", description: "A fifth silhouette waits in a queue built for four. The real passage remains unchanged." };
+      case "intake-onward": return { id, label: flags.intakeComplete ? "Descend toward the guardian" : "Inspect the sealed descent",
+        description: flags.intakeComplete ? "The counter has released the stair. The Threshold's guardian still waits below." : "The descent remains sealed until a patient is recorded as released. Return a name to the intake counter." };
+      case "intake-keeper": return { id, label: "Talk to the Keeper", description: "The Keeper remembers the intake room before its records went silent." };
+      default:
+        return this.getNearbyNpcId() ? { id: "intake-keeper", label: "Talk to the Keeper", description: "A witness waits beside the entrance." } : null;
+    }
+  }
+
+  public getExplorationNotice(): string {
+    return this.state.explorationNotice ?? "Read the room, watch the map, and prepare before confronting a threat.";
+  }
+
+  /** Resolves one discrete interaction; no renderer or animation can apply an effect. */
+  public interact(): boolean {
+    const interaction = this.getInteraction();
+    if (!interaction) return false;
+    const flags = this.state.flags;
+    const map = this.state.depthMaps!.get(this.state.location.depth)!;
+    const living = (id: string) => this.state.party.members.some((member) => member.id === id && member.alive);
+    switch (interaction.id) {
+      case "intake-keeper": return this.startDialogue();
+      case "intake-counter":
+        if (flags.intakeTagRecovered && !flags.intakeComplete) {
+          flags.intakeComplete = true;
+          map.tiles[14][2].type = "stairsDown";
+          this.state.party.members.forEach((member) => {
+            if (member.alive) member.stats.sanity = Math.min(member.stats.maxSanity, member.stats.sanity + 2);
+          });
+          const witness = living("anya") ? "Anya says her name aloud. " : "The surviving companions read her name aloud. ";
+          const response = flags.intakePerceptionAcknowledged && living("subject13") ? "Subject 13 answers, 'You heard her too.' " : "A person has replaced a number. ";
+          this.state.explorationNotice = "MARA VOSS — RELEASED. The counter turns once. " + witness + response + "The descent opens. Each living companion recovers 2 SAN.";
+          emitSound("event_choice");
+        } else this.state.explorationNotice = interaction.description + (flags.intakeComplete ? "" : " Restore release power in the eastern booth, recover the tag, then bring it here.");
+        break;
+      case "release-breaker":
+        if (!flags.intakePowerRestored) {
+          flags.intakePowerRestored = true;
+          map.tiles[INTAKE_FEATURES.shutter.y][INTAKE_FEATURES.shutter.x].locked = false;
+          this.state.explorationNotice = "The breaker locks into place. The shutter lifts. " +
+            (living("elias") ? "Elias recognizes his signature on the bypass order: 'We cut the call wire to keep them quiet.' " : "Elias's signature remains on the bypass order that cut the patient-call wire. ") +
+            "The evidence bay is now accessible.";
+          emitSound("event_choice");
+        } else this.state.explorationNotice = "The release circuit is stable. The shutter stays open.";
+        break;
+      case "intake-evidence":
+        if (!flags.completedEventIds?.has("first_corpse")) {
+          this.state = startEvent(this.state, "first_corpse");
+        } else if (!flags.intakeEncounterWon) {
+          const encounter = this.state.intakeEncounter ?? { enemies: [createEnemyState(ENEMIES.deranged_guard), createEnemyState(ENEMIES.corrupted_rat)] };
+          this.state.combatState = createCombatState(this.state.party, encounter, false, this.state.debugOptions, 1);
+          this.state.currentEncounterId = "intake-security";
+          this.state.mode = "combat";
+        } else this.state.explorationNotice = interaction.description;
+        break;
+      case "linen-shelf":
+        if (!flags.intakeLinenTaken) {
+          if (addItem(this.state.party.inventory, "medkit", 1)) {
+            flags.intakeLinenTaken = true;
+            this.state.explorationNotice = "A medical kit is tucked behind the folded clothes. The label says MARA, beneath a crossed-out patient number. You take one kit.";
+            emitSound("ui_click");
+          } else this.state.explorationNotice = "Your inventory is full. The medical kit remains on the linen shelf; make room and return.";
+        } else this.state.explorationNotice = "MARA is written under the crossed-out number. The shelf's medical kit has already been taken.";
+        break;
+      case "queue-shadow":
+        flags.intakePerceptionSeen = true;
+        flags.intakePerceptionAcknowledged = true;
+        this.state.explorationNotice = (living("subject13") ? "You wait with Subject 13. " : "You listen to the empty queue. ") +
+          "The fifth shadow fades, but the name MARA remains in the echo. " +
+          (living("anya") ? "Anya counts the living companions. " : "The survivors count one another. ") + "The real route has not changed.";
+        emitSound("sanity_tick");
+        break;
+      default: this.state.explorationNotice = interaction.description;
+    }
+    return true;
   }
 
   public startDialogue(): boolean {
@@ -512,6 +645,17 @@ export class GameController {
       return;
     }
 
+    if (isIntakeMap(this.state.depthMaps?.get(currentLocation.depth))) {
+      if (!this.state.flags.intakePerceptionSeen && currentLocation.x === 12 && currentLocation.y === 11) {
+        this.state.flags.intakePerceptionSeen = true;
+        this.state.explorationNotice = (this.state.party.members.some((member) => member.id === "subject13" && member.alive)
+          ? "Subject 13 whispers: 'There is someone else in the queue.' " : "An extra silhouette waits in the empty queue. ") +
+          "A displaced shadow points toward the linen recess. Count the living companions; the way ahead is still real.";
+        emitSound("sanity_tick");
+      }
+      return; // Authored beats own this sequence; no random interruptions.
+    }
+
     this.stepsSinceLastEvent += 1;
     if (this.stepsSinceLastEvent < MIN_STEPS_BETWEEN_EVENTS) {
       return;
@@ -640,6 +784,20 @@ export class GameController {
       return;
     }
     if (this.state.combatState.phase !== "victory" && this.state.combatState.phase !== "fled") return;
+    const intakeFight = this.state.currentEncounterId === "intake-security";
+    const intakeVictory = intakeFight && this.state.combatState.phase === "victory";
+    if (intakeFight) {
+      if (intakeVictory) {
+        this.state.flags.intakeEncounterWon = true;
+        this.state.flags.intakeTagRecovered = true;
+        this.state.intakeEncounter = undefined;
+        this.state.explorationNotice = "The security detail falls silent. You recover Mara Voss's intake tag. Return it to the amber counter in Admissions; the open shutter marks your way back.";
+      } else {
+        this.state.intakeEncounter = this.state.combatState.encounter;
+        this.state.location = { depth: 1, x: 12, y: 7, direction: "north" };
+        this.state.explorationNotice = "You retreat to Observation. The security detail remains wounded in the evidence bay. Prepare, then interact with the body to resume the fight.";
+      }
+    }
     const victoriousBossDepth = this.state.combatState.phase === "victory" && this.state.combatState.isBossFight
       ? this.state.combatState.combatDepth : undefined;
     

@@ -1,0 +1,151 @@
+{
+  "url": "http://127.0.0.1:4180/Depths-of-the-Fractured-Mind/?qa=1",
+  "mode": "mobile",
+  "state": "opening-room",
+  "requestedState": "opening-room",
+  "appliedState": "opening-room",
+  "runId": "phase01-delivery-v1",
+  "seed": 130013,
+  "screenshotPath": "artifacts/phase01/inspector/mobile-opening.png",
+  "gpu": {
+    "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "vendor": "Google Inc. (Google)",
+    "softwareRendered": true
+  },
+  "result": {
+    "ok": true,
+    "reason": "nonblank",
+    "rect": {
+      "x": 9,
+      "y": 240.234375,
+      "width": 372,
+      "height": 279
+    },
+    "drawingBuffer": {
+      "width": 372,
+      "height": 279
+    },
+    "alphaPixels": 4152,
+    "variance": 253,
+    "colorBuckets": 123,
+    "metrics": {
+      "colorBuckets": 156,
+      "colorEntropyBits": 4.86,
+      "edgeDensity": 0.308,
+      "luminance": {
+        "mean": 50.1,
+        "p5": 7.9,
+        "p95": 114.6,
+        "contrast": 106.7
+      },
+      "dominantColorShare": 0.118,
+      "nonBackgroundShare": 0.882
+    },
+    "renderBudget": {
+      "tier": "mobile",
+      "note": "starting-point budget; adjust per game and document overrides",
+      "rows": [
+        {
+          "metric": "calls",
+          "actual": 45,
+          "limit": 150,
+          "ok": true
+        },
+        {
+          "metric": "triangles",
+          "actual": 15894,
+          "limit": 300000,
+          "ok": true
+        },
+        {
+          "metric": "geometries",
+          "actual": 6,
+          "limit": 200,
+          "ok": true
+        },
+        {
+          "metric": "textures",
+          "actual": 17,
+          "limit": 40,
+          "ok": true
+        }
+      ],
+      "withinBudget": true
+    },
+    "diagnostics": {
+      "backend": "webgl2",
+      "ready": "true",
+      "gpu": {
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)",
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+      },
+      "samples": 0,
+      "medianFrameMs": null,
+      "p95FrameMs": null,
+      "maxFrameMs": null,
+      "framesOver20Ms": 0,
+      "framesOver40Ms": 0,
+      "stallsOver250Ms": 0,
+      "commitToFrame": {
+        "samples": 0,
+        "medianMs": null,
+        "p95Ms": null,
+        "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+      },
+      "medianRenderMs": null,
+      "p95RenderMs": null,
+      "calls": 45,
+      "triangles": 15894,
+      "geometries": 6,
+      "textures": 17,
+      "programs": 7,
+      "pixelRatio": 1,
+      "lifecycle": {
+        "created": 1,
+        "disposed": 0,
+        "active": 1
+      },
+      "materials": 43,
+      "loadedAssets": [
+        "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+        "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+        "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+        "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+        "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp"
+      ],
+      "assetErrors": [],
+      "quality": "balanced",
+      "moving": false,
+      "sceneBuilds": 1,
+      "camera": {
+        "x": 8,
+        "y": 1.6,
+        "z": 30,
+        "yaw": 0
+      },
+      "authoritative": {
+        "depth": 1,
+        "x": 4,
+        "y": 15,
+        "direction": "north"
+      },
+      "estimatedTextureBytes": 38294869,
+      "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+      "postPasses": 0,
+      "shadowMaps": 0,
+      "renderer": {
+        "calls": 45,
+        "triangles": 15894,
+        "geometries": 6,
+        "textures": 17,
+        "materials": 43,
+        "pixelRatio": 1
+      }
+    }
+  },
+  "consoleErrors": [],
+  "pageErrors": [],
+  "consoleErrorCount": 0,
+  "pageErrorCount": 0
+}

@@ -3,10 +3,10 @@
 Deep-dive notes on the game’s major systems so you can extend features safely.
 
 ## Exploration & Maps
-- **Generator:** `src/game/exploration/map-generator.ts` builds per-depth maps (size/room config per depth). Corridors link BSP-style rooms; `ensureConnectivity` warns if connectivity is low.
+- **Maps:** New runs use `src/game/exploration/authored/depth1-intake.ts`; saved procedural maps remain intact. `map-generator.ts` builds later depths (size/room config per depth). Corridors link BSP-style rooms; `ensureConnectivity` warns if connectivity is low.
 - **Tiles:** `MapTile` in `src/game/exploration/map.ts` holds type, passability, events, encounters, chests, vendors, stairs, doors. `generateDepthMap` converts game maps for graphics.
 - **Movement:** `src/game/exploration/movement.ts` updates location; `GameController` wrappers enforce exploration mode and post-move hooks.
-- **Visibility/Renderer:** `src/graphics/renderer.ts` uses a raycast-style pass for walls with textured tiling for floor/ceiling and ground-anchored billboards for entities (chests, vendors, stairs). Textures live under `public/assets/textures/depth*/` and `public/assets/textures/global/`.
+- **Visibility/Renderer:** `src/graphics/DungeonViewport.ts` lazy-loads the primary Three.js renderer in `graphics/dungeon/`; geometry, camera, materials/lights, sprites, assets and diagnostics have separate owners. A read-only snapshot projects an already-created map without RNG. The original `graphics/renderer.ts` is the labeled Canvas fallback. See [the implementation contract](overhaul/PHASE01_ENGINE.md).
 - **Debug Spawn:** UI debug panel can spawn showcase entities near the player (chest/vendor/stairs/door) via `GameController.debugSpawnEntitiesAround()`.
 
 ## Party, Stats, Equipment, Inventory
@@ -30,12 +30,12 @@ Deep-dive notes on the game’s major systems so you can extend features safely.
 - **Vendors:** Tiles flag `vendor: true`; renderer billboards vendors. Buying/selling flows through inventory helpers—keep transactions atomic and update money and items together.
 
 ## Rendering & Assets
-- **Renderer:** `src/graphics/renderer.ts` raycasts walls, tiles floor/ceiling textures, and anchors billboards to the floor. Billboard scaling is distance-aware to avoid giant sprites when far away.
+- **Renderer:** Three.js `WebGLRenderer`, instanced architecture and world-space depth-tested sprite cards; one camera timeline interpolates committed grid actions. Context loss/unavailable WebGL2 selects a labeled playable Canvas fallback. Scene/resource disposal and repeated mode transitions are browser-tested.
 - **Textures:** Depth-specific walls/floors (and optional alternates) under `public/assets/textures/depth*/`; global ceiling/overlay under `public/assets/textures/global/`.
 - **Graphics Helpers:** Map utilities in `src/graphics/map.ts` mirror game tiles for rendering. Minimap lives in `src/graphics/minimap.ts`.
 
 ## Debug Tooling
-- **UI Panel:** In `src/ui/app.ts` (debug section). Buttons for combat tests, boss spawn, depth skip, party HP=1, one-hit kill toggle, XP multiplier, encounter disable, and “Spawn debug entities nearby”.
+- **UI Panel:** In `src/ui/app.ts`, gated behind `?qa=1`. Buttons for combat tests, boss spawn, depth skip, party HP=1, one-hit kill toggle, XP multiplier, encounter disable, and “Spawn debug entities nearby”. Deterministic scene hooks share that explicit QA route; read-only renderer diagnostics remain available normally.
 - **Options:** `DebugOptions` in `src/game/state.ts`, mutated via `GameController.updateDebugOptions()`.
 - **Event Testing:** `test-events.html` lets you load and test event data manually; `npm run validate:events` for CLI validation.
 

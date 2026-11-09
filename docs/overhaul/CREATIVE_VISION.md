@@ -59,7 +59,7 @@ Target for the first slice: 12–18 minutes on a first unassisted visit, 6–10 
 
 The first vertical slice is **The Intake Bell**, specified in [the roadmap](PRODUCTION_ROADMAP.md#the-intake-bell--authored-depth-1-slice). It establishes the visual and play standard before expanding five environments. Keep existing campaign progression available while it is developed.
 
-Defer crafting, free movement, new protagonists, multiplayer, a new engine, open-world generation, elaborate physics and new resource currencies. Use existing combat abilities, items and event effects first. Relationships require observable companion memory and later consequence; a new meter without meaningful choices is not progress. Their current absence as a dedicated system is recorded in the baseline.
+Defer crafting, free movement, new protagonists, multiplayer, open-world generation, elaborate physics and new resource currencies. The Phase-01 user request explicitly adopts Three.js for presentation while retaining the RPG rules and TypeScript/Vite. Use existing combat abilities, items and event effects first. Relationships require observable companion memory and later consequence; a new meter without meaningful choices is not progress. Their baseline absence as a dedicated system is recorded in the audit.
 
 ## Creative acceptance
 

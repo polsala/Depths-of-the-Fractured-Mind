@@ -12,6 +12,8 @@
     "sprites:build": "node utils/build-hero-atlases.mjs",
     "sprites:check": "node utils/build-hero-atlases.mjs --check",
     "bench:combat": "node utils/benchmark-combat.mjs",
+    "bench:dungeon": "node utils/benchmark-dungeon.mjs",
+    "capture:golden": "npm run build && node utils/capture-golden-room.mjs",
     "bench:load": "node utils/benchmark-load.mjs",
     "baseline:capture": "npm run build && node utils/capture-baseline.mjs",
     "preview": "vite preview",
@@ -29,9 +31,13 @@
     "@playwright/test": "^1.65.0",
     "@types/node": "^24.10.1",
     "@types/pngjs": "^6.0.5",
+    "@types/three": "0.187.0",
     "pngjs": "^7.0.0",
     "typescript": "~5.9.3",
     "vite": "^7.2.4",
     "vitest": "^4.1.12"
+  },
+  "dependencies": {
+    "three": "0.187.0"
   }
 }

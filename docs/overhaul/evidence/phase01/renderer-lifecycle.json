@@ -1,0 +1,112 @@
+[
+  {
+    "cycle": 1,
+    "lifecycle": {
+      "created": 1,
+      "disposed": 0,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5000420
+  },
+  {
+    "cycle": 2,
+    "lifecycle": {
+      "created": 2,
+      "disposed": 1,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5260528
+  },
+  {
+    "cycle": 3,
+    "lifecycle": {
+      "created": 3,
+      "disposed": 2,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5519032
+  },
+  {
+    "cycle": 4,
+    "lifecycle": {
+      "created": 4,
+      "disposed": 3,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5633912
+  },
+  {
+    "cycle": 5,
+    "lifecycle": {
+      "created": 5,
+      "disposed": 4,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5756528
+  },
+  {
+    "cycle": 6,
+    "lifecycle": {
+      "created": 6,
+      "disposed": 5,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5767900
+  },
+  {
+    "cycle": 7,
+    "lifecycle": {
+      "created": 7,
+      "disposed": 6,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5782008
+  },
+  {
+    "cycle": 8,
+    "lifecycle": {
+      "created": 8,
+      "disposed": 7,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 5814660
+  },
+  {
+    "cycle": 9,
+    "lifecycle": {
+      "created": 9,
+      "disposed": 8,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 6094480
+  },
+  {
+    "cycle": 10,
+    "lifecycle": {
+      "created": 10,
+      "disposed": 9,
+      "active": 1
+    },
+    "geometries": 2,
+    "textures": 6,
+    "jsHeapUsedBytes": 6150888
+  }
+]

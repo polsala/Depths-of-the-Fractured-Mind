@@ -14,17 +14,11 @@ import type { SaveActions } from "./screens/types";
 import { setSoundSink } from "../game/sound";
 import { SaveRepository, type SaveStorage } from "../game/save";
 import { assetUrl, MUSIC_BY_DEPTH } from "../assets/manifest";
-import {
-  createRenderContext,
-  renderDungeonView,
-  type RenderContext,
-  type ViewState,
-} from "../graphics/renderer";
+import { DungeonViewport } from "../graphics/DungeonViewport";
+import { ExplorationCommandQueue, type ExplorationCommand } from "./exploration-commands";
 import { renderPartyUI } from "../graphics/party-ui";
 import { renderMinimap, type MinimapConfig } from "../graphics/minimap";
 import {
-  rotateClockwise,
-  rotateCounterClockwise,
   getDirectionArrow,
   getDirectionName,
 } from "../graphics/direction";
@@ -46,7 +40,11 @@ import { openVendorModal } from "./vendor";
 
 const combatBackgroundCache: Record<string, HTMLImageElement> = {};
 
-let dungeonRenderContext: RenderContext | null = null;
+let dungeonRenderContext: { depthMaps: Map<number, DungeonMap> } | null = null;
+let dungeonViewport: DungeonViewport | null = null;
+let dispatchExploration: (command: ExplorationCommand) => void = () => {};
+let flushExploration: () => void = () => {};
+let cancelExploration: () => void = () => {};
 let currentDepthMusic: number = -1; // Track current depth for music changes
 let selectedAbilityId: string | undefined;
 let mobileControls: MobileControls | null = null;
@@ -64,6 +62,7 @@ function prefersReducedMotion(): boolean {
 }
 
 function activateDialog(overlay: HTMLElement, panel: HTMLElement, label: string, close: () => void): void {
+  cancelExploration();
   overlay.setAttribute("role", "dialog");
   overlay.setAttribute("aria-modal", "true");
   overlay.setAttribute("aria-label", label);
@@ -126,6 +125,16 @@ function renderSettings(root: HTMLElement, rerender: () => void): void {
   motion.addEventListener("change", () => { updatePreferences({ motion: motion.value as typeof preferences.motion }); rerender(); });
   motionLabel.appendChild(motion); panel.appendChild(motionLabel);
 
+  const qualityLabel = document.createElement("label");
+  qualityLabel.textContent = "3D quality";
+  const quality = document.createElement("select");
+  for (const [value, label] of [["low", "Low · battery"], ["balanced", "Balanced"], ["high", "High · detail"]]) {
+    const option = document.createElement("option"); option.value = value; option.textContent = label; quality.appendChild(option);
+  }
+  quality.value = preferences.quality;
+  quality.addEventListener("change", () => { updatePreferences({ quality: quality.value as typeof preferences.quality }); rerender(); });
+  qualityLabel.appendChild(quality); panel.appendChild(qualityLabel);
+
   const textLabel = document.createElement("label");
   textLabel.textContent = "Text size";
   const textSize = document.createElement("select");
@@ -140,6 +149,8 @@ function renderSettings(root: HTMLElement, rerender: () => void): void {
   });
   textLabel.appendChild(textSize); panel.appendChild(textLabel);
   settings.appendChild(panel);
+  summary.addEventListener("click", () => cancelExploration());
+  settings.addEventListener("toggle", () => { if (settings.open) cancelExploration(); });
   settings.addEventListener("keydown", (event) => {
     if (event.key === "Escape") { settings.open = false; summary.focus(); }
   });
@@ -156,31 +167,15 @@ function animateCanvas(canvas: HTMLCanvasElement, draw: (now: number) => void): 
   requestAnimationFrame(tick);
 }
 
-// Used by movement input to avoid redrawing when a wall blocks the move.
-function hasLocationChanged(prevState: GameState, newState: GameState): boolean {
-  if (prevState.location.x !== newState.location.x || prevState.location.y !== newState.location.y) {
-    partyMotionUntil = performance.now() + 420;
-    partyMotionFacing = newState.location.direction ?? "north";
-  }
-  return prevState.location.x !== newState.location.x || 
-         prevState.location.y !== newState.location.y || 
-         prevState.location.depth !== newState.location.depth ||
-         prevState.location.direction !== newState.location.direction ||
-         prevState.mode !== newState.mode;
-}
-
 // Preserve the exploration shell (and its listeners/canvases) for ordinary moves.
 // Mode and depth changes still build the appropriate new screen.
 function refreshExploration(root: HTMLElement, state: GameState, controller: GameController): void {
   if (!dungeonRenderContext) return;
   // Keep the graphics projection in sync with mutable pickups, doors and traps.
   dungeonRenderContext.depthMaps.set(state.location.depth, generateDepthMap(state.location.depth, state.depthMaps));
-  renderDungeonView(dungeonRenderContext, {
-    x: state.location.x,
-    y: state.location.y,
-    depth: state.location.depth,
-    direction: state.location.direction ?? "north",
-  });
+  dungeonViewport?.update(state, prefersReducedMotion());
+  refreshInteraction(root, controller);
+  refreshCompactParty(root, state);
   const facing = state.location.direction ?? "north";
   const location = root.querySelector<HTMLElement>(".location-info");
   if (location) location.innerHTML = `<h3>Depth ${state.location.depth}</h3><p>Position: (${state.location.x}, ${state.location.y})</p><p class="direction-indicator">Facing: ${getDirectionArrow(facing)} ${getDirectionName(facing)}</p>`;
@@ -211,9 +206,36 @@ function refreshExploration(root: HTMLElement, state: GameState, controller: Gam
   const vendorButton = root.querySelector<HTMLButtonElement>(".vendor-button");
   if (vendorButton) vendorButton.hidden = !state.depthMaps?.get(state.location.depth)?.tiles[state.location.y]?.[state.location.x]?.vendor;
   const npcButton = root.querySelector<HTMLButtonElement>(".npc-button");
-  if (npcButton) npcButton.hidden = !controller.getNearbyNpcId();
+  if (npcButton) npcButton.hidden = !controller.getNearbyNpcId() || controller.getInteraction()?.id === "intake-keeper";
   const objective = root.querySelector<HTMLElement>(".current-objective");
   if (objective) fillObjective(objective, state);
+}
+
+function refreshInteraction(root: HTMLElement, controller: GameController): void {
+  const interaction = controller.getInteraction();
+  const button = root.querySelector<HTMLButtonElement>(".interact-button");
+  if (button) {
+    button.hidden = !interaction;
+    button.textContent = interaction ? `${interaction.label} · F` : "Inspect";
+  }
+  const description = root.querySelector<HTMLElement>(".interaction-description");
+  if (description) description.textContent = interaction?.description ?? "WASD / arrows to move · Q E to turn · T to talk";
+  const notice = root.querySelector<HTMLElement>(".exploration-notice");
+  if (notice) notice.textContent = controller.getExplorationNotice();
+}
+
+function refreshCompactParty(root: HTMLElement, state: GameState): void {
+  const strip = root.querySelector<HTMLElement>(".compact-party");
+  if (!strip) return;
+  strip.replaceChildren();
+  for (const member of state.party.members) {
+    const item = document.createElement("div");
+    const name = document.createElement("strong");
+    name.textContent = ({ elias: "Elias", miriam: "Miriam", subject13: "13", anya: "Anya" })[member.id];
+    const values = document.createElement("span");
+    values.textContent = member.alive ? `${member.stats.hp} HP / ${member.stats.sanity} SAN` : "Fallen";
+    item.append(name, values); strip.appendChild(item);
+  }
 }
 
 function fillObjective(element: HTMLElement, state: GameState): void {
@@ -342,25 +364,35 @@ function renderExploration(
   // Create and add dungeon viewport canvas
   const viewportCanvas = document.createElement("canvas");
   viewportCanvas.className = "dungeon-viewport";
+  viewportCanvas.width = viewportSize.width;
+  viewportCanvas.height = viewportSize.height;
   viewportCanvas.setAttribute("role", "img");
   viewportCanvas.setAttribute("aria-label", `First-person view, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facingDirection)}`);
   viewportContainer.appendChild(viewportCanvas);
 
-  // Always create a new renderer context for the new canvas with responsive size
-  dungeonRenderContext = createRenderContext(viewportCanvas, {
-    width: viewportSize.width,
-    height: viewportSize.height,
-    fov: 60,
-  }, state.depthMaps); // Pass the game state's depth maps cache
-
-  // Render the dungeon view
-  const viewState: ViewState = {
-    x: state.location.x,
-    y: state.location.y,
-    depth: state.location.depth,
-    direction: state.location.direction,
-  };
-  renderDungeonView(dungeonRenderContext, viewState);
+  dungeonRenderContext = { depthMaps: new Map([[state.location.depth, generateDepthMap(state.location.depth, state.depthMaps)]]) };
+  dungeonViewport = new DungeonViewport(viewportCanvas, state, readPreferences().quality, prefersReducedMotion(), () => flushExploration());
+  const viewCaption = document.createElement("div");
+  viewCaption.className = "view-caption";
+  viewCaption.innerHTML = '<span>THE FACILITY / INTAKE</span><span>DEPTH ' + state.location.depth + '</span>';
+  viewportContainer.prepend(viewCaption);
+  const compactParty = document.createElement("div");
+  compactParty.className = "compact-party";
+  compactParty.setAttribute("aria-label", "Party vitals");
+  viewportContainer.appendChild(compactParty);
+  refreshCompactParty(root, state);
+  const contextActions = document.createElement("div");
+  contextActions.className = "context-actions";
+  const interactButton = document.createElement("button");
+  interactButton.className = "interact-button";
+  interactButton.addEventListener("click", () => dispatchExploration("interact"));
+  const interactionDescription = document.createElement("p");
+  interactionDescription.className = "interaction-description";
+  const notice = document.createElement("p");
+  notice.className = "exploration-notice"; notice.setAttribute("role", "status");
+  contextActions.append(interactButton, interactionDescription, notice);
+  viewportContainer.appendChild(contextActions);
+  refreshInteraction(root, controller);
 
   // Create info panel
   const infoPanel = document.createElement("div");
@@ -468,6 +500,7 @@ function renderExploration(
 
   // Create party UI canvas
   const partyWrapper = document.createElement("div");
+  partyWrapper.className = "party-wrapper";
   partyWrapper.style.cssText = `
     border: 1px solid #444;
     padding: 8px;
@@ -479,7 +512,12 @@ function renderExploration(
   partyCanvas.setAttribute("aria-hidden", "true");
   partyCanvas.style.width = "100%";
   partyWrapper.appendChild(partyCanvas);
-  infoPanel.appendChild(partyWrapper);
+  const partyDetails = document.createElement("details");
+  partyDetails.className = "party-vitals";
+  const partySummary = document.createElement("summary");
+  partySummary.textContent = "Party vitals";
+  partyDetails.append(partySummary, partyWrapper);
+  infoPanel.appendChild(partyDetails);
 
   // Render party UI with responsive size
   const portraitSizeForParty = platform === 'mobile' ? 48 : 64;
@@ -500,7 +538,7 @@ function renderExploration(
   partyWrapper.appendChild(partyDescription);
   animateCanvas(partyCanvas, (now) => {
     const current = controller.getState();
-    if (current.mode !== "exploration") return;
+    if (current.mode !== "exploration" || !partyDetails.open) return;
     renderPartyUI(partyCanvas, current.party, {
       width: wrapperWidth, height: partyPanelHeight, portraitSize: portraitSizeForParty,
       facing: now < partyMotionUntil ? partyMotionFacing : undefined,
@@ -510,6 +548,7 @@ function renderExploration(
 
   // Party status and inventory box
   const utilityBox = document.createElement("div");
+  utilityBox.className = "exploration-utilities";
   utilityBox.style.cssText = `
     margin-top: 10px;
     border: 1px solid #444;
@@ -559,9 +598,9 @@ function renderExploration(
   const npcBtn = document.createElement("button");
   npcBtn.className = "npc-button";
   npcBtn.textContent = "Talk to the Keeper";
-  npcBtn.hidden = !controller.getNearbyNpcId();
+  npcBtn.hidden = !controller.getNearbyNpcId() || controller.getInteraction()?.id === "intake-keeper";
   npcBtn.addEventListener("click", () => {
-    if (controller.startDialogue()) rerender();
+    dispatchExploration("talk");
   });
   infoPanel.appendChild(npcBtn);
 
@@ -573,7 +612,7 @@ function renderExploration(
       <p><strong>Controls:</strong></p>
       <p>Use on-screen D-pad to move</p>
       <p>Q/E buttons to turn</p>
-      <p>Step onto marked tiles to trigger events</p>
+      <p>Use the named action below the view to interact</p>
     `;
   } else {
     instructions.innerHTML = `
@@ -583,8 +622,8 @@ function renderExploration(
       <p>A/← - Strafe Left</p>
       <p>D/→ - Strafe Right</p>
       <p>Q - Turn Left, E - Turn Right</p>
+      <p>F - Use the named interaction</p>
       <p>T - Talk to a nearby character</p>
-      <p>Step onto marked tiles to trigger events</p>
     `;
   }
   infoPanel.appendChild(instructions);
@@ -596,37 +635,13 @@ function renderExploration(
       mobileControls.cleanup();
     }
 
-    // Helper to execute movement and rerender if location changed
-    const executeMovement = (movementFn: () => void) => {
-      const prevState = controller.getState();
-      movementFn();
-      const newState = controller.getState();
-      if (hasLocationChanged(prevState, newState)) {
-        rerender();
-      }
-    };
-
     mobileControls = createMobileControls({
-      onMoveForward: () => executeMovement(() => controller.moveForward()),
-      onMoveBackward: () => executeMovement(() => controller.moveBackward()),
-      onStrafeLeft: () => executeMovement(() => controller.strafeLeft()),
-      onStrafeRight: () => executeMovement(() => controller.strafeRight()),
-      onTurnLeft: () => {
-        const current = controller.getState();
-        if (!current.location.direction) {
-          current.location.direction = "north";
-        }
-        current.location.direction = rotateCounterClockwise(current.location.direction);
-        rerender();
-      },
-      onTurnRight: () => {
-        const current = controller.getState();
-        if (!current.location.direction) {
-          current.location.direction = "north";
-        }
-        current.location.direction = rotateClockwise(current.location.direction);
-        rerender();
-      },
+      onMoveForward: () => dispatchExploration("forward"),
+      onMoveBackward: () => dispatchExploration("backward"),
+      onStrafeLeft: () => dispatchExploration("left"),
+      onStrafeRight: () => dispatchExploration("right"),
+      onTurnLeft: () => dispatchExploration("turnLeft"),
+      onTurnRight: () => dispatchExploration("turnRight"),
     });
 
     // Keep controls in document flow, adjacent to the view they operate. A
@@ -765,7 +780,7 @@ function renderExploration(
   xpWrapper.appendChild(xpInput);
   debugToggles.appendChild(xpWrapper);
   
-  infoPanel.appendChild(debugSection);
+  if (new URLSearchParams(location.search).get("qa") === "1") infoPanel.appendChild(debugSection);
 
   // Chest loot modal
   if (state.chestLoot && state.chestLoot.items.length > 0) {
@@ -997,7 +1012,7 @@ function renderCombat(
   const canvasWidth = Math.min(combatLayoutWidth, Math.floor(window.innerWidth * 0.985));
   const canvasHeight = compactCombat
     ? Math.max(430, Math.min(560, Math.floor(window.innerHeight * 0.55)))
-    : Math.max(520, Math.min(940, Math.floor(window.innerHeight * 0.72)));
+    : Math.max(300, Math.min(520, Math.floor(window.innerHeight * 0.41)));
   const controlsHeight = Math.min(400, Math.max(200, Math.floor(window.innerHeight * 0.28)));
 
   // Create combat container
@@ -2511,6 +2526,8 @@ export function initApp(root: HTMLElement): void {
     },
   };
 
+  const commandQueue = new ExplorationCommandQueue();
+  let qaPaused = false;
   let renderedMode: GameState["mode"] | null = null;
   let renderedDepth = -1;
 
@@ -2519,13 +2536,15 @@ export function initApp(root: HTMLElement): void {
     document.documentElement.style.fontSize = `${preferences.textScale}%`;
     document.documentElement.dataset.motion = preferences.motion;
     const state = controller.getState();
+    root.dataset.mode = state.mode;
     if (state.mode === "gameover" && renderedMode !== "gameover") {
       audioManager.stopMusic();
       audioManager.playSfx("defeat");
     }
     if (state.mode !== "title") saveRun();
     if (state.mode === "exploration" && renderedMode === "exploration" &&
-        renderedDepth === state.location.depth && !state.chestLoot && dungeonRenderContext) {
+        renderedDepth === state.location.depth && !state.chestLoot && dungeonRenderContext &&
+        dungeonViewport?.quality === preferences.quality) {
       if (saveNotice && !root.querySelector(".save-status")) {
         const status = document.createElement("p");
         status.className = "save-status";
@@ -2536,6 +2555,8 @@ export function initApp(root: HTMLElement): void {
       refreshExploration(root, state, controller);
       return;
     }
+    dungeonViewport?.dispose(); dungeonViewport = null; dungeonRenderContext = null;
+    commandQueue.clear();
     root.replaceChildren();
     if (saveNotice && state.mode !== "title") {
       const status = document.createElement("p");
@@ -2597,64 +2618,99 @@ export function initApp(root: HTMLElement): void {
     renderSettings(root, render);
   };
 
-  window.addEventListener("keydown", (event) => {
-    const target = event.target as HTMLElement | null;
-    if (target?.closest("button, input, select, textarea, a, summary, [role='dialog'], [contenteditable='true']")) return;
-    const state = controller.getState();
-    if (state.mode === "exploration") {
-      if (event.key.toLowerCase() === "t" && controller.startDialogue()) {
+  const compatible = () => !qaPaused && controller.getState().mode === "exploration" && !document.querySelector('[role="dialog"]') && !root.querySelector(".settings-control[open]");
+  const executeCommand = (command: ExplorationCommand) => {
+    const before = { ...controller.getState().location };
+    if (command === "forward") controller.moveForward();
+    else if (command === "backward") controller.moveBackward();
+    else if (command === "left") controller.strafeLeft();
+    else if (command === "right") controller.strafeRight();
+    else if (command === "turnLeft") controller.turnLeft();
+    else if (command === "turnRight") controller.turnRight();
+    else if (command === "interact") controller.interact();
+    else if (command === "talk") controller.startDialogue();
+    const after = controller.getState();
+    if (after.location.x !== before.x || after.location.y !== before.y) {
+      partyMotionUntil = performance.now() + 420;
+      partyMotionFacing = after.location.direction ?? "north";
+    }
+    render();
+  };
+  dispatchExploration = (command) => commandQueue.request(command, compatible(), dungeonViewport?.busy ?? true, executeCommand);
+  flushExploration = () => commandQueue.flush(compatible(), dungeonViewport?.busy ?? true, executeCommand);
+  cancelExploration = () => commandQueue.clear();
+  window.addEventListener("blur", () => commandQueue.clear());
+  document.addEventListener("visibilitychange", () => { if (document.hidden) commandQueue.clear(); });
+  // Read-only diagnostics remain available; mutation hooks require the explicit QA URL.
+  Object.assign(window, { __DUNGEON_DIAGNOSTICS__: () => dungeonViewport?.diagnostics() ?? { backend: "inactive" } });
+  Object.defineProperty(window, "__THREE_GAME_DIAGNOSTICS__", { configurable: true, get: () => {
+    const diagnostics = dungeonViewport?.diagnostics();
+    if (!diagnostics || !("calls" in diagnostics)) return null;
+    return { ...diagnostics, renderer: { calls: diagnostics.calls, triangles: diagnostics.triangles,
+      geometries: diagnostics.geometries, textures: diagnostics.textures,
+      materials: diagnostics.materials, pixelRatio: diagnostics.pixelRatio } };
+  } });
+  if (new URLSearchParams(location.search).get("qa") === "1") {
+    let seed = 130013;
+    Object.assign(window, { __THREE_GAME_TEST_HOOKS__: {
+      seed: (value: number) => { if (!Number.isInteger(value)) throw new Error("QA seed must be an integer"); seed = value; },
+      setState: async (name: string) => {
+        const views: Record<string, { x: number; y: number; direction: "north" | "east" | "west" }> = {
+          "opening-room": { x: 4, y: 15, direction: "north" },
+          corridor: { x: 8, y: 14, direction: "east" },
+          "door-occlusion": { x: 12, y: 7, direction: "north" },
+          "door-open": { x: 12, y: 7, direction: "north" },
+          "sprite-occlusion": { x: 12, y: 7, direction: "north" },
+          "sprite-visible": { x: 12, y: 7, direction: "north" },
+          "perception-clear": { x: 12, y: 12, direction: "north" },
+          perception: { x: 12, y: 12, direction: "north" },
+          interaction: { x: 4, y: 13, direction: "north" },
+          npc: { x: 4, y: 15, direction: "west" },
+          "evidence-bay": { x: 12, y: 4, direction: "north" },
+        };
+        const view = views[name];
+        if (!view) throw new Error(`Unknown QA scene: ${name}`);
+        qaPaused = false; commandQueue.clear();
+        controller.newGame(seed);
+        const state = controller.getState();
+        state.mode = "exploration";
+        state.location = { depth: 1, ...view };
+        // Synthetic visibility fixtures isolate the actual depth-buffer test;
+        // they are never a campaign state or a player progression shortcut.
+        if (name === "sprite-occlusion" || name === "sprite-visible") state.depthMaps!.get(1)!.tiles[5][12].npcId = "keeper";
+        if (name === "door-open" || name === "sprite-visible") {
+          state.flags.intakePowerRestored = true;
+          state.depthMaps!.get(1)!.tiles[6][12].locked = false;
+        }
+        if (name === "perception") state.flags.intakePerceptionSeen = true;
+        renderedMode = null;
         render();
-        return;
-      }
-      // Ensure direction is initialized
-      if (!state.location.direction) {
-        state.location.direction = "north";
-      }
+        await dungeonViewport?.ready;
+        if (dungeonViewport?.diagnostics().backend !== "webgl2") throw new Error("QA requires the real WebGL2 viewport");
+        return { state: name };
+      },
+      setPausedForScreenshot: (paused: boolean) => { qaPaused = paused; commandQueue.clear(); dungeonViewport?.setPaused(paused); },
+      setReducedMotion: (reduced: boolean) => { updatePreferences({ motion: reduced ? "reduced" : "full" }); render(); },
+      hideDebugUi: () => root.querySelectorAll<HTMLElement>(".debug-controls").forEach((element) => { element.hidden = true; }),
+      resetMetrics: () => dungeonViewport?.resetMetrics(),
+    } });
+  }
 
-      // Rotation controls
-      if (event.key.toLowerCase() === "q") {
-        event.preventDefault();
-        state.location.direction = rotateCounterClockwise(state.location.direction);
-        render();
-      } else if (event.key.toLowerCase() === "e") {
-        event.preventDefault();
-        state.location.direction = rotateClockwise(state.location.direction);
-        render();
-      }
-      // Movement controls - direction-relative
-      else if (event.key === "ArrowUp" || event.key.toLowerCase() === "w") {
-        event.preventDefault();
-        const prevState = controller.getState();
-        controller.moveForward();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          render();
-        }
-      } else if (event.key === "ArrowDown" || event.key.toLowerCase() === "s") {
-        event.preventDefault();
-        const prevState = controller.getState();
-        controller.moveBackward();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          render();
-        }
-      } else if (event.key === "ArrowLeft" || event.key.toLowerCase() === "a") {
-        event.preventDefault();
-        const prevState = controller.getState();
-        controller.strafeLeft();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          render();
-        }
-      } else if (event.key === "ArrowRight" || event.key.toLowerCase() === "d") {
-        event.preventDefault();
-        const prevState = controller.getState();
-        controller.strafeRight();
-        const newState = controller.getState();
-        if (hasLocationChanged(prevState, newState)) {
-          render();
-        }
-      }
+  window.addEventListener("keydown", (event) => {
+    const target = event.target instanceof HTMLElement ? event.target : null;
+    const state = controller.getState();
+    if (target?.closest("input, select, textarea, a, summary, [role='dialog'], [contenteditable='true']")) return;
+    // Closing a modal restores its opener. Ordinary exploration buttons must
+    // not trap WASD there; Enter/Space still retain their native button action.
+    if (state.mode !== "exploration" && target?.closest("button")) return;
+    if (state.mode === "exploration") {
+      const bindings: Record<string, ExplorationCommand> = {
+        w: "forward", ArrowUp: "forward", s: "backward", ArrowDown: "backward",
+        a: "left", ArrowLeft: "left", d: "right", ArrowRight: "right",
+        q: "turnLeft", e: "turnRight", f: "interact", t: "talk",
+      };
+      const command = bindings[event.key.length === 1 ? event.key.toLowerCase() : event.key];
+      if (command) { event.preventDefault(); dispatchExploration(command); }
     } else if (state.mode === "event" && state.currentEventId) {
       const eventData = getEventById(state.currentEventId);
       if (!eventData) return;

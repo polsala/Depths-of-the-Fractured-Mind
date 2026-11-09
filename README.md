@@ -11,7 +11,7 @@ The game is deployed and playable at: **https://polsala.github.io/Depths-of-the-
 Depths of the Fractured Mind is a turn-based psychological horror dungeon crawler built with TypeScript and Vite. Players control a party of four flawed characters as they descend through five depths of an abandoned underground facility, making difficult moral choices that affect sanity, relationships, and ultimately determine one of multiple endings.
 
 ### Systems at a Glance
-- **Exploration & Maps:** Procedural BSP-style rooms + corridors per depth (`src/game/exploration`). Renderer raycasts walls and tiles floor/ceiling textures from `public/assets/textures/**`.
+- **Exploration & Maps:** New runs open in the authored Intake Bell sequence. Three.js renders real 3D institutional architecture with depth-tested 2D sprites; the authoritative grid and later procedural maps remain (`src/game/exploration`, `src/graphics/dungeon`). Canvas is a labeled compatibility fallback. See the [Phase-01 engine and evidence](docs/overhaul/PHASE01_ENGINE.md).
 - **Combat:** Turn-based encounters and bosses with telegraphed intents, timed conditions and authored enemy silhouettes (`src/game/combat`, `src/assets/enemy-visuals.ts`). See the [combat balance report](docs/combat-balance.md).
 - **Events & Narrative:** Data-driven events in `public/data/events.json` with mandatory/procedural hooks (`src/game/events/*`). Validate via `npm run validate:events`.
 - **Party/Inventory/Economy:** Party stats/equipment in `src/game/state` and `src/game/characters`; items/inventory/money in `src/game/inventory` and `src/game/items.ts`.
@@ -20,7 +20,7 @@ Depths of the Fractured Mind is a turn-based psychological horror dungeon crawle
 - **Hero art:** Four RGBA protagonist atlases share a validated 12-frame contract for HUD and combat (`src/assets/hero-sprites.ts`). See the [art bible](docs/hero-art-bible.md) for samples and remaining sign-off work.
 - **Mobile/accessibility:** In-flow touch controls, persistent audio/motion/text preferences, keyboard-operable dialogs and a text equivalent for Canvas combat. See the [mobile and accessibility baseline](docs/mobile-accessibility.md) for tested layouts and outstanding human/device checks.
 - **Audio/performance:** Semantic cues, crossfades, lazy-loaded WebP art and checked distribution/transfer budgets. See the [audio and performance report](docs/audio-performance.md) for measurements and remaining release checks.
-- **Debug Panel:** In-game controls for combat tests, depth skip, one-hit kill, XP multiplier, and spawning showcase entities near the player (see `src/ui/app.ts`).
+- **Debug Panel:** Test controls and deterministic screenshot hooks require the explicit `?qa=1` URL. Normal play hides cheats.
 
 ## 🛠️ Development
 
@@ -33,7 +33,7 @@ Depths of the Fractured Mind is a turn-based psychological horror dungeon crawle
 
 ```bash
 # Install dependencies
-npm install
+npm ci
 
 # Start development server
 npm run dev
@@ -57,6 +57,10 @@ npm run validate:events  # Validate event JSON
 npm run test:unit        # Gameplay regression tests
 npm run test:smoke       # Production-build browser journey, combat, mobile and axe accessibility checks
 npm run bench:combat     # Desktop and 4x CPU-throttled mobile Canvas render proxy
+npm run bench:dungeon    # 60-second real-input WebGL movement traces (serial, no video by default)
+npm run capture:golden   # Deterministic 1280x800 / 390x844 authored room captures
+npm run baseline:capture # Frozen v1 checkpoints, 1280x900 / 390x844 compatibility evidence
+npm run assets:provenance # Media inventory; -- --release requires cleared rights
 npm run bench:load       # Production-build network/JS-heap profile by depth
 npm run audit:security   # Dependency audit (fails on moderate or higher)
 npm run assets:build     # Regenerate runtime WebP art (requires cwebp and ffmpeg)
@@ -67,6 +71,8 @@ npm test                 # Typecheck, event validation and gameplay tests
 ```
 
 For the browser smoke test, run `npx playwright install chromium-headless-shell` once. See [Save and Continue](docs/save-system.md) for browser storage, backup and recovery details.
+
+Start the local game at `http://localhost:5173/Depths-of-the-Fractured-Mind/` after `npm run dev`. W/S move, A/D strafe, Q/E turn, F interacts and T talks. Touch controls expose the same actions. [Production progress](docs/overhaul/PROGRESS.md) distinguishes working implementation from artistic, hardware, accessibility and distribution approval; this development build has not been deployed.
 
 ## 🔄 CI/CD
 

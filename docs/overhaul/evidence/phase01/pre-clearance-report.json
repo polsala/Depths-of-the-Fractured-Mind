@@ -1,0 +1,933 @@
+{
+  "sourceHead": "13d159bde01ab3b988edef6d8b58250b0d40d680",
+  "sourceTreeSha256": "acdf04072f09eebe16b3387908af52f1276f0ff0608152bc7cd9de7ba0da3be8",
+  "sourceHashes": {
+    "package-lock.json": "e8e54bd2b24418d3e311e8ea0dfd6d8c5325a674c62fecff95f3ad5b8a65a3c4",
+    "package.json": "80ad42e95f2561eb8661b1da234d7696a992b22ec5c491d872aff209f6a5ab8d",
+    "public/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "src/assets/enemy-visuals.ts": "c6da8fbe40d528614d41b166485f9bfbc1da5b577f16f6b07cc117205986cd64",
+    "src/assets/hero-atlas-contract.json": "90a6d8bff69083968b6c65a899e959a2587165eea0dc3975e3bbb565903b1196",
+    "src/assets/hero-sprites.ts": "366cc1062a787773954d82a6079e7a79526140411a2aa6c75b8bcb1cbf739184",
+    "src/assets/manifest.ts": "e0625b8b2de9d57e21551f8551c4082ffd7a8929782b129e1a99441b10b5ccc7",
+    "src/counter.ts": "7580ce935ad5fd8f5598ee53533fbddbd5d34e5aaf6cfbb7f81f3ef1969bf4e3",
+    "src/game/abilities.ts": "909e5c7318cd9df6ba85bd1784aa91635f5bb71c820a8da8e20c1186f2fdc55e",
+    "src/game/boss-dialogues.ts": "d13846a5d1b468f66f63c990ea406faa6179e32f9d369e6d9415781cf0dc6898",
+    "src/game/characters/party.ts": "78f7b3ce99515640b0d333dc2e4e2d96ef501a68671ea7cb1cc749eeade0dc15",
+    "src/game/combat/actions.ts": "3536b6c285538a57f2f055e3bfd1947e74ba139ed319ee2add52f087cc7c36c8",
+    "src/game/combat/encounters.ts": "b6d34fc4a97df2ffb3648f9f7003ddc12245fa2067ce7682021c0e71f99c008e",
+    "src/game/combat/engine.ts": "0229d8f9ac94210f3119b1cf8738df5c80b0c3676bfbf5c9316f6568521c81f2",
+    "src/game/combat/intents.ts": "fc2ccf3ab29fff4a3b0011be2baf1fdc085fc0da1a9482ff1b9ded365c2c3573",
+    "src/game/combat/state.ts": "4ce4429c5fe11723ca90ebd02c0ee3573444ac0c6b1ce877bd66e745d46b1c8f",
+    "src/game/combat/turn-manager.ts": "b4777de4c6531c4ba287f08b39838df2febdc0347b3f5c3b4f6e17eda7b8a3f7",
+    "src/game/defeat.ts": "50721be8a981cf62fe317a9dad43e5097e9f31f15f234ab15649c73fb7ed90ae",
+    "src/game/dialogue.ts": "8abaa592e4f7492ebef05d7e4581998bdcf28519d21d6f41d0a737caed958578",
+    "src/game/endings.ts": "d3031d9af1fccab29c658b870020b1630b19b47144e6c75dfdf1e55dc665305c",
+    "src/game/enemies.ts": "5f50f5a30c61102a8dfde6f17ef9794032c493e809a2404cb35295404b377f61",
+    "src/game/events/engine.ts": "d76fbc4370785bee0431b260ff581ed17ec8c61bf43beac2e522210cf34501ae",
+    "src/game/events/examples.ts": "f93271c76ef7dce94aef7c70efedb235f2daa6780fc5488e2ef5f3242aa6910d",
+    "src/game/events/loader.ts": "990edf656dd12d732f0903f63c03681e49efaf2f4fd0626389717d635d771ffb",
+    "src/game/events/mandatory.ts": "70c776c9b267dc73b95fd5ae6bd5753978498e7c58c1206ce21d6edef0d77f0f",
+    "src/game/events/procedural.ts": "03a137ecfb33537804bf13e3d6fe3ec24ed215e26d2df6384369cb31e4d35868",
+    "src/game/events/resolvers.ts": "6e007a966e300700f9ddf81aa76ba6861b13bb1f68fc0d277fbe8cad85326caf",
+    "src/game/events/types.ts": "52a11a5b6f6e022a19c817e1bc8b470434c49f4210124c722188e5e5bcbc391f",
+    "src/game/experience.ts": "74de870a229dff4a0859e04eb96b0e2b783cf7aff544803b06eebb3df37069bd",
+    "src/game/exploration/authored/depth1-intake.ts": "dfa0c8f69ac4553b6aa1fbf807a2a5850ba12882f0d44a0d477402d21bb0ba84",
+    "src/game/exploration/map-generator.ts": "3d440025c19b906847277dad15e1fe0edcaefe0daae49786e2282e73e4c7758d",
+    "src/game/exploration/map.ts": "a031bcef7faec97696fe3f1e00997fce207826bc0e5e129b05e172a4380ac4b5",
+    "src/game/exploration/movement.ts": "cab623f9a0e80e8456fe1a2db79046f15388700fd905a80d80ab8b7fc0ecb1f1",
+    "src/game/index.ts": "b5fb8b6accfbcd17c5eef15b019dcf7434fe77eb12c2a56f923358602819dcca",
+    "src/game/inventory.ts": "0233ca2905e49db3959816281962e69d1b344aa37719997df1df65d686240272",
+    "src/game/morality.ts": "ea892dd574eface7f5d20095f07d2857316471bb9282aafcadc163a537898f13",
+    "src/game/objectives.ts": "c70d51685227021e69a5c4c5a2dc3a7e7890a2156acbceb2bce5b8b2d149fc7f",
+    "src/game/random.ts": "8491138b779c4631bcc06e2be7d1c2a00ff8cd302b3ebec68c4ade5698a9c394",
+    "src/game/sanity.ts": "145d6d3eb271e3795c8a1faaa76b06a2d60a37fde705c7080789ce5c73160b57",
+    "src/game/save.ts": "f8ed94083af1460c144372300a3a85b244db67c88855fa1f3b9a01797b19bc86",
+    "src/game/sound.ts": "2aa4bdab56e8323c48b2270a5c997bd0b241f9bce2d5914a4c47b4e9d60f5141",
+    "src/game/state.ts": "207d497f15480a851146b699df0dff65adcd94758f66095ec315b94a6dd41adc",
+    "src/game/story.ts": "62012e642cd49d124fe0572929fe8f629727cac05076bac71a637ff5c703feaa",
+    "src/graphics/DungeonViewport.ts": "a9d3ebae722bd8a0b45c733835bf6e71720a7905b4e1ffa5af06ec04a67a6f53",
+    "src/graphics/combat-ui.ts": "01a7930e659ff481c0e9e50b69cf75cb4f9ded2e78b7209682cdde3a326f3369",
+    "src/graphics/direction.ts": "cfbc155524aee3732cfa71e0d8da94885c0ec05e68ebc351dd50826a283c7b29",
+    "src/graphics/dungeon/CameraRig.ts": "cc9fad7d0af8443bd7020f46f4d3114c0249473b7bd828d7767d556c98e90916",
+    "src/graphics/dungeon/DungeonRenderer.ts": "7d3cd0277702d484044854301cea2205b30a0f92f95672e9a91c7ac139f1cf95",
+    "src/graphics/dungeon/LightingSystem.ts": "0651dc58e1a741ebb225adbe9f2cd989ef43d7942b97f0473f65b47d16a304e6",
+    "src/graphics/dungeon/MaterialLibrary.ts": "ea479cd7d6d2a7f1a3a39961cfc7c3e20f29525c784030ff0a6630a3c614b1f3",
+    "src/graphics/dungeon/PerformanceDiagnostics.ts": "799e8678c69eb0cedb54e32155451a9280897ecf0c277332b989543381f0dd0f",
+    "src/graphics/dungeon/RenderAssetManager.ts": "4b9a310fe2043928d23846d9fbca7a54a2695249f887007bee29c43ffac12372",
+    "src/graphics/dungeon/SceneBuilder.ts": "ad94d05f32aa8c4818ac7761d365b66c2fcb2b9366b2117dee3378956883ae98",
+    "src/graphics/dungeon/WorldSpriteSystem.ts": "6b62c4a43169e1da5186796b0e30e639e0a4ee7ffb73d8730190537a3f7aa203",
+    "src/graphics/dungeon/types.ts": "f6a19fcd35fc94059da2f4cb344371f88d60e32eeb2a1d70975e1d008440d4d8",
+    "src/graphics/map.ts": "d363b784a539a9eb433f35b08cf2bf762a4058ed5ac83e4fc3fd7fb7894d34a3",
+    "src/graphics/minimap.ts": "70a684f1fb50ffadb5b05c88a240f682c71f163e7b25da9ff4c6cde465767c7a",
+    "src/graphics/party-ui.ts": "8a30912c0e7ef5af8e2a11aee2e0397d5f63628004e33e1ba6cb710f833ea04f",
+    "src/graphics/renderer.ts": "c4d054e59656d29eee927251dbe42f52eb73aefc0c485dc3671b6a1dcad52b42",
+    "src/main.ts": "486d5d56200b951a516fccd9a5584a0ed2942bd701bc4538223be68ea52af428",
+    "src/style.css": "6f5f10b0883ca72436d0af9615b4a76ba9dfa9f893e16a230dc23e504cc8f33c",
+    "src/typescript.svg": "f6ead1af17acc3f55ad857f3bc936df8754281e2932c1b472dbb9b36ab873f1c",
+    "src/ui/app.ts": "c488a77cbba1c5092e6679d875a227e81236948226de6615bbf224de5d1ad67c",
+    "src/ui/audio.ts": "72a2e04b4de3773f5ee9f56473649890a1a6cd134c73a867241af6fceb6485d1",
+    "src/ui/exploration-commands.ts": "4e01a230178532cad6c724c8443c32875cafbed0ac1879aac494e376965cca0e",
+    "src/ui/mobile-controls.ts": "0756efe708262d6625b69f914f0acd0984178f7fabf6ee9e155571bfb282798d",
+    "src/ui/preferences.ts": "a33fcbf44a189c125c39c40304ce14156285378ea9c59f645c83d4467424827d",
+    "src/ui/screens/dialogue.ts": "85865b66a6d50a3a684114473843178c98c6f665cea9d844e10f7d0526974518",
+    "src/ui/screens/ending.ts": "e378b6ea843119e0093262a0108064d780bd8b63f26bf62061ff15dde28ee721",
+    "src/ui/screens/game-over.ts": "f3e3fb04e7894874475d107021bd98db46e2db9b776bded008e33891de464219",
+    "src/ui/screens/title.ts": "277d7311779c341ac3c4575707a342d2d73fda718b49f91474c3189bc75cb8f1",
+    "src/ui/screens/types.ts": "8c3f1c377c7c1882d548d8531c5c0822cf5d0076cfc74beb6976a5c84da49709",
+    "src/ui/vendor.ts": "ed8deea46259c8f36137520a16e10f27198e19794ae017f1c876b3b535b017ba",
+    "src/utils/platform.ts": "b0d3572ca558b54d39f27265fbe2fa9cbf5612177329e445e715d80d395372b6",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "vite.config.ts": "fd6a67797952c4eceb1c1f34401d2ad0b55321fe62f547b8742f78e2fa10f6ac"
+  },
+  "environment": {
+    "node": "v24.13.0",
+    "npm": "11.19.1",
+    "os": "linux",
+    "kernel": "7.1.5+kali-amd64",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+    "logicalCpus": 8,
+    "hostMemoryMiB": 31818
+  },
+  "capturedAt": "2026-11-09T12:42:21.917Z",
+  "browser": "158.0.8127.18",
+  "seed": 130013,
+  "settings": "DPR1, en-US, UTC, dark, muted, reduced motion, paused presentation, production build",
+  "captures": [
+    {
+      "state": "opening-room",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "screenshot": "1280-opening-room.png",
+      "worldScreenshot": "1280-opening-room-world.png",
+      "sha256": "afc332a1f6bd690e1a56c5c9ce90c78a1f9ab4dc6158f4e3d9f23e60bbb99057",
+      "metrics": {
+        "colorEntropyBits": 4.80717265543278,
+        "dominantColorShare": 0.14559298766190026,
+        "edgeDensity": 0.04761295713640123,
+        "luminance": {
+          "p05": 5.4212,
+          "p95": 104.5594,
+          "contrast": 99.1382
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 57,
+        "triangles": 15778,
+        "geometries": 6,
+        "textures": 19,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 1,
+          "disposed": 0,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 8,
+          "y": 1.6,
+          "z": 30,
+          "yaw": 0
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 4,
+          "y": 15,
+          "direction": "north"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      },
+      "titleNonAudioBytes": 90709,
+      "depth1NonAudioBytes": 1351675
+    },
+    {
+      "state": "corridor",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "screenshot": "1280-corridor.png",
+      "worldScreenshot": "1280-corridor-world.png",
+      "sha256": "73d74babe2b8c8a4af998a1889525c753b621f68a61d12d7c5f05d0dac2da06a",
+      "metrics": {
+        "colorEntropyBits": 4.201616464415517,
+        "dominantColorShare": 0.19496243999351973,
+        "edgeDensity": 0.046623862754627855,
+        "luminance": {
+          "p05": 6.7926,
+          "p95": 103.00720000000001,
+          "contrast": 96.21460000000002
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 26,
+        "triangles": 13624,
+        "geometries": 3,
+        "textures": 14,
+        "programs": 6,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 2,
+          "disposed": 1,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 16,
+          "y": 1.6,
+          "z": 28,
+          "yaw": -1.5707963267948966
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 8,
+          "y": 14,
+          "direction": "east"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "door-occlusion",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "screenshot": "1280-door-occlusion.png",
+      "worldScreenshot": "1280-door-occlusion-world.png",
+      "sha256": "ac65d6ec495d2c39e44f8a6451f8a6bc200d092258d93fdf7b002faed05c4cd9",
+      "metrics": {
+        "colorEntropyBits": 4.203578487877224,
+        "dominantColorShare": 0.14210557729857862,
+        "edgeDensity": 0.03774759334578228,
+        "luminance": {
+          "p05": 14.082599999999998,
+          "p95": 122.99,
+          "contrast": 108.9074
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 37,
+        "triangles": 14344,
+        "geometries": 5,
+        "textures": 8,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 3,
+          "disposed": 2,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 24,
+          "y": 1.6,
+          "z": 14,
+          "yaw": 0
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 12,
+          "y": 7,
+          "direction": "north"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "interaction",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "screenshot": "1280-interaction.png",
+      "worldScreenshot": "1280-interaction-world.png",
+      "sha256": "b4bace1119f483cabad8ce40222029e0df281db9c79066acdf30e21b0df6bc51",
+      "metrics": {
+        "colorEntropyBits": 5.370998000486221,
+        "dominantColorShare": 0.11410397428354607,
+        "edgeDensity": 0.05306150291185975,
+        "luminance": {
+          "p05": 12.4132,
+          "p95": 186.8506,
+          "contrast": 174.4374
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 49,
+        "triangles": 15692,
+        "geometries": 6,
+        "textures": 18,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 4,
+          "disposed": 3,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 8,
+          "y": 1.6,
+          "z": 26,
+          "yaw": 0
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 4,
+          "y": 13,
+          "direction": "north"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "npc",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "screenshot": "1280-npc.png",
+      "worldScreenshot": "1280-npc-world.png",
+      "sha256": "44c8b1eff0686e13cfa0ef77315c51ad89f5ccb93a10c04b0547b41d1aa9b913",
+      "metrics": {
+        "colorEntropyBits": 2.6507005963745223,
+        "dominantColorShare": 0.5087014725568942,
+        "edgeDensity": 0.024778519598564107,
+        "luminance": {
+          "p05": 0,
+          "p95": 67.1004,
+          "contrast": 67.1004
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 18,
+        "triangles": 13478,
+        "geometries": 4,
+        "textures": 9,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 5,
+          "disposed": 4,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 8,
+          "y": 1.6,
+          "z": 30,
+          "yaw": 1.5707963267948966
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 4,
+          "y": 15,
+          "direction": "west"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "evidence-bay",
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "screenshot": "1280-evidence-bay.png",
+      "worldScreenshot": "1280-evidence-bay-world.png",
+      "sha256": "46aa31e3d08af7893be0370c1a491280b30e9d27548a6f8ada7dc8c8772ff951",
+      "metrics": {
+        "colorEntropyBits": 3.738300264293924,
+        "dominantColorShare": 0.23502076245534154,
+        "edgeDensity": 0.018767213226579354,
+        "luminance": {
+          "p05": 2.7152000000000003,
+          "p95": 87.41399999999999,
+          "contrast": 84.69879999999999
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 30,
+        "triangles": 14270,
+        "geometries": 5,
+        "textures": 7,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 6,
+          "disposed": 5,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 24,
+          "y": 1.6,
+          "z": 8,
+          "yaw": 0
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 12,
+          "y": 4,
+          "direction": "north"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "opening-room",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "390-opening-room.png",
+      "worldScreenshot": "390-opening-room-world.png",
+      "sha256": "5c382e9d990d74465598f6d129ce4a54b5a18ec456e627a53bf3cd84829f112e",
+      "metrics": {
+        "colorEntropyBits": 4.859939523855457,
+        "dominantColorShare": 0.11505376344086021,
+        "edgeDensity": 0.0727726574500768,
+        "luminance": {
+          "p05": 8.2046,
+          "p95": 113.9846,
+          "contrast": 105.78
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 45,
+        "triangles": 15654,
+        "geometries": 6,
+        "textures": 17,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 1,
+          "disposed": 0,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 8,
+          "y": 1.6,
+          "z": 30,
+          "yaw": 0
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 4,
+          "y": 15,
+          "direction": "north"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      },
+      "titleNonAudioBytes": 90709,
+      "depth1NonAudioBytes": 1351675
+    },
+    {
+      "state": "corridor",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "390-corridor.png",
+      "worldScreenshot": "390-corridor-world.png",
+      "sha256": "32eb0ab418dc9843cb401197c5d3827e6e5ceeba230e95417890b014dd922fda",
+      "metrics": {
+        "colorEntropyBits": 4.565375054350461,
+        "dominantColorShare": 0.15307219662058372,
+        "edgeDensity": 0.08410138248847926,
+        "luminance": {
+          "p05": 6.7926,
+          "p95": 118.70400000000001,
+          "contrast": 111.91140000000001
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 25,
+        "triangles": 13622,
+        "geometries": 3,
+        "textures": 13,
+        "programs": 6,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 2,
+          "disposed": 1,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 16,
+          "y": 1.6,
+          "z": 28,
+          "yaw": -1.5707963267948966
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 8,
+          "y": 14,
+          "direction": "east"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "door-occlusion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "390-door-occlusion.png",
+      "worldScreenshot": "390-door-occlusion-world.png",
+      "sha256": "564d8a529395b1219942954ef9ffd7de0b093c9f33216b3e164a84309cedc2c0",
+      "metrics": {
+        "colorEntropyBits": 3.7431412489437363,
+        "dominantColorShare": 0.18629032258064515,
+        "edgeDensity": 0.050307219662058374,
+        "luminance": {
+          "p05": 11.7204,
+          "p95": 76.4902,
+          "contrast": 64.7698
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 37,
+        "triangles": 14344,
+        "geometries": 5,
+        "textures": 8,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 3,
+          "disposed": 2,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 24,
+          "y": 1.6,
+          "z": 14,
+          "yaw": 0
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 12,
+          "y": 7,
+          "direction": "north"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    },
+    {
+      "state": "npc",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "screenshot": "390-npc.png",
+      "worldScreenshot": "390-npc-world.png",
+      "sha256": "d8ee880873859b30b92b7b5744f1fefaf8e368014d2aeb67dd1a5f8d7c7c8be3",
+      "metrics": {
+        "colorEntropyBits": 2.664157038281459,
+        "dominantColorShare": 0.5072196620583718,
+        "edgeDensity": 0.03383256528417819,
+        "luminance": {
+          "p05": 0,
+          "p95": 57.5428,
+          "contrast": 57.5428
+        }
+      },
+      "diagnostics": {
+        "backend": "webgl2",
+        "ready": "true",
+        "gpu": {
+          "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+          "vendor": "Google Inc. (Google)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+        },
+        "samples": 0,
+        "medianFrameMs": null,
+        "p95FrameMs": null,
+        "maxFrameMs": null,
+        "framesOver20Ms": 0,
+        "framesOver40Ms": 0,
+        "stallsOver250Ms": 0,
+        "commitToFrame": {
+          "samples": 0,
+          "medianMs": null,
+          "p95Ms": null,
+          "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+        },
+        "medianRenderMs": null,
+        "p95RenderMs": null,
+        "calls": 18,
+        "triangles": 13478,
+        "geometries": 4,
+        "textures": 9,
+        "programs": 7,
+        "pixelRatio": 1,
+        "lifecycle": {
+          "created": 4,
+          "disposed": 3,
+          "active": 1
+        },
+        "materials": 43,
+        "loadedAssets": [
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+          "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/npc/vendor.webp",
+          "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+        ],
+        "assetErrors": [],
+        "quality": "balanced",
+        "moving": false,
+        "sceneBuilds": 1,
+        "camera": {
+          "x": 8,
+          "y": 1.6,
+          "z": 30,
+          "yaw": 1.5707963267948966
+        },
+        "authoritative": {
+          "depth": 1,
+          "x": 4,
+          "y": 15,
+          "direction": "west"
+        },
+        "estimatedTextureBytes": 38294869,
+        "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+        "postPasses": 0,
+        "shadowMaps": 0
+      }
+    }
+  ],
+  "errors": [],
+  "failures": []
+}

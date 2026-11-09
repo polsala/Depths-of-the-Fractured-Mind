@@ -1,0 +1,16 @@
+
+> depths-of-the-fractured-mind@0.0.0 bench:load
+> node utils/benchmark-load.mjs
+
+{"profile":"desktop","stage":"title","incrementalKiB":2107,"cumulativeKiB":2107,"jsHeapMiB":1.6,"top":["main_theme.ogg:2018KiB"]}
+{"profile":"desktop","stage":"depth-1","incrementalKiB":1183,"cumulativeKiB":3289,"jsHeapMiB":6.2,"top":["main_theme.ogg:2018KiB","hero-atlas.png:197KiB","hero-atlas.png:172KiB"]}
+{"profile":"desktop","stage":"depth-2","incrementalKiB":201,"cumulativeKiB":3491,"jsHeapMiB":5.7,"top":["main_theme.ogg:2018KiB","hero-atlas.png:197KiB","hero-atlas.png:172KiB"]}
+{"profile":"desktop","stage":"depth-3","incrementalKiB":3267,"cumulativeKiB":6758,"jsHeapMiB":15.1,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}
+{"profile":"desktop","stage":"depth-4","incrementalKiB":18,"cumulativeKiB":6776,"jsHeapMiB":6.4,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}
+{"profile":"desktop","stage":"depth-5","incrementalKiB":113,"cumulativeKiB":6888,"jsHeapMiB":23.9,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}
+{"profile":"mobile-4x","stage":"title","incrementalKiB":2107,"cumulativeKiB":2107,"jsHeapMiB":1.6,"top":["main_theme.ogg:2018KiB"]}
+{"profile":"mobile-4x","stage":"depth-1","incrementalKiB":1183,"cumulativeKiB":3289,"jsHeapMiB":7.2,"top":["main_theme.ogg:2018KiB","hero-atlas.png:197KiB","hero-atlas.png:172KiB"]}
+{"profile":"mobile-4x","stage":"depth-2","incrementalKiB":201,"cumulativeKiB":3491,"jsHeapMiB":11,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}
+{"profile":"mobile-4x","stage":"depth-3","incrementalKiB":3267,"cumulativeKiB":6758,"jsHeapMiB":26.4,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}
+{"profile":"mobile-4x","stage":"depth-4","incrementalKiB":18,"cumulativeKiB":6776,"jsHeapMiB":17.9,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}
+{"profile":"mobile-4x","stage":"depth-5","incrementalKiB":113,"cumulativeKiB":6889,"jsHeapMiB":22.7,"top":["depth2_archive.ogg:3238KiB","main_theme.ogg:2018KiB","hero-atlas.png:197KiB"]}

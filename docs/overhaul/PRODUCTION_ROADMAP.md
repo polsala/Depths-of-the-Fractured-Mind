@@ -1,6 +1,6 @@
 # Production roadmap — earn the next depth
 
-Status: Phase 00 foundation work; new slice implementation has not begun. Work advances by evidence gates, not by promised calendar dates. The existing campaign remains the compatibility reference. [Progress](PROGRESS.md) records actual completion.
+Status: Phase-00 plan retained below as design intent. The user's Phase-01 request combines the authored opening, Three.js viewport and golden-room art work; [Phase-01 implementation](PHASE01_ENGINE.md) and [progress](PROGRESS.md) record actual completion and open gates. Work advances by evidence gates, not promised calendar dates. The existing campaign remains the compatibility reference.
 
 ## The Intake Bell — authored Depth-1 slice
 
@@ -89,11 +89,13 @@ Phases can share a narrow preparatory task, but cannot skip their exit evidence.
 2. **Projection and RNG coupling:** changing renderer initialization changes future random content. Establish migration/legacy-render tests before that refactor.
 3. **Style/provenance:** all 45 distributed media files lack file-specific proof. Resolve source rights or replace in a small coherent family; conversion is not clearance.
 4. **HUD and input:** essential controls currently fall below the fold. Fix composition while preserving DOM accessibility and existing tests.
-5. **GPU assumptions:** local WebGL2 is software SwiftShader. Do not budget a future GPU renderer from those results.
+5. **GPU assumptions:** the default headless-shell profile is SwiftShader; full Chromium with `--enable-gpu` has now verified Intel Iris Xe. Keep the profiles separate and require a physical phone before mobile certification.
 6. **Test overconfidence:** policy tests and screenshots cannot certify fun, speaker mix or physical phone memory. Reserve those reviews explicitly.
 
 Cut optional side rooms, decorative effects and extra enemy types before cutting readable navigation, consequences, save integrity or the final return payoff.
 
 ## Exact next implementation step
 
-Implement the **Phase-01 authored intake blockout**: add `src/game/exploration/authored/depth1-intake.ts` returning a `DepthMap` with A/Q/J/B/S/G/E, stable room/feature IDs and no random hazards on the slice route; add `tests/intake-layout.test.ts` proving start→breaker→opened shutter→evidence→counter and optional-cache reachability plus absence of a key-behind-its-own-gate. Integrate through `exploration/map.ts` for new runs only; preserve loaded v1 maps. Add the minimal controller interaction/door state required for that loop, with save/resume tests, then capture the greybox route. Do not begin a renderer rewrite or five-depth art batch before this route is playable.
+The authored map, passive Three.js viewport and complete rules loop are now implemented together under the user's Phase-01 instruction; see [the current implementation and open gates](PHASE01_ENGINE.md). The phase table above preserves the original sequencing rationale rather than claiming all later art/play/device exits were met.
+
+Next, integrate one rights-cleared Keeper/guard visual reference family alongside a protagonist at actual room/combat scale, with explicit world height, feet pivot, facing and animation metadata. Correct the remaining evidence-figure/style gaps and validate that family in the Intake Bell before generating five-depth variants. The identified Intel hardware desktop route now passes its measured frame budget; run the physical-phone route and moderate five first-time sessions to tune combat/pacing. Keep the failing software profile visible. Art, human gameplay, memory/device approval and uncleared assets remain blocking; do not increase budgets, expand environments or publish to bypass them.

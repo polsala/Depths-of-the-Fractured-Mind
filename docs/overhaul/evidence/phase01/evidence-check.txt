@@ -1,0 +1,10 @@
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/desktop-opening.json (desktop/opening-room) non-blank, colorEntropyBits=4.80
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/desktop-corridor.json (desktop/corridor) non-blank, colorEntropyBits=3.99
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/desktop-door.json (desktop/door-occlusion) non-blank, colorEntropyBits=4.18
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/desktop-counter.json (desktop/interaction) non-blank, colorEntropyBits=5.34
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/desktop-npc.json (desktop/npc) non-blank, colorEntropyBits=2.65
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/mobile-opening.json (mobile/opening-room) non-blank, colorEntropyBits=4.86
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01/inspector/mobile-npc.json (mobile/npc) non-blank, colorEntropyBits=2.62
+  ok    artifacts/phase01/motion/intake-walkthrough.webm (7,440,950 bytes)
+
+Evidence check passed: 8 artifact(s) confirmed.

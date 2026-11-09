@@ -1,0 +1,15 @@
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.
+Downloading Chrome for Testing 158.0.8127.18 (playwright chromium v1254)[2m from https://cdn.playwright.dev/builds/cft/158.0.8127.18/linux64/chrome-linux64.zip[22m
+|                                                                                |   0% of 197.8 MiB
+|■■■■■■■■                                                                        |  10% of 197.8 MiB
+|■■■■■■■■■■■■■■■■                                                                |  20% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 197.8 MiB
+|■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 197.8 MiB
+Chrome for Testing 158.0.8127.18 (playwright chromium v1254) downloaded to /home/psala/.cache/ms-playwright/chromium-1254
+BEWARE: your OS is not officially supported by Playwright; downloading fallback build for ubuntu24.04-x64.

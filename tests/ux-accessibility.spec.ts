@@ -5,6 +5,7 @@ const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
 const PREF_KEY = "depths-of-the-fractured-mind.preferences.v1";
 
 test("320/390/768 layouts, touch input, keyboard modal and 200% text stay usable", async ({ browser }, testInfo) => {
+  test.setTimeout(90_000); // Three independent WebGL contexts on software CI GPUs.
   for (const width of [320, 390, 768]) {
     const context = await browser.newContext({ viewport: { width, height: 844 }, hasTouch: true });
     const page = await context.newPage();
@@ -17,6 +18,7 @@ test("320/390/768 layouts, touch input, keyboard modal and 200% text stay usable
       const controls = await page.locator(".mobile-controls").boundingBox();
       expect(canvas && controls && controls.y >= canvas.y + canvas.height).toBe(true);
       await page.getByRole("button", { name: "Turn left" }).tap();
+      await expect.poll(() => page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state.location.direction, SAVE_KEY)).not.toBe(before);
       const after = await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!).state.location.direction, SAVE_KEY);
       expect(after).not.toBe(before);
     }
