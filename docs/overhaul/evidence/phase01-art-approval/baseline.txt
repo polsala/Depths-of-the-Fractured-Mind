@@ -1,0 +1,48 @@
+
+> depths-of-the-fractured-mind@0.0.0 baseline:capture
+> npm run build && node utils/capture-baseline.mjs
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 12 validated RGBA frames (current)
+miriam: 12 validated RGBA frames (current)
+subject13: 12 validated RGBA frames (current)
+anya: 12 validated RGBA frames (current)
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 72 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-DEYF33Y1.css             20.41 kB │ gzip:   5.29 kB
+dist/assets/character-review-DwbDIYor.js    7.02 kB │ gzip:   3.18 kB
+dist/assets/index-rdtp2iT0.js             233.49 kB │ gzip:  69.77 kB
+dist/assets/DungeonRenderer-AaTpXlIn.js   594.30 kB │ gzip: 153.85 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.25s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.0 MiB / 45 MiB; 25 WebP files
+{
+  "output": "/home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase01-art/legacy",
+  "captures": 6,
+  "failures": []
+}

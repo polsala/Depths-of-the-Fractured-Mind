@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run sprites:check && tsc && vite build && npm run assets:check",
+    "build": "npm run sprites:check && npm run characters:check && tsc && vite build && npm run assets:check",
     "assets:build": "node utils/build-web-assets.mjs",
     "assets:check": "node utils/check-web-assets.mjs",
     "assets:provenance": "node utils/check-asset-provenance.mjs",
@@ -24,7 +24,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
     "test": "npm run typecheck && npm run validate:events && npm run test:unit",
-    "ci": "npm run lint && npm run build && npm run validate:events && npm run test:unit && npm run test:smoke && npm run audit:security"
+    "ci": "npm run lint && npm run build && npm run validate:events && npm run test:unit && npm run test:smoke && npm run audit:security",
+    "characters:build": "node utils/build-character-atlases.mjs",
+    "characters:check": "node utils/build-character-atlases.mjs --check",
+    "capture:characters": "npm run build && node utils/capture-character-art.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

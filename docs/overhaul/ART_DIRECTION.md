@@ -2,6 +2,8 @@
 
 Status: committed production direction, **not visual sign-off**. Existing screenshots document deficiencies; no replacement art is produced in Phase 00. Retain the four canonical identities and the useful [hero atlas contract](../hero-art-bible.md). [Provenance ledger](ASSET_PROVENANCE.json) governs asset status independently of appearance.
 
+Phase-01A character reference: [CHARACTER_ART_STANDARD](CHARACTER_ART_STANDARD.md) specifies the Keeper/Guard pair, shared proportions, palette/value roles, material/edge treatment, native density, alpha, world heights, pivots and acting timings. The four protagonists remain unchanged. New original-input generated candidates and actual-game evidence are retained for **human review**, not declared approved or rights-cleared.
+
 ## Architectural language and scale
 
 The Facility is a late-20th-century concrete institution organized around control: repeated rectangular bays, thick lintels, recessed service seams, narrow observation apertures and numbered thresholds. Door frames have visible weight. Public-facing walls are painted and maintained; service-side concrete and exposed fixings reveal how the place operates. Break symmetry only when a human action or structural failure explains it.
@@ -42,9 +44,11 @@ World sprites use a level camera, vertical feet-down posture and no baked isomet
 
 Preserve the current 512×512 hero atlas with 128×160 cells and animation names until replacement art has evidence. Full-body reference density target: 128 px of authored height for a 1.75 m person; meaningful features use readable pixel clusters. Portraits are separate compositions or careful crops, not arbitrary whole figures enlarged to card size. Avoid fractional enlargement in HUD portraits; world projection may resample at fractional sizes, with no temporal edge crawl at walking speed. Use nearest filtering for pixel sprites; choose consistent distance filtering for surfaces after in-motion comparison. Do not force the existing soft source sheets into a false claim of crisp pixel art.
 
-Enemies should have the same edge language, broad value masses and lighting response as the party and environment. Current code-authored silhouettes preserve readable identities and can be used as explicit placeholders. Neon vector outlines beside soft shaded protagonists do not satisfy the final compatibility gate. Redraw one guard and one hero reference in the actual intake room before scaling the family. No new creature types needed to prove the slice.
+Enemies should have the same edge language, broad value masses and lighting response as the party and environment. Remaining code-authored silhouettes are explicit placeholders. Neon vector outlines beside soft shaded protagonists do not satisfy the final compatibility gate. Phase 01A replaces the Keeper/Guard presentation and compares them with all four unchanged heroes in the actual intake room and shared combat renderer; it does not redraw the protagonists to accommodate enemy art. No new creature type or Keeper fight is introduced.
 
 Animation priorities: anticipation, distinct impact pose, readable recovery, stable feet and silhouette. Current reused-pose atlas states are functional evidence, not proof of final animation. Capture idle → action → hit → death at game scale, normal and reduced motion. Do not wobble the entire sprite as a substitute for acting.
+
+For the reference pair, use the separate 512×640 atlas / 128×160 cell contract and one fixed standing scale, visible height 124 px, foot pivot `(0.5,0.92)`. Keeper/Guard world heights are 1.72/1.86 m. Six distinct attack poses fit the existing 650 ms feedback window; actual pose drawings supply idle, alert, anticipation, recovery, hit and defeat. Reduced motion retains a stable action pose and the settled final defeat pose. All new runtime PNGs have true binary alpha and nearest sampling. A tested 2× coarse-density variant was rejected for losing facial expression; retain readable native detail and review the remaining edge-family difference with the owner. See the standard for exact source indices and holds.
 
 ## UI typography and HUD composition
 

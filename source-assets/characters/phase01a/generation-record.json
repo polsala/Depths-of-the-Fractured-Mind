@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "tool": "OpenAI built-in image_gen.imagegen",
+  "artSource": "host_image",
+  "backendModel": "not exposed by service",
+  "providerSeed": null,
+  "cost": null,
+  "transparentBackgroundRequested": true,
+  "approval": "Human artistic approval pending. Project-use/distribution provenance documented under retained provider output ownership terms; no exclusivity or copyright-eligibility claim.",
+  "jobs": [
+    {
+      "output": "source-assets/characters/phase01a/keeper-concept-v1.png",
+      "sha256": "dc3acd9857ef116aefae42058e0b3a3326e87851e4b9fb92d101877184040278",
+      "promptFile": "source-assets/characters/phase01a/keeper-prompt.txt",
+      "promptFileSha256": "284c2204f998673983492c85f15a45cea7984f03388a8f96133bc960e085c784",
+      "inputImages": [],
+      "toolInvocationOutput": "exec-6d91e1d2-6d8d-49d3-aeca-b0f5bade789b.png",
+      "sessionDate": "2026-11-09"
+    },
+    {
+      "output": "source-assets/characters/phase01a/keeper-master.png",
+      "sha256": "23e77a8b9d0a916cd095007a8af714ab887fca93eb013860778a32ed9ebb39c0",
+      "promptFile": "source-assets/characters/phase01a/keeper-edit-prompt.txt",
+      "promptFileSha256": "670051449f7b15872792516ae488ce1c3880c145eaa8313a98b1bde66a89810b",
+      "inputImages": [
+        {
+          "path": "source-assets/characters/phase01a/keeper-concept-v1.png",
+          "sha256": "dc3acd9857ef116aefae42058e0b3a3326e87851e4b9fb92d101877184040278"
+        }
+      ],
+      "toolInvocationOutput": "exec-a98d82b0-1292-44bb-8557-9cf99e6b7a7d.png",
+      "sessionDate": "2026-11-09"
+    },
+    {
+      "output": "source-assets/characters/phase01a/guard-concept-v1.png",
+      "sha256": "ac034e5bb44462adc29bbcd5bec3fd46195ce4a4d57b045ccc63455ecc02a7f2",
+      "promptFile": "source-assets/characters/phase01a/guard-prompt.txt",
+      "promptFileSha256": "db72f2590147511698ef4e1183a0c96f86a8816cbc2fdded8d7d2f6ffe87b356",
+      "inputImages": [
+        {
+          "path": "source-assets/characters/phase01a/keeper-master.png",
+          "sha256": "23e77a8b9d0a916cd095007a8af714ab887fca93eb013860778a32ed9ebb39c0"
+        }
+      ],
+      "toolInvocationOutput": "exec-7d7161ad-ab7b-4a4a-8b9d-77209cd9fce6.png",
+      "sessionDate": "2026-11-09",
+      "appendedPrompt": "The supplied image is a STYLE reference only, not the subject. Create the distinct Guard, NOT the registrar. Match that reference's compact four-head anatomical scale, broad shaded color clusters and selective dark edges. No backdrop or halo; solid character with true alpha outside."
+    },
+    {
+      "output": "source-assets/characters/phase01a/guard-master.png",
+      "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+      "promptFile": "source-assets/characters/phase01a/guard-edit-prompt.txt",
+      "promptFileSha256": "6dde5a72c6972572ed646db2612dc31b8d43b52ee259ca6bb5bc71ad2cf8eb5c",
+      "inputImages": [
+        {
+          "path": "source-assets/characters/phase01a/guard-concept-v1.png",
+          "sha256": "ac034e5bb44462adc29bbcd5bec3fd46195ce4a4d57b045ccc63455ecc02a7f2"
+        }
+      ],
+      "toolInvocationOutput": "exec-d0604e67-316e-4dec-b0e3-48b07381bb86.png",
+      "sessionDate": "2026-11-09"
+    },
+    {
+      "output": "source-assets/characters/phase01a/keeper-poses.png",
+      "sha256": "65763e57f769c41fcf41fdb1ad0798751c94049d706c35cc4296f6c799191c65",
+      "promptFile": "source-assets/characters/phase01a/keeper-sequence-prompt.txt",
+      "promptFileSha256": "e87fb1cda819d470fdd3f9a46ec5e31ab18deb5878d7ed1ecac032c59c67fcab",
+      "inputImages": [
+        {
+          "path": "source-assets/characters/phase01a/keeper-master.png",
+          "sha256": "23e77a8b9d0a916cd095007a8af714ab887fca93eb013860778a32ed9ebb39c0"
+        }
+      ],
+      "toolInvocationOutput": "exec-1d8156dd-d67c-4c4e-b77b-a6cecf686744.png",
+      "sessionDate": "2026-11-10"
+    },
+    {
+      "output": "source-assets/characters/phase01a/guard-poses.png",
+      "sha256": "c6d01fe2ebf2f57e2d7d9e66de6bc8b08f53204f78e22e14eb2e60c8ec375cee",
+      "promptFile": "source-assets/characters/phase01a/guard-sequence-prompt.txt",
+      "promptFileSha256": "969d923b18fb177c4beaed7bab074d48fb497b6f5ad94798197abac6e3edaf88",
+      "inputImages": [
+        {
+          "path": "source-assets/characters/phase01a/guard-master.png",
+          "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c"
+        }
+      ],
+      "toolInvocationOutput": "exec-7f529cda-3daf-49d6-8bd0-e20f41325ed8.png",
+      "sessionDate": "2026-11-10"
+    }
+  ],
+  "clearanceBasis": [
+    "source-assets/characters/phase01a/PROVENANCE.md",
+    "source-assets/characters/phase01a/terms-support.json"
+  ]
+}

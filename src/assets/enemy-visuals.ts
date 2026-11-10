@@ -1,4 +1,5 @@
 import { ENEMIES } from "../game/enemies";
+import { drawCharacter, referenceCharacter } from "./character-sprites";
 
 type Pose = "idle" | "attack" | "hit" | "death";
 interface EnemyArt {
@@ -135,6 +136,14 @@ export function enemyArt(id: string): EnemyArt | null {
 export function drawEnemy(ctx: CanvasRenderingContext2D, id: string, pose: Pose,
   elapsedMs: number, x: number, y: number, width: number, height: number,
   reducedMotion = false): boolean {
+  const character = referenceCharacter(id);
+  if (character) {
+    // The Keeper is a review-only combat figure, never a new enemy rule.
+    // While its atlas loads, retain textual names/HP/intents instead of
+    // flashing the old incompatible neon silhouette for one frame.
+    drawCharacter(ctx, character, pose, elapsedMs, x, y, width, height, reducedMotion);
+    return true;
+  }
   const entry = enemyArt(id);
   if (!entry) return false;
   const progress = reducedMotion ? 0 : Math.min(1, Math.max(0, elapsedMs) / 650);

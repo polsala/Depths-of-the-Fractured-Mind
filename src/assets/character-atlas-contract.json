@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "width": 512,
+  "height": 640,
+  "columns": 4,
+  "rows": 4,
+  "frameWidth": 128,
+  "frameHeight": 160,
+  "pivot": [0.5, 0.92],
+  "standingPixels": 124,
+  "logicalPixelScale": 1,
+  "animations": {
+    "idle": { "frames": [0, 1], "durations": [700, 700], "loop": true },
+    "alert": { "frames": [2], "durations": [240], "loop": false },
+    "anticipation": { "frames": [3, 4], "durations": [120, 100], "loop": false },
+    "attack": { "frames": [3, 4, 5, 6, 7, 8], "durations": [120, 100, 70, 90, 130, 140], "loop": false },
+    "recovery": { "frames": [7, 8, 11], "durations": [140, 140, 180], "loop": false },
+    "hit": { "frames": [9, 10, 11], "durations": [120, 130, 150], "loop": false },
+    "death": { "frames": [12, 13, 14, 15], "durations": [140, 160, 180, 170], "loop": false }
+  },
+  "characters": {
+    "keeper": { "atlas": "keeper/character-atlas.png", "idle": "keeper/idle.png", "worldHeight": 1.72, "facing": "front-three-quarter", "approval": "human-review-required" },
+    "guard": { "atlas": "guard/character-atlas.png", "idle": "guard/idle.png", "worldHeight": 1.86, "facing": "front-three-quarter", "approval": "human-review-required" }
+  }
+}

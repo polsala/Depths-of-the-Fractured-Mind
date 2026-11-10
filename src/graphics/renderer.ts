@@ -691,20 +691,23 @@ export function renderDungeonView(
     spriteUrl: string,
     fallbackColor: string,
     sizeFactor: number,
-    anchorToFloor: boolean = true
+    anchorToFloor: boolean = true,
+    aspect = 1,
+    pivotY = 1,
   ): void => {
     // Only request a sprite when its tile is actually visible. In particular,
     // the title screen must not fetch every stair, chest and vendor image.
     const sprite = getTexture(spriteUrl);
     const distScale = Math.min(0.85, 1 / (distance + 0.6));
     const spriteSize = Math.max(24, height * 0.32 * sizeFactor * distScale);
-    const spriteX = width / 2 - spriteSize / 2;
+    const spriteWidth = spriteSize * aspect;
+    const spriteX = width / 2 - spriteWidth / 2;
     const floorAnchorBase = height * 0.88;
     const liftedAnchor = floorAnchorBase - Math.max(0, distance - 1) * 8;
     const clampedAnchor = Math.max(ceilingHeight + spriteSize * 0.4, liftedAnchor);
-    const spriteY = anchorToFloor ? clampedAnchor - spriteSize : height * 0.68 - spriteSize;
+    const spriteY = anchorToFloor ? clampedAnchor - spriteSize * pivotY : height * 0.68 - spriteSize;
     if (sprite.complete && sprite.naturalWidth > 0) {
-      ctx.drawImage(sprite, spriteX, spriteY, spriteSize, spriteSize);
+      ctx.drawImage(sprite, spriteX, spriteY, spriteWidth, spriteSize);
     } else {
       queueTextureRedraw(sprite, renderCtx, viewState);
       ctx.fillStyle = fallbackColor;
@@ -740,7 +743,7 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell?.npc) continue;
-    drawBillboard(distance, OBJECT_SPRITES.keeper, "#78d6c6", 2.5, true);
+    drawBillboard(distance, OBJECT_SPRITES.keeper, "#78d6c6", 2.5, true, 0.8, 0.92);
   }
 
   // Draw chests within view as billboards

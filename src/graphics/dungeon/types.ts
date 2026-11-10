@@ -1,6 +1,7 @@
 import type { GameLocation, GameState } from "../../game/state";
 import type { MapTile } from "../../game/exploration/map";
 import { getSanityStage } from "../../game/sanity";
+import type { CharacterAnimation, ReferenceCharacter } from "../../assets/character-sprites";
 
 export type Facing = NonNullable<GameLocation["direction"]>;
 export type QualityPreset = "low" | "balanced" | "high";
@@ -21,6 +22,9 @@ export interface DungeonPresentationSnapshot {
   readonly location: Readonly<Required<GameLocation>>;
   readonly flags: Readonly<Record<string, boolean | number>>;
   readonly perception: "high" | "mid" | "low";
+  readonly guardPresent: boolean;
+  /** Isolated art-review fixture; presentDungeon never writes this field. */
+  readonly characterPreview?: Readonly<{ id: ReferenceCharacter; animation: CharacterAnimation; elapsedMs: number }>;
 }
 
 // This adapter reads already-created game data. It cannot create a map, roll
@@ -40,5 +44,7 @@ export function presentDungeon(state: GameState): DungeonPresentationSnapshot {
     flags: Object.freeze(Object.fromEntries(Object.entries(state.flags).filter((entry): entry is [string, boolean | number] =>
       typeof entry[1] === "boolean" || typeof entry[1] === "number"))),
     perception: witness ? getSanityStage(witness) : "high",
+    guardPresent: map.layoutId === "depth1-intake-v1" && state.flags.intakeEncounterWon !== true
+      && state.intakeEncounter?.enemies.find((enemy) => enemy.id === "deranged_guard")?.alive !== false,
   });
 }

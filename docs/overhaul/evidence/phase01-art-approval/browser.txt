@@ -1,0 +1,70 @@
+
+> depths-of-the-fractured-mind@0.0.0 test:smoke
+> npm run build && playwright test
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 12 validated RGBA frames (current)
+miriam: 12 validated RGBA frames (current)
+subject13: 12 validated RGBA frames (current)
+anya: 12 validated RGBA frames (current)
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 72 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-DEYF33Y1.css             20.41 kB │ gzip:   5.29 kB
+dist/assets/character-review-D7EFKqvO.js    6.97 kB │ gzip:   3.16 kB
+dist/assets/index-Dmt9e9ZK.js             233.49 kB │ gzip:  69.78 kB
+dist/assets/DungeonRenderer-Ca9EGVci.js   594.30 kB │ gzip: 153.85 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.29s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.0 MiB / 45 MiB; 25 WebP files
+[WebServer] (node:976847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 1 worker
+
+(node:976865) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/character-art.spec.ts:3:1 › character laboratory is gated, uses actual WebGL2 and leaves saved gameplay unchanged (15.1s)
+  ✓   2 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 1280 (12.2s)
+  ✓   3 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 390 (5.4s)
+  ✓   4 tests/combat-visuals.spec.ts:6:1 › desktop and mobile combat show enemy bodies, telegraphs, and skippable effects (3.1s)
+  ✓   5 tests/dungeon-engine.spec.ts:45:1 › actual WebGL2 camera serializes rapid input, resizes, blocks a closed door and safely falls back on context loss (40.8s)
+  ✓   6 tests/dungeon-engine.spec.ts:96:1 › real input completes intake mechanisms, story choice, combat and return payoff without debug actions (41.8s)
+  ✓   7 tests/dungeon-engine.spec.ts:165:1 › a modal discards queued input and a cold renderer load queues only one grid action (8.2s)
+  ✓   8 tests/dungeon-engine.spec.ts:200:1 › v1 browser continuation keeps the saved map and random stream; repeated screen transitions own one renderer (56.7s)
+  ✓   9 tests/dungeon-engine.spec.ts:228:1 › unavailable WebGL2 starts a labeled playable fallback without consuming presentation RNG (655ms)
+  ✓  10 tests/save-smoke.spec.ts:5:1 › title does not download dungeon props and exploration loads optimized art (1.8s)
+  ✓  11 tests/save-smoke.spec.ts:27:1 › four authored protagonist atlases load into the HUD on mobile (2.2s)
+  ✓  12 tests/save-smoke.spec.ts:49:1 › Begin → progress → reload → Continue keeps the exploration screen and map view (2.2s)
+  ✓  13 tests/save-smoke.spec.ts:70:1 › export/import, explicit deletion and corrupt-save recovery (3.1s)
+  ✓  14 tests/save-smoke.spec.ts:97:1 › touch NPC conversation survives reload and keyboard can reopen it (3.1s)
+  ✓  15 tests/save-smoke.spec.ts:120:1 › final choice and epilogue render on mobile and survive reload (1.4s)
+  ✓  16 tests/ux-accessibility.spec.ts:7:1 › 320/390/768 layouts, touch input, keyboard modal and 200% text stay usable (16.5s)
+  ✓  17 tests/ux-accessibility.spec.ts:46:1 › touch event choice, inventory and resume remain operable with a deterministic event fixture (6.2s)
+  ✓  18 tests/ux-accessibility.spec.ts:77:1 › display/audio preferences survive reload and basic WCAG checks pass (10.0s)
+
+  18 passed (3.9m)

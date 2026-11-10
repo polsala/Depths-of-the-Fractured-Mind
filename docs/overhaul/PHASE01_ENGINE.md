@@ -2,6 +2,8 @@
 
 Implementation record, 2026-11-09. This is an integrated development build, **not golden-room artistic approval or public-release clearance**. See [evidence](evidence/phase01/README.md), [quality gates](QUALITY_GATES.md) and [progress](PROGRESS.md) for measured results and outstanding reviews. Phase 00 remains the before reference; its evidence and v1 fixtures were not regenerated.
 
+Character-only addendum, 2026-11-10: [Phase-01A standard](CHARACTER_ART_STANDARD.md) and [art evidence](evidence/phase01-art-approval/README.md) extend the existing sprite/animation boundary with the Keeper/Guard reference atlases. The actual Intake Guard now has a world card derived from its existing encounter state; its rules and encounter timing are unchanged. Isolated Keeper combat/action previews are explicitly QA fixtures. This does not replace the engine, controller, save schema, four protagonist atlases or the historical evidence below.
+
 ## Decisions and boundaries
 
 The user's Phase-01 instruction supersedes Phase-00 ADR-01. Pinned Three.js 0.187.0 `WebGLRenderer` is the primary exploration viewport. Actual 3D floors, ceilings, wall faces, framed shutters, stairs, props and depth-tested sprite cards replace the raycaster on supported browsers. TypeScript/Vite, the static `/Depths-of-the-Fractured-Mind/` base, combat renderer and controller remain. No unrelated engine or parallel RPG state was introduced.

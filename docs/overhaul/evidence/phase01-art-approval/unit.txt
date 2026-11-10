@@ -1,0 +1,53 @@
+
+> depths-of-the-fractured-mind@0.0.0 test
+> npm run typecheck && npm run validate:events && npm run test:unit
+
+
+> depths-of-the-fractured-mind@0.0.0 typecheck
+> tsc --noEmit
+
+
+> depths-of-the-fractured-mind@0.0.0 validate:events
+> node utils/validate-events.cjs
+
+=== Event Data Validator ===
+
+✓ JSON is valid
+✓ Version: 1.0.0
+✓ Found 83 events
+✓ Found 7 event pools
+
+=== Validation Results ===
+
+✓ No errors found
+✓ No warnings
+
+=== Summary ===
+
+Total events: 83
+Total pools: 7
+  - Mandatory: 5
+  - Optional: 45
+  - Character-specific: 9
+
+=== Critical Event Validation ===
+
+✓ first_corpse is defined
+✓ pit_fall_event is defined
+✓ overflow_ward_event is defined
+✓ riot_recording_event is defined
+✓ confessional_chair_event is defined
+
+✅ Validation passed
+
+> depths-of-the-fractured-mind@0.0.0 test:unit
+> vitest run tests/*.test.ts
+
+
+ RUN  v4.1.12 /home/psala/src/Depths-of-the-Fractured-Mind
+
+
+ Test Files  15 passed (15)
+      Tests  80 passed (80)
+   Start at  08:32:38
+   Duration  1.61s (transform 2.11s, setup 0ms, import 3.24s, tests 4.14s, environment 2ms)

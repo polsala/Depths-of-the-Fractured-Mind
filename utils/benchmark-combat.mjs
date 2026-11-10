@@ -21,16 +21,18 @@ try {
     const samples = await page.evaluate(async ({ width, height, base }) => {
       const root = `${base.replace(/\/$/, "")}/src`;
       const [{ renderCombatUI }, { createCombatState }, { createDefaultParty },
-        { createEnemyState }, { ENEMIES }] = await Promise.all([
+        { createEnemyState }, { ENEMIES }, { characterAtlasesReady }] = await Promise.all([
         import(`${root}/graphics/combat-ui.ts`), import(`${root}/game/combat/state.ts`),
         import(`${root}/game/characters/party.ts`), import(`${root}/game/combat/encounters.ts`),
         import(`${root}/game/enemies.ts`),
+        import(`${root}/assets/character-sprites.ts`),
       ]);
       const encounter = { enemies: ["deranged_guard", "corrupted_rat", "threshold_warden"]
         .map((id) => createEnemyState(ENEMIES[id])) };
       const state = createCombatState(createDefaultParty(), encounter, false, undefined, 1);
       const canvas = document.createElement("canvas");
       renderCombatUI(canvas, state, { width, height, nowMs: 0 });
+      await characterAtlasesReady(["guard"]);
       await new Promise((resolve) => setTimeout(resolve, 500));
       const durations = [];
       for (let index = 0; index < 85; index++) {

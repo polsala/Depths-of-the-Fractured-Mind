@@ -1,0 +1,594 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-11-10T08:38:01.265Z",
+  "sourceHead": "fbb383c196bc4bbb5251269eb92645ba064a3867",
+  "workingTree": "M docs/overhaul/ART_DIRECTION.md\n M docs/overhaul/ASSET_PROVENANCE.json\n M docs/overhaul/PHASE01_ENGINE.md\n M docs/overhaul/PROGRESS.md\n M docs/overhaul/QUALITY_GATES.md\n M package.json\n M playwright.config.ts\n M src/assets/enemy-visuals.ts\n M src/assets/manifest.ts\n M src/graphics/combat-ui.ts\n M src/graphics/dungeon/DungeonRenderer.ts\n M src/graphics/dungeon/WorldSpriteSystem.ts\n M src/graphics/dungeon/types.ts\n M src/graphics/renderer.ts\n M src/main.ts\n M utils/benchmark-combat.mjs\n?? docs/overhaul/CHARACTER_ART_STANDARD.md\n?? docs/overhaul/evidence/phase01-art-approval/\n?? public/assets/sprites/characters/guard/\n?? public/assets/sprites/characters/keeper/\n?? public/assets/sprites/characters/phase01a-build.json\n?? source-assets/characters/\n?? src/assets/character-atlas-contract.json\n?? src/assets/character-sprites.ts\n?? src/ui/character-review.ts\n?? tests/character-art.spec.ts\n?? tests/character-art.test.ts\n?? utils/build-character-atlases.mjs\n?? utils/capture-character-art.mjs\n?? utils/seal-character-evidence.mjs",
+  "seed": 130013,
+  "fixedTime": "2026-11-09T12:00:00.000Z",
+  "lockSha256": "e8e54bd2b24418d3e311e8ea0dfd6d8c5325a674c62fecff95f3ad5b8a65a3c4",
+  "sourceHashes": {
+    "package-lock.json": "e8e54bd2b24418d3e311e8ea0dfd6d8c5325a674c62fecff95f3ad5b8a65a3c4",
+    "package.json": "df26209d8d11432f073ecbf23a9ff31640da54e1241b025c993e3da5e3aae412",
+    "public/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "src/assets/character-atlas-contract.json": "eba696f0f3ef7e4510175556ec68eb12b95b57b0a4a7e024d52fcea51296bd64",
+    "src/assets/character-sprites.ts": "0bc8113295e7d6e25cd4b03b8b0b1593e82e68859da04f5cebdf94e85894d646",
+    "src/assets/enemy-visuals.ts": "0ae8e85b763e6abec43eeae59e958c432567d3a0262fdc4352cd801112ddf339",
+    "src/assets/hero-atlas-contract.json": "90a6d8bff69083968b6c65a899e959a2587165eea0dc3975e3bbb565903b1196",
+    "src/assets/hero-sprites.ts": "366cc1062a787773954d82a6079e7a79526140411a2aa6c75b8bcb1cbf739184",
+    "src/assets/manifest.ts": "27413c18107833dfcc00d775aef5b3c567b3c3378a4a019183a5518463566019",
+    "src/counter.ts": "7580ce935ad5fd8f5598ee53533fbddbd5d34e5aaf6cfbb7f81f3ef1969bf4e3",
+    "src/game/abilities.ts": "909e5c7318cd9df6ba85bd1784aa91635f5bb71c820a8da8e20c1186f2fdc55e",
+    "src/game/boss-dialogues.ts": "d13846a5d1b468f66f63c990ea406faa6179e32f9d369e6d9415781cf0dc6898",
+    "src/game/characters/party.ts": "78f7b3ce99515640b0d333dc2e4e2d96ef501a68671ea7cb1cc749eeade0dc15",
+    "src/game/combat/actions.ts": "3536b6c285538a57f2f055e3bfd1947e74ba139ed319ee2add52f087cc7c36c8",
+    "src/game/combat/encounters.ts": "b6d34fc4a97df2ffb3648f9f7003ddc12245fa2067ce7682021c0e71f99c008e",
+    "src/game/combat/engine.ts": "0229d8f9ac94210f3119b1cf8738df5c80b0c3676bfbf5c9316f6568521c81f2",
+    "src/game/combat/intents.ts": "fc2ccf3ab29fff4a3b0011be2baf1fdc085fc0da1a9482ff1b9ded365c2c3573",
+    "src/game/combat/state.ts": "4ce4429c5fe11723ca90ebd02c0ee3573444ac0c6b1ce877bd66e745d46b1c8f",
+    "src/game/combat/turn-manager.ts": "b4777de4c6531c4ba287f08b39838df2febdc0347b3f5c3b4f6e17eda7b8a3f7",
+    "src/game/defeat.ts": "50721be8a981cf62fe317a9dad43e5097e9f31f15f234ab15649c73fb7ed90ae",
+    "src/game/dialogue.ts": "8abaa592e4f7492ebef05d7e4581998bdcf28519d21d6f41d0a737caed958578",
+    "src/game/endings.ts": "d3031d9af1fccab29c658b870020b1630b19b47144e6c75dfdf1e55dc665305c",
+    "src/game/enemies.ts": "5f50f5a30c61102a8dfde6f17ef9794032c493e809a2404cb35295404b377f61",
+    "src/game/events/engine.ts": "d76fbc4370785bee0431b260ff581ed17ec8c61bf43beac2e522210cf34501ae",
+    "src/game/events/examples.ts": "f93271c76ef7dce94aef7c70efedb235f2daa6780fc5488e2ef5f3242aa6910d",
+    "src/game/events/loader.ts": "990edf656dd12d732f0903f63c03681e49efaf2f4fd0626389717d635d771ffb",
+    "src/game/events/mandatory.ts": "70c776c9b267dc73b95fd5ae6bd5753978498e7c58c1206ce21d6edef0d77f0f",
+    "src/game/events/procedural.ts": "03a137ecfb33537804bf13e3d6fe3ec24ed215e26d2df6384369cb31e4d35868",
+    "src/game/events/resolvers.ts": "6e007a966e300700f9ddf81aa76ba6861b13bb1f68fc0d277fbe8cad85326caf",
+    "src/game/events/types.ts": "52a11a5b6f6e022a19c817e1bc8b470434c49f4210124c722188e5e5bcbc391f",
+    "src/game/experience.ts": "74de870a229dff4a0859e04eb96b0e2b783cf7aff544803b06eebb3df37069bd",
+    "src/game/exploration/authored/depth1-intake.ts": "dfa0c8f69ac4553b6aa1fbf807a2a5850ba12882f0d44a0d477402d21bb0ba84",
+    "src/game/exploration/map-generator.ts": "3d440025c19b906847277dad15e1fe0edcaefe0daae49786e2282e73e4c7758d",
+    "src/game/exploration/map.ts": "a031bcef7faec97696fe3f1e00997fce207826bc0e5e129b05e172a4380ac4b5",
+    "src/game/exploration/movement.ts": "cab623f9a0e80e8456fe1a2db79046f15388700fd905a80d80ab8b7fc0ecb1f1",
+    "src/game/index.ts": "b5fb8b6accfbcd17c5eef15b019dcf7434fe77eb12c2a56f923358602819dcca",
+    "src/game/inventory.ts": "0233ca2905e49db3959816281962e69d1b344aa37719997df1df65d686240272",
+    "src/game/morality.ts": "ea892dd574eface7f5d20095f07d2857316471bb9282aafcadc163a537898f13",
+    "src/game/objectives.ts": "c70d51685227021e69a5c4c5a2dc3a7e7890a2156acbceb2bce5b8b2d149fc7f",
+    "src/game/random.ts": "8491138b779c4631bcc06e2be7d1c2a00ff8cd302b3ebec68c4ade5698a9c394",
+    "src/game/sanity.ts": "145d6d3eb271e3795c8a1faaa76b06a2d60a37fde705c7080789ce5c73160b57",
+    "src/game/save.ts": "f8ed94083af1460c144372300a3a85b244db67c88855fa1f3b9a01797b19bc86",
+    "src/game/sound.ts": "2aa4bdab56e8323c48b2270a5c997bd0b241f9bce2d5914a4c47b4e9d60f5141",
+    "src/game/state.ts": "207d497f15480a851146b699df0dff65adcd94758f66095ec315b94a6dd41adc",
+    "src/game/story.ts": "62012e642cd49d124fe0572929fe8f629727cac05076bac71a637ff5c703feaa",
+    "src/graphics/DungeonViewport.ts": "a9d3ebae722bd8a0b45c733835bf6e71720a7905b4e1ffa5af06ec04a67a6f53",
+    "src/graphics/combat-ui.ts": "c508676bcaf41cf3550d9d760ee9a1f8f702e700257ce4a8310428f24f46f929",
+    "src/graphics/direction.ts": "cfbc155524aee3732cfa71e0d8da94885c0ec05e68ebc351dd50826a283c7b29",
+    "src/graphics/dungeon/CameraRig.ts": "cc9fad7d0af8443bd7020f46f4d3114c0249473b7bd828d7767d556c98e90916",
+    "src/graphics/dungeon/DungeonRenderer.ts": "d322b9033f03f57185b17f4a81e0db37eb223e31fdff0d26d126a15fa43a8153",
+    "src/graphics/dungeon/LightingSystem.ts": "0651dc58e1a741ebb225adbe9f2cd989ef43d7942b97f0473f65b47d16a304e6",
+    "src/graphics/dungeon/MaterialLibrary.ts": "ea479cd7d6d2a7f1a3a39961cfc7c3e20f29525c784030ff0a6630a3c614b1f3",
+    "src/graphics/dungeon/PerformanceDiagnostics.ts": "799e8678c69eb0cedb54e32155451a9280897ecf0c277332b989543381f0dd0f",
+    "src/graphics/dungeon/RenderAssetManager.ts": "4b9a310fe2043928d23846d9fbca7a54a2695249f887007bee29c43ffac12372",
+    "src/graphics/dungeon/SceneBuilder.ts": "d1497a9246a361ebed7a04bc9df0c5921b1ee2154a4e9a8ee738c29e737920fb",
+    "src/graphics/dungeon/WorldSpriteSystem.ts": "c7b8e7d344ed4dbcc656d27bb5cc541d9b255cabfd7d14ce14c364b758616e21",
+    "src/graphics/dungeon/types.ts": "5224d0b6c693dc0da3094f488fc5b5a186c8d9f12aeed3eae5fbae3ebeeec81c",
+    "src/graphics/map.ts": "d363b784a539a9eb433f35b08cf2bf762a4058ed5ac83e4fc3fd7fb7894d34a3",
+    "src/graphics/minimap.ts": "70a684f1fb50ffadb5b05c88a240f682c71f163e7b25da9ff4c6cde465767c7a",
+    "src/graphics/party-ui.ts": "8a30912c0e7ef5af8e2a11aee2e0397d5f63628004e33e1ba6cb710f833ea04f",
+    "src/graphics/renderer.ts": "d0a9c0fca1e33d0a94f6e2455b2c3111d6de52e9254f8762d128ea1c7bfd03a1",
+    "src/main.ts": "945a0c98ffd770870bbeae846ed52d5a65f39df595640c95b3151432d0db6350",
+    "src/style.css": "6f5f10b0883ca72436d0af9615b4a76ba9dfa9f893e16a230dc23e504cc8f33c",
+    "src/typescript.svg": "f6ead1af17acc3f55ad857f3bc936df8754281e2932c1b472dbb9b36ab873f1c",
+    "src/ui/app.ts": "c298c0cbdab03b9fda741d0c6d6d78e5daaccea247de64a8d5daa362b3625b66",
+    "src/ui/audio.ts": "72a2e04b4de3773f5ee9f56473649890a1a6cd134c73a867241af6fceb6485d1",
+    "src/ui/character-review.ts": "cc3c5050995e98d9ea05eae8e83a636e349619403444d1478d0f7b05bf2f942a",
+    "src/ui/exploration-commands.ts": "4e01a230178532cad6c724c8443c32875cafbed0ac1879aac494e376965cca0e",
+    "src/ui/mobile-controls.ts": "0756efe708262d6625b69f914f0acd0984178f7fabf6ee9e155571bfb282798d",
+    "src/ui/preferences.ts": "a33fcbf44a189c125c39c40304ce14156285378ea9c59f645c83d4467424827d",
+    "src/ui/screens/dialogue.ts": "85865b66a6d50a3a684114473843178c98c6f665cea9d844e10f7d0526974518",
+    "src/ui/screens/ending.ts": "e378b6ea843119e0093262a0108064d780bd8b63f26bf62061ff15dde28ee721",
+    "src/ui/screens/game-over.ts": "f3e3fb04e7894874475d107021bd98db46e2db9b776bded008e33891de464219",
+    "src/ui/screens/title.ts": "277d7311779c341ac3c4575707a342d2d73fda718b49f91474c3189bc75cb8f1",
+    "src/ui/screens/types.ts": "8c3f1c377c7c1882d548d8531c5c0822cf5d0076cfc74beb6976a5c84da49709",
+    "src/ui/vendor.ts": "ed8deea46259c8f36137520a16e10f27198e19794ae017f1c876b3b535b017ba",
+    "src/utils/platform.ts": "b0d3572ca558b54d39f27265fbe2fa9cbf5612177329e445e715d80d395372b6",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "utils/capture-baseline.mjs": "de99d226ff39a3ba1009b5e519d781217aa0bbbe104cae0aa2da5faeb87b27f2",
+    "vite.config.ts": "fd6a67797952c4eceb1c1f34401d2ad0b55321fe62f547b8742f78e2fa10f6ac"
+  },
+  "environment": {
+    "node": "v24.13.0",
+    "npm": "11.19.1",
+    "os": "linux",
+    "kernel": "7.1.5+kali-amd64",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+    "logicalCpus": 8,
+    "hostMemoryMiB": 31818,
+    "browser": "158.0.8127.18"
+  },
+  "settings": {
+    "headless": true,
+    "deviceScaleFactor": 1,
+    "locale": "en-US",
+    "timezoneId": "UTC",
+    "colorScheme": "dark",
+    "reducedMotion": "reduce",
+    "music": 0,
+    "sfx": 0,
+    "cpuThrottle": 1,
+    "networkThrottle": "none",
+    "launchArgs": "Playwright defaults; no WebGL override"
+  },
+  "captures": [
+    {
+      "name": "title",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": null,
+      "fixtureSha256": null,
+      "screenshotSha256": "e9951e0f6074f3bc1846c9013a89b166b36bb0fb24b3ce545a69f7bfc89e22e3",
+      "location": null,
+      "jsHeapUsedBytes": 2990900,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.700000000000045,
+        "p95Ms": 16.700000000000045,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [],
+      "horizontalOverflow": false,
+      "resourceBytes": 91987,
+      "nonAudioResourceBytes": 91987,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "first-room",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "exploration.json",
+      "fixtureSha256": "629116b08970a2039d18272c99571a7603ce846b94b7225a8aa2333d3960c0fc",
+      "screenshotSha256": "29fbfa725bf283e9a5a50cb6b4fb2d277549b8a5379bb51bad02f173ed2062ab",
+      "location": {
+        "depth": 1,
+        "x": 48,
+        "y": 18,
+        "direction": "north"
+      },
+      "jsHeapUsedBytes": 9515328,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 166.69999999999982,
+        "p95Ms": 266.7000000000007,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 942,
+          "height": 558
+        },
+        {
+          "class": "minimap-panel",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "class": "party-panel",
+          "width": 240,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1348590,
+      "nonAudioResourceBytes": 1348590,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "corridor",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "corridor-checkpoint.json (camera only)",
+      "fixtureSha256": "25fbcb32579c9c32b9baec52eb107f028dc50014f904e83201ab90fbbfbbdedb",
+      "screenshotSha256": "929378b0348a3c9e5bb26716cd46446404e572cb738dd4e6f2c135536a7b36a2",
+      "location": {
+        "depth": 1,
+        "x": 42,
+        "y": 17,
+        "direction": "north"
+      },
+      "corridorRoute": [
+        "west",
+        "west",
+        "west",
+        "west",
+        "west",
+        "west",
+        "north"
+      ],
+      "jsHeapUsedBytes": 11042488,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 283.39999999999964,
+        "p95Ms": 349.89999999999964,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 942,
+          "height": 558
+        },
+        {
+          "class": "minimap-panel",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "class": "party-panel",
+          "width": 240,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1348590,
+      "nonAudioResourceBytes": 1348590,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "combat",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "combat.json",
+      "fixtureSha256": "cf565de2cd3c699173ba82007caa69639fbc10fa6bef6b74330145058739bafa",
+      "screenshotSha256": "aead3bb52041ea31279a29219e55a4c652e499f5b5a11f211ca2578e270d8b58",
+      "location": {
+        "depth": 1,
+        "x": 48,
+        "y": 18,
+        "direction": "north"
+      },
+      "jsHeapUsedBytes": 4375412,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 16.699999999999932,
+        "p95Ms": 16.700000000000045,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "",
+          "width": 1260,
+          "height": 369
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1141407,
+      "nonAudioResourceBytes": 1141407,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "inventory-party",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "fixture": "progressed.json",
+      "fixtureSha256": "8b061a7d68efd63e638740afd1bb39c43710026cf6f375f43b868cb7646b5b57",
+      "screenshotSha256": "2d1781a99ae8d8de56e4e42a72e5eef6621c2cf4f0cdb3b7d1d58f5f1e6bd4af",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 67,
+        "direction": "west"
+      },
+      "jsHeapUsedBytes": 16902016,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 233.29999999999927,
+        "p95Ms": 266.60000000000036,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 942,
+          "height": 558
+        },
+        {
+          "class": "minimap-panel",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "class": "party-panel",
+          "width": 240,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1341734,
+      "nonAudioResourceBytes": 1341734,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    },
+    {
+      "name": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "fixture": "exploration.json",
+      "fixtureSha256": "629116b08970a2039d18272c99571a7603ce846b94b7225a8aa2333d3960c0fc",
+      "screenshotSha256": "cb1f78c56e0d3d70e2c076adc8601b016b4a7f62b08b74c449db3f97c83eec44",
+      "location": {
+        "depth": 1,
+        "x": 48,
+        "y": 18,
+        "direction": "north"
+      },
+      "jsHeapUsedBytes": 9302116,
+      "webgl2": {
+        "available": true,
+        "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+        "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "vendor": "Google Inc. (Google)"
+      },
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.8127.18 Safari/537.36",
+      "frameIntervals": {
+        "samples": 60,
+        "medianMs": 249.89999999999964,
+        "p95Ms": 350,
+        "scope": "idle RAF; not GPU time or movement rendering"
+      },
+      "canvases": [
+        {
+          "class": "dungeon-viewport",
+          "width": 372,
+          "height": 279
+        },
+        {
+          "class": "minimap-panel",
+          "width": 140,
+          "height": 140
+        },
+        {
+          "class": "party-panel",
+          "width": 332,
+          "height": 344
+        }
+      ],
+      "horizontalOverflow": false,
+      "resourceBytes": 1348590,
+      "nonAudioResourceBytes": 1348590,
+      "transferMethod": "CDP Network.loadingFinished encodedDataLength; cold cache; includes document"
+    }
+  ],
+  "diagnostics": [
+    {
+      "capture": "title",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "first-room",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x1b0c003c0400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x1b0c003c0400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x1b0c003c0400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+        },
+        {
+          "type": "warning",
+          "text": "[.WebGL-0x1b0c003c0400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "corridor",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "combat",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "inventory-party",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    },
+    {
+      "capture": "mobile",
+      "console": [
+        {
+          "type": "log",
+          "text": "Registered 5 fallback events"
+        },
+        {
+          "type": "log",
+          "text": "Loaded 83 events from /Depths-of-the-Fractured-Mind/data/events.json"
+        },
+        {
+          "type": "log",
+          "text": "Event data loaded successfully"
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        },
+        {
+          "type": "warning",
+          "text": "THREE.WebGLRenderer: Texture marked for update but no image data found."
+        }
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "invalidMedia": []
+    }
+  ],
+  "failures": [],
+  "files": [
+    "combat-viewport.png",
+    "combat.png",
+    "corridor-checkpoint.json",
+    "corridor-viewport.png",
+    "corridor.png",
+    "first-room-viewport.png",
+    "first-room.png",
+    "inventory-party-viewport.png",
+    "inventory-party.png",
+    "mobile-viewport.png",
+    "mobile.png",
+    "party.png",
+    "report.json",
+    "title-viewport.png",
+    "title.png"
+  ]
+}

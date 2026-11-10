@@ -2,6 +2,7 @@ import type { CombatState } from "../game/combat/state";
 import type { CharacterId } from "../game/state";
 import { drawHero, type HeroAnimation } from "../assets/hero-sprites";
 import { drawEnemy } from "../assets/enemy-visuals";
+import { characterContract, drawCharacter, referenceCharacter, type CharacterAnimation, type ReferenceCharacter } from "../assets/character-sprites";
 import { getAbility } from "../game/abilities";
 import { getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
@@ -23,6 +24,8 @@ export interface CombatUIOptions {
   nowMs?: number;
   reducedMotion?: boolean;
   visualCue?: CombatVisualCue | null;
+  /** Visual-review fixture only; never supplied by the gameplay controller. */
+  characterPreview?: { id: ReferenceCharacter; animation: CharacterAnimation; elapsedMs: number };
 }
 
 const COLORS = {
@@ -98,6 +101,7 @@ function renderEnemies(
   const cueActive = !!cue && now >= cue.startedAt && now - cue.startedAt < 650;
 
   enemies.forEach((enemy, index) => {
+    const reference = referenceCharacter(enemy.id);
     const enemyX = startX + index * (enemyWidth + 10);
     const enemyY = y + 20;
     const intent = enemy.alive ? state.enemyIntents?.[index] : undefined;
@@ -122,16 +126,16 @@ function renderEnemies(
     ctx.fillStyle = COLORS.enemy;
     ctx.font = "bold 12px monospace";
     ctx.textAlign = "center";
-    ctx.fillText(enemy.name, enemyX + enemyWidth / 2, enemyY + 20, enemyWidth - 8);
+    ctx.fillText(enemy.name, enemyX + enemyWidth / 2, enemyY + (reference ? 16 : 20), enemyWidth - 8);
 
     // HP bar
-    const hpBarY = enemyY + 35;
+    const hpBarY = enemyY + (reference ? 24 : 35);
     renderBar(
       ctx,
       enemyX + 10,
       hpBarY,
       enemyWidth - 20,
-      12,
+      reference ? 9 : 12,
       enemy.stats.hp,
       enemy.stats.maxHp,
       COLORS.hp,
@@ -140,13 +144,13 @@ function renderEnemies(
 
     // SAN bar (if enemy has sanity)
     if (enemy.stats.maxSanity > 0) {
-      const sanBarY = hpBarY + 20;
+      const sanBarY = hpBarY + (reference ? 13 : 20);
       renderBar(
         ctx,
         enemyX + 10,
         sanBarY,
         enemyWidth - 20,
-        12,
+        reference ? 9 : 12,
         enemy.stats.sanity,
         enemy.stats.maxSanity,
         COLORS.sanity,
@@ -154,13 +158,21 @@ function renderEnemies(
       );
     }
 
-    const spriteY = enemyY + 78;
-    const spriteHeight = Math.max(44, height - 165);
-    const spriteWidth = Math.min(enemyWidth - 12, spriteHeight * 0.95);
+    // The old vector bodies were tiny beneath oversized headers. Real raster
+    // figures reserve a ground line and retain the 128:160 frame proportion.
+    const statusSpace = reference && enemy.statusEffects.length ? 12 : 0;
+    const spriteHeight = reference ? Math.min(104, Math.max(40, height - 80 - statusSpace), (enemyWidth - 12) / 0.8) : Math.max(44, height - 165);
+    const spriteWidth = reference ? spriteHeight * 0.8 : Math.min(enemyWidth - 12, spriteHeight * 0.95);
+    const spriteY = reference ? enemyY + height - 54 - statusSpace - characterContract.pivot[1] * spriteHeight : enemyY + 78;
     const enemyHit = cueActive ? cue?.enemyHits?.find((hit) => hit.index === index) : undefined;
     const pose = !enemy.alive ? "death" : enemyHit ? "hit" : cueActive && cue?.enemyActorIndex === index ? "attack" : "idle";
-    if (!drawEnemy(ctx, enemy.id, pose, enemyHit || pose === "attack" ? now - (cue?.startedAt ?? now) : now,
-      enemyX + (enemyWidth - spriteWidth) / 2, spriteY, spriteWidth, spriteHeight, options.reducedMotion)) {
+    const elapsed = enemyHit || pose === "attack" ? now - (cue?.startedAt ?? now) : pose === "death" ? 650 : now;
+    const preview = reference && options.characterPreview?.id === reference ? options.characterPreview : undefined;
+    const drawn = preview ? drawCharacter(ctx, reference!, preview.animation, preview.elapsedMs,
+      enemyX + (enemyWidth - spriteWidth) / 2, spriteY, spriteWidth, spriteHeight, options.reducedMotion)
+      : drawEnemy(ctx, enemy.id, pose, elapsed,
+        enemyX + (enemyWidth - spriteWidth) / 2, spriteY, spriteWidth, spriteHeight, options.reducedMotion);
+    if (!drawn) {
       ctx.fillStyle = COLORS.enemy;
       ctx.font = "bold 28px monospace";
       ctx.fillText(enemy.name[0], enemyX + enemyWidth / 2, spriteY + spriteHeight / 2);
@@ -176,7 +188,7 @@ function renderEnemies(
       ctx.fillStyle = COLORS.textDim;
       ctx.font = "10px monospace";
       ctx.textAlign = "center";
-      const statusY = enemyY + height - 83;
+      const statusY = enemyY + height - (reference ? 54 : 83);
       ctx.fillText(
         enemy.statusEffects.join(", "),
         enemyX + enemyWidth / 2,
@@ -185,7 +197,7 @@ function renderEnemies(
     }
     ctx.fillStyle = target?.statusEffects.includes("guarded") ? COLORS.ally : COLORS.selected;
     ctx.font = "bold 9px monospace";
-    ctx.fillText(intentLabel, enemyX + enemyWidth / 2, enemyY + height - 51, enemyWidth - 8);
+    ctx.fillText(intentLabel, enemyX + enemyWidth / 2, enemyY + height - (reference ? 44 : 51), enemyWidth - 8);
   });
 }
 

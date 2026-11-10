@@ -7,4 +7,7 @@ if (!root) {
   throw new Error("Root element #app not found");
 }
 
-initApp(root);
+const query = new URLSearchParams(location.search);
+if (query.get("qa") === "1" && query.get("art") === "1") {
+  void import("./ui/character-review").then(({ initCharacterReview }) => initCharacterReview(root));
+} else initApp(root);

@@ -1,0 +1,10 @@
+{
+  "note": "Manually inspected ground-contact lines in each generated source cell. Fixed horizontal cell root and a single standing scale per character; never resize a collapsed pose to its bounding box. 124 px standing height reserves room for the full-width fallen poses inside 128 px cells.",
+  "columns": 4,
+  "rows": 4,
+  "outputRoot": [64, 147],
+  "characters": {
+    "keeper": { "source": "keeper-poses.png", "standingHeight": 292, "groundY": [304,304,304,304,304,304,304,304,303,303,303,303,298,298,296,296] },
+    "guard": { "source": "guard-poses.png", "standingHeight": 296, "groundY": [304,304,304,304,304,304,304,304,304,304,304,304,295,292,295,295] }
+  }
+}

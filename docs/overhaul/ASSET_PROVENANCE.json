@@ -5,13 +5,27 @@
   "phase01CodeAuthoredAdditions": {
     "date": "2026-11-09",
     "method": "Original TypeScript geometry, Canvas signage/wear/contact plates authored by Codex under the repository owner's Phase-01 instruction and the institutional-ritual art direction. No external model, image-generation job, photograph, font or new binary media was imported.",
-    "sources": ["docs/overhaul/ART_DIRECTION.md", "src/graphics/dungeon/SceneBuilder.ts", "src/graphics/dungeon/MaterialLibrary.ts"],
-    "evidence": ["docs/overhaul/evidence/phase01/README.md", "docs/overhaul/evidence/phase01/source-manifest.json"],
+    "sources": [
+      "docs/overhaul/ART_DIRECTION.md",
+      "src/graphics/dungeon/SceneBuilder.ts",
+      "src/graphics/dungeon/MaterialLibrary.ts"
+    ],
+    "evidence": [
+      "docs/overhaul/evidence/phase01/README.md",
+      "docs/overhaul/evidence/phase01/source-manifest.json"
+    ],
     "status": "pending-originality-and-contributor-review",
     "legacyMedia": "Existing wall/floor/ceiling, Keeper, Subject13, combat and audio files retain their original unverified entries below. Runtime use or new geometry does not clear them."
   },
   "dependencyNotices": [
-    { "name": "three", "version": "0.187.0", "license": "MIT", "source": "node_modules/three/LICENSE", "retainedNotice": "public/THIRD_PARTY_NOTICES.txt", "lockfile": "package-lock.json" }
+    {
+      "name": "three",
+      "version": "0.187.0",
+      "license": "MIT",
+      "source": "node_modules/three/LICENSE",
+      "retainedNotice": "public/THIRD_PARTY_NOTICES.txt",
+      "lockfile": "package-lock.json"
+    }
   ],
   "assets": [
     {
@@ -926,6 +940,183 @@
       "license": null,
       "evidence": [],
       "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership."
+    },
+    {
+      "path": "source-assets/characters/phase01a/keeper-concept-v1.png",
+      "sha256": "dc3acd9857ef116aefae42058e0b3a3326e87851e4b9fb92d101877184040278",
+      "distributed": false,
+      "derivedFrom": null,
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "source-assets/characters/phase01a/keeper-master.png",
+      "sha256": "23e77a8b9d0a916cd095007a8af714ab887fca93eb013860778a32ed9ebb39c0",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/keeper-concept-v1.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "source-assets/characters/phase01a/guard-concept-v1.png",
+      "sha256": "ac034e5bb44462adc29bbcd5bec3fd46195ce4a4d57b045ccc63455ecc02a7f2",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/keeper-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "source-assets/characters/phase01a/guard-master.png",
+      "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-concept-v1.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "source-assets/characters/phase01a/keeper-poses.png",
+      "sha256": "65763e57f769c41fcf41fdb1ad0798751c94049d706c35cc4296f6c799191c65",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/keeper-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "source-assets/characters/phase01a/guard-poses.png",
+      "sha256": "c6d01fe2ebf2f57e2d7d9e66de6bc8b08f53204f78e22e14eb2e60c8ec375cee",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "public/assets/sprites/characters/keeper/character-atlas.png",
+      "sha256": "3fce717e36e8c3997abbc13c30ebcb3ec96668ef343dd68e661a6142a7188e8a",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/keeper-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "public/assets/sprites/characters/keeper/idle.png",
+      "sha256": "4e6390f5fa5a2178fa9236e41b5eb4410efb8abfba5c07a62fdeeb6b033a6060",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/keeper-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "public/assets/sprites/characters/guard/character-atlas.png",
+      "sha256": "8b8e3af33108059406e233d751f24e50e662a1f966c0db941ca63c324c3d11ef",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "public/assets/sprites/characters/guard/idle.png",
+      "sha256": "f162a3f99fc4916369fc1cf6241973bd0400e8f02299d69373bdc7f33b5bcfd2",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen, under repository owner direction; normalized by Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01a/generation-record.json",
+        "source-assets/characters/phase01a/PROVENANCE.md",
+        "source-assets/characters/phase01a/terms-support.json"
+      ],
+      "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
     }
-  ]
+  ],
+  "phase01aCharacterCandidates": {
+    "date": "2026-11-10",
+    "record": "source-assets/characters/phase01a/generation-record.json",
+    "rightsRecord": "source-assets/characters/phase01a/PROVENANCE.md",
+    "normalization": "utils/build-character-atlases.mjs",
+    "status": "provider-use/distribution provenance documented; human art acceptance pending; backend model version not exposed",
+    "inputs": "Original text and the pair’s own generated images only; no protagonist/legacy/third-party image submitted.",
+    "reviewedBy": "Codex provenance audit, 2026-11-10"
+  }
 }

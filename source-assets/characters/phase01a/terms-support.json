@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-11-10",
+  "sources": [
+    {
+      "url": "https://openai.com/policies/eu-terms-of-use/",
+      "updated": "2026-01-16",
+      "section": "Content: Ownership of content / Similarity of content",
+      "observation": "Output ownership is assigned as between customer and OpenAI, to the extent allowed by law; outputs may resemble others. Input/use responsibility remains with the customer."
+    },
+    {
+      "url": "https://openai.com/policies/services-agreement/",
+      "updated": "2025-12-01",
+      "effective": "2026-01-01",
+      "section": "4.1–4.3",
+      "observation": "Output ownership is assigned as between customer and OpenAI, to the extent allowed by law; customer evaluates output and has responsibility for inputs."
+    }
+  ],
+  "limitations": "Public provider output-ownership terms are the documented project-use basis. No account/order-form exception was inspected; no copyright eligibility, exclusivity or uniqueness asserted. Backend model ID was not exposed and remains unknown."
+}

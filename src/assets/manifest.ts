@@ -19,7 +19,7 @@ export const OBJECT_SPRITES = {
   stairsUp: assetUrl("assets/tilesets/floors/strais_up.webp"),
   stairsDown: assetUrl("assets/tilesets/floors/strais_down.webp"),
   vendor: assetUrl("assets/sprites/characters/npc/vendor.webp"),
-  keeper: assetUrl("assets/sprites/characters/npc/vendor.webp"), // Reuse existing NPC art until a dedicated Keeper asset exists.
+  keeper: assetUrl("assets/sprites/characters/keeper/idle.png"),
 };
 
 export const DEPTH_TEXTURES: Record<number, { wall: string; floor: string; wallAlt?: string }> = {
