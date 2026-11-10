@@ -1,0 +1,49 @@
+.protagonist-portrait {
+  display: block;
+  flex: none;
+  box-sizing: border-box;
+  width: var(--portrait-size, 40px);
+  height: var(--portrait-size, 40px);
+  background-color: #192329;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  outline: 1px solid #687770;
+  outline-offset: -1px;
+}
+.protagonist-portrait[data-portrait-state="wounded"] { outline-color: #bf8677; }
+.protagonist-portrait[data-portrait-state="stressed"] { outline-color: #c3bca1; }
+.protagonist-portrait[data-portrait-state="fallen"] { filter: grayscale(1) brightness(.6); }
+.compact-party > .compact-party-member {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  gap: 2px 8px;
+  align-content: center;
+  padding: 8px 12px;
+  min-height: 56px;
+  min-width: 0;
+  border: 0;
+  border-right: 1px solid #4e6056;
+  border-radius: 0;
+  background: #10191a;
+  text-align: left;
+  overflow-wrap: anywhere;
+  color: #dae6de;
+}
+.compact-party-member[aria-pressed="true"] { box-shadow: inset 0 -2px #d5a45b; background: #1b2828; }
+.compact-party-member:focus-visible { outline: 2px solid #e0bd76; outline-offset: -3px; }
+.compact-party-member:disabled { opacity: .65; cursor: default; }
+.viewpoint-instruction { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.compact-party-member > .protagonist-portrait { grid-column: 1; grid-row: 1 / 3; }
+.compact-party-member > strong, .compact-party-member > span:not(.protagonist-portrait) { grid-column: 2; }
+.dialogue-line { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: start; margin: 16px 0; }
+.dialogue-line p { margin: 0; }
+.dialogue-focus-portrait { justify-self: center; }
+.dialogue-screen.dialogue-screen-text-only { grid-template-columns: minmax(0, 1fr); }
+.dialogue-portrait { image-rendering: pixelated; background: #192329; }
+@media (max-width: 600px) {
+  .context-actions { padding-block: 4px; }
+  .compact-party > .compact-party-member { grid-template-columns: 28px minmax(0, 1fr); gap: 2px 4px; padding: 6px 4px; }
+  .compact-party-member > .protagonist-portrait { --portrait-size: 28px !important; }
+  .compact-party-member > span:not(.protagonist-portrait) { font-size: .6rem; line-height: 1.4; }
+}

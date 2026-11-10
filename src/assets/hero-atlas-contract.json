@@ -1,29 +1,326 @@
 {
-  "version": 1,
+  "version": 2,
   "size": 512,
-  "sourceSize": 1024,
+  "sourceSize": 1254,
   "columns": 4,
-  "rows": 3,
-  "sourceFrameWidth": 256,
-  "sourceFrameHeight": 320,
+  "rows": 4,
+  "sourceFrameWidth": 313.5,
+  "sourceFrameHeight": 313.5,
   "frameWidth": 128,
   "frameHeight": 160,
-  "pivot": [0.5, 0.92],
+  "pivot": [
+    0.5,
+    0.92
+  ],
   "animations": {
-    "idle": { "frames": [0, 3], "frameMs": 500, "loop": true },
-    "walkNorth": { "frames": [1, 2], "frameMs": 180, "loop": true },
-    "walkSouth": { "frames": [4, 5], "frameMs": 180, "loop": true },
-    "walkEast": { "frames": [6, 7], "frameMs": 180, "loop": true },
-    "walkWest": { "frames": [6, 7], "frameMs": 180, "loop": true, "flipX": true },
-    "attack": { "frames": [7, 8], "frameMs": 140, "loop": false },
-    "cast": { "frames": [9, 10], "frameMs": 180, "loop": false },
-    "hit": { "frames": [6, 10], "frameMs": 120, "loop": false },
-    "death": { "frames": [11], "frameMs": 1000, "loop": false }
+    "idle": {
+      "frames": [
+        0,
+        1
+      ],
+      "durations": [
+        700,
+        700
+      ],
+      "frameMs": 700,
+      "loop": true
+    },
+    "alert": {
+      "frames": [
+        2
+      ],
+      "durations": [
+        240
+      ],
+      "frameMs": 240,
+      "loop": false
+    },
+    "talk": {
+      "frames": [
+        2,
+        0
+      ],
+      "durations": [
+        220,
+        380
+      ],
+      "frameMs": 220,
+      "loop": true
+    },
+    "walkNorth": {
+      "frames": [
+        0,
+        1
+      ],
+      "durations": [
+        180,
+        180
+      ],
+      "frameMs": 180,
+      "loop": true
+    },
+    "walkSouth": {
+      "frames": [
+        0,
+        1
+      ],
+      "durations": [
+        180,
+        180
+      ],
+      "frameMs": 180,
+      "loop": true
+    },
+    "walkEast": {
+      "frames": [
+        0,
+        1
+      ],
+      "durations": [
+        180,
+        180
+      ],
+      "frameMs": 180,
+      "loop": true
+    },
+    "walkWest": {
+      "frames": [
+        0,
+        1
+      ],
+      "durations": [
+        180,
+        180
+      ],
+      "frameMs": 180,
+      "loop": true,
+      "flipX": true
+    },
+    "attack": {
+      "frames": [
+        3,
+        4,
+        5
+      ],
+      "durations": [
+        143,
+        260,
+        247
+      ],
+      "frameMs": 143,
+      "loop": false
+    },
+    "cast": {
+      "frames": [
+        6,
+        7,
+        8
+      ],
+      "durations": [
+        143,
+        260,
+        247
+      ],
+      "frameMs": 143,
+      "loop": false
+    },
+    "defend": {
+      "frames": [
+        9
+      ],
+      "durations": [
+        650
+      ],
+      "frameMs": 650,
+      "loop": false
+    },
+    "hit": {
+      "frames": [
+        10,
+        5
+      ],
+      "durations": [
+        150,
+        250
+      ],
+      "frameMs": 150,
+      "loop": false
+    },
+    "stress": {
+      "frames": [
+        11
+      ],
+      "durations": [
+        650
+      ],
+      "frameMs": 650,
+      "loop": false
+    },
+    "death": {
+      "frames": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "durations": [
+        140,
+        160,
+        180,
+        170
+      ],
+      "frameMs": 140,
+      "loop": false
+    }
   },
   "characters": {
-    "elias": { "source": "elias/CHAR_001.png", "atlas": "elias/hero-atlas.png" },
-    "miriam": { "source": "miriam/CHAR_002.png", "atlas": "miriam/hero-atlas.png" },
-    "subject13": { "source": "subject13/CHAR_003.png", "atlas": "subject13/hero-atlas.png" },
-    "anya": { "source": "anya/CHAR_004.png", "atlas": "anya/hero-atlas.png", "matte": "dark-checker" }
-  }
+    "elias": {
+      "source": "elias-poses.png",
+      "atlas": "elias/hero-atlas.png",
+      "legacySource": "elias/CHAR_001.png",
+      "worldHeight": 1.78,
+      "portrait": {
+        "normal": {
+          "frame": 0,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "wounded": {
+          "frame": 10,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "stressed": {
+          "frame": 11,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        }
+      }
+    },
+    "miriam": {
+      "source": "miriam-poses.png",
+      "atlas": "miriam/hero-atlas.png",
+      "legacySource": "miriam/CHAR_002.png",
+      "worldHeight": 1.7,
+      "portrait": {
+        "normal": {
+          "frame": 0,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "wounded": {
+          "frame": 10,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "stressed": {
+          "frame": 11,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        }
+      }
+    },
+    "subject13": {
+      "source": "subject13-poses.png",
+      "atlas": "subject13/hero-atlas.png",
+      "legacySource": "subject13/CHAR_003.png",
+      "worldHeight": 1.64,
+      "portrait": {
+        "normal": {
+          "frame": 0,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "wounded": {
+          "frame": 10,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "stressed": {
+          "frame": 11,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        }
+      }
+    },
+    "anya": {
+      "source": "anya-poses.png",
+      "atlas": "anya/hero-atlas.png",
+      "legacySource": "anya/CHAR_004.png",
+      "worldHeight": 1.83,
+      "portrait": {
+        "normal": {
+          "frame": 0,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "wounded": {
+          "frame": 10,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        },
+        "stressed": {
+          "frame": 11,
+          "crop": [
+            36,
+            20,
+            56,
+            66
+          ]
+        }
+      }
+    }
+  },
+  "width": 512,
+  "height": 640,
+  "standingPixels": 124,
+  "facing": "front-three-quarter",
+  "sampling": "nearest",
+  "sourceBase": "source-assets/characters/phase01b",
+  "compatibilityNote": "HeroAnimation directional names remain aliases for frontal restrained stance; no directional walking art is claimed. Game owns all translation. Source v1 sheets remain preserved separately.",
+  "sourceGridNote": "Raw host outputs are1254\u00b2; source grid boundaries are rounded individually, with exact per-pose rectangles retained in phase01b-heroes-build.json. No assumption of integer source-cell width."
 }

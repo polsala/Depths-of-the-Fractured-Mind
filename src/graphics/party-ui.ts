@@ -3,7 +3,7 @@
  */
 
 import type { PartyState, CharacterState } from "../game/state";
-import { drawHero, type HeroAnimation } from "../assets/hero-sprites";
+import { drawHeroPortrait, heroPortraitState, PORTRAIT_STATE_LABELS } from "../assets/hero-portraits";
 import { getCharacterLevel, getCharacterExperience, getExpToNextLevel } from "../game/experience";
 
 export interface PartyUIConfig {
@@ -22,10 +22,10 @@ function drawPortrait(
 ): void {
   ctx.fillStyle = "#1b2227";
   ctx.fillRect(x, y, size, size);
-  const animation: HeroAnimation = !character.alive ? "death" :
-    config.facing ? (`walk${config.facing[0].toUpperCase()}${config.facing.slice(1)}` as HeroAnimation) : "idle";
-  const displayed = drawHero(ctx, character.id, animation, config.timeMs ?? 0,
-    x + size * 0.1, y + size * 0.02, size * 0.8, size * 0.94, config.reducedMotion);
+  // A portrait is a stable expression crop. Walking and facing belong to the
+  // world body; health/sanity remain readable while movement is in progress.
+  void config;
+  const displayed = drawHeroPortrait(ctx, character, x, y, size);
   if (!displayed) {
     ctx.fillStyle = "#d6e3e7";
     ctx.font = `bold ${Math.floor(size * 0.45)}px sans-serif`;
@@ -34,10 +34,10 @@ function drawPortrait(
     ctx.fillText(character.name[0], x + size / 2, y + size / 2);
   }
   if (!character.alive || character.stats.hp < character.stats.maxHp * 0.3) {
-    ctx.fillStyle = character.alive ? "rgba(230, 40, 40, 0.22)" : "rgba(0, 0, 0, 0.55)";
+    ctx.fillStyle = character.alive ? "rgba(98, 41, 34, 0.16)" : "rgba(0, 0, 0, 0.3)";
     ctx.fillRect(x, y, size, size);
   } else if (character.stats.sanity < character.stats.maxSanity * 0.3) {
-    ctx.fillStyle = "rgba(128, 65, 220, 0.22)";
+    ctx.fillStyle = "rgba(199, 193, 170, 0.1)";
     ctx.fillRect(x, y, size, size);
   }
   ctx.strokeStyle = character.alive ? "#758e97" : "#914949";
@@ -128,15 +128,16 @@ export function renderPartyUI(
     ctx.fillText(
       character.name,
       portraitSize + spacing * 2,
-      yOffset + spacing
+      yOffset + spacing,
+      barWidth,
     );
 
     // HP bar
     const hpColor = character.stats.hp > character.stats.maxHp * 0.5
-      ? "#44ff44"
+      ? "#7a423a"
       : character.stats.hp > character.stats.maxHp * 0.3
-      ? "#ffaa44"
-      : "#ff4444";
+      ? "#785832"
+      : "#8c3836";
 
     drawStatBar(
       ctx,
@@ -152,10 +153,10 @@ export function renderPartyUI(
 
     // Sanity bar
     const sanityColor = character.stats.sanity > character.stats.maxSanity * 0.5
-      ? "#4488ff"
+      ? "#365b6a"
       : character.stats.sanity > character.stats.maxSanity * 0.3
-      ? "#aa44ff"
-      : "#ff44aa";
+      ? "#514d69"
+      : "#6a4b65";
 
     drawStatBar(
       ctx,
@@ -174,12 +175,13 @@ export function renderPartyUI(
     const exp = getCharacterExperience(character);
     const expToNext = getExpToNextLevel(character);
     
-    ctx.fillStyle = "#aaaaaa";
+    ctx.fillStyle = "#c7c1aa";
     ctx.font = "10px sans-serif";
     ctx.fillText(
-      `Lvl ${level} - XP: ${exp}/${expToNext}`,
+      `${PORTRAIT_STATE_LABELS[heroPortraitState(character)]} · Lvl ${level} · XP ${exp}/${expToNext}`,
       portraitSize + spacing * 2,
-      yOffset + spacing + 60
+      yOffset + spacing + 60,
+      barWidth,
     );
   });
 }

@@ -2,6 +2,8 @@ import type { GameLocation, GameState } from "../../game/state";
 import type { MapTile } from "../../game/exploration/map";
 import { getSanityStage } from "../../game/sanity";
 import type { CharacterAnimation, ReferenceCharacter } from "../../assets/character-sprites";
+import type { HeroAnimation } from "../../assets/hero-sprites";
+import type { CharacterId } from "../../game/state";
 
 export type Facing = NonNullable<GameLocation["direction"]>;
 export type QualityPreset = "low" | "balanced" | "high";
@@ -25,6 +27,8 @@ export interface DungeonPresentationSnapshot {
   readonly guardPresent: boolean;
   /** Isolated art-review fixture; presentDungeon never writes this field. */
   readonly characterPreview?: Readonly<{ id: ReferenceCharacter; animation: CharacterAnimation; elapsedMs: number }>;
+  /** Isolated protagonist art fixture; never a party follower or collision object. */
+  readonly heroPreview?: Readonly<{ id: CharacterId; animation: HeroAnimation; elapsedMs: number }>;
 }
 
 // This adapter reads already-created game data. It cannot create a map, roll

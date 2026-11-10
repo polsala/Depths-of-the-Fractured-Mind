@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-11-10",
+  "method": "Read current official provider pages with the web tool; retained observations, section references and effective dates below. No account/order form was inspected.",
+  "sources": [
+    {
+      "url": "https://openai.com/policies/eu-terms-of-use/",
+      "updated": "2026-01-16",
+      "section": "Content: Your content / Ownership of content / Similarity of content",
+      "observation": "As between customer and OpenAI, output ownership is assigned to the customer to the extent permitted by law. The customer is responsible for lawful input and use. Output may resemble other outputs; the assignment excludes third-party output."
+    },
+    {
+      "url": "https://openai.com/policies/services-agreement/",
+      "updated": "2025-12-01",
+      "effective": "2026-01-01",
+      "section": "4.1–4.4, Customer Content",
+      "observation": "As between customer and OpenAI, the customer owns output to the extent permitted by law. The customer must hold required input permissions and evaluate output for the intended use. Outputs may not be unique."
+    }
+  ],
+  "scope": "Supporting project-use/distribution basis for the recorded original-input Phase-01B generations and deterministic derivatives. This is distinct from artistic acceptance.",
+  "limitations": "Backend model/version, generation seed and billed cost were not exposed by the built-in tool. No exclusivity, copyright eligibility, unique authorship, third-party indemnity or uninspected negotiated account exception is asserted. Existing unverified legacy media remains unverified."
+}

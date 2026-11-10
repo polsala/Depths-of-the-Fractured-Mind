@@ -1,0 +1,175 @@
+{
+  "date": "2026-11-10",
+  "method": "PNG chunk inspection of retained original bytes; this is container/label observation, not cryptographic signature or certificate validation.",
+  "observation": "Raw outputs contain caBX JUMBF/C2PA containers. Generic ChatGPT/gpt-image software-agent labels appear; no specific backend image model/version is inferred. Runtime PNGs are deterministic derivatives whose external source hashes link to these retained originals.",
+  "outputs": [
+    {
+      "path": "source-assets/characters/phase01b/elias-master-raw.png",
+      "sha256": "c45dc149bfecb302340feae90a6ce9c1f447eaa4646eb70a4fec4b431d6a09d9",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "01d3ba04f7bb8c74182cc32e4b4c37b4415aa9715fc431674d921aecf0ddfbb3",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/elias-poses.png",
+      "sha256": "cdbf741129c7a210576280d4fa915ecbe1db42d5b41243087d0528588387d69d",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "969f2a356388caf2619299433c6b08a26333f1e6cb98c26634fc189416d128c9",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-master-raw.png",
+      "sha256": "cc7d30aeaec4fcc4bec5b68eb6efc0b25363c32aed92c8323df18c00aa33da47",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 21881,
+          "sha256": "352a4c25963bbe55c7dd10b702ddf6c5774f2058346cb0b82067960815a8d534",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-poses.png",
+      "sha256": "90f0bb8f3ceb6a005ada510e7e6a31f437d96fe9bda6274947e3d090666a9241",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "710cac4aa3221e4f7fcfca2bd6d29684395c607c31d35c8f0f96eeda96aee2cf",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-master-raw.png",
+      "sha256": "eff63d9dac3ffc709ed83f9f3e47d5d70055d345a7b331916cab14832f436b4e",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "f71e7c10ead150f4a13eb548be2b182f58b092d876581c99df2a3ef3265ab47d",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-poses.png",
+      "sha256": "cd3513ab2ca9a1b13ca486a24b2a98b128d2f11e452eabaa76f8dc53feb4e923",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "b0fe710cac642c3d1a37dd01fd076468439214e70cc1a9e46c8370b413bd7a04",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-master-raw.png",
+      "sha256": "d37997833e97a71ae08161669faea3bc00becc83ec655aec45608ce4d92c15de",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "f2cd927c6dda505cdd9f992f5fb5861735293307cfaf43ae07d8ecee945325e0",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-poses.png",
+      "sha256": "514fa74727842ef9380525648bfa90137655a48ca2f9fc8e34f2f54bd98f982f",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "fe38d082ac3f3b38bd84c3aeb65671bb0a8d2637172f1235b4e365aadaf81550",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/elias-raw.png",
+      "sha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 23654,
+          "sha256": "a95e6cf4070aaee98c1ca28c67e479ab0f490722fc0a88f9c5617ec52de70e61",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/miriam-raw.png",
+      "sha256": "23641ea5905f814395c9e21a6a5c55d6fe2c6dfb8c27d81cb5b61af302fbbd88",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 21881,
+          "sha256": "08a8894fc056f6bf4b0f5b05b99b6fd5a30419cc752a771a64685107d54652dd",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/subject13-raw.png",
+      "sha256": "6ab1154e1c3fcfcaf50bd562eb4c4481531917e4682bc56dfbe9d55e5a5c4eb1",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 21881,
+          "sha256": "f50b3160c69617b9f5f3348e8922b6e9219ab1934a448dc3801b1ab6285ac008",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/anya-raw.png",
+      "sha256": "d7e84c5ae30d8c5f0fc4d73dd04bc64f7bc8b26cceef6da9a0fe153ead2d9714",
+      "contentCredentialChunks": [
+        {
+          "type": "caBX",
+          "bytes": 21881,
+          "sha256": "a7811e7bae61d2b9a79eca7b3a1b924a37d2118002b3550691d9d7fe4f543541",
+          "containsC2paLabel": true,
+          "containsChatGptSoftwareAgent": true,
+          "containsGenericGptImageVersionLabel": true
+        }
+      ]
+    }
+  ]
+}

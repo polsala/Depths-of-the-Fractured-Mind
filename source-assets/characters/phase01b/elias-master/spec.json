@@ -1,0 +1,26 @@
+{
+  "schema": "generate2dsprite.master_spec.v1",
+  "name": "elias",
+  "subject": "Elias Ward, a late-forties former security warden, full body",
+  "identity": "Compact broad adult man with close-cropped dark brown hair graying at the temples, stern lined warm-tan face, heavy brows, square jaw, slate-blue short security coat and straight dark slate trousers, worn brown leather half-gloves with exposed fingertips, bone shirt collar, plain small brass badge with no lettering, separated heavy boots. One short blunt service baton hangs at his right thigh. No cap. Grounded guarded firm stance, left hand near the chest.",
+  "pose": null,
+  "recap": "Elias Ward, a late-forties former security warden, full body (Compact broad adult man with close-cropped dark brown hair graying at the temples, stern lined warm-tan face, heavy brows, square jaw, slate-blue short security coat and straight dark slate trousers, worn brown leather half-gloves with exposed fingertips, bone shirt collar, plain small brass badge with no lettering, separated heavy boots. One short blunt service baton hangs at his right thigh. No cap. Grounded guarded firm stance, left hand near the chest)",
+  "facing": "front",
+  "facing_parts": null,
+  "view": "almost frontal three-quarter level camera",
+  "class": "hero",
+  "finish": "hd",
+  "key": "#FF00FF",
+  "genre": "a first-person institutional psychological-horror RPG",
+  "pronoun": "they",
+  "identity_ref": null,
+  "style_ref": {
+    "path": "../../phase01a/guard-master.png",
+    "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+    "what": "the existing Guard whose compact proportions, broad shaded raster planes and selective dark edges set the game family; style only"
+  },
+  "allowed_text": null,
+  "extra_bans": [],
+  "opaque_parts": null,
+  "extra": null
+}

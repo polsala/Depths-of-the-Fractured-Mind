@@ -69,7 +69,18 @@ Run the main path, ignored-secret path, accepted/dismissed-vision paths, low/hig
 
 Required evidence: a room-purpose ledger, state-aware route test, 1280×900 and 390×844 room/corridor/combat/UI captures, continuous uncut walk, muted/reduced-motion run, timing profile and five first-time sessions. The slice is not approved until A–G applicable gates pass. Do not scale a weak room kit to five depths.
 
-## Production phases
+## Current phase sequence — amendment 2026-11-10
+
+| Phase | Boundary | Exit |
+| --- | --- | --- |
+| 01 | Existing Three.js viewport and authored Intake Bell | Preserve implemented controller/grid/save contracts and historical open gates |
+| 01A | Keeper/Guard reference pair | Retained art/motion evidence; human acceptance remains open |
+| **01B** | **Four-protagonist family, portraits, animation contracts and physical first-person presence** | Actual-game desktop/mobile/reduced-motion/grayscale/motion evidence, passive-state/cleanup/save checks, unchanged budgets, owner art/acting acceptance; [presence contract](PHASE01B_CHARACTER_PRESENCE.md) |
+| 02 | Subsequent world-generation/environment production | Begins only after applicable 01A/01B human visual and slice acceptance gates; not implemented in 01B |
+
+The following original Phase-00 numbering is historical planning context. It predates the user's combined Phase-01 engine milestone and the inserted 01A/01B character milestones; it does not authorize starting procedural scale.
+
+## Historical Phase-00 production plan
 
 | Phase | Deliverable and implementation boundary | Dependency / exit evidence |
 | --- | --- | --- |
@@ -98,4 +109,4 @@ Cut optional side rooms, decorative effects and extra enemy types before cutting
 
 The authored map, passive Three.js viewport and complete rules loop are now implemented together under the user's Phase-01 instruction; see [the current implementation and open gates](PHASE01_ENGINE.md). The phase table above preserves the original sequencing rationale rather than claiming all later art/play/device exits were met.
 
-Next, integrate one rights-cleared Keeper/guard visual reference family alongside a protagonist at actual room/combat scale, with explicit world height, feet pivot, facing and animation metadata. Correct the remaining evidence-figure/style gaps and validate that family in the Intake Bell before generating five-depth variants. The identified Intel hardware desktop route now passes its measured frame budget; run the physical-phone route and moderate five first-time sessions to tune combat/pacing. Keep the failing software profile visible. Art, human gameplay, memory/device approval and uncleared assets remain blocking; do not increase budgets, expand environments or publish to bypass them.
+The next milestone is the Phase-01B six-character family and embodied-presentation acceptance review, using its retained native/grayscale/world/combat/portrait/motion evidence. Correct rejected identity/anatomy/motion details before calling the cast final. Then complete the physical-phone and moderated first-time slice sessions before Phase 02 expansion. Keep historical software failure and legacy rights gates visible; do not increase budgets, expand environments or publish to bypass them.

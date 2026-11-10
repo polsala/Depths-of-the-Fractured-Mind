@@ -1,0 +1,13 @@
+Use case: stylized-concept. Asset type: first-person paired hands pose atlas for a restrained psychological horror RPG. Create ONE wide 2:1 image containing 8 separate pose assets in an exact 4-column 2-row equal-cell grid, read left to right top row first. Native transparent background, no labels, no grid lines.
+FIRST attached image: exact character costume/material/color identity reference ONLY, Subject 13. SECOND attached image: the target hand-atlas arrangement, perspective and shading family; do not copy its gloves or clothes. Draw ONLY his first-person forearms and paired hands as seen through his own eyes. No full character or face. Slight fragile pallid ash adult hands with thin long fingers, wrists and forearms wrapped in bone-colored cloth bandages, muted olive hospital patient sleeves visible behind bandages. No gloves, no jewellery. Match reference broad painted value planes, crisp selective dark edges, matte institutional materials, upper-left illumination. Human anatomy with five fingers per hand, foreshortened naturally. No weapon, no baton, no military shooter aesthetic, no VFX.
+Every cell shows TWO forearms emerging into view at the lower left and lower right edges with consistent wrist thickness and camera. Keep the upper 60 percent of each cell transparent, center corridor mostly empty, hands mainly in the bottom 35 percent. This is a quiet person inside the world. Arms are deliberately cut ONLY at each cell bottom; no chopped fingers; every hand fully inside its own cell and well clear of side edges.
+The eight distinct held key poses, always maintaining costume and scale:
+0: uneasy quiet rest, thin hands low at corners with loosely curled delicate fingers.
+1: tactile interaction, right hand extends slightly forward palm down with index and middle fingers reaching to press a control, left hand remains low.
+2: inspection, both hands turn palms obliquely upward, thumbs and forefingers delicately poised to inspect a small unseen item; no item.
+3: physical action, right hand makes a small defensive outward push, left forearm braces low; fragile controlled protective gesture, no punch trails.
+4: support gesture, left open palm facing forward and right hand poised in a clear steadying gesture.
+5: brace, both forearms slightly raised, palms guarded inward and clear of the center.
+6: hurt reaction, left hand supports right wrist, fingers curled, no blood.
+7: tension, hands held low with delicate tendons and fingertips slightly splayed, anxiety communicated through finger posture alone, no shaking trails.
+No scenery, checkerboard, backdrop, floor, shadows outside hands, text, logo, border, numbering or caption. Preserve clean real alpha.

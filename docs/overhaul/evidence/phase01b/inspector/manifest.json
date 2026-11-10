@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "runId": "phase01b-reviewed",
+  "captures": [
+    { "mode": "desktop", "state": "opening-room", "report": "artifacts/phase01b/inspector/desktop.json" },
+    { "mode": "mobile", "state": "opening-room", "report": "artifacts/phase01b/inspector/mobile.json" }
+  ],
+  "artifacts": [
+    "artifacts/phase01b/motion-reviewed/1280-hero-motion.webm",
+    "artifacts/phase01b/motion-reviewed/390-hero-motion.webm",
+    "artifacts/phase01b/reviewed/1280-presence-motion.webm",
+    "artifacts/phase01b/reviewed/390-presence-motion.webm"
+  ]
+}

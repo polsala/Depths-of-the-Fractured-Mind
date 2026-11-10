@@ -1,0 +1,85 @@
+{
+  "ok": true,
+  "assets": [
+    {
+      "path": "public/assets/sprites/characters/elias/presence-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1024,
+      "height": 512,
+      "bytes": 118169,
+      "color_count": 9693,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 475281,
+      "content_bounds": [
+        38,
+        171,
+        985,
+        512
+      ],
+      "problems": []
+    },
+    {
+      "path": "public/assets/sprites/characters/miriam/presence-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1024,
+      "height": 512,
+      "bytes": 116737,
+      "color_count": 10114,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 478949,
+      "content_bounds": [
+        38,
+        170,
+        985,
+        512
+      ],
+      "problems": []
+    },
+    {
+      "path": "public/assets/sprites/characters/subject13/presence-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1024,
+      "height": 512,
+      "bytes": 112770,
+      "color_count": 10115,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 483746,
+      "content_bounds": [
+        38,
+        169,
+        985,
+        512
+      ],
+      "problems": []
+    },
+    {
+      "path": "public/assets/sprites/characters/anya/presence-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 1024,
+      "height": 512,
+      "bytes": 113850,
+      "color_count": 11193,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 478052,
+      "content_bounds": [
+        40,
+        165,
+        985,
+        512
+      ],
+      "problems": []
+    }
+  ]
+}

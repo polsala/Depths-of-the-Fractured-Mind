@@ -1,0 +1,25 @@
+{
+  "schema": "generate2dsprite.master_spec.v1",
+  "name": "anya",
+  "subject": "Sister Anya Velasquez, an early-forties institutional chaplain, full body",
+  "identity": "Tall composed adult woman with warm olive skin, long narrow face, dark tired eyes and straight nose framed by a deep-teal hood, long heavy deep-teal robe with large quiet folds, bone undercollar, narrow cloth belt, plain dark shoes visible under hem; measured open bare hands held together low at waist with a small worn plain prayer cord. Human face readable, no glowing mask. Ritualistic restraint, slight bowed head.",
+  "pose": null,
+  "recap": "Sister Anya Velasquez, an early-forties institutional chaplain, full body (Tall composed adult woman with warm olive skin, long narrow face, dark tired eyes and straight nose framed by a deep-teal hood, long heavy deep-teal robe with large quiet folds, bone undercollar, narrow cloth belt, plain dark shoes visible under hem; measured open bare hands held together low at waist with a small worn plain prayer cord. Human face readable, no glowing mask. Ritualistic restraint, slight bowed head)",
+  "facing": "front",
+  "facing_parts": null,
+  "view": "almost frontal three-quarter level camera",
+  "class": "hero",
+  "finish": "hd",
+  "key": "#FF00FF",
+  "genre": "a first-person institutional psychological-horror RPG",
+  "pronoun": "they",
+  "identity_ref": null,
+  "style_ref": {
+    "path": "../../phase01a/guard-master.png",
+    "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c"
+  },
+  "allowed_text": null,
+  "extra_bans": [],
+  "opaque_parts": null,
+  "extra": null
+}

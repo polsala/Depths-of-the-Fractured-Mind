@@ -1,0 +1,11 @@
+Create exactly ONE square image (1024x1024).
+
+Style: premium HD 2D game art for a first-person institutional psychological-horror RPG: a clean, high-resolution hand-painted sprite illustration with crisp sharp edges, a clean dark outline, rich but controlled colours, cel shading with soft highlights and clear light and shadow shapes, fine readable detail, no blur, no photo-realism, no 3D render look. No text, no letters, no numbers, no logo, no watermark, no signature, no UI, no border, no frame, no grid.
+
+Reference image: the attached image is an approved in-game sprite from the same game (the existing Guard whose compact proportions, broad shaded raster planes and selective dark edges set the game family; style only): match its art style, outline weight, shading, figure size and position on the canvas; do NOT copy that character's face, hair, outfit, equipment or colours.
+
+Subject: Elias Ward, a late-forties former security warden, full body, almost frontal three-quarter level camera, clearly FACING THE VIEWER: their face, gaze and chest turn straight toward the viewer; forward is out of the picture and their back is never visible. Compact broad adult man with close-cropped dark brown hair graying at the temples, stern lined warm-tan face, heavy brows, square jaw, slate-blue short security coat and straight dark slate trousers, worn brown leather half-gloves with exposed fingertips, bone shirt collar, plain small brass badge with no lettering, separated heavy boots. One short blunt service baton hangs at his right thigh. No cap. Grounded guarded firm stance, left hand near the chest.
+
+Size and position: one single figure, the top of the figure (including hair, headgear, raised weapons and effects) about 14 percent below the top edge of the canvas and its lowest point about 14 percent above the bottom edge (the figure about 72 percent of the canvas height), centred horizontally, generous empty magenta margin on every side, nothing touching or crossing the edges. The whole figure is drawn with solid, fully opaque pixels: no transparency, no semi-transparent glow, no soft aura, nothing blended with the background.
+
+Background: solid flat pure magenta #FF00FF everywhere outside the character, no shadow, no ground, no glow on the background.

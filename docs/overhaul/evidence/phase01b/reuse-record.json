@@ -1,0 +1,10 @@
+[
+  {
+    "report": "motion/report.json",
+    "differences": [
+      "src/graphics/party-ui.ts"
+    ],
+    "scope": "Same hero atlases, clip selectors, WebGL/combat renderers and controls. Later Party vitals color-only correction is unused in isolated body-motion fixtures.",
+    "originalSourceTreeSha256": "47299d6e55bec0209a05864b374474d9222e015a6100dca524147440cb104b85"
+  }
+]

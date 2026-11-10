@@ -1,0 +1,11 @@
+{
+  "kind": "Retained summary of observed original CLI failure; raw reports subsequently replaced by corrected declared-set reports",
+  "command": "node <threejs-qa-release>/scripts/inspect-threejs-canvas.mjs --manifest artifacts/phase01b/inspector-manifest.json --url <preview> --seed 130013",
+  "observed": [
+    "desktop: page.waitForSelector canvas Timeout 10000ms",
+    "mobile: page.waitForSelector canvas Timeout 10000ms",
+    "evidence checker: state/appliedState mismatch for both captures"
+  ],
+  "cause": "Original tool waits for canvas before applying QA named state; this project deliberately lazy-loads the viewport after its DOM-only title",
+  "correction": "QA wrapper invokes real named-state hook after goto, then unmodified exported inspectPage and check_evidence pass; no canvas placeholder or fake state acknowledgment"
+}

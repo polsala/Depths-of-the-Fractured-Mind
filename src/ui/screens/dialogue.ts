@@ -1,4 +1,6 @@
-import { OBJECT_SPRITES } from "../../assets/manifest";
+import { assetUrl } from "../../assets/manifest";
+import { characterContract } from "../../assets/character-sprites";
+import { createHeroPortrait } from "../../assets/hero-portraits";
 import { getDialogue, getDialogueChoiceUnavailableReason } from "../../game/dialogue";
 import type { GameController } from "../../game/index";
 import type { GameState } from "../../game/state";
@@ -13,27 +15,44 @@ export function renderDialogue(root: HTMLElement, controller: GameController, st
 
   const screen = document.createElement("section");
   screen.className = "dialogue-screen";
-  screen.setAttribute("aria-label", "Conversation with the Keeper");
+  const keeperPresent = dialogue.lines.some((line) => line.speaker === "keeper");
+  screen.setAttribute("aria-label", keeperPresent ? "Conversation with the Keeper" : "Party conversation");
   root.appendChild(screen);
-  const portrait = document.createElement("img");
-  portrait.className = "dialogue-portrait";
-  portrait.src = OBJECT_SPRITES.keeper;
-  portrait.alt = "The Keeper, a scarred survivor holding a damaged radio";
-  screen.appendChild(portrait);
+  if (keeperPresent) {
+    const portrait = document.createElement("img");
+    portrait.className = "dialogue-portrait";
+    portrait.src = assetUrl(`assets/sprites/characters/${characterContract.characters.keeper.idle}`);
+    portrait.alt = "The Keeper, white-haired and severe, holding a brass claim tag and green ledger";
+    screen.appendChild(portrait);
+  } else {
+    const firstSpeaker = state.party.members.find((member) => dialogue.lines.some((line) => line.speaker === member.id));
+    if (firstSpeaker) {
+      const portrait = createHeroPortrait(firstSpeaker, 128);
+      portrait.classList.add("dialogue-focus-portrait");
+      screen.appendChild(portrait);
+    } else screen.classList.add("dialogue-screen-text-only");
+  }
 
   const content = document.createElement("div");
   content.className = "dialogue-content";
   screen.appendChild(content);
   const heading = document.createElement("h2");
-  heading.textContent = "The Keeper";
+  heading.textContent = keeperPresent ? "The Keeper" : "The party";
   content.appendChild(heading);
   for (const line of dialogue.lines) {
     const paragraph = document.createElement("p");
     const speaker = document.createElement("strong");
-    speaker.textContent = `${line.speaker === "keeper" ? "The Keeper" : line.speaker}: `;
+    const member = state.party.members.find((entry) => entry.id === line.speaker);
+    speaker.textContent = `${line.speaker === "keeper" ? "The Keeper" : member?.name ?? (line.speaker === "narrator" ? "Narrator" : "Unknown")}: `;
     paragraph.appendChild(speaker);
     paragraph.append(line.text);
-    content.appendChild(paragraph);
+    if (member) {
+      const row = document.createElement("div");
+      row.className = "dialogue-line";
+      const portrait = createHeroPortrait(member);
+      row.append(portrait, paragraph);
+      content.appendChild(row);
+    } else content.appendChild(paragraph);
   }
   const actions = document.createElement("div");
   actions.className = "dialogue-actions";

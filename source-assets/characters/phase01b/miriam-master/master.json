@@ -1,0 +1,181 @@
+{
+  "schema": "generate2dsprite.master.v1",
+  "tool": {
+    "name": "master_still",
+    "version": "0.5.0"
+  },
+  "created": "2026-11-10T10:53:36.225Z",
+  "name": "miriam",
+  "subject": "Dr Miriam Kessler, a late-thirties surgeon, full body",
+  "identity_recap": "Dr Miriam Kessler, a late-thirties surgeon, full body (Narrow adult woman with composed angular pale face, chestnut hair in a tightly raised bun, tired eyes, bone lab coat over muted burgundy blouse and straight dark trousers, plain burgundy fitted cuffs, pale ungloved hands with long precise fingers, restrained dark shoes. No hat or goggles. Small leather case at belt, open empty right hand held precisely at sternum, left hand lowering a folded dressing)",
+  "facing": "front",
+  "view": "almost frontal three-quarter level camera",
+  "finish": "hd",
+  "class": "hero",
+  "framing": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "subject_height_px": 788,
+    "top_margin_px": 138,
+    "lead_px": 0,
+    "preset": "hero",
+    "subject_bbox": [
+      390,
+      138,
+      634,
+      926
+    ],
+    "anchor": [
+      512.5,
+      926.0
+    ],
+    "opaque_area_px": 125227,
+    "width_limited": false
+  },
+  "key": "#FF00FF",
+  "files": {
+    "master": {
+      "path": "master.png",
+      "sha256": "2b019e7155cf605c31d3fbba2c655b044d9c68efeadbd94f3c08c8f29d2de3ee",
+      "bytes": 198062,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "cutout": {
+      "path": "master_rgba.png",
+      "sha256": "944b503ca1d04b258ab2e719ca76a87128d7a51617f4cb92474fcf9de5ed40df",
+      "bytes": 231148,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "source": {
+      "path": "source.png",
+      "sha256": "cc7d30aeaec4fcc4bec5b68eb6efc0b25363c32aed92c8323df18c00aa33da47",
+      "bytes": 678449,
+      "size": [
+        1086,
+        1448
+      ]
+    },
+    "spec": {
+      "path": "spec.json",
+      "sha256": "f55c0b32801451755e76b0cf706ecfab42531ba2e0ce056a3f50c153738f0771",
+      "bytes": 1557
+    },
+    "prompt": {
+      "path": "prompt.txt",
+      "sha256": "0ee067099e14626dd2d9bc7e37cc4892b7754dbd8b05d0eb8a36804520cb8686",
+      "bytes": 2105
+    }
+  },
+  "references": [
+    {
+      "role": "style",
+      "path": "../../phase01a/guard-master.png",
+      "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+      "bytes": 783248
+    }
+  ],
+  "transform": {
+    "mapping": "master = scale * source + offset (continuous pixel coordinates: pixel i spans [i, i + 1))",
+    "source_size": [
+      1086,
+      1448
+    ],
+    "source_subject_bbox": [
+      317,
+      15,
+      756,
+      1436
+    ],
+    "crop_box": [
+      311,
+      9,
+      762,
+      1442
+    ],
+    "crop_margin_px": 6,
+    "scale": 0.5545390570021111,
+    "offset": [
+      214.48979591836735,
+      129.68191414496835
+    ],
+    "canvas": [
+      1024,
+      1024
+    ],
+    "resampler": "lanczos",
+    "premultiplied": true,
+    "alpha_floor_px": 2560,
+    "subject_parts": 1,
+    "ignored_parts": 0,
+    "ignored_px": 0,
+    "source_touches": [],
+    "key_rgb": [
+      255,
+      0,
+      255
+    ]
+  },
+  "route": "host-image_gen",
+  "provenance": {
+    "command": "prompt",
+    "run": "../miriam-prompt",
+    "take": null,
+    "source_name": "miriam-master-raw.png",
+    "source_sha256": "cc7d30aeaec4fcc4bec5b68eb6efc0b25363c32aed92c8323df18c00aa33da47",
+    "media": null,
+    "media_cli_source": null,
+    "edit": null
+  },
+  "matte": {
+    "requested": "soft",
+    "key_estimate": {
+      "key": [
+        255.0,
+        0.0,
+        255.0
+      ],
+      "source": "native_alpha",
+      "valid": false,
+      "ring_share": 0.0,
+      "coverage": 0.0,
+      "distance_from_declared": 0.0
+    },
+    "quality": "native_alpha",
+    "qa": {
+      "key": [
+        255.0,
+        0.0,
+        255.0
+      ],
+      "opaque_key_px": 0,
+      "outer_ring_spill_fraction": 0.009907603250584438,
+      "semitransparent_fraction": 0.9981472208312469,
+      "enclosed_key_pockets": 0,
+      "key_hued_px": 0,
+      "visible_px": 419370,
+      "outer_ring_px": 8983,
+      "thresholds": {
+        "key_tolerance": 48.0,
+        "spill_threshold": 20.0,
+        "min_pocket_area": 16,
+        "opaque_alpha": 128,
+        "spill_hue_balance": 0.5
+      },
+      "method": "forge_matte.matte_qa v1: straight-colour key distance and dominance on the keyed image; two-channel keys count spill only where the key channels are balanced"
+    },
+    "key_choice": {
+      "status": "ok",
+      "overlap_share": 0.0,
+      "rule": "reject a key when more than 0.5% of subject pixels have key dominance >= 40; first acceptable candidate wins"
+    }
+  },
+  "warnings": []
+}

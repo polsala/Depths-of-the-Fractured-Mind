@@ -1,0 +1,103 @@
+{
+  "note": "Inspected source contact lines per pose; one fixed scale and horizontal standing root per character. Downed drawings retain standing scale. Contact coordinates are exclusive lower pixel bounds, not per-frame size normalization.",
+  "columns": 4,
+  "rows": 4,
+  "outputRoot": [
+    64,
+    147
+  ],
+  "characters": {
+    "elias": {
+      "source": "elias-poses.png",
+      "standingHeight": 296,
+      "rootX": 154.5,
+      "groundY": [
+        304,
+        303,
+        303,
+        304,
+        303,
+        303,
+        303,
+        303,
+        303,
+        303,
+        303,
+        304,
+        300,
+        298,
+        294,
+        295
+      ]
+    },
+    "miriam": {
+      "source": "miriam-poses.png",
+      "standingHeight": 305,
+      "rootX": 170,
+      "groundY": [
+        312,
+        312,
+        312,
+        312,
+        311,
+        312,
+        312,
+        311,
+        312,
+        312,
+        313,
+        313,
+        289,
+        290,
+        291,
+        290
+      ]
+    },
+    "subject13": {
+      "source": "subject13-poses.png",
+      "standingHeight": 302,
+      "rootX": 159,
+      "groundY": [
+        310,
+        310,
+        310,
+        310,
+        308,
+        308,
+        308,
+        308,
+        308,
+        308,
+        308,
+        308,
+        295,
+        297,
+        294,
+        292
+      ]
+    },
+    "anya": {
+      "source": "anya-poses.png",
+      "standingHeight": 300,
+      "rootX": 158,
+      "groundY": [
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        309,
+        298,
+        296,
+        290,
+        289
+      ]
+    }
+  }
+}

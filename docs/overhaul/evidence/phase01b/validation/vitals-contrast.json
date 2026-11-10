@@ -1,0 +1,29 @@
+{
+  "method": "WCAG relative luminance, white labels against authored solid fill; not a whole-screen contrast certification",
+  "values": [
+    {
+      "hex": "7a423a",
+      "ratio": 7.87136372649214
+    },
+    {
+      "hex": "785832",
+      "ratio": 6.480359001103714
+    },
+    {
+      "hex": "8c3836",
+      "ratio": 7.6809761097677205
+    },
+    {
+      "hex": "365b6a",
+      "ratio": 7.339040059493198
+    },
+    {
+      "hex": "514d69",
+      "ratio": 8.029361017250647
+    },
+    {
+      "hex": "6a4b65",
+      "ratio": 7.480811346796024
+    }
+  ]
+}

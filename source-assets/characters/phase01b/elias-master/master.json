@@ -1,0 +1,182 @@
+{
+  "schema": "generate2dsprite.master.v1",
+  "tool": {
+    "name": "master_still",
+    "version": "0.5.0"
+  },
+  "created": "2026-11-10T10:52:12.815Z",
+  "name": "elias",
+  "subject": "Elias Ward, a late-forties former security warden, full body",
+  "identity_recap": "Elias Ward, a late-forties former security warden, full body (Compact broad adult man with close-cropped dark brown hair graying at the temples, stern lined warm-tan face, heavy brows, square jaw, slate-blue short security coat and straight dark slate trousers, worn brown leather half-gloves with exposed fingertips, bone shirt collar, plain small brass badge with no lettering, separated heavy boots. One short blunt service baton hangs at his right thigh. No cap. Grounded guarded firm stance, left hand near the chest)",
+  "facing": "front",
+  "view": "almost frontal three-quarter level camera",
+  "finish": "hd",
+  "class": "hero",
+  "framing": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "subject_height_px": 788,
+    "top_margin_px": 138,
+    "lead_px": 0,
+    "preset": "hero",
+    "subject_bbox": [
+      325,
+      138,
+      699,
+      926
+    ],
+    "anchor": [
+      520.5,
+      926.0
+    ],
+    "opaque_area_px": 183979,
+    "width_limited": false
+  },
+  "key": "#FF00FF",
+  "files": {
+    "master": {
+      "path": "master.png",
+      "sha256": "d1b229d6f76f04af83fe51d19a45017e1aed4da3ca01eb7762eb59956775b4cf",
+      "bytes": 259885,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "cutout": {
+      "path": "master_rgba.png",
+      "sha256": "3043da7d69cdd023b9b77779ecf58b5c5159542f2cea63b74767024bd640b164",
+      "bytes": 299446,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "source": {
+      "path": "source.png",
+      "sha256": "c45dc149bfecb302340feae90a6ce9c1f447eaa4646eb70a4fec4b431d6a09d9",
+      "bytes": 957513,
+      "size": [
+        1086,
+        1448
+      ]
+    },
+    "spec": {
+      "path": "spec.json",
+      "sha256": "36d32bf62c752cf143bf71c990125201d0b0ca618ca0072d222846e597618627",
+      "bytes": 1827
+    },
+    "prompt": {
+      "path": "prompt.txt",
+      "sha256": "70244056d87cc609e5b1c28f3e533356756f603e58581e3323e12c4c703792d5",
+      "bytes": 2279
+    }
+  },
+  "references": [
+    {
+      "role": "style",
+      "path": "../../phase01a/guard-master.png",
+      "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+      "bytes": 783248,
+      "what": "the existing Guard whose compact proportions, broad shaded raster planes and selective dark edges set the game family; style only"
+    }
+  ],
+  "transform": {
+    "mapping": "master = scale * source + offset (continuous pixel coordinates: pixel i spans [i, i + 1))",
+    "source_size": [
+      1086,
+      1448
+    ],
+    "source_subject_bbox": [
+      186,
+      18,
+      858,
+      1437
+    ],
+    "crop_box": [
+      180,
+      12,
+      864,
+      1443
+    ],
+    "crop_margin_px": 6,
+    "scale": 0.5553206483439042,
+    "offset": [
+      222.12262156448202,
+      128.00422832980973
+    ],
+    "canvas": [
+      1024,
+      1024
+    ],
+    "resampler": "lanczos",
+    "premultiplied": true,
+    "alpha_floor_px": 3845,
+    "subject_parts": 1,
+    "ignored_parts": 0,
+    "ignored_px": 0,
+    "source_touches": [],
+    "key_rgb": [
+      255,
+      0,
+      255
+    ]
+  },
+  "route": "host-image_gen",
+  "provenance": {
+    "command": "prompt",
+    "run": "../elias-prompt",
+    "take": null,
+    "source_name": "elias-master-raw.png",
+    "source_sha256": "c45dc149bfecb302340feae90a6ce9c1f447eaa4646eb70a4fec4b431d6a09d9",
+    "media": null,
+    "media_cli_source": null,
+    "edit": null
+  },
+  "matte": {
+    "requested": "soft",
+    "key_estimate": {
+      "key": [
+        255.0,
+        0.0,
+        255.0
+      ],
+      "source": "native_alpha",
+      "valid": false,
+      "ring_share": 0.0,
+      "coverage": 0.0,
+      "distance_from_declared": 0.0
+    },
+    "quality": "native_alpha",
+    "qa": {
+      "key": [
+        255.0,
+        0.0,
+        255.0
+      ],
+      "opaque_key_px": 0,
+      "outer_ring_spill_fraction": 0.004802604802604802,
+      "semitransparent_fraction": 0.9982003238115384,
+      "enclosed_key_pockets": 0,
+      "key_hued_px": 0,
+      "visible_px": 614555,
+      "outer_ring_px": 12285,
+      "thresholds": {
+        "key_tolerance": 48.0,
+        "spill_threshold": 20.0,
+        "min_pocket_area": 16,
+        "opaque_alpha": 128,
+        "spill_hue_balance": 0.5
+      },
+      "method": "forge_matte.matte_qa v1: straight-colour key distance and dominance on the keyed image; two-channel keys count spill only where the key channels are balanced"
+    },
+    "key_choice": {
+      "status": "ok",
+      "overlap_share": 0.0,
+      "rule": "reject a key when more than 0.5% of subject pixels have key dominance >= 40; first acceptable candidate wins"
+    }
+  },
+  "warnings": []
+}

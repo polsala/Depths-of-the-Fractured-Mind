@@ -1,0 +1,25 @@
+{
+  "schema": "generate2dsprite.master_spec.v1",
+  "name": "subject13",
+  "subject": "Subject 13, an androgynous fragmented witness appearing mid-twenties, full body",
+  "identity": "Compact slender and fragile adult with pallid ash face, uneven short dark hair peeking through bone bandages around scalp and across one eye; other tired human eye visible. No skull face. Olive institutional patient tunic and loose ash trousers, bone layered wraps on wrists and forearms, bare pale long fingers separated; low worn shoes, hunched guarded shoulders. No weapon. One hand protects ribs, one partly open in apprehension.",
+  "pose": null,
+  "recap": "Subject 13, an androgynous fragmented witness appearing mid-twenties, full body (Compact slender and fragile adult with pallid ash face, uneven short dark hair peeking through bone bandages around scalp and across one eye; other tired human eye visible. No skull face. Olive institutional patient tunic and loose ash trousers, bone layered wraps on wrists and forearms, bare pale long fingers separated; low worn shoes, hunched guarded shoulders. No weapon. One hand protects ribs, one partly open in apprehension)",
+  "facing": "front",
+  "facing_parts": null,
+  "view": "almost frontal three-quarter level camera",
+  "class": "hero",
+  "finish": "hd",
+  "key": "#FF00FF",
+  "genre": "a first-person institutional psychological-horror RPG",
+  "pronoun": "they",
+  "identity_ref": null,
+  "style_ref": {
+    "path": "../../phase01a/guard-master.png",
+    "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c"
+  },
+  "allowed_text": null,
+  "extra_bans": [],
+  "opaque_parts": null,
+  "extra": null
+}

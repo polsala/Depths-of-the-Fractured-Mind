@@ -1,0 +1,85 @@
+{
+  "ok": true,
+  "assets": [
+    {
+      "path": "public/assets/sprites/characters/elias/hero-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 640,
+      "bytes": 186946,
+      "color_count": 13261,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 248415,
+      "content_bounds": [
+        24,
+        23,
+        509,
+        627
+      ],
+      "problems": []
+    },
+    {
+      "path": "public/assets/sprites/characters/miriam/hero-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 640,
+      "bytes": 152251,
+      "color_count": 16667,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 271255,
+      "content_bounds": [
+        27,
+        23,
+        500,
+        627
+      ],
+      "problems": []
+    },
+    {
+      "path": "public/assets/sprites/characters/subject13/hero-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 640,
+      "bytes": 160545,
+      "color_count": 11945,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 269611,
+      "content_bounds": [
+        36,
+        23,
+        504,
+        627
+      ],
+      "problems": []
+    },
+    {
+      "path": "public/assets/sprites/characters/anya/hero-atlas.png",
+      "format": "PNG",
+      "mode": "RGBA",
+      "width": 512,
+      "height": 640,
+      "bytes": 155574,
+      "color_count": 10252,
+      "has_alpha": true,
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "transparent_pixels": 257395,
+      "content_bounds": [
+        37,
+        23,
+        508,
+        627
+      ],
+      "problems": []
+    }
+  ]
+}

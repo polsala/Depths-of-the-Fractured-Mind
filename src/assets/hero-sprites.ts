@@ -3,7 +3,8 @@ import { assetUrl } from "./manifest";
 import contract from "./hero-atlas-contract.json";
 
 export type HeroAnimation = keyof typeof contract.animations;
-export interface HeroFrame { x: number; y: number; width: number; height: number; flipX: boolean }
+export interface HeroFrame { index: number; x: number; y: number; width: number; height: number; flipX: boolean }
+export const heroContract = contract;
 const images = new Map<CharacterId, HTMLImageElement>();
 const listeners = new Set<() => void>();
 
@@ -21,9 +22,17 @@ export function heroFrame(id: CharacterId, animation: HeroAnimation, elapsedMs =
   // cropping is needed: every hero uses the same cell and feet pivot.
   void id;
   const clip = contract.animations[animation];
-  const step = reducedMotion ? 0 : Math.floor(Math.max(0, elapsedMs) / clip.frameMs);
-  const frameIndex = clip.frames[clip.loop ? step % clip.frames.length : Math.min(step, clip.frames.length - 1)];
+  const durations: readonly number[] = clip.durations;
+  const total = durations.reduce((sum, ms) => sum + ms, 0);
+  let time = Math.max(0, Number.isFinite(elapsedMs) ? elapsedMs : 0);
+  if (clip.loop) time %= total;
+  let step = 0;
+  if (!reducedMotion) while (step < clip.frames.length - 1 && time >= durations[step]) {
+    time -= durations[step]; step++;
+  }
+  const frameIndex = reducedMotion && animation === "death" ? clip.frames[clip.frames.length - 1] : clip.frames[step];
   return {
+    index: frameIndex,
     x: (frameIndex % contract.columns) * contract.frameWidth,
     y: Math.floor(frameIndex / contract.columns) * contract.frameHeight,
     width: contract.frameWidth,
@@ -32,21 +41,21 @@ export function heroFrame(id: CharacterId, animation: HeroAnimation, elapsedMs =
   };
 }
 
-function heroImage(id: CharacterId): HTMLImageElement | null {
+export function heroImage(id: CharacterId): HTMLImageElement | null {
   if (typeof Image === "undefined") return null;
   let image = images.get(id);
   if (!image) {
     image = new Image();
     images.set(id, image);
     image.onload = () => {
-      if (image?.naturalWidth === contract.size && image.naturalHeight === contract.size) {
+      if (image?.naturalWidth === contract.width && image.naturalHeight === contract.height) {
         for (const listener of listeners) listener();
       }
     };
     image.onerror = () => console.error(`Hero atlas failed to load: ${id}`);
     image.src = heroAtlasUrl(id);
   }
-  return image.complete && image.naturalWidth === contract.size && image.naturalHeight === contract.size ? image : null;
+  return image.complete && image.naturalWidth === contract.width && image.naturalHeight === contract.height ? image : null;
 }
 
 export function drawHero(

@@ -1,0 +1,37 @@
+{
+  "schema": "generate2dsprite.master_run.v1",
+  "tool": {
+    "name": "master_still",
+    "version": "0.5.0"
+  },
+  "command": "prompt",
+  "created": "2026-11-10T10:52:13.501Z",
+  "name": "anya",
+  "class": "hero",
+  "finish": "hd",
+  "facing": "front",
+  "key": "#FF00FF",
+  "prompt": {
+    "path": "prompt.txt",
+    "sha256": "50e929cdd26453af361c03a881725b0f531db4f30a53f2998338c9af6c8a6005",
+    "bytes": 2140
+  },
+  "spec": {
+    "path": "spec.json",
+    "sha256": "4faa89ec33f38e00ac2fefaae6ebee52e47814c958eb1955dd3039b9a0354c09",
+    "bytes": 1133
+  },
+  "references": [
+    {
+      "role": "style",
+      "ordinal": "FIRST",
+      "path": "../../phase01a/guard-master.png",
+      "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+      "bytes": 783248
+    }
+  ],
+  "media": null,
+  "takes": [],
+  "status": "ok",
+  "warnings": []
+}

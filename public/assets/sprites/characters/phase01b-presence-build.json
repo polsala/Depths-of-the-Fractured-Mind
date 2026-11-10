@@ -1,0 +1,870 @@
+{
+  "contractVersion": 1,
+  "method": "fixed bottom-center whole-cell premultiplied area sampling; alpha>=128 coverage, binary output; intentional bottom forearm cuts",
+  "characters": {
+    "elias": {
+      "source": "source-assets/characters/phase01b/presence/elias-raw.png",
+      "sourceSha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687",
+      "scale": 0.4040586245772266,
+      "outputSha256": "10b29742ff91c74600df4f08487c69b75ccdbfae90f3780b4fc9d0ff9b0a4253",
+      "frames": [
+        {
+          "frame": 0,
+          "pose": "idle",
+          "sourceCell": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            38,
+            204,
+            218,
+            256
+          ],
+          "pixels": 4445,
+          "sha256": "9dde26918c210a7e6c5e87a64c55d759423915967080b1cbea707a8121176a38"
+        },
+        {
+          "frame": 1,
+          "pose": "interact",
+          "sourceCell": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            185,
+            217,
+            256
+          ],
+          "pixels": 5276,
+          "sha256": "3bb76a891c7a14484dd1589f1345a7263989166663b72cd8d9a494d48b3510cb"
+        },
+        {
+          "frame": 2,
+          "pose": "inspect",
+          "sourceCell": [
+            887,
+            0,
+            1331,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            173,
+            218,
+            256
+          ],
+          "pixels": 6255,
+          "sha256": "1a1dd1b4947d6661c6a41ae3e5479a80bf87f06ce743debe5ed3c369cf179d3d"
+        },
+        {
+          "frame": 3,
+          "pose": "attack",
+          "sourceCell": [
+            1331,
+            0,
+            1774,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            171,
+            217,
+            256
+          ],
+          "pixels": 5874,
+          "sha256": "84dac4778f2b006f047f8b2c791d3df9aea441c8eb83777c7815c019ea08041c"
+        },
+        {
+          "frame": 4,
+          "pose": "cast",
+          "sourceCell": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            38,
+            147,
+            218,
+            256
+          ],
+          "pixels": 7380,
+          "sha256": "5a951f33aa110614778710ca3dc11be1af6d6f8455794052f6f54438b51b54f5"
+        },
+        {
+          "frame": 5,
+          "pose": "brace",
+          "sourceCell": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            162,
+            217,
+            256
+          ],
+          "pixels": 6443,
+          "sha256": "d2ea5a627e174fa6c1c7e9dd2d3373d10f1405e1b4b971617db981be0665f96c"
+        },
+        {
+          "frame": 6,
+          "pose": "hurt",
+          "sourceCell": [
+            887,
+            444,
+            1331,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            50,
+            130,
+            209,
+            256
+          ],
+          "pixels": 7776,
+          "sha256": "b9f29d1b5395d6d7665eeeb27675b95442ad9516201e04f4494920303513e5dd"
+        },
+        {
+          "frame": 7,
+          "pose": "tension",
+          "sourceCell": [
+            1331,
+            444,
+            1774,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            189,
+            217,
+            256
+          ],
+          "pixels": 5558,
+          "sha256": "9067a617d521153ef92a364417d0cb158f23f57fb827929ee3b16595cb691173"
+        }
+      ]
+    },
+    "miriam": {
+      "source": "source-assets/characters/phase01b/presence/miriam-raw.png",
+      "sourceSha256": "23641ea5905f814395c9e21a6a5c55d6fe2c6dfb8c27d81cb5b61af302fbbd88",
+      "scale": 0.4040586245772266,
+      "outputSha256": "eafbcdf6feda30e709bcbab4d15880104f279d934d1cd352987c3a1ddff0caae",
+      "frames": [
+        {
+          "frame": 0,
+          "pose": "idle",
+          "sourceCell": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            38,
+            206,
+            216,
+            256
+          ],
+          "pixels": 3931,
+          "sha256": "d7165d9b9cbeba3969e7d0f0ee6c37fa431bc7b69a764d3347c9947c01904d73"
+        },
+        {
+          "frame": 1,
+          "pose": "interact",
+          "sourceCell": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            186,
+            217,
+            256
+          ],
+          "pixels": 4837,
+          "sha256": "436b85951595a99e0194028a49cb357056b2f36ac6e10cc90dac47a4651823de"
+        },
+        {
+          "frame": 2,
+          "pose": "inspect",
+          "sourceCell": [
+            887,
+            0,
+            1331,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            41,
+            173,
+            216,
+            256
+          ],
+          "pixels": 5701,
+          "sha256": "fdc6bedac29730b28079358e5d5d6032bddfe6111c7341d6c714562dde640ed4"
+        },
+        {
+          "frame": 3,
+          "pose": "attack",
+          "sourceCell": [
+            1331,
+            0,
+            1774,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            170,
+            217,
+            256
+          ],
+          "pixels": 5241,
+          "sha256": "b28b0c2267cd9b6961f157e6c2addb4eba9db71e067772aeede23ab9e87e3b0c"
+        },
+        {
+          "frame": 4,
+          "pose": "cast",
+          "sourceCell": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            38,
+            149,
+            218,
+            256
+          ],
+          "pixels": 6948,
+          "sha256": "bfda5f34a18e9748d7433737efa33e7274c2af589f96dc4a15218e4bc78acad0"
+        },
+        {
+          "frame": 5,
+          "pose": "brace",
+          "sourceCell": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            161,
+            217,
+            256
+          ],
+          "pixels": 6266,
+          "sha256": "477229c9ff6f585064a559f6361a01e09367886d23c81c615c5af8c56be3c030"
+        },
+        {
+          "frame": 6,
+          "pose": "hurt",
+          "sourceCell": [
+            887,
+            444,
+            1331,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            55,
+            132,
+            206,
+            256
+          ],
+          "pixels": 7046,
+          "sha256": "34d9f9e864d5952b7018c9426a883ffda2ce83dc24aba4c7ea63c59bb906841f"
+        },
+        {
+          "frame": 7,
+          "pose": "tension",
+          "sourceCell": [
+            1331,
+            444,
+            1774,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            189,
+            217,
+            256
+          ],
+          "pixels": 5369,
+          "sha256": "a5c2918b0e6cfb04125ba02514f2f646537629647ca4bf5689827baf57fff122"
+        }
+      ]
+    },
+    "subject13": {
+      "source": "source-assets/characters/phase01b/presence/subject13-raw.png",
+      "sourceSha256": "6ab1154e1c3fcfcaf50bd562eb4c4481531917e4682bc56dfbe9d55e5a5c4eb1",
+      "scale": 0.4040586245772266,
+      "outputSha256": "c6dbbd64956f65975c9455e517b45ada095e24e3982fdc78e34edaa83e457d56",
+      "frames": [
+        {
+          "frame": 0,
+          "pose": "idle",
+          "sourceCell": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            206,
+            216,
+            256
+          ],
+          "pixels": 3322,
+          "sha256": "f4de758d2a4786491b324823a6450e2bac2a0397dcf87b88ce198e9424a0dc75"
+        },
+        {
+          "frame": 1,
+          "pose": "interact",
+          "sourceCell": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            188,
+            217,
+            256
+          ],
+          "pixels": 4312,
+          "sha256": "c81c17e068bd8dddcde3ed36278368ccdefed78d37a73ad760ccc1e00f5fee60"
+        },
+        {
+          "frame": 2,
+          "pose": "inspect",
+          "sourceCell": [
+            887,
+            0,
+            1331,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            178,
+            216,
+            256
+          ],
+          "pixels": 5054,
+          "sha256": "60fee80521cde389af471fbc07d6b7a8ac879f598bd2f0bf62c958d678c22c78"
+        },
+        {
+          "frame": 3,
+          "pose": "attack",
+          "sourceCell": [
+            1331,
+            0,
+            1774,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            444
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            169,
+            217,
+            256
+          ],
+          "pixels": 4699,
+          "sha256": "3b8bbba9c62f445cbc1353b91fd32cb17b63a33a1a620924eacb25b6d671b0d4"
+        },
+        {
+          "frame": 4,
+          "pose": "cast",
+          "sourceCell": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            38,
+            148,
+            218,
+            256
+          ],
+          "pixels": 6190,
+          "sha256": "b33139e680e03b8446b39333745c277a80cb36d58195dd99c2c808f47efa9028"
+        },
+        {
+          "frame": 5,
+          "pose": "brace",
+          "sourceCell": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            164,
+            217,
+            256
+          ],
+          "pixels": 5574,
+          "sha256": "15a36c679194474d1b41faf468f2f633879fc5e536a370f53f68a78a0bf7c839"
+        },
+        {
+          "frame": 6,
+          "pose": "hurt",
+          "sourceCell": [
+            887,
+            444,
+            1331,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            54,
+            131,
+            206,
+            256
+          ],
+          "pixels": 6849,
+          "sha256": "cfa0b0afbe34e3996a59d931c9f22d22ab5e1b4858c324bc9b36dc60af673d60"
+        },
+        {
+          "frame": 7,
+          "pose": "tension",
+          "sourceCell": [
+            1331,
+            444,
+            1774,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            190,
+            217,
+            256
+          ],
+          "pixels": 4542,
+          "sha256": "2b148b5013bfa0cafcf02a690156c9b4a0a0e2fe6197b423070e32ff17cbbdab"
+        }
+      ]
+    },
+    "anya": {
+      "source": "source-assets/characters/phase01b/presence/anya-raw.png",
+      "sourceSha256": "d7e84c5ae30d8c5f0fc4d73dd04bc64f7bc8b26cceef6da9a0fe153ead2d9714",
+      "scale": 0.4040586245772266,
+      "outputSha256": "ea0e17f5088888004cb7f226c03a818294da85c5e692fdd5e5f090ad76b80cd5",
+      "frames": [
+        {
+          "frame": 0,
+          "pose": "idle",
+          "sourceCell": [
+            0,
+            0,
+            444,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            442
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            40,
+            208,
+            216,
+            256
+          ],
+          "pixels": 3625,
+          "sha256": "8668fe33094cfcfd88397917434360fe07b1ae33bbdde7b4c45191ae6e1d38ba"
+        },
+        {
+          "frame": 1,
+          "pose": "interact",
+          "sourceCell": [
+            444,
+            0,
+            887,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            442
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            40,
+            186,
+            217,
+            256
+          ],
+          "pixels": 4728,
+          "sha256": "8304394cf06d7ded41aa08ecf39bfcc996b0c7aa9214855d559b4ca47161e74d"
+        },
+        {
+          "frame": 2,
+          "pose": "inspect",
+          "sourceCell": [
+            887,
+            0,
+            1331,
+            444
+          ],
+          "sourceRoot": [
+            222,
+            442
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            175,
+            216,
+            256
+          ],
+          "pixels": 5559,
+          "sha256": "4cfb2dca301afb2ca665e0479e3f426dfc6d1aab442527bb76fd9b9e3747f40a"
+        },
+        {
+          "frame": 3,
+          "pose": "attack",
+          "sourceCell": [
+            1331,
+            0,
+            1774,
+            444
+          ],
+          "sourceRoot": [
+            221.5,
+            442
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            40,
+            165,
+            217,
+            256
+          ],
+          "pixels": 5359,
+          "sha256": "b95fbf3c6205b27aea3c7e7ac3857bd82772c028c6499fb306d48adb5ca89ef5"
+        },
+        {
+          "frame": 4,
+          "pose": "cast",
+          "sourceCell": [
+            0,
+            444,
+            444,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            40,
+            144,
+            217,
+            256
+          ],
+          "pixels": 7222,
+          "sha256": "f0039754c651224d079a2ad8663bbe782e52dfec0499a886da2614eba060ba75"
+        },
+        {
+          "frame": 5,
+          "pose": "brace",
+          "sourceCell": [
+            444,
+            444,
+            887,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            160,
+            217,
+            256
+          ],
+          "pixels": 6580,
+          "sha256": "d0098718efd66f6c4d1cf80b50d949b770adca928285f784f033e00a6602a3dc"
+        },
+        {
+          "frame": 6,
+          "pose": "hurt",
+          "sourceCell": [
+            887,
+            444,
+            1331,
+            887
+          ],
+          "sourceRoot": [
+            222,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            52,
+            122,
+            212,
+            256
+          ],
+          "pixels": 7997,
+          "sha256": "8fd23501b1fbeed07d80fb70755e9ee2af2b55644141b89f744dcc60f84ed47b"
+        },
+        {
+          "frame": 7,
+          "pose": "tension",
+          "sourceCell": [
+            1331,
+            444,
+            1774,
+            887
+          ],
+          "sourceRoot": [
+            221.5,
+            443
+          ],
+          "root": [
+            128,
+            256
+          ],
+          "bounds": [
+            39,
+            189,
+            217,
+            256
+          ],
+          "pixels": 5166,
+          "sha256": "e0ef0aa8a86a8552af2eead37884402620559cb5aa7130fadf057f3388f2dfd1"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,129 @@
+
+> depths-of-the-fractured-mind@0.0.0 test:smoke
+> npm run build && playwright test
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && npm run presence:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 16 distinct registered RGBA poses, fixed scale 0.418919
+miriam: 16 distinct registered RGBA poses, fixed scale 0.406557
+subject13: 16 distinct registered RGBA poses, fixed scale 0.410596
+anya: 16 distinct registered RGBA poses, fixed scale 0.413333
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+
+> depths-of-the-fractured-mind@0.0.0 presence:check
+> node utils/build-presence-atlases.mjs --check
+
+elias: 8 distinct fixed-scale RGBA hand poses
+miriam: 8 distinct fixed-scale RGBA hand poses
+subject13: 8 distinct fixed-scale RGBA hand poses
+anya: 8 distinct fixed-scale RGBA hand poses
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 80 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-uaIimk29.css             23.65 kB │ gzip:   6.03 kB
+dist/assets/character-review-ENOS9A_K.js    7.77 kB │ gzip:   3.35 kB
+dist/assets/index-CMwmeEm6.js             246.36 kB │ gzip:  74.20 kB
+dist/assets/DungeonRenderer-BuPYib_o.js   595.38 kB │ gzip: 154.01 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.20s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.5 MiB / 45 MiB; 25 WebP files
+[WebServer] (node:235638) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:235656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/character-art.spec.ts:3:1 › character laboratory is gated, uses actual WebGL2 and leaves saved gameplay unchanged (36.5s)
+  ✓   2 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 1280 (23.3s)
+  ✓   3 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 390 (20.5s)
+  ✓   4 tests/combat-visuals.spec.ts:6:1 › desktop and mobile combat show enemy bodies, telegraphs, and skippable effects (14.0s)
+  ✘   5 tests/dungeon-engine.spec.ts:45:1 › actual WebGL2 camera serializes rapid input, resizes, blocks a closed door and safely falls back on context loss (1.5m)
+(node:240015) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 tests/dungeon-engine.spec.ts:96:1 › real input completes intake mechanisms, story choice, combat and return payoff without debug actions (2.0m)
+
+
+  1) tests/dungeon-engine.spec.ts:45:1 › actual WebGL2 camera serializes rapid input, resizes, blocks a closed door and safely falls back on context loss
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.screenshot: Test timeout of 90000ms exceeded.
+    Call log:
+      - taking element screenshot
+      - waiting for fonts to load...
+      - fonts loaded
+      - attempting scroll into view action
+        - waiting for element to be stable
+
+
+      81 |       await hooks.setState(state); hooks.setReducedMotion(true); hooks.setPausedForScreenshot(true);
+      82 |     }, state);
+    > 83 |     perception.set(state, await page.locator(".dungeon-viewport").screenshot({ path: testInfo.outputPath(`${state}.png`) }));
+         |                                                                   ^
+      84 |   }
+      85 |   // High SAN is the default: the optional figure must actually survive alpha
+      86 |   // testing at its intended faint opacity, with real walls still occluding it.
+        at /home/psala/src/Depths-of-the-Fractured-Mind/tests/dungeon-engine.spec.ts:83:67
+
+    attachment #1: door-occlusion.png (image/png) ──────────────────────────────────────────────────
+    test-results/dungeon-engine-actual-WebG-50198--falls-back-on-context-loss/attachments/door-occlusion-png-232f8d2c90602191bc5ba981e7042b165a4f5ec8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: sprite-occlusion.png (image/png) ────────────────────────────────────────────────
+    test-results/dungeon-engine-actual-WebG-50198--falls-back-on-context-loss/attachments/sprite-occlusion-png-38ba8e695d935005b42c5a2aad9ceb4fbd2a95e7.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #3: door-open.png (image/png) ───────────────────────────────────────────────────────
+    test-results/dungeon-engine-actual-WebG-50198--falls-back-on-context-loss/attachments/door-open-png-18d2342eb8ae730fdc9124bb5aa8adab37076a3d.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #4: sprite-visible.png (image/png) ──────────────────────────────────────────────────
+    test-results/dungeon-engine-actual-WebG-50198--falls-back-on-context-loss/attachments/sprite-visible-png-5110c3511ae2ba0a0c38e7afd609420aa4f4a7b8.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/dungeon-engine-actual-WebG-50198--falls-back-on-context-loss/error-context.md
+
+  2) tests/dungeon-engine.spec.ts:96:1 › real input completes intake mechanisms, story choice, combat and return payoff without debug actions
+
+    Test was interrupted.
+
+    Error: browserContext.close: Target page, context or browser has been closed
+
+      154 |   await testInfo.attach("intake-journey.json", { path: journeyPath, contentType: "application/json" });
+      155 |   } finally {
+    > 156 |     await context.close();
+          |     ^
+      157 |     if (video) {
+      158 |       const path = testInfo.outputPath("intake-walkthrough.webm");
+      159 |       await video.saveAs(path);
+        at /home/psala/src/Depths-of-the-Fractured-Mind/tests/dungeon-engine.spec.ts:156:5
+
+  1 failed
+    tests/dungeon-engine.spec.ts:45:1 › actual WebGL2 camera serializes rapid input, resizes, blocks a closed door and safely falls back on context loss
+  1 interrupted
+    tests/dungeon-engine.spec.ts:96:1 › real input completes intake mechanisms, story choice, combat and return payoff without debug actions
+  15 did not run
+  4 passed (5.2m)

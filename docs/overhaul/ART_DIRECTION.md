@@ -2,6 +2,8 @@
 
 Status: committed production direction, **not visual sign-off**. Existing screenshots document deficiencies; no replacement art is produced in Phase 00. Retain the four canonical identities and the useful [hero atlas contract](../hero-art-bible.md). [Provenance ledger](ASSET_PROVENANCE.json) governs asset status independently of appearance.
 
+Phase-01B amendment: the four-protagonist family is implemented as review candidates against the 01A compact human/shaded-raster standard, preserving Elias's slate security mass, Miriam's bone/burgundy coat, Subject 13's pallid bandages/olive cloth and Anya's tall teal hood. [Physical presence](PHASE01B_CHARACTER_PRESENCE.md) extends those identities into lower-frame forearms, contextual hand poses and stable head/shoulder portrait crops. Candidate art, actual-game evidence and animation validation supersede the older requirement to keep legacy hero atlas pixels unchanged; legacy source sheets and historical evidence remain retained. No 01A pair art, environment kit or canonical identity is replaced. No human art sign-off is implied.
+
 Phase-01A character reference: [CHARACTER_ART_STANDARD](CHARACTER_ART_STANDARD.md) specifies the Keeper/Guard pair, shared proportions, palette/value roles, material/edge treatment, native density, alpha, world heights, pivots and acting timings. The four protagonists remain unchanged. New original-input generated candidates and actual-game evidence are retained for **human review**, not declared approved or rights-cleared.
 
 ## Architectural language and scale

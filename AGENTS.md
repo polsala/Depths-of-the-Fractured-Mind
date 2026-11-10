@@ -1,6 +1,7 @@
 # Depths of the Fractured Mind
 
 - Read `docs/overhaul/PROGRESS.md`, then the relevant production-contract document before changing game behavior. `docs/design.md` remains the canonical character/backstory reference; the overhaul documents refine presentation and production acceptance.
+- Phase 01B sits between 01A and 02. Read `docs/overhaul/PHASE01B_CHARACTER_PRESENCE.md` for protagonist/portrait/hand work. Physical presence is transient presentation: never serialize acting clocks/viewpoint, move the grid camera cosmetically, or apply a gameplay action from an animation callback. Keep cast/hand source and runtime atlas contracts distinct and verify shared combat contact timing.
 - Preserve first-person 2.5D exploration, an authoritative grid, the four named protagonists, five psychological environments, turn-based combat, consequential choices, sanity, relationships and multiple endings. Do not equate automated completion with fun.
 - Keep TypeScript/Vite and static GitHub Pages support. Extend working controller, event, combat, save and asset contracts; justify any replacement with measured failure of the existing system.
 - The Phase-01 user requirement makes Three.js WebGLRenderer the primary dungeon viewport. Keep Canvas as a labeled temporary fallback; test actual `data-renderer="webgl2"` and GPU diagnostics before approving a 3D capture. Read `docs/overhaul/PHASE01_ENGINE.md` for the current implementation and remaining gates.

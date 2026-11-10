@@ -1,0 +1,25 @@
+{
+  "schema": "generate2dsprite.master_spec.v1",
+  "name": "miriam",
+  "subject": "Dr Miriam Kessler, a late-thirties surgeon, full body",
+  "identity": "Narrow adult woman with composed angular pale face, chestnut hair in a tightly raised bun, tired eyes, bone lab coat over muted burgundy blouse and straight dark trousers, plain burgundy fitted cuffs, pale ungloved hands with long precise fingers, restrained dark shoes. No hat or goggles. Small leather case at belt, open empty right hand held precisely at sternum, left hand lowering a folded dressing.",
+  "pose": null,
+  "recap": null,
+  "facing": "front",
+  "facing_parts": null,
+  "view": "almost frontal three-quarter level camera",
+  "class": "hero",
+  "finish": "hd",
+  "key": "#FF00FF",
+  "genre": "a first-person institutional psychological-horror RPG",
+  "pronoun": "they",
+  "identity_ref": null,
+  "style_ref": {
+    "path": "../../phase01a/guard-master.png",
+    "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c"
+  },
+  "allowed_text": null,
+  "extra_bans": [],
+  "opaque_parts": null,
+  "extra": null
+}

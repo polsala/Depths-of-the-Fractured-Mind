@@ -107,36 +107,105 @@
     },
     {
       "path": "public/assets/sprites/characters/anya/hero-atlas.png",
-      "sha256": "b2821d7f8f99c5d928b0fec9608515bbe6722221d61a22de2848ccad78fcfb62",
+      "sha256": "ff141135e2c6fb2940260f3d66e2a754d537ff698d148fe297bf070c942c44ad",
       "distributed": true,
-      "derivedFrom": "source-assets/assets/sprites/characters/anya/CHAR_004.png",
-      "status": "unverified",
-      "author": null,
-      "license": null,
-      "evidence": [],
-      "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership."
+      "derivedFrom": [
+        "source-assets/characters/phase01b/anya-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim.",
+      "supersededRecords": [
+        {
+          "path": "public/assets/sprites/characters/anya/hero-atlas.png",
+          "sha256": "b2821d7f8f99c5d928b0fec9608515bbe6722221d61a22de2848ccad78fcfb62",
+          "distributed": true,
+          "derivedFrom": "source-assets/assets/sprites/characters/anya/CHAR_004.png",
+          "status": "unverified",
+          "author": null,
+          "license": null,
+          "evidence": [],
+          "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership.",
+          "supersededAt": "2026-11-10",
+          "reason": "Replaced by the separately documented original-input Phase-01B derivative. Prior source/status is preserved, not retroactively cleared."
+        }
+      ]
     },
     {
       "path": "public/assets/sprites/characters/elias/hero-atlas.png",
-      "sha256": "c5dd82d09b897f48bfff62a2df0394f6116707291aa75bb47086b44b42e2de75",
+      "sha256": "970a2a295fa45d980aaca49fe67e76f219d08a13182c955ee421d039f15ab9bc",
       "distributed": true,
-      "derivedFrom": "source-assets/assets/sprites/characters/elias/CHAR_001.png",
-      "status": "unverified",
-      "author": null,
-      "license": null,
-      "evidence": [],
-      "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership."
+      "derivedFrom": [
+        "source-assets/characters/phase01b/elias-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim.",
+      "supersededRecords": [
+        {
+          "path": "public/assets/sprites/characters/elias/hero-atlas.png",
+          "sha256": "c5dd82d09b897f48bfff62a2df0394f6116707291aa75bb47086b44b42e2de75",
+          "distributed": true,
+          "derivedFrom": "source-assets/assets/sprites/characters/elias/CHAR_001.png",
+          "status": "unverified",
+          "author": null,
+          "license": null,
+          "evidence": [],
+          "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership.",
+          "supersededAt": "2026-11-10",
+          "reason": "Replaced by the separately documented original-input Phase-01B derivative. Prior source/status is preserved, not retroactively cleared."
+        }
+      ]
     },
     {
       "path": "public/assets/sprites/characters/miriam/hero-atlas.png",
-      "sha256": "7acf6c487c6829a3b8160aaeb26c2644c7b0a401139d87af12ab043586318af1",
+      "sha256": "b2bb740d7e6393ae62371213a0439edb126ee229707b861ee33aecfb9361a70e",
       "distributed": true,
-      "derivedFrom": "source-assets/assets/sprites/characters/miriam/CHAR_002.png",
-      "status": "unverified",
-      "author": null,
-      "license": null,
-      "evidence": [],
-      "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership."
+      "derivedFrom": [
+        "source-assets/characters/phase01b/miriam-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim.",
+      "supersededRecords": [
+        {
+          "path": "public/assets/sprites/characters/miriam/hero-atlas.png",
+          "sha256": "7acf6c487c6829a3b8160aaeb26c2644c7b0a401139d87af12ab043586318af1",
+          "distributed": true,
+          "derivedFrom": "source-assets/assets/sprites/characters/miriam/CHAR_002.png",
+          "status": "unverified",
+          "author": null,
+          "license": null,
+          "evidence": [],
+          "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership.",
+          "supersededAt": "2026-11-10",
+          "reason": "Replaced by the separately documented original-input Phase-01B derivative. Prior source/status is preserved, not retroactively cleared."
+        }
+      ]
     },
     {
       "path": "public/assets/sprites/characters/npc/vendor.webp",
@@ -151,14 +220,37 @@
     },
     {
       "path": "public/assets/sprites/characters/subject13/hero-atlas.png",
-      "sha256": "e2e3c53ed6707528915a16d4109520a09e4b231668e6a2360dfc6c9cf36062ae",
+      "sha256": "07508a394399822d17722bd779be9866a7486a578c1e324433c974f8428613a5",
       "distributed": true,
-      "derivedFrom": "source-assets/assets/sprites/characters/subject13/CHAR_003.png",
-      "status": "unverified",
-      "author": null,
-      "license": null,
-      "evidence": [],
-      "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership."
+      "derivedFrom": [
+        "source-assets/characters/phase01b/subject13-poses.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim.",
+      "supersededRecords": [
+        {
+          "path": "public/assets/sprites/characters/subject13/hero-atlas.png",
+          "sha256": "e2e3c53ed6707528915a16d4109520a09e4b231668e6a2360dfc6c9cf36062ae",
+          "distributed": true,
+          "derivedFrom": "source-assets/assets/sprites/characters/subject13/CHAR_003.png",
+          "status": "unverified",
+          "author": null,
+          "license": null,
+          "evidence": [],
+          "note": "No file-specific rights evidence found in repository at audited HEAD. Conversion and repository MIT license do not establish upstream ownership.",
+          "supersededAt": "2026-11-10",
+          "reason": "Replaced by the separately documented original-input Phase-01B derivative. Prior source/status is preserved, not retroactively cleared."
+        }
+      ]
     },
     {
       "path": "public/assets/sprites/objects/chest.webp",
@@ -1108,6 +1200,563 @@
         "source-assets/characters/phase01a/terms-support.json"
       ],
       "note": "Original-input generation chain verified; no legacy/third-party image input. Project-use/distribution rights documented under retained provider output terms, to the extent permitted by law. No exclusivity/copyright-eligibility or human artistic approval claim; backend model ID not exposed."
+    },
+    {
+      "path": "docs/art/hero-reference-phase01b.png",
+      "sha256": "24c39808cecd4f07a3745443551bc2c675249890ec16aa400517528d052c7264",
+      "distributed": false,
+      "derivedFrom": [
+        "public/assets/sprites/characters/elias/hero-atlas.png",
+        "public/assets/sprites/characters/miriam/hero-atlas.png",
+        "public/assets/sprites/characters/subject13/hero-atlas.png",
+        "public/assets/sprites/characters/anya/hero-atlas.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "public/assets/sprites/characters/anya/presence-atlas.png",
+      "sha256": "ea0e17f5088888004cb7f226c03a818294da85c5e692fdd5e5f090ad76b80cd5",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/presence/anya-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "public/assets/sprites/characters/elias/presence-atlas.png",
+      "sha256": "10b29742ff91c74600df4f08487c69b75ccdbfae90f3780b4fc9d0ff9b0a4253",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/presence/elias-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "public/assets/sprites/characters/miriam/presence-atlas.png",
+      "sha256": "eafbcdf6feda30e709bcbab4d15880104f279d934d1cd352987c3a1ddff0caae",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/presence/miriam-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "public/assets/sprites/characters/subject13/presence-atlas.png",
+      "sha256": "c6dbbd64956f65975c9455e517b45ada095e24e3982fdc78e34edaa83e457d56",
+      "distributed": true,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/presence/subject13-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-master-raw.png",
+      "sha256": "d37997833e97a71ae08161669faea3bc00becc83ec655aec45608ce4d92c15de",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-master/master_rgba.png",
+      "sha256": "93b5b636f0c16aa4d210a057cb466908a2a4ae3d512b4e263c8e2f5e292f7c15",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/anya-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-master/master.png",
+      "sha256": "a572df90b88f9ddb60c78262329e4fe9817b61289efd4cb8bf04b27cee24dd84",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/anya-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-master/source.png",
+      "sha256": "d37997833e97a71ae08161669faea3bc00becc83ec655aec45608ce4d92c15de",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/anya-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/anya-poses.png",
+      "sha256": "514fa74727842ef9380525648bfa90137655a48ca2f9fc8e34f2f54bd98f982f",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/anya-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/elias-master-raw.png",
+      "sha256": "c45dc149bfecb302340feae90a6ce9c1f447eaa4646eb70a4fec4b431d6a09d9",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/elias-master/master_rgba.png",
+      "sha256": "3043da7d69cdd023b9b77779ecf58b5c5159542f2cea63b74767024bd640b164",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/elias-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/elias-master/master.png",
+      "sha256": "d1b229d6f76f04af83fe51d19a45017e1aed4da3ca01eb7762eb59956775b4cf",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/elias-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/elias-master/source.png",
+      "sha256": "c45dc149bfecb302340feae90a6ce9c1f447eaa4646eb70a4fec4b431d6a09d9",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/elias-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/elias-poses.png",
+      "sha256": "cdbf741129c7a210576280d4fa915ecbe1db42d5b41243087d0528588387d69d",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/elias-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-master-raw.png",
+      "sha256": "cc7d30aeaec4fcc4bec5b68eb6efc0b25363c32aed92c8323df18c00aa33da47",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-master/master_rgba.png",
+      "sha256": "944b503ca1d04b258ab2e719ca76a87128d7a51617f4cb92474fcf9de5ed40df",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/miriam-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-master/master.png",
+      "sha256": "2b019e7155cf605c31d3fbba2c655b044d9c68efeadbd94f3c08c8f29d2de3ee",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/miriam-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-master/source.png",
+      "sha256": "cc7d30aeaec4fcc4bec5b68eb6efc0b25363c32aed92c8323df18c00aa33da47",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/miriam-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/miriam-poses.png",
+      "sha256": "90f0bb8f3ceb6a005ada510e7e6a31f437d96fe9bda6274947e3d090666a9241",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/miriam-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/anya-raw.png",
+      "sha256": "d7e84c5ae30d8c5f0fc4d73dd04bc64f7bc8b26cceef6da9a0fe153ead2d9714",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/anya-master-raw.png",
+        "source-assets/characters/phase01b/presence/elias-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/elias-raw.png",
+      "sha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/elias-master/master_rgba.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/miriam-raw.png",
+      "sha256": "23641ea5905f814395c9e21a6a5c55d6fe2c6dfb8c27d81cb5b61af302fbbd88",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/miriam-master-raw.png",
+        "source-assets/characters/phase01b/presence/elias-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/presence/subject13-raw.png",
+      "sha256": "6ab1154e1c3fcfcaf50bd562eb4c4481531917e4682bc56dfbe9d55e5a5c4eb1",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/subject13-master-raw.png",
+        "source-assets/characters/phase01b/presence/elias-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-master-raw.png",
+      "sha256": "eff63d9dac3ffc709ed83f9f3e47d5d70055d345a7b331916cab14832f436b4e",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01a/guard-master.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-master/master_rgba.png",
+      "sha256": "49cecaee6b078fc1b76911f9cb2730e89d1fa2eb9f3b73d625f3c1aaa5c0ce44",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/subject13-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-master/master.png",
+      "sha256": "223f58dcfa1bf4420d950cae61fbe8b9f726ee8524f0ffcbd524fc90a93067b0",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/subject13-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-master/source.png",
+      "sha256": "eff63d9dac3ffc709ed83f9f3e47d5d70055d345a7b331916cab14832f436b4e",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/subject13-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
+    },
+    {
+      "path": "source-assets/characters/phase01b/subject13-poses.png",
+      "sha256": "cd3513ab2ca9a1b13ca486a24b2a98b128d2f11e452eabaa76f8dc53feb4e923",
+      "distributed": false,
+      "derivedFrom": [
+        "source-assets/characters/phase01b/subject13-master-raw.png"
+      ],
+      "status": "cleared",
+      "author": "OpenAI built-in image_gen service; original project direction by repository owner/Codex",
+      "license": "OpenAI output ownership terms; project use/distribution under retained Europe Terms of Use / Services Agreement",
+      "evidence": [
+        "source-assets/characters/phase01b/generation-record.json",
+        "source-assets/characters/phase01b/presence/generation.json",
+        "source-assets/characters/phase01b/PROVENANCE.md",
+        "source-assets/characters/phase01b/terms-support.json",
+        "source-assets/characters/phase01b/metadata-observations.json"
+      ],
+      "note": "Recorded original-input source chain and current official provider output terms support project use/distribution to the extent permitted by law. No legacy media was submitted. Human artistic/acting acceptance remains open; backend model/seed/cost not exposed; no exclusivity or copyright-eligibility claim."
     }
   ],
   "phase01aCharacterCandidates": {
@@ -1118,5 +1767,14 @@
     "status": "provider-use/distribution provenance documented; human art acceptance pending; backend model version not exposed",
     "inputs": "Original text and the pair’s own generated images only; no protagonist/legacy/third-party image submitted.",
     "reviewedBy": "Codex provenance audit, 2026-11-10"
+  },
+  "phase01bCharacterCandidates": {
+    "date": "2026-11-10",
+    "record": "source-assets/characters/phase01b/generation-record.json",
+    "presenceRecord": "source-assets/characters/phase01b/presence/generation.json",
+    "rightsRecord": "source-assets/characters/phase01b/PROVENANCE.md",
+    "termsRecord": "source-assets/characters/phase01b/terms-support.json",
+    "status": "Recorded original-input family and provider-use/distribution basis; human artistic/acting acceptance pending; backend model/seed/cost not exposed",
+    "legacyPolicy": "Retained legacy source media and contact sheet keep their prior unverified status. Replaced runtime atlas records retain the complete prior record in supersededRecords. Public release remains blocked by remaining unverified media."
   }
 }

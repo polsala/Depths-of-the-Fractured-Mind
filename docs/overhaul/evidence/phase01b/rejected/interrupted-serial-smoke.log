@@ -1,0 +1,67 @@
+
+> depths-of-the-fractured-mind@0.0.0 test:smoke
+> npm run build && playwright test
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && npm run presence:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 16 distinct registered RGBA poses, fixed scale 0.418919
+miriam: 16 distinct registered RGBA poses, fixed scale 0.406557
+subject13: 16 distinct registered RGBA poses, fixed scale 0.410596
+anya: 16 distinct registered RGBA poses, fixed scale 0.413333
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+
+> depths-of-the-fractured-mind@0.0.0 presence:check
+> node utils/build-presence-atlases.mjs --check
+
+elias: 8 distinct fixed-scale RGBA hand poses
+miriam: 8 distinct fixed-scale RGBA hand poses
+subject13: 8 distinct fixed-scale RGBA hand poses
+anya: 8 distinct fixed-scale RGBA hand poses
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 80 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-uaIimk29.css             23.65 kB │ gzip:   6.03 kB
+dist/assets/character-review-ENOS9A_K.js    7.77 kB │ gzip:   3.35 kB
+dist/assets/index-CMwmeEm6.js             246.36 kB │ gzip:  74.20 kB
+dist/assets/DungeonRenderer-BuPYib_o.js   595.38 kB │ gzip: 154.01 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.42s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.5 MiB / 45 MiB; 25 WebP files
+[WebServer] (node:250339) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 21 tests using 1 worker
+
+(node:250358) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/character-art.spec.ts:3:1 › character laboratory is gated, uses actual WebGL2 and leaves saved gameplay unchanged (24.9s)
+  ✓   2 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 1280 (22.3s)
+  ✓   3 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 390 (9.6s)
+  ✓   4 tests/combat-visuals.spec.ts:6:1 › desktop and mobile combat show enemy bodies, telegraphs, and skippable effects (4.6s)
+  ✓   5 tests/dungeon-engine.spec.ts:45:1 › actual WebGL2 camera serializes rapid input, resizes, blocks a closed door and safely falls back on context loss (52.7s)
+  ✓   6 tests/dungeon-engine.spec.ts:96:1 › real input completes intake mechanisms, story choice, combat and return payoff without debug actions (50.2s)
+  ✓   7 tests/dungeon-engine.spec.ts:165:1 › a modal discards queued input and a cold renderer load queues only one grid action (13.8s)
+  ✓   8 tests/dungeon-engine.spec.ts:200:1 › v1 browser continuation keeps the saved map and random stream; repeated screen transitions own one renderer (59.0s)
+  ✓   9 tests/dungeon-engine.spec.ts:228:1 › unavailable WebGL2 starts a labeled playable fallback without consuming presentation RNG (650ms)

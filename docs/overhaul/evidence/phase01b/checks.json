@@ -1,0 +1,109 @@
+{
+  "implementation": "Phase 01B review candidate, not human artistic approval",
+  "sourceHead": "9509d01df1ca2e61526dc3f338b607538b3bea00",
+  "sourceTreeSha256": "85bbbd420b9481d5b9499414ecc4597b75199079cc50fbea02d7d02f50732f28",
+  "checks": [
+    {
+      "command": "npm test",
+      "result": "pass",
+      "units": 97,
+      "files": 20,
+      "events": 83,
+      "pools": 7,
+      "log": "validation/unit-reviewed.log"
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "pass",
+      "also": "strict tsc in npm test and production build"
+    },
+    {
+      "command": "npm run build",
+      "result": "pass",
+      "distMiB": 35.5,
+      "limitMiB": 45,
+      "note": "Existing lazy chunk >500kB warning retained; all body/reference/hand recomputation checks pass"
+    },
+    {
+      "command": "DUNGEON_BROWSER_CHANNEL=chromium DUNGEON_ENABLE_GPU=1 npm run test:smoke",
+      "result": "pass",
+      "cases": 21,
+      "seconds": 58.4,
+      "log": "validation/smoke-hardware.log",
+      "note": "Default profile/assertions/timeouts unchanged; earlier complete software pass and later interrupted runs are separate"
+    },
+    {
+      "command": "npm run assets:provenance",
+      "result": "pass",
+      "files": 122,
+      "distributedUnverified": 41,
+      "log": "validation/provenance-final.log"
+    },
+    {
+      "command": "npm run audit:security",
+      "result": "pass",
+      "knownVulnerabilities": 0,
+      "log": "validation/audit-final.log"
+    },
+    {
+      "command": "BASELINE_OUTPUT=artifacts/phase01b/baseline-final npm run baseline:capture",
+      "result": "pass",
+      "scenes": 6,
+      "failures": 0,
+      "report": "baseline/report.json"
+    },
+    {
+      "command": "DUNGEON_BROWSER_CHANNEL=chromium DUNGEON_ENABLE_GPU=1 npm run bench:dungeon",
+      "result": "pass",
+      "report": "performance/report.json",
+      "secondsPerProfile": 60,
+      "p95FrameMs": [
+        16.7,
+        16.7
+      ],
+      "p95CommitToFrameMs": [
+        15.6,
+        17.4
+      ],
+      "longTasks": [
+        0,
+        0
+      ],
+      "physicalPhone": false
+    },
+    {
+      "command": "npm run bench:combat",
+      "result": "pass",
+      "p95Ms": [
+        0.4,
+        1.2
+      ],
+      "log": "validation/combat-benchmark.log",
+      "scope": "warm Canvas-call proxy"
+    },
+    {
+      "command": "node utils/inspect-presence-canvas.mjs; python <director>/scripts/check_evidence.py . --manifest artifacts/phase01b/inspector-manifest.json",
+      "result": "pass",
+      "captures": 2,
+      "declaredArtifactsConfirmed": 6,
+      "report": "inspector/manifest.json"
+    },
+    {
+      "command": "npm run assets:provenance -- --release",
+      "result": "expected-blocked",
+      "unverifiedDistributedFiles": 41,
+      "note": "Public distribution remains blocked"
+    }
+  ],
+  "open": [
+    "Human family/anatomy/acting acceptance",
+    "Physical phone and long-session/process/GPU memory",
+    "True input-to-photon/network certification",
+    "Manual reader, listening and uncoached gameplay review",
+    "Hosted CI observation",
+    "41 legacy distributed rights records",
+    "No video-generation route; directional/continuous clips not claimed"
+  ],
+  "noCommitPushDeploy": true,
+  "immutableSaveFixturesChanged": false
+}

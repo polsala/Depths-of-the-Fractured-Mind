@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "width": 1024,
+  "height": 512,
+  "columns": 4,
+  "rows": 2,
+  "frameWidth": 256,
+  "frameHeight": 256,
+  "pivot": [0.5, 1],
+  "filter": "nearest",
+  "alpha": "binary",
+  "contentScale": 0.7,
+  "sourceTopGuardPixels": 16,
+  "poses": ["idle", "interact", "inspect", "attack", "cast", "brace", "hurt", "tension"],
+  "characters": {
+    "elias": { "source": "elias-raw.png", "atlas": "elias/presence-atlas.png", "sourceRowRootOffsets": [0, 0], "language": "guarded and firm", "approval": "human-review-required" },
+    "miriam": { "source": "miriam-raw.png", "atlas": "miriam/presence-atlas.png", "sourceRowRootOffsets": [0, 0], "language": "precise and controlled", "approval": "human-review-required" },
+    "subject13": { "source": "subject13-raw.png", "atlas": "subject13/presence-atlas.png", "sourceRowRootOffsets": [0, 0], "language": "fragile and haunted", "approval": "human-review-required" },
+    "anya": { "source": "anya-raw.png", "atlas": "anya/presence-atlas.png", "sourceRowRootOffsets": [-2, 0], "language": "measured and composed", "approval": "human-review-required" }
+  },
+  "registration": "Each source equal cell uses one fixed 0.7 content scale about bottom-center, with a 16-source-pixel transparent top guard for adjacent row cuff residue. No per-pose auto-crop or rescale; wrists retain their bottom edge registration. Forearm cuts at source cell bottom/side are intentional first-person framing, not cropped fingers.",
+  "approval": "Review candidates. Eight distinct held key poses are not continuous video-derived animation."
+}

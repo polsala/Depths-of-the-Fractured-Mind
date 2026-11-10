@@ -2,6 +2,8 @@
 
 Implementation record, 2026-11-09. This is an integrated development build, **not golden-room artistic approval or public-release clearance**. See [evidence](evidence/phase01/README.md), [quality gates](QUALITY_GATES.md) and [progress](PROGRESS.md) for measured results and outstanding reviews. Phase 00 remains the before reference; its evidence and v1 fixtures were not regenerated.
 
+Phase-01B amendment, 2026-11-10: [the character/presence contract](PHASE01B_CHARACTER_PRESENCE.md) extends the existing hero atlas dimensions/timing/portrait metadata and adds passive first-person hands. The engine, CameraRig, scene architecture, authoritative rules and save schema remain. Current hero UVs use the rectangular contract, and the art lab adds isolated hero world/combat previews. Historical claims below about the four original atlases describe their then-current revision; old sources/evidence remain retained. [Phase-01B evidence](evidence/phase01b/README.md) records the new implementation and separate open acceptance gates.
+
 Character-only addendum, 2026-11-10: [Phase-01A standard](CHARACTER_ART_STANDARD.md) and [art evidence](evidence/phase01-art-approval/README.md) extend the existing sprite/animation boundary with the Keeper/Guard reference atlases. The actual Intake Guard now has a world card derived from its existing encounter state; its rules and encounter timing are unchanged. Isolated Keeper combat/action previews are explicitly QA fixtures. This does not replace the engine, controller, save schema, four protagonist atlases or the historical evidence below.
 
 ## Decisions and boundaries

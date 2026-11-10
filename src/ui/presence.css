@@ -1,0 +1,15 @@
+.presence-stage { position: relative; width: 100%; min-width: 0; overflow: hidden; }
+.presence-stage > .dungeon-viewport { display: block; }
+.physical-presence { position: absolute; inset: 0; pointer-events: none; overflow: hidden; contain: layout paint; }
+.physical-presence[hidden] { display: none; }
+.presence-hands { position: absolute; bottom: -2px; left: 50%; margin-left: -25%; width: 50%; aspect-ratio: 1; background-size: 400% 200%; background-repeat: no-repeat; image-rendering: pixelated; transform-origin: 50% 100%; }
+.physical-presence:not(.physical-presence--combat)[data-pose="6"] .presence-hands { width: 38%; margin-left: -19%; }
+.presence-caption { position: absolute; bottom: 8px; left: 12px; font-size: .75rem; color: #e8d4b6; background: #101a1be8; padding: 2px 6px; }
+.presence-caption:empty { display: none; }
+.physical-presence--combat { top: calc(50% - var(--presence-combat-band) / 2); height: var(--presence-combat-band); bottom: auto; background: #10161980; }
+.physical-presence--combat .presence-hands { width: min(35%, 128px); left: 50%; margin-left: 0; translate: -50% 0; }
+@media (max-width: 600px) {
+  .presence-hands { width: 62%; margin-left: -31%; }
+  .physical-presence:not(.physical-presence--combat)[data-pose="6"] .presence-hands { width: 46%; margin-left: -23%; }
+  .presence-caption { font-size: .65rem; bottom: 4px; left: 4px; }
+}

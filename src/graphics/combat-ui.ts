@@ -1,15 +1,17 @@
 import type { CombatState } from "../game/combat/state";
 import type { CharacterId } from "../game/state";
 import { drawHero, type HeroAnimation } from "../assets/hero-sprites";
+import { heroPortraitState, PORTRAIT_STATE_LABELS } from "../assets/hero-portraits";
 import { drawEnemy } from "../assets/enemy-visuals";
 import { characterContract, drawCharacter, referenceCharacter, type CharacterAnimation, type ReferenceCharacter } from "../assets/character-sprites";
 import { getAbility } from "../game/abilities";
 import { getCurrentActor } from "../game/combat/state";
 import { getCharacterAbilities, canUseAbility } from "../game/abilities";
+import { COMBAT_PRESENTATION_MS, sampleCombatPresentation } from "./combat-presentation";
 
 export interface CombatVisualCue {
   actorId: CharacterId;
-  animation: "attack" | "cast";
+  animation: "attack" | "cast" | "defend";
   hitIds: CharacterId[];
   enemyHits?: Array<{ index: number; damage: number }>;
   enemyActorIndex?: number;
@@ -23,9 +25,12 @@ export interface CombatUIOptions {
   backgroundImage?: HTMLImageElement;
   nowMs?: number;
   reducedMotion?: boolean;
+  /** App reserves a small tactile foreground band between targets and party vitals. */
+  presenceBandPx?: number;
   visualCue?: CombatVisualCue | null;
   /** Visual-review fixture only; never supplied by the gameplay controller. */
   characterPreview?: { id: ReferenceCharacter; animation: CharacterAnimation; elapsedMs: number };
+  heroPreview?: { id: CharacterId; animation: HeroAnimation; elapsedMs: number };
 }
 
 const COLORS = {
@@ -38,9 +43,9 @@ const COLORS = {
   hpLow: "#ff6666",
   sanity: "#3366cc",
   sanityLow: "#6699ff",
-  selected: "#ffcc00",
+  selected: "#d5b375",
   enemy: "#cc6666",
-  ally: "#66cc66",
+  ally: "#b6c8bc",
 };
 
 export function renderCombatUI(
@@ -66,14 +71,15 @@ export function renderCombatUI(
   }
 
   // Render in sections
-  const topHeight = Math.floor(options.height * 0.5);
-  const bottomHeight = options.height - topHeight;
+  const presenceBand = Math.max(0, Math.min(72, options.presenceBandPx ?? 0));
+  const topHeight = Math.floor((options.height - presenceBand) * 0.5);
+  const bottomHeight = options.height - topHeight - presenceBand;
 
   // Top: Enemies
   renderEnemies(ctx, state, 0, 0, options.width, topHeight, options);
 
   // Bottom: Party
-  renderParty(ctx, state, 0, topHeight, options.width, bottomHeight, options);
+  renderParty(ctx, state, 0, topHeight + presenceBand, options.width, bottomHeight, options);
 }
 
 function renderEnemies(
@@ -98,7 +104,8 @@ function renderEnemies(
   const startX = Math.floor((width - enemyWidth * enemies.length - 10 * (enemies.length - 1)) / 2);
   const now = options.nowMs ?? 0;
   const cue = options.visualCue;
-  const cueActive = !!cue && now >= cue.startedAt && now - cue.startedAt < 650;
+  const timeline = sampleCombatPresentation(cue?.startedAt, now);
+  const cueActive = timeline.active;
 
   enemies.forEach((enemy, index) => {
     const reference = referenceCharacter(enemy.id);
@@ -118,7 +125,7 @@ function renderEnemies(
     // Enemy box
     ctx.fillStyle = enemy.alive ? "rgba(10, 16, 23, 0.78)" : "rgba(13, 13, 19, 0.58)";
     ctx.fillRect(enemyX, enemyY, enemyWidth, height - 40);
-    ctx.strokeStyle = cueActive && cue?.enemyHits?.some((hit) => hit.index === index) ? "#fff0c2" : COLORS.border;
+    ctx.strokeStyle = timeline.contact && cue?.enemyHits?.some((hit) => hit.index === index) ? "#fff0c2" : COLORS.border;
     ctx.lineWidth = 2;
     ctx.strokeRect(enemyX, enemyY, enemyWidth, height - 40);
 
@@ -164,9 +171,13 @@ function renderEnemies(
     const spriteHeight = reference ? Math.min(104, Math.max(40, height - 80 - statusSpace), (enemyWidth - 12) / 0.8) : Math.max(44, height - 165);
     const spriteWidth = reference ? spriteHeight * 0.8 : Math.min(enemyWidth - 12, spriteHeight * 0.95);
     const spriteY = reference ? enemyY + height - 54 - statusSpace - characterContract.pivot[1] * spriteHeight : enemyY + 78;
-    const enemyHit = cueActive ? cue?.enemyHits?.find((hit) => hit.index === index) : undefined;
-    const pose = !enemy.alive ? "death" : enemyHit ? "hit" : cueActive && cue?.enemyActorIndex === index ? "attack" : "idle";
-    const elapsed = enemyHit || pose === "attack" ? now - (cue?.startedAt ?? now) : pose === "death" ? 650 : now;
+    const pendingHit = cueActive ? cue?.enemyHits?.find((hit) => hit.index === index) : undefined;
+    const enemyHit = timeline.contact ? pendingHit : undefined;
+    const awaitingImpact = !!pendingHit && !timeline.contact;
+    const pose = awaitingImpact ? "idle" : !enemy.alive ? "death" : enemyHit ? "hit"
+      : cueActive && cue?.enemyActorIndex === index ? "attack" : "idle";
+    const elapsed = enemyHit ? timeline.responseElapsedMs : pose === "attack" ? timeline.elapsedMs
+      : pose === "death" ? COMBAT_PRESENTATION_MS : now;
     const preview = reference && options.characterPreview?.id === reference ? options.characterPreview : undefined;
     const drawn = preview ? drawCharacter(ctx, reference!, preview.animation, preview.elapsedMs,
       enemyX + (enemyWidth - spriteWidth) / 2, spriteY, spriteWidth, spriteHeight, options.reducedMotion)
@@ -218,7 +229,8 @@ function renderParty(
   const currentActor = getCurrentActor(state);
   const now = options.nowMs ?? 0;
   const cue = options.visualCue;
-  const cueActive = cue && now - cue.startedAt < 650 && now >= cue.startedAt;
+  const timeline = sampleCombatPresentation(cue?.startedAt, now);
+  const cueActive = timeline.active;
 
   members.forEach((member, partyIndex) => {
     const memberX = x + slotWidth * partyIndex + 4;
@@ -239,10 +251,16 @@ function renderParty(
     ctx.fillText(nameLabel, memberX + memberWidth / 2, memberY + 15, memberWidth - 8);
 
     let animation: HeroAnimation = member.alive ? "idle" : "death";
-    let elapsed = now;
-    if (member.alive && cueActive) {
-      if (cue.actorId === member.id) { animation = cue.animation; elapsed = now - cue.startedAt; }
-      else if (cue.hitIds.includes(member.id)) { animation = "hit"; elapsed = now - cue.startedAt; }
+    let elapsed = member.alive ? now : COMBAT_PRESENTATION_MS;
+    if (cue && cueActive) {
+      if (member.alive && cue.actorId === member.id) { animation = cue.animation; elapsed = timeline.elapsedMs; }
+      else if (cue.hitIds.includes(member.id)) {
+        animation = timeline.contact ? member.alive ? "hit" : "death" : "idle";
+        elapsed = timeline.responseElapsedMs;
+      }
+    }
+    if (options.heroPreview?.id === member.id) {
+      animation = options.heroPreview.animation; elapsed = options.heroPreview.elapsedMs;
     }
     const availableHeight = Math.max(56, memberHeight - 87);
     const spriteWidth = Math.max(35, Math.min(memberWidth - 12, availableHeight * 0.8));
@@ -253,7 +271,7 @@ function renderParty(
       ctx.fillStyle = COLORS.text;
       ctx.fillText(member.name[0], memberX + memberWidth / 2, memberY + 62);
     }
-    const healed = cueActive ? cue?.partyHeals?.find((entry) => entry.id === member.id) : undefined;
+    const healed = timeline.contact ? cue?.partyHeals?.find((entry) => entry.id === member.id) : undefined;
     if (healed) {
       ctx.fillStyle = COLORS.ally;
       ctx.font = "bold 14px monospace";
@@ -273,8 +291,10 @@ function renderParty(
     ctx.fillStyle = COLORS.textDim;
     ctx.font = "9px monospace";
     ctx.textAlign = "center";
+    const portraitState = heroPortraitState(member);
     const footer = !member.alive ? "FALLEN" : member.statusEffects.length
-      ? member.statusEffects.join(", ") : `ATK ${member.stats.attack} · DEF ${member.stats.defense}`;
+      ? member.statusEffects.join(", ") : portraitState !== "normal"
+        ? PORTRAIT_STATE_LABELS[portraitState].toUpperCase() : `ATK ${member.stats.attack} · DEF ${member.stats.defense}`;
     ctx.fillText(footer, memberX + memberWidth / 2, memberY + memberHeight - 8, memberWidth - 10);
   });
 }

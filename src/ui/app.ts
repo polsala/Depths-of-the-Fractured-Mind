@@ -37,6 +37,10 @@ import { detectPlatform, getResponsiveViewportSize, getResponsiveUISize } from "
 import { createMobileControls, type MobileControls } from "./mobile-controls";
 import { generateDepthMap, type DungeonMap } from "../graphics/map";
 import { openVendorModal } from "./vendor";
+import { PresenceDirector, type PresenceAction } from "../graphics/presence/PresenceDirector";
+import { PresenceView, presenceLifecycle } from "./presence-view";
+import { createHeroPortrait } from "../assets/hero-portraits";
+import type { CharacterId } from "../game/state";
 
 const combatBackgroundCache: Record<string, HTMLImageElement> = {};
 
@@ -55,6 +59,18 @@ let combatActionModal: HTMLDivElement | null = null;
 let combatVisualCue: CombatVisualCue | null = null;
 let partyMotionUntil = 0;
 let partyMotionFacing: "north" | "south" | "east" | "west" = "north";
+const presence = new PresenceDirector();
+let presenceView: PresenceView | null = null;
+
+function syncPresence(state: GameState): void {
+  const actor = state.combatState ? getCurrentActor(state.combatState) : null;
+  presence.sync(state, actor?.isPlayer ? state.party.members[actor.index]?.id : undefined);
+}
+
+function presenceHidden(): boolean {
+  return !!document.querySelector('[role="dialog"], .settings-control[open]')
+    || (document.querySelector(".dungeon-viewport")?.getAttribute("data-ready") ?? "true") !== "true";
+}
 
 function prefersReducedMotion(): boolean {
   const choice = readPreferences().motion;
@@ -200,7 +216,7 @@ function refreshExploration(root: HTMLElement, state: GameState, controller: Gam
   if (partyDescription) partyDescription.textContent = state.party.members.map((member) =>
     `${member.name}: ${member.alive ? "alive" : "fallen"}, HP ${member.stats.hp}/${member.stats.maxHp}, sanity ${member.stats.sanity}/${member.stats.maxSanity}${member.statusEffects.length ? `, ${member.statusEffects.join(", ")}` : ""}`).join("; ");
   root.querySelector(".dungeon-viewport")?.setAttribute("aria-label",
-    `First-person view, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facing)}`);
+    `First-person view through ${presence.person?.name ?? "the party"}, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facing)}`);
   root.querySelector(".minimap-panel")?.setAttribute("aria-label",
     `Map of depth ${state.location.depth}; current position ${state.location.x}, ${state.location.y}`);
   const vendorButton = root.querySelector<HTMLButtonElement>(".vendor-button");
@@ -227,15 +243,34 @@ function refreshInteraction(root: HTMLElement, controller: GameController): void
 function refreshCompactParty(root: HTMLElement, state: GameState): void {
   const strip = root.querySelector<HTMLElement>(".compact-party");
   if (!strip) return;
+  const focused = strip.contains(document.activeElement) ? (document.activeElement as HTMLElement).dataset.character : undefined;
   strip.replaceChildren();
   for (const member of state.party.members) {
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "compact-party-member";
+    item.dataset.character = member.id;
+    item.disabled = !member.alive;
+    item.setAttribute("aria-pressed", String(presence.selected === member.id));
+    item.title = `View through ${member.name}`;
+    const portrait = createHeroPortrait(member, detectPlatform() === "mobile" ? 32 : 40);
+    portrait.setAttribute("aria-hidden", "true");
     const name = document.createElement("strong");
     name.textContent = ({ elias: "Elias", miriam: "Miriam", subject13: "13", anya: "Anya" })[member.id];
     const values = document.createElement("span");
     values.textContent = member.alive ? `${member.stats.hp} HP / ${member.stats.sanity} SAN` : "Fallen";
-    item.append(name, values); strip.appendChild(item);
+    const instruction = document.createElement("span");
+    instruction.className = "viewpoint-instruction";
+    instruction.textContent = ` · View through ${member.name}`;
+    item.addEventListener("click", () => {
+      presence.select(member.id); presenceView?.draw(performance.now());
+      for (const button of strip.querySelectorAll("button")) button.setAttribute("aria-pressed", String(button.dataset.character === presence.selected));
+      root.querySelector(".dungeon-viewport")?.setAttribute("aria-label",
+        `First-person view through ${presence.person?.name ?? "the party"}, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(state.location.direction ?? "north")}`);
+    });
+    item.append(portrait, name, document.createTextNode(" "), values, instruction); strip.appendChild(item);
   }
+  if (focused) strip.querySelector<HTMLButtonElement>(`button[data-character="${focused}"]:not(:disabled)`)?.focus({ preventScroll: true });
 }
 
 function fillObjective(element: HTMLElement, state: GameState): void {
@@ -367,8 +402,13 @@ function renderExploration(
   viewportCanvas.width = viewportSize.width;
   viewportCanvas.height = viewportSize.height;
   viewportCanvas.setAttribute("role", "img");
-  viewportCanvas.setAttribute("aria-label", `First-person view, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facingDirection)}`);
-  viewportContainer.appendChild(viewportCanvas);
+  viewportCanvas.setAttribute("aria-label", `First-person view through ${presence.person?.name ?? "the party"}, depth ${state.location.depth}, position ${state.location.x}, ${state.location.y}, facing ${getDirectionName(facingDirection)}`);
+  const presenceStage = document.createElement("div");
+  presenceStage.className = "presence-stage";
+  presenceStage.appendChild(viewportCanvas);
+  viewportContainer.appendChild(presenceStage);
+  presenceView = new PresenceView(presence, prefersReducedMotion, presenceHidden);
+  presenceStage.appendChild(presenceView.element);
 
   dungeonRenderContext = { depthMaps: new Map([[state.location.depth, generateDepthMap(state.location.depth, state.depthMaps)]]) };
   dungeonViewport = new DungeonViewport(viewportCanvas, state, readPreferences().quality, prefersReducedMotion(), () => flushExploration());
@@ -378,7 +418,8 @@ function renderExploration(
   viewportContainer.prepend(viewCaption);
   const compactParty = document.createElement("div");
   compactParty.className = "compact-party";
-  compactParty.setAttribute("aria-label", "Party vitals");
+  compactParty.setAttribute("role", "group");
+  compactParty.setAttribute("aria-label", "Party and viewpoint");
   viewportContainer.appendChild(compactParty);
   refreshCompactParty(root, state);
   const contextActions = document.createElement("div");
@@ -1071,7 +1112,13 @@ function renderCombat(
   combatCanvas.setAttribute("aria-hidden", "true");
   combatCanvas.style.maxWidth = "100%";
   combatCanvas.style.boxShadow = "0 8px 24px rgba(0,0,0,0.45)";
-  combatView.appendChild(combatCanvas);
+  const combatStage = document.createElement("div");
+  combatStage.className = "presence-stage";
+  combatStage.appendChild(combatCanvas);
+  combatView.appendChild(combatStage);
+  presenceView = new PresenceView(presence, () => prefersReducedMotion() || !effectsEnabled, presenceHidden, true);
+  presenceView.element.style.setProperty("--presence-combat-band", `${72 / canvasHeight * 100}%`);
+  combatStage.appendChild(presenceView.element);
   const textSummary = document.createElement("section");
   textSummary.className = "combat-text-summary";
   textSummary.setAttribute("aria-label", "Combat status and enemy intentions");
@@ -1098,6 +1145,7 @@ function renderCombat(
     if (!latestState) return;
     renderCombatUI(combatCanvas, latestState, {
       width: canvasWidth, height: canvasHeight,
+      presenceBandPx: 72,
       backgroundImage: backgroundImage?.complete ? backgroundImage : undefined,
       nowMs: now, reducedMotion: prefersReducedMotion() || !effectsEnabled,
       visualCue: effectsEnabled ? combatVisualCue : null,
@@ -1175,7 +1223,7 @@ function renderCombat(
     if (!after) return;
     combatVisualCue = {
       actorId,
-      animation: action.type === "attack" ? "attack" : "cast",
+      animation: action.type === "attack" ? "attack" : action.type === "defend" || action.type === "flee" ? "defend" : "cast",
       hitIds: after.party.members.filter((member, index) => member.stats.hp < hpBefore[index]).map((member) => member.id),
       partyHeals: after.party.members.flatMap((member, index) => member.stats.hp > hpBefore[index]
         ? [{ id: member.id, amount: member.stats.hp - hpBefore[index] }] : []),
@@ -1184,6 +1232,9 @@ function renderCombat(
       enemyActorIndex: after.lastEnemyActedIndex,
       startedAt: performance.now(),
     };
+    syncPresence(controller.getState());
+    presence.play(action.type === "attack" ? "attack" : action.type === "defend" ? "brace"
+      : action.type === "item" ? "use" : action.type === "flee" ? "brace" : "cast", combatVisualCue.startedAt, actorId);
   };
 
   const handleAction = (action: any) => {
@@ -2536,6 +2587,7 @@ export function initApp(root: HTMLElement): void {
     document.documentElement.style.fontSize = `${preferences.textScale}%`;
     document.documentElement.dataset.motion = preferences.motion;
     const state = controller.getState();
+    syncPresence(state);
     root.dataset.mode = state.mode;
     if (state.mode === "gameover" && renderedMode !== "gameover") {
       audioManager.stopMusic();
@@ -2555,6 +2607,7 @@ export function initApp(root: HTMLElement): void {
       refreshExploration(root, state, controller);
       return;
     }
+    presenceView?.dispose(); presenceView = null;
     dungeonViewport?.dispose(); dungeonViewport = null; dungeonRenderContext = null;
     commandQueue.clear();
     root.replaceChildren();
@@ -2621,13 +2674,16 @@ export function initApp(root: HTMLElement): void {
   const compatible = () => !qaPaused && controller.getState().mode === "exploration" && !document.querySelector('[role="dialog"]') && !root.querySelector(".settings-control[open]");
   const executeCommand = (command: ExplorationCommand) => {
     const before = { ...controller.getState().location };
+    const beforeHp = controller.getState().party.members.find((member) => member.id === presence.selected)?.stats.hp ?? 0;
+    const interactionId = command === "interact" ? controller.getInteraction()?.id : undefined;
+    let interacted = false;
     if (command === "forward") controller.moveForward();
     else if (command === "backward") controller.moveBackward();
     else if (command === "left") controller.strafeLeft();
     else if (command === "right") controller.strafeRight();
     else if (command === "turnLeft") controller.turnLeft();
     else if (command === "turnRight") controller.turnRight();
-    else if (command === "interact") controller.interact();
+    else if (command === "interact") interacted = controller.interact();
     else if (command === "talk") controller.startDialogue();
     const after = controller.getState();
     if (after.location.x !== before.x || after.location.y !== before.y) {
@@ -2635,14 +2691,25 @@ export function initApp(root: HTMLElement): void {
       partyMotionFacing = after.location.direction ?? "north";
     }
     render();
+    if (after.mode === "exploration") {
+      const now = performance.now();
+      const afterHp = after.party.members.find((member) => member.id === presence.selected)?.stats.hp ?? 0;
+      if (afterHp < beforeHp) presence.play("hurt", now);
+      else if (interacted) presence.play(interactionId === "linen-shelf" ? "use"
+        : interactionId === "intake-counter" || interactionId === "queue-shadow" ? "inspect" : "interact", now);
+      else if (after.location.x !== before.x || after.location.y !== before.y) presence.play("walk", now);
+      else if (after.location.direction !== before.direction) presence.play("turn", now, undefined, command === "turnLeft" ? -1 : 1);
+    }
   };
   dispatchExploration = (command) => commandQueue.request(command, compatible(), dungeonViewport?.busy ?? true, executeCommand);
   flushExploration = () => commandQueue.flush(compatible(), dungeonViewport?.busy ?? true, executeCommand);
-  cancelExploration = () => commandQueue.clear();
-  window.addEventListener("blur", () => commandQueue.clear());
-  document.addEventListener("visibilitychange", () => { if (document.hidden) commandQueue.clear(); });
+  cancelExploration = () => { commandQueue.clear(); presence.cancel(); };
+  window.addEventListener("blur", () => { commandQueue.clear(); presence.cancel(); });
+  document.addEventListener("visibilitychange", () => { if (document.hidden) { commandQueue.clear(); presence.cancel(); } });
   // Read-only diagnostics remain available; mutation hooks require the explicit QA URL.
   Object.assign(window, { __DUNGEON_DIAGNOSTICS__: () => dungeonViewport?.diagnostics() ?? { backend: "inactive" } });
+  Object.assign(window, { __PRESENCE_DIAGNOSTICS__: () => ({ ...presence.sample(performance.now(), prefersReducedMotion(), presenceHidden()),
+    selected: presence.selected, lifecycle: { ...presenceLifecycle } }) });
   Object.defineProperty(window, "__THREE_GAME_DIAGNOSTICS__", { configurable: true, get: () => {
     const diagnostics = dungeonViewport?.diagnostics();
     if (!diagnostics || !("calls" in diagnostics)) return null;
@@ -2689,9 +2756,25 @@ export function initApp(root: HTMLElement): void {
         if (dungeonViewport?.diagnostics().backend !== "webgl2") throw new Error("QA requires the real WebGL2 viewport");
         return { state: name };
       },
-      setPausedForScreenshot: (paused: boolean) => { qaPaused = paused; commandQueue.clear(); dungeonViewport?.setPaused(paused); },
+      setPausedForScreenshot: (paused: boolean) => { qaPaused = paused; commandQueue.clear(); dungeonViewport?.setPaused(paused); presenceView?.freeze(paused ? performance.now() : null); },
+      setPresence: (options: { id: CharacterId; action?: PresenceAction; elapsedMs?: number; wounded?: boolean; distressed?: boolean }) => {
+        if (!["elias", "miriam", "subject13", "anya"].includes(options.id)) throw new Error("Unknown presentation identity");
+        const actions: PresenceAction[] = ["idle", "walk", "turn", "interact", "inspect", "use", "attack", "cast", "brace", "hurt", "tension"];
+        if (options.action && !actions.includes(options.action)) throw new Error("Unknown presentation action");
+        if (options.elapsedMs !== undefined && (!Number.isFinite(options.elapsedMs) || options.elapsedMs < 0)) throw new Error("Invalid presentation time");
+        const state = controller.getState();
+        // Explicitly isolated scalar portrait/body-state fixture. No game stat or save is changed.
+        const party = { ...state.party, members: state.party.members.map((member) => member.id === options.id
+          ? { ...member, stats: { ...member.stats, hp: options.wounded ? Math.max(1, member.stats.maxHp * .25) : member.stats.hp,
+            sanity: options.distressed ? member.stats.maxSanity * .25 : member.stats.sanity } } : member) };
+        presence.sync({ ...state, party }, options.id); presence.select(options.id);
+        for (const button of root.querySelectorAll<HTMLButtonElement>(".compact-party-member")) button.setAttribute("aria-pressed", String(button.dataset.character === options.id));
+        const now = performance.now();
+        if (options.action) presence.play(options.action, now - (options.elapsedMs ?? 0), options.id);
+        presenceView?.freeze(now);
+      },
       setReducedMotion: (reduced: boolean) => { updatePreferences({ motion: reduced ? "reduced" : "full" }); render(); },
-      hideDebugUi: () => root.querySelectorAll<HTMLElement>(".debug-controls").forEach((element) => { element.hidden = true; }),
+      hideDebugUi: () => root.querySelectorAll<HTMLElement>(".debug-controls").forEach((element) => { element.hidden = true; element.style.display = "none"; }),
       resetMetrics: () => dungeonViewport?.resetMetrics(),
     } });
   }

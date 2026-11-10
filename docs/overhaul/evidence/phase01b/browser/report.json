@@ -1,0 +1,5333 @@
+{
+  "sourceHead": "9509d01df1ca2e61526dc3f338b607538b3bea00",
+  "sourceTreeSha256": "85bbbd420b9481d5b9499414ecc4597b75199079cc50fbea02d7d02f50732f28",
+  "sourceHashes": {
+    "package-lock.json": "e8e54bd2b24418d3e311e8ea0dfd6d8c5325a674c62fecff95f3ad5b8a65a3c4",
+    "package.json": "b05c744a9134b9aa0d3f9d8da2660f468580d85d3bbee18d4256ae9c57d1f135",
+    "public/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "src/assets/character-atlas-contract.json": "eba696f0f3ef7e4510175556ec68eb12b95b57b0a4a7e024d52fcea51296bd64",
+    "src/assets/character-sprites.ts": "0bc8113295e7d6e25cd4b03b8b0b1593e82e68859da04f5cebdf94e85894d646",
+    "src/assets/enemy-visuals.ts": "0ae8e85b763e6abec43eeae59e958c432567d3a0262fdc4352cd801112ddf339",
+    "src/assets/hero-atlas-contract.json": "a9038726e41284015421a0b94603e8d08c0084edfde6c6a2696699f54c1e5703",
+    "src/assets/hero-portraits.ts": "4af2eb2b8e1b19dba3eebaa822db316d46f2215a02889be06a355b4589f2b619",
+    "src/assets/hero-sprites.ts": "cd10aca2f27bc2df29c8fa527ba18a4560389d2f40c2e82e7ede0bed7c0e8533",
+    "src/assets/manifest.ts": "27413c18107833dfcc00d775aef5b3c567b3c3378a4a019183a5518463566019",
+    "src/assets/presence-atlas-contract.json": "c7581ee5e7ad1d88ac39a08945b5ffc9e367f3624fe7bb09e1652a0ce615a0d1",
+    "src/assets/presence-sprites.ts": "85170f84e7e4c8dccf5d238432631ae1e8d07b0aabaa608262ef2f06f7a6f6a2",
+    "src/counter.ts": "7580ce935ad5fd8f5598ee53533fbddbd5d34e5aaf6cfbb7f81f3ef1969bf4e3",
+    "src/game/abilities.ts": "909e5c7318cd9df6ba85bd1784aa91635f5bb71c820a8da8e20c1186f2fdc55e",
+    "src/game/boss-dialogues.ts": "d13846a5d1b468f66f63c990ea406faa6179e32f9d369e6d9415781cf0dc6898",
+    "src/game/characters/party.ts": "78f7b3ce99515640b0d333dc2e4e2d96ef501a68671ea7cb1cc749eeade0dc15",
+    "src/game/combat/actions.ts": "3536b6c285538a57f2f055e3bfd1947e74ba139ed319ee2add52f087cc7c36c8",
+    "src/game/combat/encounters.ts": "b6d34fc4a97df2ffb3648f9f7003ddc12245fa2067ce7682021c0e71f99c008e",
+    "src/game/combat/engine.ts": "0229d8f9ac94210f3119b1cf8738df5c80b0c3676bfbf5c9316f6568521c81f2",
+    "src/game/combat/intents.ts": "fc2ccf3ab29fff4a3b0011be2baf1fdc085fc0da1a9482ff1b9ded365c2c3573",
+    "src/game/combat/state.ts": "4ce4429c5fe11723ca90ebd02c0ee3573444ac0c6b1ce877bd66e745d46b1c8f",
+    "src/game/combat/turn-manager.ts": "b4777de4c6531c4ba287f08b39838df2febdc0347b3f5c3b4f6e17eda7b8a3f7",
+    "src/game/defeat.ts": "50721be8a981cf62fe317a9dad43e5097e9f31f15f234ab15649c73fb7ed90ae",
+    "src/game/dialogue.ts": "8abaa592e4f7492ebef05d7e4581998bdcf28519d21d6f41d0a737caed958578",
+    "src/game/endings.ts": "d3031d9af1fccab29c658b870020b1630b19b47144e6c75dfdf1e55dc665305c",
+    "src/game/enemies.ts": "5f50f5a30c61102a8dfde6f17ef9794032c493e809a2404cb35295404b377f61",
+    "src/game/events/engine.ts": "d76fbc4370785bee0431b260ff581ed17ec8c61bf43beac2e522210cf34501ae",
+    "src/game/events/examples.ts": "f93271c76ef7dce94aef7c70efedb235f2daa6780fc5488e2ef5f3242aa6910d",
+    "src/game/events/loader.ts": "990edf656dd12d732f0903f63c03681e49efaf2f4fd0626389717d635d771ffb",
+    "src/game/events/mandatory.ts": "70c776c9b267dc73b95fd5ae6bd5753978498e7c58c1206ce21d6edef0d77f0f",
+    "src/game/events/procedural.ts": "03a137ecfb33537804bf13e3d6fe3ec24ed215e26d2df6384369cb31e4d35868",
+    "src/game/events/resolvers.ts": "6e007a966e300700f9ddf81aa76ba6861b13bb1f68fc0d277fbe8cad85326caf",
+    "src/game/events/types.ts": "52a11a5b6f6e022a19c817e1bc8b470434c49f4210124c722188e5e5bcbc391f",
+    "src/game/experience.ts": "74de870a229dff4a0859e04eb96b0e2b783cf7aff544803b06eebb3df37069bd",
+    "src/game/exploration/authored/depth1-intake.ts": "dfa0c8f69ac4553b6aa1fbf807a2a5850ba12882f0d44a0d477402d21bb0ba84",
+    "src/game/exploration/map-generator.ts": "3d440025c19b906847277dad15e1fe0edcaefe0daae49786e2282e73e4c7758d",
+    "src/game/exploration/map.ts": "a031bcef7faec97696fe3f1e00997fce207826bc0e5e129b05e172a4380ac4b5",
+    "src/game/exploration/movement.ts": "cab623f9a0e80e8456fe1a2db79046f15388700fd905a80d80ab8b7fc0ecb1f1",
+    "src/game/index.ts": "b5fb8b6accfbcd17c5eef15b019dcf7434fe77eb12c2a56f923358602819dcca",
+    "src/game/inventory.ts": "0233ca2905e49db3959816281962e69d1b344aa37719997df1df65d686240272",
+    "src/game/morality.ts": "ea892dd574eface7f5d20095f07d2857316471bb9282aafcadc163a537898f13",
+    "src/game/objectives.ts": "c70d51685227021e69a5c4c5a2dc3a7e7890a2156acbceb2bce5b8b2d149fc7f",
+    "src/game/random.ts": "8491138b779c4631bcc06e2be7d1c2a00ff8cd302b3ebec68c4ade5698a9c394",
+    "src/game/sanity.ts": "145d6d3eb271e3795c8a1faaa76b06a2d60a37fde705c7080789ce5c73160b57",
+    "src/game/save.ts": "f8ed94083af1460c144372300a3a85b244db67c88855fa1f3b9a01797b19bc86",
+    "src/game/sound.ts": "2aa4bdab56e8323c48b2270a5c997bd0b241f9bce2d5914a4c47b4e9d60f5141",
+    "src/game/state.ts": "207d497f15480a851146b699df0dff65adcd94758f66095ec315b94a6dd41adc",
+    "src/game/story.ts": "62012e642cd49d124fe0572929fe8f629727cac05076bac71a637ff5c703feaa",
+    "src/graphics/DungeonViewport.ts": "a9d3ebae722bd8a0b45c733835bf6e71720a7905b4e1ffa5af06ec04a67a6f53",
+    "src/graphics/combat-presentation.ts": "c366bece6837a21c25d7dfe5067c58b2a9354178fac7cf52adbe0031fc7b681d",
+    "src/graphics/combat-ui.ts": "e64112c6d63ae734ed41693b3d41ecaddc99756a3063122d20373746b181346c",
+    "src/graphics/direction.ts": "cfbc155524aee3732cfa71e0d8da94885c0ec05e68ebc351dd50826a283c7b29",
+    "src/graphics/dungeon/CameraRig.ts": "cc9fad7d0af8443bd7020f46f4d3114c0249473b7bd828d7767d556c98e90916",
+    "src/graphics/dungeon/DungeonRenderer.ts": "d322b9033f03f57185b17f4a81e0db37eb223e31fdff0d26d126a15fa43a8153",
+    "src/graphics/dungeon/LightingSystem.ts": "0651dc58e1a741ebb225adbe9f2cd989ef43d7942b97f0473f65b47d16a304e6",
+    "src/graphics/dungeon/MaterialLibrary.ts": "ea479cd7d6d2a7f1a3a39961cfc7c3e20f29525c784030ff0a6630a3c614b1f3",
+    "src/graphics/dungeon/PerformanceDiagnostics.ts": "799e8678c69eb0cedb54e32155451a9280897ecf0c277332b989543381f0dd0f",
+    "src/graphics/dungeon/RenderAssetManager.ts": "4b9a310fe2043928d23846d9fbca7a54a2695249f887007bee29c43ffac12372",
+    "src/graphics/dungeon/SceneBuilder.ts": "d1497a9246a361ebed7a04bc9df0c5921b1ee2154a4e9a8ee738c29e737920fb",
+    "src/graphics/dungeon/WorldSpriteSystem.ts": "89a80922954e6b29abab1c1558b5be0d7781a651e84b136f230665fa7fd53733",
+    "src/graphics/dungeon/types.ts": "5d6c6afd59f7e26e8d4116e617a7bf4e8439518561c9f9bc58ffd09023bbeafa",
+    "src/graphics/map.ts": "d363b784a539a9eb433f35b08cf2bf762a4058ed5ac83e4fc3fd7fb7894d34a3",
+    "src/graphics/minimap.ts": "70a684f1fb50ffadb5b05c88a240f682c71f163e7b25da9ff4c6cde465767c7a",
+    "src/graphics/party-ui.ts": "7f3280e5c85abdea2af29ef9f14d5abf0f72c02cf5a52e09fa5f4fffe8f43e2c",
+    "src/graphics/presence/PresenceDirector.ts": "ea26c1448a70f3c6419f4c5300e8007cbbfa6fc20312803c203f9233369a1f15",
+    "src/graphics/renderer.ts": "d0a9c0fca1e33d0a94f6e2455b2c3111d6de52e9254f8762d128ea1c7bfd03a1",
+    "src/main.ts": "945a0c98ffd770870bbeae846ed52d5a65f39df595640c95b3151432d0db6350",
+    "src/style.css": "6f5f10b0883ca72436d0af9615b4a76ba9dfa9f893e16a230dc23e504cc8f33c",
+    "src/typescript.svg": "f6ead1af17acc3f55ad857f3bc936df8754281e2932c1b472dbb9b36ab873f1c",
+    "src/ui/app.ts": "6716ecc088f43ed04b12122e7725c9a63c50a7fb85ddb45cafa086997f11f146",
+    "src/ui/audio.ts": "72a2e04b4de3773f5ee9f56473649890a1a6cd134c73a867241af6fceb6485d1",
+    "src/ui/character-review.ts": "7b9eb30bb87bb2c8d95b5810e8e6d54a530a4325da1edd58980beba2f63f56a3",
+    "src/ui/exploration-commands.ts": "4e01a230178532cad6c724c8443c32875cafbed0ac1879aac494e376965cca0e",
+    "src/ui/mobile-controls.ts": "0756efe708262d6625b69f914f0acd0984178f7fabf6ee9e155571bfb282798d",
+    "src/ui/preferences.ts": "a33fcbf44a189c125c39c40304ce14156285378ea9c59f645c83d4467424827d",
+    "src/ui/presence-view.ts": "a80da40e7742f3f2ed82118de56f2a8515687a2cac4215ba03e362631e943b24",
+    "src/ui/presence.css": "b86e70ae5d01919a7307a6b723146ba7b11539fd5b30b3cf6e7d82b2f5a0c42e",
+    "src/ui/protagonist-portraits.css": "2412f837e7848db776184609e58e6fb548e457d49f999d3efce43759c7de6f7c",
+    "src/ui/screens/dialogue.ts": "5eed68e370e917f52c677d7e12c7eb55da847a909d77107ac36df8ee5cff2130",
+    "src/ui/screens/ending.ts": "e378b6ea843119e0093262a0108064d780bd8b63f26bf62061ff15dde28ee721",
+    "src/ui/screens/game-over.ts": "f3e3fb04e7894874475d107021bd98db46e2db9b776bded008e33891de464219",
+    "src/ui/screens/title.ts": "277d7311779c341ac3c4575707a342d2d73fda718b49f91474c3189bc75cb8f1",
+    "src/ui/screens/types.ts": "8c3f1c377c7c1882d548d8531c5c0822cf5d0076cfc74beb6976a5c84da49709",
+    "src/ui/vendor.ts": "ed8deea46259c8f36137520a16e10f27198e19794ae017f1c876b3b535b017ba",
+    "src/utils/platform.ts": "b0d3572ca558b54d39f27265fbe2fa9cbf5612177329e445e715d80d395372b6",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "vite.config.ts": "fd6a67797952c4eceb1c1f34401d2ad0b55321fe62f547b8742f78e2fa10f6ac"
+  },
+  "environment": {
+    "node": "v24.13.0",
+    "npm": "11.19.1",
+    "os": "linux",
+    "kernel": "7.1.5+kali-amd64",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+    "logicalCpus": 8,
+    "hostMemoryMiB": 31818
+  },
+  "capturedAt": "2026-11-10T15:15:50.367Z",
+  "browser": "158.0.8127.18",
+  "browserChannel": "chromium",
+  "launchArgs": [
+    "--enable-gpu"
+  ],
+  "seed": 130013,
+  "dpr": 1,
+  "settings": "en-US, UTC, dark, muted. Viewpoint selection is real UI; forced poses/statuses are explicitly isolated scalar presentation fixtures and never saved. Motion captures use unpaused real input.",
+  "runtimeHashes": {
+    "public/assets/sprites/characters/anya/hero-atlas.png": "ff141135e2c6fb2940260f3d66e2a754d537ff698d148fe297bf070c942c44ad",
+    "public/assets/sprites/characters/anya/presence-atlas.png": "ea0e17f5088888004cb7f226c03a818294da85c5e692fdd5e5f090ad76b80cd5",
+    "public/assets/sprites/characters/elias/hero-atlas.png": "970a2a295fa45d980aaca49fe67e76f219d08a13182c955ee421d039f15ab9bc",
+    "public/assets/sprites/characters/elias/presence-atlas.png": "10b29742ff91c74600df4f08487c69b75ccdbfae90f3780b4fc9d0ff9b0a4253",
+    "public/assets/sprites/characters/guard/character-atlas.png": "8b8e3af33108059406e233d751f24e50e662a1f966c0db941ca63c324c3d11ef",
+    "public/assets/sprites/characters/keeper/character-atlas.png": "3fce717e36e8c3997abbc13c30ebcb3ec96668ef343dd68e661a6142a7188e8a",
+    "public/assets/sprites/characters/miriam/hero-atlas.png": "b2bb740d7e6393ae62371213a0439edb126ee229707b861ee33aecfb9361a70e",
+    "public/assets/sprites/characters/miriam/presence-atlas.png": "eafbcdf6feda30e709bcbab4d15880104f279d934d1cd352987c3a1ddff0caae",
+    "public/assets/sprites/characters/subject13/hero-atlas.png": "07508a394399822d17722bd779be9866a7486a578c1e324433c974f8428613a5",
+    "public/assets/sprites/characters/subject13/presence-atlas.png": "c6dbbd64956f65975c9455e517b45ada095e24e3982fdc78e34edaa83e457d56"
+  },
+  "buildHashes": {
+    "dist/.nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/THIRD_PARTY_NOTICES.txt": "de22c1736664b90e924cd6f5c6e851b41a759a99818f75e44bccaf35c210678b",
+    "dist/assets/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/DungeonRenderer-AS9V3aGK.js": "d7a57c8ef8bfdee65ed8303d6b85a057d1a86652c8bf5a4aec2c86b871e3068e",
+    "dist/assets/animations/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/animations/characters/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/animations/enemies/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/animations/environmental/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/battle/battle_bg1.webp": "2747af14610759533265b34dd011538bbbca33ee4aab0024467ea92bc50bbc31",
+    "dist/assets/backgrounds/bosses/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D1.webp": "bf491696103c7f2043523a8caab9724b738ea563508385c77b67072dd52defd1",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D2.webp": "8baf5ac8f58bad28ca84982990e392dcdb4587f794d2e4be04370b5a056f1230",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D3.webp": "35ea8547adef493ced0eaf6e341f5b2186d8f427dec6f01c65c35425905dfd65",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D4.webp": "11061e6801ad082e225e751f18f91e91d634d8473e9f6c043625b858bf8dcd5b",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D5.webp": "46c8f7ff650d786efd065ed4a1bc0ecc9eea74577b847b4d8178f7f3ef5df1b0",
+    "dist/assets/backgrounds/depths/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/events/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/character-review-Chauu4QD.js": "1b2c9a3402ce222acd825ad4c5b9f487fcf9ff76523b5911e851a7538b5b2471",
+    "dist/assets/index-DJ_f3qjM.js": "204c7ec98114327902e3ed14233b2c4dab4dd83b1bf0658a7f203de0608af859",
+    "dist/assets/index-uaIimk29.css": "019de2c4f6a9a2729de57ec663cea32132b521ab5ab85acc7e652fb3d084517b",
+    "dist/assets/sprites/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/anya/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/anya/hero-atlas.png": "ff141135e2c6fb2940260f3d66e2a754d537ff698d148fe297bf070c942c44ad",
+    "dist/assets/sprites/characters/anya/presence-atlas.png": "ea0e17f5088888004cb7f226c03a818294da85c5e692fdd5e5f090ad76b80cd5",
+    "dist/assets/sprites/characters/elias/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/elias/hero-atlas.png": "970a2a295fa45d980aaca49fe67e76f219d08a13182c955ee421d039f15ab9bc",
+    "dist/assets/sprites/characters/elias/presence-atlas.png": "10b29742ff91c74600df4f08487c69b75ccdbfae90f3780b4fc9d0ff9b0a4253",
+    "dist/assets/sprites/characters/guard/character-atlas.png": "8b8e3af33108059406e233d751f24e50e662a1f966c0db941ca63c324c3d11ef",
+    "dist/assets/sprites/characters/guard/idle.png": "f162a3f99fc4916369fc1cf6241973bd0400e8f02299d69373bdc7f33b5bcfd2",
+    "dist/assets/sprites/characters/keeper/character-atlas.png": "3fce717e36e8c3997abbc13c30ebcb3ec96668ef343dd68e661a6142a7188e8a",
+    "dist/assets/sprites/characters/keeper/idle.png": "4e6390f5fa5a2178fa9236e41b5eb4410efb8abfba5c07a62fdeeb6b033a6060",
+    "dist/assets/sprites/characters/miriam/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/miriam/hero-atlas.png": "b2bb740d7e6393ae62371213a0439edb126ee229707b861ee33aecfb9361a70e",
+    "dist/assets/sprites/characters/miriam/presence-atlas.png": "eafbcdf6feda30e709bcbab4d15880104f279d934d1cd352987c3a1ddff0caae",
+    "dist/assets/sprites/characters/npc/vendor.webp": "73140a5ea9192ed5f7585e35ba3d4a54be90153df977556049fbdd5efe608ce8",
+    "dist/assets/sprites/characters/phase01a-build.json": "f9b2a43865234ceb6eed563140332c4f0cd1f945b4caad7473c8e7ff1241c988",
+    "dist/assets/sprites/characters/phase01b-heroes-build.json": "d4504027abb37114f766d26e879c47fad7422ac5df3e4ff5745214d666fd8bcb",
+    "dist/assets/sprites/characters/phase01b-presence-build.json": "b96f78ec2bce50a4bf8a04b1996a73e3f271409b9fd7164a649e585ca688ce85",
+    "dist/assets/sprites/characters/subject13/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/subject13/hero-atlas.png": "07508a394399822d17722bd779be9866a7486a578c1e324433c974f8428613a5",
+    "dist/assets/sprites/characters/subject13/presence-atlas.png": "c6dbbd64956f65975c9455e517b45ada095e24e3982fdc78e34edaa83e457d56",
+    "dist/assets/sprites/enemies/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth1/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth2/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth3/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth4/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth5/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/objects/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/objects/chest.webp": "9df09ef7018d3ba3b50c2ee0c753b996dc4e469beab933a431def275f190a978",
+    "dist/assets/sprites/projectiles/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth1/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth1/d1_floor_linoleum.webp": "c31cd21bd7d9ba1ebaf1d226e62bcbb06c569441d2c91653229ca695ccf646ac",
+    "dist/assets/textures/depth1/d1_wall_base_threshold.webp": "0f204e910ed5ed9629b4160f1590100fb461dbb3f354778254732a9a3886a5c6",
+    "dist/assets/textures/depth1/d1_wall_warning_stripes.webp": "13e66419ee7f84c8c64f9ac2232af20d8e5190a9c748f45cbf4b0ad6c7194d6c",
+    "dist/assets/textures/depth2/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth2/d2_floor_office_tiles.webp": "775bd920c5f099076552f15512bf789701327f14f551dac43db4213a8208d5a9",
+    "dist/assets/textures/depth2/d2_wall_archive_cabinets.webp": "f9ec5c42489aef5aaa7a329311a9dbc20f31d2be24ab37741d1a391d2edf66aa",
+    "dist/assets/textures/depth3/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth3/d3_floor_hospital_tiles.webp": "1a95dc603f1eb7c3ff530fea0cddd11be7888126fe5cf52e3a079bf2ed01a434",
+    "dist/assets/textures/depth3/d3_wall_hospital.webp": "0972f65628f6e88979fce288907acb4cf085930b0423c122fcbed31e7049c945",
+    "dist/assets/textures/depth3/d3_wall_padded_cell.webp": "3d643cca3cfcdc6858413954cdfddb77065bc43d0fb6d85f57529fac4ff3a97d",
+    "dist/assets/textures/depth4/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth4/d4_floor_dark_reflective.webp": "845c196dd0fb939a7ed71bbfac0703b05d855dd8665a2d339c5243cce951055d",
+    "dist/assets/textures/depth4/d4_wall_fractured_mirror.webp": "6dc395ca2c68f6d36a03d9e786fc8f604c7b2337fcc0677082d1180ef8a38d81",
+    "dist/assets/textures/depth4/d4_wall_mirrored_panels.webp": "476e463d829e49fe93a604ee0b7025ce475f636495832e5e83f6407a383d3053",
+    "dist/assets/textures/depth5/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth5/d5_floor_metal_grate.webp": "4d0ec7e1fd0a866a0ed9dea6ed148b4a8e8bff2072b3781ce57bafbb4b8099bd",
+    "dist/assets/textures/depth5/d5_wall_biomech.webp": "4911914c964f1996cdf0708fe45eb31910bfa48aa7aa820f5b4fd55ff6d795e6",
+    "dist/assets/textures/global/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/global/ceiling_concrete_panels.webp": "8e48edff701ea08127b264e071a156886f8d994e39aa067813f2b74ae32b5892",
+    "dist/assets/textures/global/global_overlay_cracks.webp": "300ee55d87719b8d6cece9615535f06eff356ea323218d11a454d4dcf3002ab5",
+    "dist/assets/tilesets/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/ceilings/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/doors/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/floors/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/floors/strais_down.webp": "1ccb4e24c6144248ca0327f220c9bf7d103614313f149ed0f070715ffc2eefc5",
+    "dist/assets/tilesets/floors/strais_up.webp": "04bc221e5f8ee291dde61c7165c0f41f8bbafbee0db93e4985bfaedd2c4212aa",
+    "dist/assets/tilesets/walls/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/buttons/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/cursors/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/dialogs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/hud/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/icons/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/icons/icon.png": "d0ba6295def28ccaf7eccbe723b648dfdb6721e600cde89acc518c2e8be3bfd3",
+    "dist/assets/ui/menus/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/portraits/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/combat/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/magic/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/particles/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/status/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/audio/music/.gitempty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/audio/music/battle_boss.ogg": "08ba7f7421a7ed6caccaf9af3aa54d587633b9f8bd3fb1fceb1f6ce5a2d37ed4",
+    "dist/audio/music/battle_normal.ogg": "df0bfa03500f9d86c16054085f2ded0518c5fc54c5ba23cd6b9f55c47441fdd9",
+    "dist/audio/music/core_heart.ogg": "b8f50e3ab7b9493028d23f294ef8f320ed1ecbd8a728fdea338ecfd9c0cac5da",
+    "dist/audio/music/depth1_ambient.ogg": "9f93219f1aaf749ec06a62df3b886df624d64661495cf8c18ef81a0a970c8a99",
+    "dist/audio/music/depth2_archive.ogg": "356d298869644d0aa52f804d174d58ed155cf39f9eb6f5445eec9d94faf56d4e",
+    "dist/audio/music/depth3_ward.ogg": "dc8a4ba82fd61cd56976e14ae7bb2b408db26de2bd951b48e5da66c5464a1e4c",
+    "dist/audio/music/depth4_mirrors.ogg": "59adfe97a42b191c5550d676c70e73a54d1ac40887c451020a14f65c9a06a4d7",
+    "dist/audio/music/main_theme.ogg": "d0eb113b03eb3a1911cc3cef43d8f210275de11d672542329f02638c3f078828",
+    "dist/audio/sfx/.gitempty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/audio/sfx/event_choice.ogg": "89868747b50f3b0d12927ffdae8e8453d0d5fec2003620d593f53a7ea10732fd",
+    "dist/audio/sfx/hit_heavy.ogg": "399eeb83f986658ee2a3579ca58e8052720116ad61c8e6f7b5f4107391de3abc",
+    "dist/audio/sfx/hit_light.ogg": "8e8b0aabe9830671cc60f8cce4fad61749260adbb4998bff73d92ed8d6d8f5cf",
+    "dist/audio/sfx/sanity_break.ogg": "84f67242a9135d115a29ea36f49e9b8f292bda926c1e46fe8a849f01e29a3ca7",
+    "dist/audio/sfx/sanity_tick.ogg": "27fd79b2c2510ea42f1cad2d15eaec0907c1dd67c1e2f72bbefcd5c3c0826e43",
+    "dist/audio/sfx/step.ogg": "d9fc30a258b2feb247047a7759d5bf8282c21f484ecaae0835a6cbf92b2da4c6",
+    "dist/audio/sfx/ui_click.ogg": "209813ef2b752a1f96368e1892ae715e8d2d5c82e3189b1d8ee79226fe4b08eb",
+    "dist/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "dist/index.html": "16cff127acd791aa6596d1ee9f1d7c1691157e88752ee2acf29cc2aa0b4dc6d1"
+  },
+  "captures": [
+    {
+      "name": "1280-elias-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-elias-idle.png",
+      "crop": "1280-elias-idle-crop.png",
+      "sha256": "16e6dd08fb05fcf8cdbcf726081c3c1fccec627e508fe508dd64982e5933ed4d",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 0,
+          "medianFrameMs": null,
+          "p95FrameMs": null,
+          "maxFrameMs": null,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": null,
+          "p95RenderMs": null,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "elias",
+            "name": "Elias Ward",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.33438143890382604,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "elias",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-elias-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-elias-hurt-tension.png",
+      "crop": "1280-elias-hurt-tension-crop.png",
+      "sha256": "39173d7527764382c641ffc4d0034cbf6c19f7ebe9e1a0c3c1144dc9abdbd39e",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 2,
+          "medianFrameMs": 33.399999999999864,
+          "p95FrameMs": 33.399999999999864,
+          "maxFrameMs": 33.399999999999864,
+          "framesOver20Ms": 1,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.8999999985098839,
+          "p95RenderMs": 0.8999999985098839,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "elias",
+            "name": "Elias Ward",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -0.6743689907791888,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 571.7000000029802,
+          "selected": "elias",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-miriam-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-miriam-idle.png",
+      "crop": "1280-miriam-idle-crop.png",
+      "sha256": "52d00d3030ffece269b74486c6991b27b94e7f402f468f30edc09aecbd05c983",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 24,
+          "medianFrameMs": 16.700000000000045,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 33.399999999999864,
+          "framesOver20Ms": 1,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.6000000014901161,
+          "p95RenderMs": 1,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.30687442352835553,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-miriam-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-miriam-hurt-tension.png",
+      "crop": "1280-miriam-hurt-tension-crop.png",
+      "sha256": "461670926343d6a20923b18d77e7cc3f2be86868aa460fb18d840d2cac2fb407",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 44,
+          "medianFrameMs": 16.700000000000045,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 33.399999999999864,
+          "framesOver20Ms": 2,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.6000000014901161,
+          "p95RenderMs": 1,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -0.08635441338356592,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 610.6999999992549,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-subject13-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-subject13-idle.png",
+      "crop": "1280-subject13-idle-crop.png",
+      "sha256": "e81f70879b14ad43e80ac954ead5efe15ee5647b27bce6d5b3a2611e5e43f8bc",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 66,
+          "medianFrameMs": 16.700000000000045,
+          "p95FrameMs": 16.800000000000182,
+          "maxFrameMs": 50,
+          "framesOver20Ms": 3,
+          "framesOver40Ms": 1,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.6000000014901161,
+          "p95RenderMs": 1,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.7999818451658245,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-subject13-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-subject13-hurt-tension.png",
+      "crop": "1280-subject13-hurt-tension-crop.png",
+      "sha256": "49832a69b7e6798b1d316cdaabf1d2972153103ba96e3bd94906a35f61cdcdee",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 87,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.800000000000182,
+          "maxFrameMs": 50,
+          "framesOver20Ms": 4,
+          "framesOver40Ms": 2,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": 0.501313789738544,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 621,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-anya-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-anya-idle.png",
+      "crop": "1280-anya-idle-crop.png",
+      "sha256": "25303b43ae32f02378c31c3e207b81e8bf0f28b1924630919705720063307a13",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 110,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.800000000000182,
+          "maxFrameMs": 50,
+          "framesOver20Ms": 5,
+          "framesOver40Ms": 2,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "anya",
+            "name": "Sister Anya Velasquez",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.3903089484792813,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "anya",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-anya-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-anya-hurt-tension.png",
+      "crop": "1280-anya-hurt-tension-crop.png",
+      "sha256": "278be304e24aa26feaa80f3fbfb3fe947d26ae4ec13df596e08315f8c3a562d5",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 130,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.800000000000182,
+          "maxFrameMs": 50,
+          "framesOver20Ms": 6,
+          "framesOver40Ms": 2,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1,
+          "calls": 58,
+          "triangles": 16020,
+          "geometries": 7,
+          "textures": 20,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "anya",
+            "name": "Sister Anya Velasquez",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -0.2192805376759951,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 605.4000000022352,
+          "selected": "anya",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-interaction",
+      "kind": "world-real-keyboard-inspect",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-interaction.png",
+      "crop": "1280-interaction-crop.png",
+      "sha256": "042809e14c621b79fee2259c40c9ac94dc9f0775f8bcea204675223a569c8465",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 0,
+          "medianFrameMs": null,
+          "p95FrameMs": null,
+          "maxFrameMs": null,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": null,
+          "p95RenderMs": null,
+          "calls": 45,
+          "triangles": 15884,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 26,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 13,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "inspect",
+          "pose": 2,
+          "x": 0,
+          "y": -1.8942632288512953,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 521.3999999985099,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-reduced-motion",
+      "kind": "world-isolated-reduced-motion",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-reduced-motion.png",
+      "crop": "1280-reduced-motion-crop.png",
+      "sha256": "acb44406d455748c714d399375e94d643882914cd2c153370c792290f8fe4e1a",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 15,
+          "medianFrameMs": 16.600000000000364,
+          "p95FrameMs": 16.800000000000182,
+          "maxFrameMs": 16.800000000000182,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1.300000000745058,
+          "calls": 45,
+          "triangles": 15884,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 26,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 13,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": true
+          },
+          "action": "interact",
+          "pose": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 640.9000000022352,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-grayscale",
+      "kind": "world-isolated-grayscale",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-grayscale.png",
+      "crop": "1280-grayscale-crop.png",
+      "sha256": "c49bf52a4b0d28d87e2443b869f6a1de00c34a11fead5f72ebdd2eb33dbb7358",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 29,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.800000000000182,
+          "maxFrameMs": 33.399999999999636,
+          "framesOver20Ms": 1,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1.199999999254942,
+          "calls": 45,
+          "triangles": 15884,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 26,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 13,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": true
+          },
+          "action": "tension",
+          "pose": 7,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-combat-ready",
+      "kind": "actual-event-entered-combat",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-combat-ready.png",
+      "crop": "1280-combat-ready-crop.png",
+      "sha256": "779b521ad6f1eb19bc29a5409384351a135f3cee4df438e7268a88f3a8d7b6e4",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "brace",
+          "pose": 5,
+          "x": 0,
+          "y": -0.6023638274955948,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 5,
+            "disposed": 4,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-combat-action",
+      "kind": "actual-combat-action",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-combat-action.png",
+      "crop": "1280-combat-action-crop.png",
+      "sha256": "034d846f25e53b7b4a17b7da3f1042f31f347b9dd4e503be13fb568faf4be42e",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "attack",
+          "pose": 5,
+          "x": 0,
+          "y": -2.055378775864723,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 499,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-elias-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-elias-combat-support.png",
+      "crop": "1280-elias-combat-support-crop.png",
+      "sha256": "92a058abe180eddaaddd510c52b4f12038a453fcb1d221b6cf93e3bb0b078b2e",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "elias",
+            "name": "Elias Ward",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -2.2133098985599156,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 532,
+          "selected": "elias",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-miriam-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-miriam-combat-support.png",
+      "crop": "1280-miriam-combat-support-crop.png",
+      "sha256": "c1ff77fbb7b429c9b2febf2d0a4a7686a5b15dfda43a92b2ae7628ffd23ab411",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -1.6135013351451086,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 526.6000000014901,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-subject13-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-subject13-combat-support.png",
+      "crop": "1280-subject13-combat-support-crop.png",
+      "sha256": "c514c02c3ac70f51167c68ab3059179cc980d3a509e1a67fc3474f377f746751",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -1.978649388175178,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 513.1999999992549,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-anya-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-anya-combat-support.png",
+      "crop": "1280-anya-combat-support-crop.png",
+      "sha256": "15dfdc6a3f7114f0940834ee2ed33f01e24f5bc02e46d0e631cf7b7358cabbe7",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "anya",
+            "name": "Sister Anya Velasquez",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -1.808975335664114,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 530.1999999992549,
+          "selected": "anya",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-six-character-family",
+      "kind": "isolated-native-grayscale-gallery",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-six-character-family.png",
+      "crop": "1280-six-character-family-crop.png",
+      "sha256": "4ea9488286bdc35922e0c4040876b267242a81344f1218945b1d034311c35975",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "keeper",
+            "scene": "gallery",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-elias-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-elias-exploration.png",
+      "crop": "1280-elias-exploration-crop.png",
+      "sha256": "13d258efb12139fba9cab1a5e530a933ce4985eb6db16fad2e7637fa99f4d159",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "elias",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 1,
+              "disposed": 0,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/elias/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 40392021,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "elias",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.78,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-elias-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-elias-combat.png",
+      "crop": "1280-elias-combat-crop.png",
+      "sha256": "4eaa29bb7320dca8624cc16175a076ad3af79e9e7be64e162aaccc802e0f82b9",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "elias",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-elias-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-elias-sequence.png",
+      "crop": "1280-elias-sequence-crop.png",
+      "sha256": "dd5bb80c9b34a76d3ca4619964667f3e1f7787471cfe2dbc7cad03bc7c69391a",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "elias",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-miriam-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-miriam-exploration.png",
+      "crop": "1280-miriam-exploration-crop.png",
+      "sha256": "cbfeacea7637e69b68f6204a6c7443536dabf28808f7c16a1173eb04c5946dd7",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "miriam",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 2,
+              "disposed": 1,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/miriam/hero-atlas.png"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 40392021,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "miriam",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.7,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-miriam-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-miriam-combat.png",
+      "crop": "1280-miriam-combat-crop.png",
+      "sha256": "b3468206199be9c72eaccf2f1ae17eb47b7c6047d4ee9d3e44207815205f1081",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "miriam",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-miriam-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-miriam-sequence.png",
+      "crop": "1280-miriam-sequence-crop.png",
+      "sha256": "64d84b98f0831f635174173d0fcc3a77dac4e42118f713bb435e6bf37b1e876a",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "miriam",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-subject13-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-subject13-exploration.png",
+      "crop": "1280-subject13-exploration-crop.png",
+      "sha256": "0922164f8e3e18f074f299f521d841fdd48f03b409cce9a3e0bbb7a7b48cd0d6",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "subject13",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 3,
+              "disposed": 2,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 39081301,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "subject13",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.64,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-subject13-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-subject13-combat.png",
+      "crop": "1280-subject13-combat-crop.png",
+      "sha256": "a3d580863dd4c49efeb96ca41c3691ceaa5d0b9057e42b395cbdbe190ca58a7c",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "subject13",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-subject13-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-subject13-sequence.png",
+      "crop": "1280-subject13-sequence-crop.png",
+      "sha256": "539980f0a2981e6a60b8b8dbe8fd56768ac456ebb067f5f88f03cd79ac3a98fe",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "subject13",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-anya-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-anya-exploration.png",
+      "crop": "1280-anya-exploration-crop.png",
+      "sha256": "276cdd8a0e1fd25a56e3cb0beef5fdc72bdf6cb1976f41e7725f08946683ea98",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "anya",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 4,
+              "disposed": 3,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/anya/hero-atlas.png"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 40392021,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "anya",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.83,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-anya-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-anya-combat.png",
+      "crop": "1280-anya-combat-crop.png",
+      "sha256": "e1a66eb2352a3817b8a5f4c4ec02f947a143bbccf2ce51a1c1b6866874575317",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "anya",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "1280-anya-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "path": "1280-anya-sequence.png",
+      "crop": "1280-anya-sequence-crop.png",
+      "sha256": "33065705c8242c98461f9e8a1be9c12e1688aaf783d3bee378155a12ba2b5022",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "anya",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-elias-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-elias-idle.png",
+      "crop": "390-elias-idle-crop.png",
+      "sha256": "a9c8d6e9205faa44275ed5e8211e4c9d773cb126471f72fc9f4b27f42482cbe2",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 0,
+          "medianFrameMs": null,
+          "p95FrameMs": null,
+          "maxFrameMs": null,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": null,
+          "p95RenderMs": null,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "elias",
+            "name": "Elias Ward",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.23677884461826915,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "elias",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-elias-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-elias-hurt-tension.png",
+      "crop": "390-elias-hurt-tension-crop.png",
+      "sha256": "a8ed2c537a44f5735c3b7e6694a5594c050cc0eeb78b2ca0b63e5d109b614ff4",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 0,
+          "medianFrameMs": null,
+          "p95FrameMs": null,
+          "maxFrameMs": null,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": null,
+          "p95RenderMs": null,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "elias",
+            "name": "Elias Ward",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -2.2136784306636135,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 443.6000000014901,
+          "selected": "elias",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-miriam-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-miriam-idle.png",
+      "crop": "390-miriam-idle-crop.png",
+      "sha256": "81ea372247714168c91ea3512b7f62ca60d694c377edf2767f040708e405be13",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 5,
+          "medianFrameMs": 16.699999999999932,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.799999999999955,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.6999999992549419,
+          "p95RenderMs": 1.199999999254942,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.22810642760896768,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-miriam-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-miriam-hurt-tension.png",
+      "crop": "390-miriam-hurt-tension-crop.png",
+      "sha256": "d9bc2c6fab0d717cf676b9a3e49a6c9477f8db0ef161a188ad2a76722598a5ac",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 18,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.799999999999955,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.6999999992549419,
+          "p95RenderMs": 1.199999999254942,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -1.5203749334519283,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 460.6000000014901,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-subject13-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-subject13-idle.png",
+      "crop": "390-subject13-idle-crop.png",
+      "sha256": "2deef4c98ee77a1124ca26e0a0b6554f2154e343bbb6d92da958a8db0f384671",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 32,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.799999999999955,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1.1000000014901161,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.6774371082833917,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-subject13-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-subject13-hurt-tension.png",
+      "crop": "390-subject13-hurt-tension-crop.png",
+      "sha256": "0d0fd349fb62076cd8dafe9df3631926ecb04ea4e8cc8aa6b1025c3f568b3fcd",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 43,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.799999999999955,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5999999977648258,
+          "p95RenderMs": 1.1000000014901161,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -0.9321889742121959,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 439.6000000014901,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-anya-idle",
+      "kind": "actual-world-viewpoint-UI",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-anya-idle.png",
+      "crop": "390-anya-idle-crop.png",
+      "sha256": "863fa047df70dc4133a5ce056918ae1f5ffcef0101dfc7795add0fe5cd2f300f",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 59,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.799999999999955,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5,
+          "p95RenderMs": 1.1000000014901161,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "anya",
+            "name": "Sister Anya Velasquez",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "idle",
+          "pose": 0,
+          "x": 0,
+          "y": 0.4350067450528791,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "anya",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-anya-hurt-tension",
+      "kind": "world-isolated-scalar-body-state-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-anya-hurt-tension.png",
+      "crop": "390-anya-hurt-tension-crop.png",
+      "sha256": "9bc53ee870dabb86f2633a3b815087756db40b3794755daa7f00912f69a4a62c",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 72,
+          "medianFrameMs": 16.699999999999818,
+          "p95FrameMs": 16.799999999999955,
+          "maxFrameMs": 16.799999999999955,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5,
+          "p95RenderMs": 1.1000000014901161,
+          "calls": 46,
+          "triangles": 15896,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 30,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 15,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "anya",
+            "name": "Sister Anya Velasquez",
+            "alive": true,
+            "wounded": true,
+            "distressed": true
+          },
+          "action": "hurt",
+          "pose": 6,
+          "x": 0,
+          "y": -1.6052800412235777,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 456.5,
+          "selected": "anya",
+          "lifecycle": {
+            "created": 1,
+            "disposed": 0,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-interaction",
+      "kind": "world-real-keyboard-inspect",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-interaction.png",
+      "crop": "390-interaction-crop.png",
+      "sha256": "004848e6673545445969027feab38108e4fdc03ed82633d4c443950226b17f37",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 0,
+          "medianFrameMs": null,
+          "p95FrameMs": null,
+          "maxFrameMs": null,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": null,
+          "p95RenderMs": null,
+          "calls": 44,
+          "triangles": 15872,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 26,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 13,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "inspect",
+          "pose": 2,
+          "x": 0,
+          "y": -1.8929282767656512,
+          "rotation": 0,
+          "visible": true,
+          "phase": "contact",
+          "elapsedMs": 369.30000000074506,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-reduced-motion",
+      "kind": "world-isolated-reduced-motion",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-reduced-motion.png",
+      "crop": "390-reduced-motion-crop.png",
+      "sha256": "e77894b5dad7ca7959d43cb3e2ea9ab9ba8eba171f33e36119aff663614c085f",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 0,
+          "medianFrameMs": null,
+          "p95FrameMs": null,
+          "maxFrameMs": null,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": null,
+          "p95RenderMs": null,
+          "calls": 44,
+          "triangles": 15872,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 26,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 13,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": true
+          },
+          "action": "interact",
+          "pose": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 440.9000000022352,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-grayscale",
+      "kind": "world-isolated-grayscale",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-grayscale.png",
+      "crop": "390-grayscale-crop.png",
+      "sha256": "c1769b11c6884c9742ac7e5e0ddab6d08d5d27d5dc65f909a0325ad2afaf7a87",
+      "diagnostics": {
+        "renderer": {
+          "backend": "webgl2",
+          "ready": "true",
+          "gpu": {
+            "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+            "vendor": "Google Inc. (Intel)",
+            "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+          },
+          "samples": 3,
+          "medianFrameMs": 16.600000000000364,
+          "p95FrameMs": 16.799999999999727,
+          "maxFrameMs": 16.799999999999727,
+          "framesOver20Ms": 0,
+          "framesOver40Ms": 0,
+          "stallsOver250Ms": 0,
+          "commitToFrame": {
+            "samples": 0,
+            "medianMs": null,
+            "p95Ms": null,
+            "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+          },
+          "medianRenderMs": 0.5,
+          "p95RenderMs": 1,
+          "calls": 44,
+          "triangles": 15872,
+          "geometries": 7,
+          "textures": 18,
+          "programs": 8,
+          "pixelRatio": 1,
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          },
+          "materials": 44,
+          "loadedAssets": [
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+            "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+            "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+          ],
+          "assetErrors": [],
+          "quality": "balanced",
+          "moving": false,
+          "sceneBuilds": 1,
+          "camera": {
+            "x": 8,
+            "y": 1.6,
+            "z": 26,
+            "yaw": 0
+          },
+          "authoritative": {
+            "depth": 1,
+            "x": 4,
+            "y": 13,
+            "direction": "north"
+          },
+          "estimatedTextureBytes": 37770581,
+          "characters": [
+            {
+              "id": "keeper",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                5.25,
+                0,
+                29.5
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.72,
+              "scaleY": 1
+            },
+            {
+              "id": "guard",
+              "visible": true,
+              "frame": 0,
+              "world": [
+                26.6,
+                0,
+                3.6
+              ],
+              "pivot": [
+                0.5,
+                0.92
+              ],
+              "worldHeight": 1.86,
+              "scaleY": 1
+            }
+          ],
+          "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+          "postPasses": 0,
+          "shadowMaps": 0
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": true
+          },
+          "action": "interact",
+          "pose": 1,
+          "x": 0,
+          "y": 0,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 615.6999999992549,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 2,
+            "disposed": 1,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-combat-ready",
+      "kind": "actual-event-entered-combat",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-combat-ready.png",
+      "crop": "390-combat-ready-crop.png",
+      "sha256": "f6987d3ec99fca05f0906cc7b35c119c94a028daf649378f696aa3cf5b9bff51",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "brace",
+          "pose": 5,
+          "x": 0,
+          "y": 0.3970360828389494,
+          "rotation": 0,
+          "visible": true,
+          "phase": "rest",
+          "elapsedMs": 0,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 5,
+            "disposed": 4,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-combat-action",
+      "kind": "actual-combat-action",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-combat-action.png",
+      "crop": "390-combat-action-crop.png",
+      "sha256": "3157e02c01de372eefe9b76fae02af814c77f31e05351a95c418a813c56bf01e",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "attack",
+          "pose": 3,
+          "x": 0,
+          "y": -1.700729823239808,
+          "rotation": 0,
+          "visible": true,
+          "phase": "contact",
+          "elapsedMs": 380.9000000022352,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-elias-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-elias-combat-support.png",
+      "crop": "390-elias-combat-support-crop.png",
+      "sha256": "d3b513929cbc2daf58d9b24c28f5e2854e302ea860f8b792682298ce2c62f279",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "elias",
+            "name": "Elias Ward",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -2.488280248080076,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 440.30000000074506,
+          "selected": "elias",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-miriam-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-miriam-combat-support.png",
+      "crop": "390-miriam-combat-support-crop.png",
+      "sha256": "90e49410c55fbafa6dc129580306ff433b8b795eb8070f3e8011542964d10c61",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "miriam",
+            "name": "Dr. Miriam Kessler",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -1.9725081944096807,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 430.5,
+          "selected": "miriam",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-subject13-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-subject13-combat-support.png",
+      "crop": "390-subject13-combat-support-crop.png",
+      "sha256": "0309adfc412809b43bc9e4a3b56dc8ace7c5a4a81b238937defe626a6a357692",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "subject13",
+            "name": "Subject 13",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -1.6682038132770067,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 462.5,
+          "selected": "subject13",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-anya-combat-support",
+      "kind": "isolated-passive-combat-hand-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-anya-combat-support.png",
+      "crop": "390-anya-combat-support-crop.png",
+      "sha256": "11213cdf9eb17c04bdb135539d525c7280ef9d971163eacefb0c85bc42009c7a",
+      "diagnostics": {
+        "renderer": {
+          "backend": "inactive"
+        },
+        "presence": {
+          "person": {
+            "id": "anya",
+            "name": "Sister Anya Velasquez",
+            "alive": true,
+            "wounded": false,
+            "distressed": false
+          },
+          "action": "cast",
+          "pose": 5,
+          "x": 0,
+          "y": -2.2455289707602577,
+          "rotation": 0,
+          "visible": true,
+          "phase": "recovery",
+          "elapsedMs": 448,
+          "selected": "anya",
+          "lifecycle": {
+            "created": 6,
+            "disposed": 5,
+            "active": 1
+          }
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-six-character-family",
+      "kind": "isolated-native-grayscale-gallery",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-six-character-family.png",
+      "crop": "390-six-character-family-crop.png",
+      "sha256": "ef3d831ccd67284a4251c01843acc57ddb70990452f750c91e360c15a48e7895",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "keeper",
+            "scene": "gallery",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-elias-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-elias-exploration.png",
+      "crop": "390-elias-exploration-crop.png",
+      "sha256": "3f4ec6853c526b36b5b39ff63ad87eb41dad317df0fae45fe69b8e0949af98bf",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "elias",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 1,
+              "disposed": 0,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/elias/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 40392021,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "elias",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.78,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-elias-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-elias-combat.png",
+      "crop": "390-elias-combat-crop.png",
+      "sha256": "e763284cf51ad468ff2c6d926f80c77d31cd4953965aa4b59b211a984598337d",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "elias",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-elias-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-elias-sequence.png",
+      "crop": "390-elias-sequence-crop.png",
+      "sha256": "e309b1d1dd4a75bd25baae39533a6229e45091e18c2700e7f96b7db0280ce993",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "elias",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-miriam-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-miriam-exploration.png",
+      "crop": "390-miriam-exploration-crop.png",
+      "sha256": "2d3f8bf053a37ce3bc93d3d34469b1653c5dc2621bdb9838d8541cd9cfd6383e",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "miriam",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 2,
+              "disposed": 1,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/miriam/hero-atlas.png"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 40392021,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "miriam",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.7,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-miriam-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-miriam-combat.png",
+      "crop": "390-miriam-combat-crop.png",
+      "sha256": "d1a7702f37cd7c9c81df02d8bec021f449f24aa55b93e43ae878cd0f27dff9b7",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "miriam",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-miriam-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-miriam-sequence.png",
+      "crop": "390-miriam-sequence-crop.png",
+      "sha256": "752a0718fc8fbd594cd96dc162dcc0875ec52770077abd31a94263eff9601d2c",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "miriam",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-subject13-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-subject13-exploration.png",
+      "crop": "390-subject13-exploration-crop.png",
+      "sha256": "7dda18ab18869b8fcbc1f31308827112698b0484122433362a6a452bca7edeb1",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "subject13",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 3,
+              "disposed": 2,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 39081301,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "subject13",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.64,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-subject13-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-subject13-combat.png",
+      "crop": "390-subject13-combat-crop.png",
+      "sha256": "37f7cfdaa02dc711d78e28a58ae4a71afece9d30d99c3372fd364200349af166",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "subject13",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-subject13-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-subject13-sequence.png",
+      "crop": "390-subject13-sequence-crop.png",
+      "sha256": "cb59c35e1a09730472889e41aadbcd71b69550e2dd10d25d7598b64a2e323422",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "subject13",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-anya-exploration",
+      "kind": "isolated-world-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-anya-exploration.png",
+      "crop": "390-anya-exploration-crop.png",
+      "sha256": "1b68659153474f8070284ef975aa9f1357045fa0d610b5a5a297555c503ec6a4",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "anya",
+            "scene": "exploration",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "renderer": {
+            "backend": "webgl2",
+            "ready": "true",
+            "gpu": {
+              "renderer": "ANGLE (Intel, Mesa Intel(R) Iris(R) Xe Graphics (TGL GT2), OpenGL 4.6)",
+              "vendor": "Google Inc. (Intel)",
+              "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)"
+            },
+            "samples": 0,
+            "medianFrameMs": null,
+            "p95FrameMs": null,
+            "maxFrameMs": null,
+            "framesOver20Ms": 0,
+            "framesOver40Ms": 0,
+            "stallsOver250Ms": 0,
+            "commitToFrame": {
+              "samples": 0,
+              "medianMs": null,
+              "p95Ms": null,
+              "scope": "committed grid transition to first changed camera frame submitted; excludes OS input and queued-intent waiting"
+            },
+            "medianRenderMs": null,
+            "p95RenderMs": null,
+            "calls": 34,
+            "triangles": 14528,
+            "geometries": 6,
+            "textures": 10,
+            "programs": 8,
+            "pixelRatio": 1,
+            "lifecycle": {
+              "created": 4,
+              "disposed": 3,
+              "active": 1
+            },
+            "materials": 45,
+            "loadedAssets": [
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_wall_base_threshold.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/depth1/d1_floor_linoleum.webp",
+              "/Depths-of-the-Fractured-Mind/assets/textures/global/ceiling_concrete_panels.webp",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/keeper/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/guard/character-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/subject13/hero-atlas.png",
+              "/Depths-of-the-Fractured-Mind/assets/sprites/characters/anya/hero-atlas.png"
+            ],
+            "assetErrors": [],
+            "quality": "balanced",
+            "moving": false,
+            "sceneBuilds": 1,
+            "camera": {
+              "x": 24,
+              "y": 1.6,
+              "z": 14,
+              "yaw": 0
+            },
+            "authoritative": {
+              "depth": 1,
+              "x": 12,
+              "y": 7,
+              "direction": "north"
+            },
+            "estimatedTextureBytes": 40392021,
+            "characters": [
+              {
+                "id": "keeper",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  5.25,
+                  0,
+                  29.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.72,
+                "scaleY": 1
+              },
+              {
+                "id": "guard",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  26.6,
+                  0,
+                  3.6
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.86,
+                "scaleY": 1
+              },
+              {
+                "id": "anya",
+                "visible": true,
+                "frame": 0,
+                "world": [
+                  24,
+                  0,
+                  9.5
+                ],
+                "pivot": [
+                  0.5,
+                  0.92
+                ],
+                "worldHeight": 1.83,
+                "scaleY": 1
+              }
+            ],
+            "timingScope": "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
+            "postPasses": 0,
+            "shadowMaps": 0
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-anya-combat",
+      "kind": "isolated-shared-combat-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-anya-combat.png",
+      "crop": "390-anya-combat-crop.png",
+      "sha256": "d01e690dc1353e0e9211da29af191a9af8588e7cfa8f72476b78fe3e5798fb26",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "anya",
+            "scene": "combat",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    },
+    {
+      "name": "390-anya-sequence",
+      "kind": "isolated-shared-sequence-hero-fixture",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "path": "390-anya-sequence.png",
+      "crop": "390-anya-sequence-crop.png",
+      "sha256": "c0d5781d1326d80122f7c9707d2d9922cfcb62307ad158fd48afe7bbfe661a7c",
+      "diagnostics": {
+        "art": {
+          "review": {
+            "character": "anya",
+            "scene": "sequence",
+            "animation": "idle",
+            "elapsedMs": 0,
+            "playing": false,
+            "reducedMotion": false
+          },
+          "gameplayUnchanged": true,
+          "generatedFrames": 16,
+          "savedChanges": false
+        },
+        "overflow": false
+      }
+    }
+  ],
+  "motion": [
+    {
+      "path": "1280-presence-motion.webm",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "kind": "actual-browser-unpaused-input-plus-labeled-pose-fixtures",
+      "audio": "muted"
+    },
+    {
+      "path": "390-presence-motion.webm",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "kind": "actual-browser-unpaused-input-plus-labeled-pose-fixtures",
+      "audio": "muted"
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "captureUtilitySha256": "6d1754408df48183aef0258ea83006368a6c52c9f7ff22da8e002dae0d0872ff"
+}

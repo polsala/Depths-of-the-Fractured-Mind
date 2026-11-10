@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-10",
+  "tool": "OpenAI Codex built-in image_gen",
+  "route": "host-image_gen",
+  "backendModel": "not exposed by tool",
+  "cost": "not exposed by tool",
+  "nativeAlphaRequested": true,
+  "sourcePurpose": "Original-input paired first-person hand key-pose candidates. Human art/acting acceptance required.",
+  "normalization": "utils/build-presence-atlases.mjs",
+  "contract": "src/assets/presence-atlas-contract.json",
+  "rightsEvidence": "See phase01b source provenance and retained provider terms; generation alone is not rights or artistic sign-off.",
+  "assets": [
+    {
+      "id": "elias",
+      "source": "elias-raw.png",
+      "sha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687",
+      "prompt": "elias-prompt.txt",
+      "promptSha256": "2a7e205570ce19e3765506a792c3de73c7c1a2b4f1a36222dd5daac2e93d32e8",
+      "toolOutput": "exec-cbf0a0e1-1836-4951-9344-44cac86d2d45.png",
+      "references": [
+        {
+          "path": "../elias-master/master_rgba.png",
+          "sha256": "3043da7d69cdd023b9b77779ecf58b5c5159542f2cea63b74767024bd640b164"
+        }
+      ],
+      "runtime": "public/assets/sprites/characters/elias/presence-atlas.png",
+      "runtimeSha256": "10b29742ff91c74600df4f08487c69b75ccdbfae90f3780b4fc9d0ff9b0a4253",
+      "approval": "human-review-required"
+    },
+    {
+      "id": "miriam",
+      "source": "miriam-raw.png",
+      "sha256": "23641ea5905f814395c9e21a6a5c55d6fe2c6dfb8c27d81cb5b61af302fbbd88",
+      "prompt": "miriam-prompt.txt",
+      "promptSha256": "cf0fa20d528b3a3c7f0b5a78d2ecac4b7523965c952a5d99e3a1494499870a94",
+      "toolOutput": "exec-2d5b1ac7-6a53-4e7a-b2c4-c547851a3e23.png",
+      "references": [
+        {
+          "path": "../miriam-master-raw.png",
+          "sha256": "cc7d30aeaec4fcc4bec5b68eb6efc0b25363c32aed92c8323df18c00aa33da47"
+        },
+        {
+          "path": "elias-raw.png",
+          "sha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687"
+        }
+      ],
+      "runtime": "public/assets/sprites/characters/miriam/presence-atlas.png",
+      "runtimeSha256": "eafbcdf6feda30e709bcbab4d15880104f279d934d1cd352987c3a1ddff0caae",
+      "approval": "human-review-required"
+    },
+    {
+      "id": "subject13",
+      "source": "subject13-raw.png",
+      "sha256": "6ab1154e1c3fcfcaf50bd562eb4c4481531917e4682bc56dfbe9d55e5a5c4eb1",
+      "prompt": "subject13-prompt.txt",
+      "promptSha256": "fa9fb310d360269544dac6013c12b8bfcb1583d72840fbf0d4bc7387a5960430",
+      "toolOutput": "exec-37212364-cd0f-47f6-b9d3-b1fe3f4a7361.png",
+      "references": [
+        {
+          "path": "../subject13-master-raw.png",
+          "sha256": "eff63d9dac3ffc709ed83f9f3e47d5d70055d345a7b331916cab14832f436b4e"
+        },
+        {
+          "path": "elias-raw.png",
+          "sha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687"
+        }
+      ],
+      "runtime": "public/assets/sprites/characters/subject13/presence-atlas.png",
+      "runtimeSha256": "c6dbbd64956f65975c9455e517b45ada095e24e3982fdc78e34edaa83e457d56",
+      "approval": "human-review-required"
+    },
+    {
+      "id": "anya",
+      "source": "anya-raw.png",
+      "sha256": "d7e84c5ae30d8c5f0fc4d73dd04bc64f7bc8b26cceef6da9a0fe153ead2d9714",
+      "prompt": "anya-prompt.txt",
+      "promptSha256": "0210a37947db99434e9cae848f16968fa83a7ea8e92621e5c5db59784bb92a6d",
+      "toolOutput": "exec-b41f0656-43a7-49c5-8f3c-523c1dd15446.png",
+      "references": [
+        {
+          "path": "../anya-master-raw.png",
+          "sha256": "d37997833e97a71ae08161669faea3bc00becc83ec655aec45608ce4d92c15de"
+        },
+        {
+          "path": "elias-raw.png",
+          "sha256": "e114b66799ec5b5e872cc387ec4ead4f1f1259b5a3293a811cb0fcb0da3ec687"
+        }
+      ],
+      "runtime": "public/assets/sprites/characters/anya/presence-atlas.png",
+      "runtimeSha256": "ea0e17f5088888004cb7f226c03a818294da85c5e692fdd5e5f090ad76b80cd5",
+      "approval": "human-review-required"
+    }
+  ]
+}

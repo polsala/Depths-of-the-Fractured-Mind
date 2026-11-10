@@ -1,0 +1,181 @@
+{
+  "schema": "generate2dsprite.master.v1",
+  "tool": {
+    "name": "master_still",
+    "version": "0.5.0"
+  },
+  "created": "2026-11-10T10:54:47.493Z",
+  "name": "subject13",
+  "subject": "Subject 13, an androgynous fragmented witness appearing mid-twenties, full body",
+  "identity_recap": "Subject 13, an androgynous fragmented witness appearing mid-twenties, full body (Compact slender and fragile adult with pallid ash face, uneven short dark hair peeking through bone bandages around scalp and across one eye; other tired human eye visible. No skull face. Olive institutional patient tunic and loose ash trousers, bone layered wraps on wrists and forearms, bare pale long fingers separated; low worn shoes, hunched guarded shoulders. No weapon. One hand protects ribs, one partly open in apprehension)",
+  "facing": "front",
+  "view": "almost frontal three-quarter level camera",
+  "finish": "hd",
+  "class": "hero",
+  "framing": {
+    "canvas": [
+      1024,
+      1024
+    ],
+    "subject_height_px": 788,
+    "top_margin_px": 138,
+    "lead_px": 0,
+    "preset": "hero",
+    "subject_bbox": [
+      360,
+      138,
+      665,
+      926
+    ],
+    "anchor": [
+      481.5,
+      926.0
+    ],
+    "opaque_area_px": 125789,
+    "width_limited": false
+  },
+  "key": "#FF00FF",
+  "files": {
+    "master": {
+      "path": "master.png",
+      "sha256": "223f58dcfa1bf4420d950cae61fbe8b9f726ee8524f0ffcbd524fc90a93067b0",
+      "bytes": 215175,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "cutout": {
+      "path": "master_rgba.png",
+      "sha256": "49cecaee6b078fc1b76911f9cb2730e89d1fa2eb9f3b73d625f3c1aaa5c0ce44",
+      "bytes": 250574,
+      "size": [
+        1024,
+        1024
+      ]
+    },
+    "source": {
+      "path": "source.png",
+      "sha256": "eff63d9dac3ffc709ed83f9f3e47d5d70055d345a7b331916cab14832f436b4e",
+      "bytes": 750705,
+      "size": [
+        1086,
+        1448
+      ]
+    },
+    "spec": {
+      "path": "spec.json",
+      "sha256": "50ad696b066d54f3a1acca74a0ddfcbd104f3466b759b95feba81993ed7eea8f",
+      "bytes": 1670
+    },
+    "prompt": {
+      "path": "prompt.txt",
+      "sha256": "0452912e4f809f8248f40ca43d40f8ea35bf8e4dd521912a36ff49fc8362c406",
+      "bytes": 2160
+    }
+  },
+  "references": [
+    {
+      "role": "style",
+      "path": "../../phase01a/guard-master.png",
+      "sha256": "ed87a50b3469b86f0155067ed29ab1a2de466ce17e5f4c4072909d3f5ae0077c",
+      "bytes": 783248
+    }
+  ],
+  "transform": {
+    "mapping": "master = scale * source + offset (continuous pixel coordinates: pixel i spans [i, i + 1))",
+    "source_size": [
+      1086,
+      1448
+    ],
+    "source_subject_bbox": [
+      281,
+      22,
+      827,
+      1435
+    ],
+    "crop_box": [
+      275,
+      16,
+      833,
+      1441
+    ],
+    "crop_margin_px": 6,
+    "scale": 0.5576786978060864,
+    "offset": [
+      203.04600141542818,
+      125.7310686482661
+    ],
+    "canvas": [
+      1024,
+      1024
+    ],
+    "resampler": "lanczos",
+    "premultiplied": true,
+    "alpha_floor_px": 3214,
+    "subject_parts": 1,
+    "ignored_parts": 0,
+    "ignored_px": 0,
+    "source_touches": [],
+    "key_rgb": [
+      255,
+      0,
+      255
+    ]
+  },
+  "route": "host-image_gen",
+  "provenance": {
+    "command": "prompt",
+    "run": "../subject13-prompt",
+    "take": null,
+    "source_name": "subject13-master-raw.png",
+    "source_sha256": "eff63d9dac3ffc709ed83f9f3e47d5d70055d345a7b331916cab14832f436b4e",
+    "media": null,
+    "media_cli_source": null,
+    "edit": null
+  },
+  "matte": {
+    "requested": "soft",
+    "key_estimate": {
+      "key": [
+        255.0,
+        0.0,
+        255.0
+      ],
+      "source": "native_alpha",
+      "valid": false,
+      "ring_share": 0.0,
+      "coverage": 0.0,
+      "distance_from_declared": 0.0
+    },
+    "quality": "native_alpha",
+    "qa": {
+      "key": [
+        255.0,
+        0.0,
+        255.0
+      ],
+      "opaque_key_px": 0,
+      "outer_ring_spill_fraction": 0.0027310745071263977,
+      "semitransparent_fraction": 0.9976576122849445,
+      "enclosed_key_pockets": 0,
+      "key_hued_px": 0,
+      "visible_px": 420938,
+      "outer_ring_px": 11717,
+      "thresholds": {
+        "key_tolerance": 48.0,
+        "spill_threshold": 20.0,
+        "min_pocket_area": 16,
+        "opaque_alpha": 128,
+        "spill_hue_balance": 0.5
+      },
+      "method": "forge_matte.matte_qa v1: straight-colour key distance and dominance on the keyed image; two-channel keys count spill only where the key channels are balanced"
+    },
+    "key_choice": {
+      "status": "ok",
+      "overlap_share": 0.0,
+      "rule": "reject a key when more than 0.5% of subject pixels have key dominance >= 40; first acceptable candidate wins"
+    }
+  },
+  "warnings": []
+}

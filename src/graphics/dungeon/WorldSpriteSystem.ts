@@ -1,18 +1,21 @@
 import { DoubleSide, Group, Mesh, MeshStandardMaterial, PlaneGeometry } from "three";
 import type { Camera, Scene, Texture } from "three";
-import { assetUrl, OBJECT_SPRITES } from "../../assets/manifest";
+import { OBJECT_SPRITES } from "../../assets/manifest";
 import { RenderAssetManager } from "./RenderAssetManager";
 import type { DungeonPresentationSnapshot } from "./types";
 import { characterAtlasUrl, characterContract, characterFrame, type ReferenceCharacter } from "../../assets/character-sprites";
+import { heroAtlasUrl, heroContract, heroFrame } from "../../assets/hero-sprites";
+import type { CharacterId } from "../../game/state";
 
 interface WorldSprite {
   readonly group: Group;
   readonly x: number;
   readonly y: number;
-  readonly kind: "npc" | "chest" | "vendor" | "echo" | "guard";
+  readonly kind: "npc" | "chest" | "vendor" | "echo" | "guard" | "hero";
   readonly material: MeshStandardMaterial;
   readonly atlas?: Texture;
   readonly character?: ReferenceCharacter;
+  readonly hero?: CharacterId;
   frame?: number;
 }
 
@@ -55,9 +58,9 @@ export class WorldSpriteSystem {
     }
     if (snapshot.map.layoutId === "depth1-intake-v1") {
       if (snapshot.guardPresent) this.addCharacter(scene, assets, "guard", 13, 2, 26.6, 3.6);
-      const atlas = assets.ownTexture(assets.loadTexture(assetUrl("assets/sprites/characters/subject13/hero-atlas.png"), true).clone());
-      atlas.repeat.set(128 / 512, 160 / 512);
-      atlas.offset.set(0, 1 - 160 / 512);
+      const atlas = assets.ownTexture(assets.loadTexture(heroAtlasUrl("subject13"), true).clone());
+      atlas.repeat.set(heroContract.frameWidth / heroContract.width, heroContract.frameHeight / heroContract.height);
+      atlas.offset.set(0, 1 - heroContract.frameHeight / heroContract.height);
       // Alpha test includes material opacity: a 0.5 cutoff erased the entire
       // high-SAN (0.42 opacity) figure instead of making it uncertain.
       const material = new MeshStandardMaterial({ map: atlas, alphaTest: 0.1, side: DoubleSide,
@@ -72,7 +75,25 @@ export class WorldSpriteSystem {
       this.sprites.push({ group, x: 12, y: 11, kind: "echo", material, atlas });
       void assets.whenReady().then(() => { if (!this.disposed) atlas.needsUpdate = true; });
     }
+    if (snapshot.heroPreview) this.addHero(scene, assets, snapshot.heroPreview.id);
     } catch (error) { this.dispose(); throw error; }
+  }
+
+  private addHero(scene: Scene, assets: RenderAssetManager, id: CharacterId): void {
+    const atlas = assets.ownTexture(assets.loadTexture(heroAtlasUrl(id), true).clone());
+    atlas.repeat.set(heroContract.frameWidth / heroContract.width, heroContract.frameHeight / heroContract.height);
+    atlas.offset.set(0, 1 - heroContract.frameHeight / heroContract.height);
+    const material = new MeshStandardMaterial({ map: atlas, alphaTest: 0.5, side: DoubleSide,
+      roughness: 1, color: 0xffffff, emissive: 0xffffff, emissiveMap: atlas, emissiveIntensity: 0.18 });
+    const group = new Group(); group.name = `hero-review:${id}`;
+    group.position.set(24, 0, 9.5);
+    const height = heroContract.characters[id].worldHeight * heroContract.frameHeight / heroContract.standingPixels;
+    const sprite = new Mesh(this.geometry, material);
+    sprite.scale.set(height * heroContract.frameWidth / heroContract.frameHeight, height, 1);
+    sprite.position.y = height * (heroContract.pivot[1] - .5);
+    group.add(sprite); scene.add(group);
+    this.sprites.push({ group, x: 12, y: 5, kind: "hero", material, atlas, hero: id, frame: 0 });
+    void assets.whenReady().then(() => { if (!this.disposed) atlas.needsUpdate = true; });
   }
 
   private addCharacter(scene: Scene, assets: RenderAssetManager, id: ReferenceCharacter,
@@ -112,7 +133,13 @@ export class WorldSpriteSystem {
         sprite.material.opacity = certainty * Math.min(1, Math.max(0, (distance - 2) / 1.2));
       }
       sprite.group.rotation.y = Math.atan2(camera.position.x - sprite.group.position.x, camera.position.z - sprite.group.position.z);
-      sprite.group.scale.y = reducedMotion || sprite.character || sprite.kind === "chest" || sprite.kind === "echo" ? 1 : 1 + Math.sin(elapsed * 1.4 + sprite.x) * 0.003;
+      sprite.group.scale.y = reducedMotion || sprite.character || sprite.hero || sprite.kind === "chest" || sprite.kind === "echo" ? 1 : 1 + Math.sin(elapsed * 1.4 + sprite.x) * 0.003;
+      if (sprite.hero && sprite.atlas) {
+        const preview = snapshot.heroPreview;
+        const frame = heroFrame(sprite.hero, preview?.animation ?? "idle", preview?.elapsedMs ?? 0, preview ? false : reducedMotion);
+        sprite.atlas.offset.set(frame.x / heroContract.width, 1 - (frame.y + frame.height) / heroContract.height);
+        sprite.frame = frame.index; continue;
+      }
       if (sprite.character && sprite.atlas) {
         const preview = snapshot.characterPreview?.id === sprite.character ? snapshot.characterPreview : undefined;
         const frame = characterFrame(preview?.animation ?? "idle", preview?.elapsedMs ?? elapsed * 1000, preview ? false : reducedMotion);
@@ -120,17 +147,21 @@ export class WorldSpriteSystem {
         sprite.frame = frame.index;
         continue;
       }
-      // Two real authored idle poses, cells 0 and 3 of the unchanged atlas.
+      // Read the same protagonist frame and dimensions used by combat/HUD.
       // The frame's feet pivot stays fixed while only its UV changes.
-      if (sprite.atlas) sprite.atlas.offset.x = reducedMotion || Math.floor(elapsed / 0.5) % 2 === 0 ? 0 : 3 * 128 / 512;
+      if (sprite.atlas) {
+        const frame = heroFrame("subject13", "idle", elapsed * 1000, reducedMotion);
+        sprite.atlas.offset.set(frame.x / heroContract.width, 1 - (frame.y + frame.height) / heroContract.height);
+      }
     }
   }
 
   get materialCount(): number { return this.sprites.length; }
   diagnostics() {
-    return this.sprites.filter((sprite) => sprite.character).map((sprite) => ({ id: sprite.character,
+    return this.sprites.filter((sprite) => sprite.character || sprite.hero).map((sprite) => ({ id: sprite.character ?? sprite.hero,
       visible: sprite.group.visible, frame: sprite.frame, world: sprite.group.position.toArray(),
-      pivot: characterContract.pivot, worldHeight: characterContract.characters[sprite.character!].worldHeight,
+      pivot: sprite.hero ? heroContract.pivot : characterContract.pivot,
+      worldHeight: sprite.hero ? heroContract.characters[sprite.hero].worldHeight : characterContract.characters[sprite.character!].worldHeight,
       scaleY: sprite.group.scale.y }));
   }
   dispose(): void {

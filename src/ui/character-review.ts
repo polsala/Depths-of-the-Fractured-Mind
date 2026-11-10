@@ -1,6 +1,6 @@
 import { characterAtlasUrl, characterAtlasesReady, characterContract, characterFrame, drawCharacter,
   type CharacterAnimation, type ReferenceCharacter } from "../assets/character-sprites";
-import { heroAtlasUrl } from "../assets/hero-sprites";
+import { heroAtlasUrl, heroContract, heroFrame, type HeroAnimation } from "../assets/hero-sprites";
 import { assetUrl } from "../assets/manifest";
 import type { CharacterId } from "../game/state";
 import { GameController } from "../game/index";
@@ -13,7 +13,8 @@ import { DungeonRenderer } from "../graphics/dungeon/DungeonRenderer";
 import { presentDungeon, type DungeonPresentationSnapshot } from "../graphics/dungeon/types";
 
 type Scene = "exploration" | "combat" | "gallery" | "sequence";
-interface Review { character: ReferenceCharacter; scene: Scene; animation: CharacterAnimation; elapsedMs: number; playing: boolean; reducedMotion: boolean }
+type ReviewCharacter = ReferenceCharacter | CharacterId;
+interface Review { character: ReviewCharacter; scene: Scene; animation: CharacterAnimation | HeroAnimation; elapsedMs: number; playing: boolean; reducedMotion: boolean }
 const heroes: CharacterId[] = ["elias", "miriam", "subject13", "anya"];
 
 /** QA-only presentation laboratory. No saves, rewards, inputs or combat rules. */
@@ -37,14 +38,14 @@ export async function initCharacterReview(root: HTMLDivElement): Promise<void> {
   const style = document.createElement("style");
   style.textContent = `.character-review{max-width:1200px;margin:auto;padding:16px;color:#ddd8c3}.character-review h1{font-size:20px;margin:0 0 8px}.character-review p{line-height:1.5}.character-review nav{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.character-review button,.character-review select{padding:10px;background:#24332e;color:#ddd8c3;border:1px solid #8c9e91;min-height:44px}.character-review canvas{display:block;max-width:100%;height:auto;margin:12px auto;image-rendering:pixelated}.character-review .world{width:min(100%,960px);height:500px;image-rendering:auto}.character-review .review-note{font-size:14px;color:#c4b894;border-left:2px solid #b99b63;padding-left:12px}.character-review .review-status{font:14px monospace}@media(max-width:600px){.character-review{padding:12px}.character-review .world{height:auto;aspect-ratio:4/3}}`;
   document.head.append(style);
-  const heading = document.createElement("h1"); heading.textContent = "Character art reference · Phase 01A";
+  const heading = document.createElement("h1"); heading.textContent = "Character art reference · Phase 01A / 01B";
   const note = document.createElement("p"); note.className = "review-note";
   note.textContent = "Isolated visual fixture · no gameplay consequences or saved changes. Keeper combat is an art preview, not a new encounter. Human approval pending.";
   const nav = document.createElement("nav"); nav.setAttribute("aria-label", "Art review");
   const stage = document.createElement("section"); const status = document.createElement("p"); status.className = "review-status";
   root.replaceChildren(heading, note, nav, stage, status);
-  for (const character of ["keeper", "guard"] as const) {
-    const button = document.createElement("button"); button.textContent = character === "keeper" ? "Keeper" : "Guard";
+  for (const character of [...heroes, "keeper", "guard"] as const) {
+    const button = document.createElement("button"); button.textContent = character;
     button.onclick = () => { void show({ character }); }; nav.append(button);
   }
   for (const scene of ["gallery", "exploration", "combat", "sequence"] as const) {
@@ -61,19 +62,22 @@ export async function initCharacterReview(root: HTMLDivElement): Promise<void> {
 
   function snapshot(time: number): DungeonPresentationSnapshot {
     const base = presentDungeon(state);
+    const hero = heroes.includes(review.character as CharacterId);
     return { ...base, location: review.character === "keeper" ? { depth: 1, x: 4, y: 15, direction: "west" }
-      : { depth: 1, x: 13, y: 4, direction: "north" },
+      : hero ? { depth: 1, x: 12, y: 7, direction: "north" } : { depth: 1, x: 13, y: 4, direction: "north" },
       map: { ...base.map, tiles: base.map.tiles.map((row) => row.map((tile) => tile.featureId === "release-shutter" ? { ...tile, locked: false } : tile)) },
       flags: { ...base.flags, intakePowerRestored: true },
-      characterPreview: { id: review.character, animation: review.animation,
-        elapsedMs: review.reducedMotion ? review.animation === "death" ? 650 : 0 : time } };
+      characterPreview: hero ? undefined : { id: review.character as ReferenceCharacter, animation: review.animation as CharacterAnimation,
+        elapsedMs: review.reducedMotion ? review.animation === "death" ? 650 : 0 : time },
+      heroPreview: hero ? { id: review.character as CharacterId, animation: review.animation as HeroAnimation,
+        elapsedMs: review.reducedMotion ? review.animation === "death" ? 650 : 0 : time } : undefined };
   }
 
   function combat(): CombatState {
     const enemy = createEnemyState(ENEMIES.deranged_guard);
     enemy.id = review.character === "keeper" ? "keeper" : "deranged_guard";
     enemy.name = review.character === "keeper" ? "Keeper · art fixture" : "Deranged Guard";
-    if (review.animation === "death") { enemy.alive = false; enemy.stats.hp = 0; }
+    if (review.animation === "death" && !heroes.includes(review.character as CharacterId)) { enemy.alive = false; enemy.stats.hp = 0; }
     return { party: structuredClone(state.party), encounter: { enemies: [enemy] }, turn: 1, phase: "select-action",
       turnOrder: [{ isPlayer: true, index: 0, speed: 6 }], currentTurnIndex: 0, log: [], shownLowHealthDialogues: [],
       isBossFight: false, combatDepth: 1, enemyIntents: { 0: review.character === "guard"
@@ -115,8 +119,11 @@ export async function initCharacterReview(root: HTMLDivElement): Promise<void> {
   function sequence(): void {
     canvas.width = 512; canvas.height = 736;
     const ctx = canvas.getContext("2d")!; ctx.fillStyle = "#121b23"; ctx.fillRect(0, 0, 512, 736);
-    const clipNames = ["neutral", "breath", "alert", "load", "windup", "strike", "follow", "catch", "settle", "recoil", "fold", "recover", "give", "kneel", "fall", "defeated"];
-    const atlas = images.get(characterAtlasUrl(review.character))!;
+    const clipNames = heroes.includes(review.character as CharacterId)
+      ? ["neutral", "breath", "alert", "load", "strike", "recover", "support-load", "support", "support-settle", "brace", "hit", "strain", "give", "kneel", "fall", "defeated"]
+      : ["neutral", "breath", "alert", "load", "windup", "strike", "follow", "catch", "settle", "recoil", "fold", "recover", "give", "kneel", "fall", "defeated"];
+    const atlas = images.get(heroes.includes(review.character as CharacterId)
+      ? heroAtlasUrl(review.character as CharacterId) : characterAtlasUrl(review.character as ReferenceCharacter))!;
     ctx.imageSmoothingEnabled = false; ctx.font = "11px monospace"; ctx.fillStyle = "#ddd8c3";
     for (let i = 0; i < 16; i++) {
       const x = i % 4 * 128, y = Math.floor(i / 4) * 184;
@@ -128,6 +135,11 @@ export async function initCharacterReview(root: HTMLDivElement): Promise<void> {
   async function show(update: Partial<Review> = {}): Promise<void> {
     cancelAnimationFrame(frame); renderer?.dispose(); renderer = null;
     review = { ...review, ...update }; select.value = review.animation;
+    const hero = heroes.includes(review.character as CharacterId);
+    const animations = hero ? heroContract.animations : characterContract.animations;
+    if (!(review.animation in animations)) review.animation = "idle";
+    select.replaceChildren(...Object.keys(animations).map((animation) => new Option(animation, animation)));
+    select.value = review.animation;
     canvas = document.createElement("canvas"); canvas.setAttribute("aria-label", `${review.character} ${review.scene} visual review`); stage.replaceChildren(canvas);
     if (review.scene === "exploration") {
       canvas.className = "world";
@@ -144,8 +156,10 @@ export async function initCharacterReview(root: HTMLDivElement): Promise<void> {
       if (review.scene === "combat") renderCombatUI(canvas, combatState, {
         width: Math.min(1260, window.innerWidth - 24), height: window.innerWidth < 650 ? 464 : 328,
         backgroundImage: background, nowMs: review.reducedMotion ? 0 : time, reducedMotion: review.reducedMotion,
-        characterPreview: { id: review.character, animation: review.animation, elapsedMs: time } });
-      const current = characterFrame(review.animation, time, review.reducedMotion);
+        characterPreview: hero ? undefined : { id: review.character as ReferenceCharacter, animation: review.animation as CharacterAnimation, elapsedMs: time },
+        heroPreview: hero ? { id: review.character as CharacterId, animation: review.animation as HeroAnimation, elapsedMs: time } : undefined });
+      const current = hero ? heroFrame(review.character as CharacterId, review.animation as HeroAnimation, time, review.reducedMotion)
+        : characterFrame(review.animation as CharacterAnimation, time, review.reducedMotion);
       status.textContent = `${review.character} · ${review.scene} · ${review.animation} · frame ${current.index} · ${review.reducedMotion ? "reduced motion" : "normal motion"}`;
       frame = requestAnimationFrame(draw);
     };
