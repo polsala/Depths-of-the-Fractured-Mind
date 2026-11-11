@@ -1,0 +1,237 @@
+[
+  {
+    "name": "build",
+    "args": [
+      "run",
+      "build"
+    ],
+    "command": "npm run build",
+    "startedAt": "2026-11-11T15:20:22.448Z",
+    "completedAt": "2026-11-11T15:20:27.346Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/build.log"
+  },
+  {
+    "name": "archive",
+    "args": [
+      "run",
+      "capture:archive"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "ARCHIVE_OUTPUT": "artifacts/phase02a/final/captures"
+    },
+    "command": "npm run capture:archive",
+    "startedAt": "2026-11-11T15:20:27.346Z",
+    "completedAt": "2026-11-11T15:21:49.119Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/archive.log"
+  },
+  {
+    "name": "studies",
+    "bin": "node",
+    "args": [
+      "utils/capture-archive-studies.mjs"
+    ],
+    "env": {
+      "ARCHIVE_STUDIES_OUTPUT": "artifacts/phase02a/final/studies"
+    },
+    "command": "node utils/capture-archive-studies.mjs",
+    "startedAt": "2026-11-11T15:21:49.119Z",
+    "completedAt": "2026-11-11T15:22:22.538Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/studies.log"
+  },
+  {
+    "name": "typecheck",
+    "args": [
+      "run",
+      "typecheck"
+    ],
+    "command": "npm run typecheck",
+    "startedAt": "2026-11-11T15:22:22.539Z",
+    "completedAt": "2026-11-11T15:22:24.366Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/typecheck.log"
+  },
+  {
+    "name": "units",
+    "args": [
+      "test"
+    ],
+    "command": "npm test",
+    "startedAt": "2026-11-11T15:22:24.366Z",
+    "completedAt": "2026-11-11T15:22:30.410Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/units.log"
+  },
+  {
+    "name": "seeds",
+    "args": [
+      "run",
+      "validate:archive"
+    ],
+    "command": "npm run validate:archive",
+    "startedAt": "2026-11-11T15:22:30.411Z",
+    "completedAt": "2026-11-11T15:22:38.255Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/seeds.log"
+  },
+  {
+    "name": "provenance",
+    "args": [
+      "run",
+      "assets:provenance"
+    ],
+    "command": "npm run assets:provenance",
+    "startedAt": "2026-11-11T15:22:38.259Z",
+    "completedAt": "2026-11-11T15:22:38.515Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/provenance.log"
+  },
+  {
+    "name": "security",
+    "args": [
+      "run",
+      "audit:security"
+    ],
+    "command": "npm run audit:security",
+    "startedAt": "2026-11-11T15:22:38.515Z",
+    "completedAt": "2026-11-11T15:22:39.135Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/security.log"
+  },
+  {
+    "name": "smoke",
+    "args": [
+      "run",
+      "test:smoke"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "RECORD_ARCHIVE": "1"
+    },
+    "command": "npm run test:smoke",
+    "startedAt": "2026-11-11T15:22:39.136Z",
+    "completedAt": "2026-11-11T15:25:27.273Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/smoke.log"
+  },
+  {
+    "name": "baseline",
+    "args": [
+      "run",
+      "baseline:capture"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "BASELINE_OUTPUT": "artifacts/phase02a/final/baseline"
+    },
+    "command": "npm run baseline:capture",
+    "startedAt": "2026-11-11T15:25:27.332Z",
+    "completedAt": "2026-11-11T15:25:45.843Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/baseline.log"
+  },
+  {
+    "name": "golden",
+    "args": [
+      "run",
+      "capture:golden"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "GOLDEN_OUTPUT": "artifacts/phase02a/final/golden"
+    },
+    "command": "npm run capture:golden",
+    "startedAt": "2026-11-11T15:25:45.844Z",
+    "completedAt": "2026-11-11T15:25:56.968Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/golden.log"
+  },
+  {
+    "name": "characters",
+    "args": [
+      "run",
+      "capture:characters"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "CHARACTER_OUTPUT": "artifacts/phase02a/final/characters"
+    },
+    "command": "npm run capture:characters",
+    "startedAt": "2026-11-11T15:25:56.968Z",
+    "completedAt": "2026-11-11T15:26:24.171Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/characters.log"
+  },
+  {
+    "name": "presence",
+    "args": [
+      "run",
+      "capture:presence"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "PRESENCE_OUTPUT": "artifacts/phase02a/final/presence"
+    },
+    "command": "npm run capture:presence",
+    "startedAt": "2026-11-11T15:26:24.172Z",
+    "completedAt": "2026-11-11T15:26:51.898Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/presence.log"
+  },
+  {
+    "name": "performance-archive",
+    "args": [
+      "run",
+      "bench:dungeon"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "DUNGEON_SCENE": "archive",
+      "DUNGEON_BENCH_OUTPUT": "artifacts/phase02a/final/performance-archive"
+    },
+    "command": "npm run bench:dungeon",
+    "startedAt": "2026-11-11T15:26:51.898Z",
+    "completedAt": "2026-11-11T15:29:04.692Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/performance-archive.log"
+  },
+  {
+    "name": "performance-intake",
+    "args": [
+      "run",
+      "bench:dungeon"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "DUNGEON_BENCH_OUTPUT": "artifacts/phase02a/final/performance-intake"
+    },
+    "command": "npm run bench:dungeon",
+    "startedAt": "2026-11-11T15:29:04.692Z",
+    "completedAt": "2026-11-11T15:31:17.317Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/performance-intake.log"
+  },
+  {
+    "name": "combat",
+    "args": [
+      "run",
+      "bench:combat"
+    ],
+    "command": "npm run bench:combat",
+    "startedAt": "2026-11-11T15:31:17.317Z",
+    "completedAt": "2026-11-11T15:31:19.774Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02a/final/combat.log"
+  }
+]

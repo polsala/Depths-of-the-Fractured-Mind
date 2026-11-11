@@ -109,7 +109,7 @@ export class SceneBuilder {
         this.onwardCover.position.set(px, -0.035, pz); this.onwardCover.scale.set(1.73, 0.07, 1.92);
         this.onwardCover.name = "sealed-descent-hatch"; this.scene.add(this.onwardCover);
       } else if (tile.type === "stairsDown" || tile.type === "stairsUp") this.buildStairs(px, pz, tile.type === "stairsUp");
-      else this.box("floor", px, -0.055, pz, 2.001, 0.11, 2.001);
+      else this.box(map.environment && archiveRoomAt(map, x, y)?.materialRole === "service" ? "floorService" : "floor", px, -0.055, pz, 2.001, 0.11, 2.001);
       this.box("ceiling", px, ceiling + .08, pz, 2.001, 0.16, 2.001);
       if (drumCell || shelfCell) continue;
       for (const [dx, dz] of [[0, -1], [1, 0], [0, 1], [-1, 0]]) {

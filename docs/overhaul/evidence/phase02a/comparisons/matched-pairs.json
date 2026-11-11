@@ -1,0 +1,1009 @@
+{
+  "seed": 130013,
+  "dpr": 1,
+  "conditions": "Exact camera, authoritative location, viewport, quality and protagonist checked; both actual hardware WebGL2. No image difference threshold is interpreted as artistic approval.",
+  "beforeSource": "27678666628c6eaf4ef09060748a3e058d2728c0f8130fca067caa326752b075",
+  "afterSource": "03db1fbe2a121ce363e357654aef1ca21a9b4b6fcc06522ac893dbf937b15b88",
+  "pairs": [
+    {
+      "name": "1280-normal-entrance",
+      "role": "entrance",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-entrance-world.png",
+      "after": "after/captures/1280-normal-entrance-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-indexing",
+      "role": "indexing",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-indexing-world.png",
+      "after": "after/captures/1280-normal-indexing-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-compressed-aisle",
+      "role": "compressed-aisle",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-compressed-aisle-world.png",
+      "after": "after/captures/1280-normal-compressed-aisle-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-filing-gallery",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-filing-gallery-world.png",
+      "after": "after/captures/1280-normal-filing-gallery-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 52,
+        "yaw": -1.5707963267948966
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 26,
+        "direction": "east"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-drum-chamber",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-drum-chamber-world.png",
+      "after": "after/captures/1280-normal-drum-chamber-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 56,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-retrieval",
+      "role": "retrieval",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-retrieval-world.png",
+      "after": "after/captures/1280-normal-retrieval-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 16,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-restricted-evidence",
+      "role": "restricted-evidence",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-restricted-evidence-world.png",
+      "after": "after/captures/1280-normal-restricted-evidence-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-damaged-storage",
+      "role": "damaged-storage",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-damaged-storage-world.png",
+      "after": "after/captures/1280-normal-damaged-storage-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-secret",
+      "role": "secret",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-secret-world.png",
+      "after": "after/captures/1280-normal-secret-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 10,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 5,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-normal-exit",
+      "role": "exit",
+      "width": 1280,
+      "motion": "normal",
+      "before": "before/captures/1280-normal-exit-world.png",
+      "after": "after/captures/1280-normal-exit-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 52,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 26,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-entrance",
+      "role": "entrance",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-entrance-world.png",
+      "after": "after/captures/1280-reduced-entrance-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-indexing",
+      "role": "indexing",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-indexing-world.png",
+      "after": "after/captures/1280-reduced-indexing-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-compressed-aisle",
+      "role": "compressed-aisle",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-compressed-aisle-world.png",
+      "after": "after/captures/1280-reduced-compressed-aisle-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-filing-gallery",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-filing-gallery-world.png",
+      "after": "after/captures/1280-reduced-filing-gallery-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 52,
+        "yaw": -1.5707963267948966
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 26,
+        "direction": "east"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-drum-chamber",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-drum-chamber-world.png",
+      "after": "after/captures/1280-reduced-drum-chamber-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 56,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-retrieval",
+      "role": "retrieval",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-retrieval-world.png",
+      "after": "after/captures/1280-reduced-retrieval-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 16,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-restricted-evidence",
+      "role": "restricted-evidence",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-restricted-evidence-world.png",
+      "after": "after/captures/1280-reduced-restricted-evidence-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-damaged-storage",
+      "role": "damaged-storage",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-damaged-storage-world.png",
+      "after": "after/captures/1280-reduced-damaged-storage-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-secret",
+      "role": "secret",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-secret-world.png",
+      "after": "after/captures/1280-reduced-secret-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 10,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 5,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-reduced-exit",
+      "role": "exit",
+      "width": 1280,
+      "motion": "reduced",
+      "before": "before/captures/1280-reduced-exit-world.png",
+      "after": "after/captures/1280-reduced-exit-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 52,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 26,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-entrance",
+      "role": "entrance",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-entrance-world.png",
+      "after": "after/captures/390-normal-entrance-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-indexing",
+      "role": "indexing",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-indexing-world.png",
+      "after": "after/captures/390-normal-indexing-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-compressed-aisle",
+      "role": "compressed-aisle",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-compressed-aisle-world.png",
+      "after": "after/captures/390-normal-compressed-aisle-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-filing-gallery",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-filing-gallery-world.png",
+      "after": "after/captures/390-normal-filing-gallery-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 52,
+        "yaw": -1.5707963267948966
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 26,
+        "direction": "east"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-drum-chamber",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-drum-chamber-world.png",
+      "after": "after/captures/390-normal-drum-chamber-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 56,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-retrieval",
+      "role": "retrieval",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-retrieval-world.png",
+      "after": "after/captures/390-normal-retrieval-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 16,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-restricted-evidence",
+      "role": "restricted-evidence",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-restricted-evidence-world.png",
+      "after": "after/captures/390-normal-restricted-evidence-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-damaged-storage",
+      "role": "damaged-storage",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-damaged-storage-world.png",
+      "after": "after/captures/390-normal-damaged-storage-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-secret",
+      "role": "secret",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-secret-world.png",
+      "after": "after/captures/390-normal-secret-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 10,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 5,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-normal-exit",
+      "role": "exit",
+      "width": 390,
+      "motion": "normal",
+      "before": "before/captures/390-normal-exit-world.png",
+      "after": "after/captures/390-normal-exit-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 52,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 26,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-entrance",
+      "role": "entrance",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-entrance-world.png",
+      "after": "after/captures/390-reduced-entrance-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-indexing",
+      "role": "indexing",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-indexing-world.png",
+      "after": "after/captures/390-reduced-indexing-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-compressed-aisle",
+      "role": "compressed-aisle",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-compressed-aisle-world.png",
+      "after": "after/captures/390-reduced-compressed-aisle-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 68,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 34,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-filing-gallery",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-filing-gallery-world.png",
+      "after": "after/captures/390-reduced-filing-gallery-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 52,
+        "yaw": -1.5707963267948966
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 26,
+        "direction": "east"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-drum-chamber",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-drum-chamber-world.png",
+      "after": "after/captures/390-reduced-drum-chamber-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 56,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-retrieval",
+      "role": "retrieval",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-retrieval-world.png",
+      "after": "after/captures/390-reduced-retrieval-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 16,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-restricted-evidence",
+      "role": "restricted-evidence",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-restricted-evidence-world.png",
+      "after": "after/captures/390-reduced-restricted-evidence-world.png",
+      "camera": {
+        "x": 48,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-damaged-storage",
+      "role": "damaged-storage",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-damaged-storage-world.png",
+      "after": "after/captures/390-reduced-damaged-storage-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 32,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 16,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-secret",
+      "role": "secret",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-secret-world.png",
+      "after": "after/captures/390-reduced-secret-world.png",
+      "camera": {
+        "x": 32,
+        "y": 1.6,
+        "z": 10,
+        "yaw": 0
+      },
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 5,
+        "direction": "north"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    },
+    {
+      "name": "390-reduced-exit",
+      "role": "exit",
+      "width": 390,
+      "motion": "reduced",
+      "before": "before/captures/390-reduced-exit-world.png",
+      "after": "after/captures/390-reduced-exit-world.png",
+      "camera": {
+        "x": 10,
+        "y": 1.6,
+        "z": 52,
+        "yaw": 3.141592653589793
+      },
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 26,
+        "direction": "south"
+      },
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "quality": "balanced"
+    }
+  ]
+}

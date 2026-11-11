@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-11-11",
+  "method": "Fresh official provider pages read through web tool; limited paraphrased observations, not account-specific legal certification.",
+  "sources": [
+    {
+      "url": "https://openai.com/policies/eu-terms-of-use/",
+      "updated": "2026-01-16",
+      "sections": ["Content: Your content", "Ownership of content", "Similarity of content"],
+      "observations": "Customer retains input rights and receives output rights as between customer and OpenAI to the extent permitted by law. Customer is responsible for input permissions/use; output may resemble other output."
+    },
+    {
+      "url": "https://openai.com/policies/services-agreement/",
+      "updated": "2025-12-01",
+      "effective": "2026-01-01",
+      "sections": ["4.1", "4.3", "4.4"],
+      "observations": "Customer owns output as between customer and OpenAI to the extent permitted by law; customer is responsible for input and evaluating output; output is not guaranteed unique."
+    }
+  ],
+  "limitations": "No account/order form or negotiated exception inspected. No exclusivity, uniqueness, copyright eligibility or human artistic approval claimed. Legacy media status unchanged."
+}

@@ -1,0 +1,9 @@
+Additional tool/environment observations, transcribed from tool output (not game-test failures):
+
+Default python3 is3.6.15. Running the installed director evidence checker with it exited1:
+SyntaxError: future feature annotations is not defined
+The unchanged checker passed all20entries with /usr/bin/python3 (3.14.8), exit0; evidence-check.txt retains output.
+
+Optional Python contact-sheet attempt could not import PIL (ModuleNotFoundError). Native PNGs were inspected directly instead; FFmpeg generated motion sheets and side-by-side game comparisons. No required capture was dropped.
+
+Materials worker recorded missing cwebp and sandbox EPERM spawning FFmpeg; existing FFmpeg/libwebp plus the same permission-enabled builder succeeded. See production/material-notes.md; no test threshold was altered.

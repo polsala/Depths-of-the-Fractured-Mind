@@ -1,0 +1,901 @@
+{
+  "conditions": "Seed, camera, location, viewport and quality matched exactly",
+  "pairs": [
+    {
+      "name": "1280-gray-entrance",
+      "role": "entrance",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-entrance.png",
+      "after": "after/studies/1280-gray-entrance.png",
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 34,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-indexing",
+      "role": "indexing",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-indexing.png",
+      "after": "after/studies/1280-gray-indexing.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 34,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-compressed-aisle",
+      "role": "compressed-aisle",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-compressed-aisle.png",
+      "after": "after/studies/1280-gray-compressed-aisle.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 34,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-filing-gallery",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-filing-gallery.png",
+      "after": "after/studies/1280-gray-filing-gallery.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 26,
+        "direction": "east"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-drum-chamber",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-drum-chamber.png",
+      "after": "after/studies/1280-gray-drum-chamber.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-retrieval",
+      "role": "retrieval",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-retrieval.png",
+      "after": "after/studies/1280-gray-retrieval.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 16,
+        "direction": "south"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-restricted-evidence",
+      "role": "restricted-evidence",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-restricted-evidence.png",
+      "after": "after/studies/1280-gray-restricted-evidence.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 16,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-damaged-storage",
+      "role": "damaged-storage",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-damaged-storage.png",
+      "after": "after/studies/1280-gray-damaged-storage.png",
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 16,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-secret",
+      "role": "secret",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-secret.png",
+      "after": "after/studies/1280-gray-secret.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 5,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-gray-exit",
+      "role": "exit",
+      "width": 1280,
+      "motion": "grayscale",
+      "before": "before/studies/1280-gray-exit.png",
+      "after": "after/studies/1280-gray-exit.png",
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 26,
+        "direction": "south"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130013-filing-gallery-approach0",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130013-filing-gallery-approach0.png",
+      "after": "after/studies/1280-130013-filing-gallery-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 21,
+        "y": 26,
+        "direction": "east"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130013-filing-gallery-approach1",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130013-filing-gallery-approach1.png",
+      "after": "after/studies/1280-130013-filing-gallery-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 27,
+        "y": 26,
+        "direction": "west"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130013-drum-chamber-approach0",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130013-drum-chamber-approach0.png",
+      "after": "after/studies/1280-130013-drum-chamber-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130013-drum-chamber-approach1",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130013-drum-chamber-approach1.png",
+      "after": "after/studies/1280-130013-drum-chamber-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 14,
+        "y": 26,
+        "direction": "east"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130013-drum-chamber-approach2",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130013-drum-chamber-approach2.png",
+      "after": "after/studies/1280-130013-drum-chamber-approach2.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 24,
+        "direction": "south"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130013-drum-chamber-approach3",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130013-drum-chamber-approach3.png",
+      "after": "after/studies/1280-130013-drum-chamber-approach3.png",
+      "location": {
+        "depth": 2,
+        "x": 18,
+        "y": 26,
+        "direction": "west"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130014-filing-gallery-approach0",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130014-filing-gallery-approach0.png",
+      "after": "after/studies/1280-130014-filing-gallery-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 22,
+        "direction": "south"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130014-filing-gallery-approach1",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130014-filing-gallery-approach1.png",
+      "after": "after/studies/1280-130014-filing-gallery-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 28,
+        "direction": "north"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130014-drum-chamber-approach0",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130014-drum-chamber-approach0.png",
+      "after": "after/studies/1280-130014-drum-chamber-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 18,
+        "direction": "north"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130014-drum-chamber-approach1",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130014-drum-chamber-approach1.png",
+      "after": "after/studies/1280-130014-drum-chamber-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 22,
+        "y": 16,
+        "direction": "east"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130014-drum-chamber-approach2",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130014-drum-chamber-approach2.png",
+      "after": "after/studies/1280-130014-drum-chamber-approach2.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 14,
+        "direction": "south"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-130014-drum-chamber-approach3",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-130014-drum-chamber-approach3.png",
+      "after": "after/studies/1280-130014-drum-chamber-approach3.png",
+      "location": {
+        "depth": 2,
+        "x": 26,
+        "y": 16,
+        "direction": "west"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-73021-filing-gallery-approach0",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-73021-filing-gallery-approach0.png",
+      "after": "after/studies/1280-73021-filing-gallery-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 11,
+        "y": 4,
+        "direction": "east"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-73021-filing-gallery-approach1",
+      "role": "filing-gallery",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-73021-filing-gallery-approach1.png",
+      "after": "after/studies/1280-73021-filing-gallery-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 17,
+        "y": 4,
+        "direction": "west"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-73021-drum-chamber-approach0",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-73021-drum-chamber-approach0.png",
+      "after": "after/studies/1280-73021-drum-chamber-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 14,
+        "y": 17,
+        "direction": "north"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-73021-drum-chamber-approach1",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-73021-drum-chamber-approach1.png",
+      "after": "after/studies/1280-73021-drum-chamber-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 12,
+        "y": 15,
+        "direction": "east"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-73021-drum-chamber-approach2",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-73021-drum-chamber-approach2.png",
+      "after": "after/studies/1280-73021-drum-chamber-approach2.png",
+      "location": {
+        "depth": 2,
+        "x": 14,
+        "y": 13,
+        "direction": "south"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "1280-73021-drum-chamber-approach3",
+      "role": "drum-chamber",
+      "width": 1280,
+      "motion": "study",
+      "before": "before/studies/1280-73021-drum-chamber-approach3.png",
+      "after": "after/studies/1280-73021-drum-chamber-approach3.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 15,
+        "direction": "west"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-entrance",
+      "role": "entrance",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-entrance.png",
+      "after": "after/studies/390-gray-entrance.png",
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 34,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-indexing",
+      "role": "indexing",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-indexing.png",
+      "after": "after/studies/390-gray-indexing.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 34,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-compressed-aisle",
+      "role": "compressed-aisle",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-compressed-aisle.png",
+      "after": "after/studies/390-gray-compressed-aisle.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 34,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-filing-gallery",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-filing-gallery.png",
+      "after": "after/studies/390-gray-filing-gallery.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 26,
+        "direction": "east"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-drum-chamber",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-drum-chamber.png",
+      "after": "after/studies/390-gray-drum-chamber.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-retrieval",
+      "role": "retrieval",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-retrieval.png",
+      "after": "after/studies/390-gray-retrieval.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 16,
+        "direction": "south"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-restricted-evidence",
+      "role": "restricted-evidence",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-restricted-evidence.png",
+      "after": "after/studies/390-gray-restricted-evidence.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 16,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-damaged-storage",
+      "role": "damaged-storage",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-damaged-storage.png",
+      "after": "after/studies/390-gray-damaged-storage.png",
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 16,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-secret",
+      "role": "secret",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-secret.png",
+      "after": "after/studies/390-gray-secret.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 5,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-gray-exit",
+      "role": "exit",
+      "width": 390,
+      "motion": "grayscale",
+      "before": "before/studies/390-gray-exit.png",
+      "after": "after/studies/390-gray-exit.png",
+      "location": {
+        "depth": 2,
+        "x": 5,
+        "y": 26,
+        "direction": "south"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130013-filing-gallery-approach0",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130013-filing-gallery-approach0.png",
+      "after": "after/studies/390-130013-filing-gallery-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 21,
+        "y": 26,
+        "direction": "east"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130013-filing-gallery-approach1",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130013-filing-gallery-approach1.png",
+      "after": "after/studies/390-130013-filing-gallery-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 27,
+        "y": 26,
+        "direction": "west"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130013-drum-chamber-approach0",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130013-drum-chamber-approach0.png",
+      "after": "after/studies/390-130013-drum-chamber-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 28,
+        "direction": "north"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130013-drum-chamber-approach1",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130013-drum-chamber-approach1.png",
+      "after": "after/studies/390-130013-drum-chamber-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 14,
+        "y": 26,
+        "direction": "east"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130013-drum-chamber-approach2",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130013-drum-chamber-approach2.png",
+      "after": "after/studies/390-130013-drum-chamber-approach2.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 24,
+        "direction": "south"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130013-drum-chamber-approach3",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130013-drum-chamber-approach3.png",
+      "after": "after/studies/390-130013-drum-chamber-approach3.png",
+      "location": {
+        "depth": 2,
+        "x": 18,
+        "y": 26,
+        "direction": "west"
+      },
+      "seed": 130013,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130014-filing-gallery-approach0",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130014-filing-gallery-approach0.png",
+      "after": "after/studies/390-130014-filing-gallery-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 22,
+        "direction": "south"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130014-filing-gallery-approach1",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130014-filing-gallery-approach1.png",
+      "after": "after/studies/390-130014-filing-gallery-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 28,
+        "direction": "north"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130014-drum-chamber-approach0",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130014-drum-chamber-approach0.png",
+      "after": "after/studies/390-130014-drum-chamber-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 18,
+        "direction": "north"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130014-drum-chamber-approach1",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130014-drum-chamber-approach1.png",
+      "after": "after/studies/390-130014-drum-chamber-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 22,
+        "y": 16,
+        "direction": "east"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130014-drum-chamber-approach2",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130014-drum-chamber-approach2.png",
+      "after": "after/studies/390-130014-drum-chamber-approach2.png",
+      "location": {
+        "depth": 2,
+        "x": 24,
+        "y": 14,
+        "direction": "south"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-130014-drum-chamber-approach3",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-130014-drum-chamber-approach3.png",
+      "after": "after/studies/390-130014-drum-chamber-approach3.png",
+      "location": {
+        "depth": 2,
+        "x": 26,
+        "y": 16,
+        "direction": "west"
+      },
+      "seed": 130014,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-73021-filing-gallery-approach0",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-73021-filing-gallery-approach0.png",
+      "after": "after/studies/390-73021-filing-gallery-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 11,
+        "y": 4,
+        "direction": "east"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-73021-filing-gallery-approach1",
+      "role": "filing-gallery",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-73021-filing-gallery-approach1.png",
+      "after": "after/studies/390-73021-filing-gallery-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 17,
+        "y": 4,
+        "direction": "west"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-73021-drum-chamber-approach0",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-73021-drum-chamber-approach0.png",
+      "after": "after/studies/390-73021-drum-chamber-approach0.png",
+      "location": {
+        "depth": 2,
+        "x": 14,
+        "y": 17,
+        "direction": "north"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-73021-drum-chamber-approach1",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-73021-drum-chamber-approach1.png",
+      "after": "after/studies/390-73021-drum-chamber-approach1.png",
+      "location": {
+        "depth": 2,
+        "x": 12,
+        "y": 15,
+        "direction": "east"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-73021-drum-chamber-approach2",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-73021-drum-chamber-approach2.png",
+      "after": "after/studies/390-73021-drum-chamber-approach2.png",
+      "location": {
+        "depth": 2,
+        "x": 14,
+        "y": 13,
+        "direction": "south"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    },
+    {
+      "name": "390-73021-drum-chamber-approach3",
+      "role": "drum-chamber",
+      "width": 390,
+      "motion": "study",
+      "before": "before/studies/390-73021-drum-chamber-approach3.png",
+      "after": "after/studies/390-73021-drum-chamber-approach3.png",
+      "location": {
+        "depth": 2,
+        "x": 16,
+        "y": 15,
+        "direction": "west"
+      },
+      "seed": 73021,
+      "quality": "balanced"
+    }
+  ]
+}

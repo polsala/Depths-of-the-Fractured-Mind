@@ -1,0 +1,9 @@
+Use case: stylized-concept.
+Asset type: original production material source sheet for a shaded-raster psychological-horror game, six opaque seamless albedo swatches. Make one landscape 1536x1024 sheet with an EXACT 3-column, 2-row grid, all six panels equal and edge-to-edge, NO borders/gutters/labels/text. Each panel depicts 2x2 metres viewed perfectly face-on, no perspective, neutral diffuse flat lighting, no shadows, no specular highlights. Broad hand-painted material masses with restrained medium-frequency wear; not photorealism, no noisy/gritty filter.
+TOP LEFT: aged painted warm-grey concrete, broad plaster trowel variation and faint mineral ghosting, no cracks/seams/bolts.
+TOP MIDDLE: faded institutional blue-grey enamel paint on steel, broad maintained quiet surface, sparse handling polish with restrained small edge chips at edges only, no rust blanket, no geometry.
+TOP RIGHT: aged warm-grey linoleum, subtle compressed fibers and broad polished traffic wear, no grid/tile seams, no dramatic scuffs.
+BOTTOM LEFT: warm charcoal service-floor aggregate, fine understated aggregate embedded in broad mineral masses, no cracks/grid.
+BOTTOM MIDDLE: warm grey bare brushed steel with faint directional horizontal grain, sparse oxide islands, not rust brown, no highlights.
+BOTTOM RIGHT: aged archival paper board, pale warm cream, subtle fibers and paper lamination lines, no writing/letters/stains/objects.
+All material details should read as designed painted clusters downsampled to 256px each. Tileable edges, neutral desaturated values appropriate to umber #2c231d, aged paper #a99b7c, faded ink #4b6970, task amber #d2ad69 palette. Avoid baked directional illumination, objects, photographs, cabinet faces, architecture, fantasy imagery, signatures or watermarks.

@@ -1,14 +1,17 @@
 import { Color, Fog, HemisphereLight, PointLight, SpotLight } from "three";
 import type { Scene } from "three";
 import type { DungeonPresentationSnapshot, QualityPreset } from "./types";
+import { archivePracticalFixtures } from "./ArchiveLighting";
+import type { ArchivePractical } from "./ArchiveLighting";
 
 /** Local practical lamps; the ambient floor never erases route readability. */
 export class LightingSystem {
   private readonly points: PointLight[] = [];
   private readonly intake: boolean;
   private readonly archive: boolean;
-  private readonly archiveFixtures: Array<{ id: string; x: number; y: number; z: number; color: number; intensity: number; distance: number }> = [];
+  private readonly archiveFixtures: ArchivePractical[] = [];
   private readonly archiveSlots: Array<{ light: PointLight; fixtureId: string; target: number }> = [];
+  private archiveSelected: readonly ArchivePractical[] = [];
   private lastX = NaN;
   private lastY = NaN;
   private lastPower = false;
@@ -26,19 +29,16 @@ export class LightingSystem {
     scene.background = new Color(0x111c1b);
     scene.fog = new Fog(0x152321, 13, this.intake ? 37 : 31);
     if (this.archive) { scene.background.setHex(0x211b17); scene.fog = new Fog(0x28221c, 16, 45); }
-    const fill = this.archive ? new HemisphereLight(0xd1c9b6, 0x756a58, 1.1) : new HemisphereLight(0xc2d4c5, 0x3a4136, 1.12);
+    const fill = this.archive ? new HemisphereLight(0xcbd6cd, 0x776551, 1.12) : new HemisphereLight(0xc2d4c5, 0x3a4136, 1.12);
     scene.add(fill);
-    // Shader light count remains fixed while the two nearest authored practical
-    // sources are selected at committed grid boundaries, never each frame.
+    // Shader light count remains fixed while a composed pair of practical
+    // sources is selected at committed grid boundaries, never each frame.
     for (let i = 0; i < (this.archive ? 4 : 2); i++) {
       const light = new PointLight(0xd2d8c1, this.archive ? 0 : 14, 13, 2); this.points.push(light); scene.add(light);
       if (this.archive) this.archiveSlots.push({ light, fixtureId: "", target: 0 });
     }
-    if (this.archive) for (const room of snapshot.map.environment!.rooms) for (const socket of room.lightingSockets) {
-      this.archiveFixtures.push({ id: socket.id, x: socket.x * 2, y: socket.height - .12, z: socket.y * 2,
-        color: socket.kind === "strip" ? 0xabc3bd : socket.kind === "security" ? 0xd2ad69 : 0xe7c490,
-        intensity: socket.intensity * 3, distance: room.archetype === "drum-chamber" ? 17 : 13 });
-    }
+    if (this.archive) for (const room of snapshot.map.environment!.rooms)
+      this.archiveFixtures.push(...archivePracticalFixtures(snapshot.map, room));
     if (this.intake) {
       const key = new SpotLight(0xf7ce94, 10, 10, Math.PI * 0.28, 0.85, 1.8);
       key.position.set(8, 2.4, 25.8); key.target.position.set(8, 1.2, 23.2);
@@ -79,18 +79,31 @@ export class LightingSystem {
     if (snapshot.location.x !== this.lastX || snapshot.location.y !== this.lastY) {
       this.lastX = snapshot.location.x; this.lastY = snapshot.location.y;
       const x = this.lastX * 2, z = this.lastY * 2;
-      const nearby = [...this.archiveFixtures].sort((a, b) =>
-        ((a.x - x) ** 2 + (a.z - z) ** 2) - ((b.x - x) ** 2 + (b.z - z) ** 2) || a.id.localeCompare(b.id)).slice(0, 2);
-      for (const slot of this.archiveSlots) slot.target = nearby.find(fixture => fixture.id === slot.fixtureId)?.intensity ?? 0;
-      for (const fixture of nearby) {
-        if (this.archiveSlots.some(slot => slot.fixtureId === fixture.id)) continue;
-        const slot = [...this.archiveSlots].filter(slot => slot.target === 0).sort((a, b) => a.light.intensity - b.light.intensity)[0];
-        if (!slot) continue;
-        // Four permanent shader slots permit the two visible sources to retire
-        // in place. A fixture never jumps to a different location at full power.
-        slot.fixtureId = fixture.id; slot.light.intensity = 0; slot.target = fixture.intensity;
-        slot.light.position.set(fixture.x, fixture.y, fixture.z); slot.light.color.setHex(fixture.color); slot.light.distance = fixture.distance;
-      }
+      const room = snapshot.map.environment!.rooms.find(candidate => this.lastX >= candidate.x && this.lastY >= candidate.y
+        && this.lastX < candidate.x + candidate.width && this.lastY < candidate.y + candidate.height);
+      // Keep the composed task/fill pair throughout a room. Distance-only
+      // selection used to replace a task with a brighter lamp behind a wall.
+      // In connecting corridors a small retention bias prevents an equal-
+      // distance boundary from switching sources on consecutive legal steps.
+      const score = (fixture: ArchivePractical) => (fixture.x - x) ** 2 + (fixture.z - z) ** 2
+        - (this.archiveSlots.some(slot => slot.fixtureId === fixture.id && slot.target > 0) ? 4 : 0);
+      const candidates = room ? this.archiveFixtures.filter(fixture => fixture.roomId === room.id) : this.archiveFixtures;
+      this.archiveSelected = [...candidates].sort((a, b) =>
+        score(a) - score(b) || a.id.localeCompare(b.id)).slice(0, 2);
+      for (const slot of this.archiveSlots) slot.target = this.archiveSelected.find(fixture => fixture.id === slot.fixtureId)?.intensity ?? 0;
+    }
+    for (const fixture of this.archiveSelected) {
+      if (this.archiveSlots.some(slot => slot.fixtureId === fixture.id)) continue;
+      // A rapid sequence can outpace retiring slots. Wait until a slot is
+      // dark rather than relocating a still-visible light. Retry on the next
+      // existing render tick, without timers or presentation callbacks.
+      if (reducedMotion) for (const slot of this.archiveSlots) if (slot.target === 0) slot.light.intensity = 0;
+      const slot = [...this.archiveSlots].filter(slot => slot.target === 0 && slot.light.intensity < .01)[0];
+      if (!slot) continue;
+      // Four permanent shader slots permit the two visible sources to retire
+      // in place. A fixture never jumps to a different location at full power.
+      slot.fixtureId = fixture.id; slot.light.intensity = 0; slot.target = fixture.intensity;
+      slot.light.position.set(fixture.x, fixture.y, fixture.z); slot.light.color.setHex(fixture.color); slot.light.distance = fixture.distance;
     }
     const blend = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) / .22);
     for (const slot of this.archiveSlots) {

@@ -1,9 +1,36 @@
-import { CanvasTexture, Color, DoubleSide, FrontSide, MeshBasicMaterial, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace } from "three";
+import { CanvasTexture, Color, DoubleSide, FrontSide, MeshBasicMaterial, MeshStandardMaterial, NoColorSpace, RepeatWrapping, SRGBColorSpace } from "three";
 import type { Material, Texture } from "three";
-import { DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../../assets/manifest";
+import { assetUrl, DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../../assets/manifest";
 import { RenderAssetManager } from "./RenderAssetManager";
 
-export type MaterialRole = "wall" | "enamel" | "floor" | "ceiling" | "trim" | "steel" | "dark" | "brass" | "paper" | "red" | "light" | "warmLight" | "glass" | "cloth" | "skin";
+export type MaterialRole = "wall" | "enamel" | "floor" | "floorService" | "ceiling" | "trim" | "steel" | "dark" | "brass" | "paper" | "red" | "light" | "warmLight" | "glass" | "cloth" | "skin";
+
+/** Static Archive batches share a two-metre material scale. The unit-box UVs
+ * otherwise stretch the same finish over a drawer, a wall and a floor tile.
+ * Stock lighting/bump/roughness remain intact; signs and Intake are excluded. */
+export function archiveWorldSurface(material: MeshStandardMaterial): void {
+  material.onBeforeCompile = shader => {
+    shader.vertexShader = shader.vertexShader.replace("#include <uv_vertex>", `#include <uv_vertex>
+      #ifdef USE_INSTANCING
+        vec4 archivePosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
+        mat3 archiveInstance = mat3(instanceMatrix);
+        vec3 archiveNormal = normal / vec3(dot(archiveInstance[0], archiveInstance[0]), dot(archiveInstance[1], archiveInstance[1]), dot(archiveInstance[2], archiveInstance[2]));
+        archiveNormal = abs(normalize(mat3(modelMatrix) * archiveInstance * archiveNormal));
+        vec2 archiveUv = archiveNormal.y > archiveNormal.x && archiveNormal.y > archiveNormal.z ? archivePosition.xz * .5
+          : archiveNormal.x > archiveNormal.z ? archivePosition.zy * .5 : archivePosition.xy * .5;
+        #ifdef USE_MAP
+          vMapUv = archiveUv;
+        #endif
+        #ifdef USE_BUMPMAP
+          vBumpMapUv = archiveUv;
+        #endif
+        #ifdef USE_ROUGHNESSMAP
+          vRoughnessMapUv = archiveUv;
+        #endif
+      #endif`);
+  };
+  material.customProgramCacheKey = () => "archive_world_surface_v1";
+}
 
 /** Named material roles make the architecture, props and signals one family. */
 export class MaterialLibrary {
@@ -17,11 +44,11 @@ export class MaterialLibrary {
     try {
     const palette = [0x59685d, 0x59685d, 0x71664e, 0x607d70, 0x625e79, 0x764b4b][depth] ?? 0x59685d;
     const paths = DEPTH_TEXTURES[depth] ?? DEPTH_TEXTURES[1];
-    const wall = semanticArchive ? this.archiveSurface("concrete") : assets.loadTexture(paths.wall);
-    const floor = semanticArchive ? this.archiveSurface("floor") : assets.loadTexture(paths.floor);
+    const wall = semanticArchive ? this.archiveTexture("concrete", "color") : assets.loadTexture(paths.wall);
+    const floor = semanticArchive ? this.archiveTexture("linoleum", "color") : assets.loadTexture(paths.floor);
     const ceiling = semanticArchive ? wall : assets.loadTexture(GLOBAL_TEXTURES.ceiling);
     this.add("wall", { color: 0xc1bda9, map: wall, roughness: 0.94, metalness: 0 });
-    this.add("enamel", { color: palette, map: this.paintWear(), roughness: 0.64, metalness: 0.13 });
+    this.add("enamel", { color: palette, map: semanticArchive ? this.archiveTexture("enamel", "color") : this.paintWear(), roughness: 0.64, metalness: 0.13 });
     this.add("floor", { color: 0x9d9f8b, map: floor, roughness: 0.71, metalness: 0.03 });
     this.add("ceiling", { color: 0x696d65, map: ceiling, roughness: 0.92 });
     this.add("trim", { color: 0x3d4846, roughness: 0.48, metalness: 0.4 });
@@ -37,12 +64,25 @@ export class MaterialLibrary {
     this.add("skin", { color: 0xb8b09a, roughness: 0.96, metalness: 0 });
     if (semanticArchive) {
       // Archive changes material roles, not the established Intake family.
-      const colors: Partial<Record<MaterialRole, number>> = { wall: 0xa99b87, enamel: 0x4b6970,
-        floor: 0x64584a, ceiling: 0x685b4d, trim: 0x2c231d, steel: 0x837d69,
-        dark: 0x211c18, brass: 0xd2ad69, paper: 0xa99b7c, glass: 0x445c5d };
+      const colors: Partial<Record<MaterialRole, number>> = { wall: 0xb6aa94, enamel: 0x718b8e,
+        floor: 0x8b8170, ceiling: 0x827969, trim: 0x2c231d, steel: 0xaaa695,
+        dark: 0x211c18, brass: 0xd2ad69, paper: 0xc4b38e, glass: 0x445c5d };
       for (const [role, color] of Object.entries(colors)) this.get(role as MaterialRole).color.setHex(color!);
-      this.get("steel").metalness = 0.32; this.get("steel").roughness = 0.62;
-      this.get("enamel").roughness = 0.73;
+      this.add("floorService", { color: 0x766e62, map: this.archiveTexture("service", "color"), roughness: 1, metalness: 0 });
+      for (const [role, surface, relief] of [
+        ["wall", "concrete", .024], ["ceiling", "concrete", .016], ["floor", "linoleum", .012],
+        ["floorService", "service", .026], ["enamel", "enamel", .012], ["steel", "steel", .009], ["paper", "paper", .007],
+      ] as const) {
+        const material = this.get(role);
+        material.map = this.archiveTexture(surface, "color");
+        material.bumpMap = material.roughnessMap = this.archiveTexture(surface, "detail");
+        material.bumpScale = relief; material.roughness = 1;
+        archiveWorldSurface(material);
+      }
+      // Paint is dielectric. Exposed steel and hardware provide the harder
+      // response; the whole cabinet must not look like polished bare metal.
+      this.get("enamel").metalness = .04;
+      this.get("steel").metalness = .42;
       this.get("light").emissive.setHex(0x9ab0ac); this.get("light").emissiveIntensity = 0.65;
       this.get("warmLight").emissive.setHex(0xd2ad69); this.get("warmLight").emissiveIntensity = 0.9;
       for (const material of this.materials) material.name = material.name.replace(/^intake:/, "archive:");
@@ -59,28 +99,10 @@ export class MaterialLibrary {
 
   get(role: MaterialRole): MeshStandardMaterial { return this.roles.get(role)!; }
 
-  private archiveSurface(kind: "concrete" | "floor"): Texture {
-    const canvas = document.createElement("canvas"); canvas.width = canvas.height = 256;
-    const ctx = canvas.getContext("2d")!;
-    ctx.fillStyle = kind === "floor" ? "#a99d88" : "#c3baa6"; ctx.fillRect(0, 0, 256, 256);
-    // Broad finish variation is deterministic and restrained. No random speckle
-    // or baked perspective; one 256px surface corresponds to a two metre bay.
-    for (let band = 0; band < 16; band++) {
-      ctx.fillStyle = `rgba(70,55,38,${0.012 + (band % 5) * 0.004})`;
-      ctx.fillRect(0, band * 16, 256, 16);
-    }
-    ctx.strokeStyle = kind === "floor" ? "#786f60" : "#a59b87"; ctx.lineWidth = 2;
-    ctx.strokeRect(1, 1, 254, 254);
-    if (kind === "floor") {
-      ctx.beginPath(); ctx.moveTo(128, 0); ctx.lineTo(128, 256); ctx.moveTo(0, 128); ctx.lineTo(256, 128); ctx.stroke();
-      ctx.fillStyle = "rgba(210,192,154,.12)"; ctx.fillRect(46, 0, 164, 256);
-    } else {
-      ctx.fillStyle = "rgba(89,76,52,.06)"; ctx.fillRect(0, 235, 256, 21);
-      ctx.fillStyle = "#aaa08c"; ctx.fillRect(13, 13, 3, 3); ctx.fillRect(240, 13, 3, 3);
-    }
-    const texture = this.assets.ownTexture(new CanvasTexture(canvas));
-    texture.colorSpace = SRGBColorSpace; texture.wrapS = texture.wrapT = RepeatWrapping;
-    texture.anisotropy = 4; return texture;
+  private archiveTexture(surface: string, kind: "color" | "detail"): Texture {
+    const texture = this.assets.loadTexture(assetUrl(`assets/textures/archive-phase02a/${surface}-${kind}.webp`));
+    texture.colorSpace = kind === "color" ? SRGBColorSpace : NoColorSpace;
+    return texture;
   }
 
   private paintWear(): Texture {

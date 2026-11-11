@@ -4,6 +4,8 @@ Status: Phase-00 plan retained below as design intent. The user's Phase-01 reque
 
 ## The Intake Bell — authored Depth-1 slice
 
+Phase02A is an explicit refinement between the Phase02 Archive implementation candidate and future environment expansion. Phase01B establishes protagonist/embodied-view contracts; Phase02 establishes graph/save/semantic architecture; Phase02A improves that existing world's materials, task lighting, gallery, drum and quiet-room composition while preserving those contracts. It does not begin Phase03. [The polish record](PHASE02A_VISUAL_POLISH.md) and [evidence](evidence/phase02a/README.md) retain acceptance status. Owner art review, uncoached navigation/pacing sessions and physical-device validation precede expansion to remaining depths; historical phase numbering and open rights gates remain.
+
 **Player objective:** restore the release circuit, recover the first patient's intake tag beyond the security shutter, and return it to the counting station. The payoff is a named person restored to the record, a changed party response, and a visibly opened route onward. This is an opening sequence inside Depth 1; it does not replace the guardian or skip `first_corpse` and the existing chapter gate.
 
 **Dramatic question:** why does a room designed to admit people have no functioning record of anyone leaving?

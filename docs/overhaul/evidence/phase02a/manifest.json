@@ -1,0 +1,2559 @@
+{
+  "version": 1,
+  "phase": "02A",
+  "baselineHead": "a55290ff3755ae802c547d630593870d59514934",
+  "initialBranch": "main",
+  "initialWorkingTree": "clean",
+  "sealedAt": "2026-11-11T15:44:10.591Z",
+  "sourceHead": "a55290ff3755ae802c547d630593870d59514934",
+  "sourceTreeSha256": "03db1fbe2a121ce363e357654aef1ca21a9b4b6fcc06522ac893dbf937b15b88",
+  "sourceHashes": {
+    "package-lock.json": "e8e54bd2b24418d3e311e8ea0dfd6d8c5325a674c62fecff95f3ad5b8a65a3c4",
+    "package.json": "507aca1966dca0de1c68a88278601049ea0a30cdcf474da4d0ba84f7436d1fd6",
+    "public/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "src/assets/character-atlas-contract.json": "eba696f0f3ef7e4510175556ec68eb12b95b57b0a4a7e024d52fcea51296bd64",
+    "src/assets/character-sprites.ts": "0bc8113295e7d6e25cd4b03b8b0b1593e82e68859da04f5cebdf94e85894d646",
+    "src/assets/enemy-visuals.ts": "0ae8e85b763e6abec43eeae59e958c432567d3a0262fdc4352cd801112ddf339",
+    "src/assets/hero-atlas-contract.json": "a9038726e41284015421a0b94603e8d08c0084edfde6c6a2696699f54c1e5703",
+    "src/assets/hero-portraits.ts": "4af2eb2b8e1b19dba3eebaa822db316d46f2215a02889be06a355b4589f2b619",
+    "src/assets/hero-sprites.ts": "cd10aca2f27bc2df29c8fa527ba18a4560389d2f40c2e82e7ede0bed7c0e8533",
+    "src/assets/manifest.ts": "27413c18107833dfcc00d775aef5b3c567b3c3378a4a019183a5518463566019",
+    "src/assets/presence-atlas-contract.json": "c7581ee5e7ad1d88ac39a08945b5ffc9e367f3624fe7bb09e1652a0ce615a0d1",
+    "src/assets/presence-sprites.ts": "85170f84e7e4c8dccf5d238432631ae1e8d07b0aabaa608262ef2f06f7a6f6a2",
+    "src/counter.ts": "7580ce935ad5fd8f5598ee53533fbddbd5d34e5aaf6cfbb7f81f3ef1969bf4e3",
+    "src/game/abilities.ts": "909e5c7318cd9df6ba85bd1784aa91635f5bb71c820a8da8e20c1186f2fdc55e",
+    "src/game/boss-dialogues.ts": "d13846a5d1b468f66f63c990ea406faa6179e32f9d369e6d9415781cf0dc6898",
+    "src/game/characters/party.ts": "78f7b3ce99515640b0d333dc2e4e2d96ef501a68671ea7cb1cc749eeade0dc15",
+    "src/game/combat/actions.ts": "3536b6c285538a57f2f055e3bfd1947e74ba139ed319ee2add52f087cc7c36c8",
+    "src/game/combat/encounters.ts": "b6d34fc4a97df2ffb3648f9f7003ddc12245fa2067ce7682021c0e71f99c008e",
+    "src/game/combat/engine.ts": "0229d8f9ac94210f3119b1cf8738df5c80b0c3676bfbf5c9316f6568521c81f2",
+    "src/game/combat/intents.ts": "fc2ccf3ab29fff4a3b0011be2baf1fdc085fc0da1a9482ff1b9ded365c2c3573",
+    "src/game/combat/state.ts": "4ce4429c5fe11723ca90ebd02c0ee3573444ac0c6b1ce877bd66e745d46b1c8f",
+    "src/game/combat/turn-manager.ts": "b4777de4c6531c4ba287f08b39838df2febdc0347b3f5c3b4f6e17eda7b8a3f7",
+    "src/game/defeat.ts": "50721be8a981cf62fe317a9dad43e5097e9f31f15f234ab15649c73fb7ed90ae",
+    "src/game/dialogue.ts": "8abaa592e4f7492ebef05d7e4581998bdcf28519d21d6f41d0a737caed958578",
+    "src/game/endings.ts": "d3031d9af1fccab29c658b870020b1630b19b47144e6c75dfdf1e55dc665305c",
+    "src/game/enemies.ts": "5f50f5a30c61102a8dfde6f17ef9794032c493e809a2404cb35295404b377f61",
+    "src/game/events/engine.ts": "d76fbc4370785bee0431b260ff581ed17ec8c61bf43beac2e522210cf34501ae",
+    "src/game/events/examples.ts": "f93271c76ef7dce94aef7c70efedb235f2daa6780fc5488e2ef5f3242aa6910d",
+    "src/game/events/loader.ts": "990edf656dd12d732f0903f63c03681e49efaf2f4fd0626389717d635d771ffb",
+    "src/game/events/mandatory.ts": "70c776c9b267dc73b95fd5ae6bd5753978498e7c58c1206ce21d6edef0d77f0f",
+    "src/game/events/procedural.ts": "03a137ecfb33537804bf13e3d6fe3ec24ed215e26d2df6384369cb31e4d35868",
+    "src/game/events/resolvers.ts": "6e007a966e300700f9ddf81aa76ba6861b13bb1f68fc0d277fbe8cad85326caf",
+    "src/game/events/types.ts": "52a11a5b6f6e022a19c817e1bc8b470434c49f4210124c722188e5e5bcbc391f",
+    "src/game/experience.ts": "74de870a229dff4a0859e04eb96b0e2b783cf7aff544803b06eebb3df37069bd",
+    "src/game/exploration/archive/interactions.ts": "7c67c3e347c0b8f7ba4b966643c9b832b311b3acb0bfb9d51d10923dc13a4d15",
+    "src/game/exploration/authored/depth1-intake.ts": "dfa0c8f69ac4553b6aa1fbf807a2a5850ba12882f0d44a0d477402d21bb0ba84",
+    "src/game/exploration/generation/archive-rooms.ts": "aae94bfc5cbe421cc347e6761375c418bee60651578848910fd6665c73bc4bdc",
+    "src/game/exploration/generation/archive.ts": "37c814f108c6b22429f33d76eca66b5c3dca6f4fb766fdfa98fe132d9653b252",
+    "src/game/exploration/generation/random.ts": "90586ab3e571839d465c992c921c577e1e85a6ea520e806de94c110673887f00",
+    "src/game/exploration/generation/validate.ts": "2b485991c1281ca0c8bdd971b3bd5ef375fb4be515dac33b205920bd80b6db60",
+    "src/game/exploration/generation/world-definition.ts": "2f11cbe4b9cd1a5b86896dcab50524cd50bcf6e5ee44c972497da407b2ea014a",
+    "src/game/exploration/map-generator.ts": "3d440025c19b906847277dad15e1fe0edcaefe0daae49786e2282e73e4c7758d",
+    "src/game/exploration/map.ts": "849a176cec3a8fa1fca56cc7d1af266d2600770d47c8b10a425a3ad88b022ae1",
+    "src/game/exploration/movement.ts": "4fa9ea239a5ab7c371fe2e0adb491930814304c57769152095d8f03f8b57849b",
+    "src/game/index.ts": "a79ee2ad22165d38572ccde64373612111a39e6aa47bd2e275797fe3cf0925f7",
+    "src/game/inventory.ts": "0233ca2905e49db3959816281962e69d1b344aa37719997df1df65d686240272",
+    "src/game/morality.ts": "ea892dd574eface7f5d20095f07d2857316471bb9282aafcadc163a537898f13",
+    "src/game/objectives.ts": "0ec3c086868c9c09c6808b082eb7ec22d2d453d0475519cb419972dfc876751a",
+    "src/game/random.ts": "8491138b779c4631bcc06e2be7d1c2a00ff8cd302b3ebec68c4ade5698a9c394",
+    "src/game/sanity.ts": "145d6d3eb271e3795c8a1faaa76b06a2d60a37fde705c7080789ce5c73160b57",
+    "src/game/save.ts": "4087bf1138e5aef0c1fa84e2e62b95a47afd5a046be86614ac1faa2ba16918ca",
+    "src/game/sound.ts": "2aa4bdab56e8323c48b2270a5c997bd0b241f9bce2d5914a4c47b4e9d60f5141",
+    "src/game/state.ts": "0294b409720b891d42f0adc8c89561b66bf770b4eda2b87bb542431cde6610af",
+    "src/game/story.ts": "62012e642cd49d124fe0572929fe8f629727cac05076bac71a637ff5c703feaa",
+    "src/graphics/DungeonViewport.ts": "8d888a1468087eea99ae3daef8532bc25e90acfbf7dc9ef871e2a484d1b7bd91",
+    "src/graphics/combat-presentation.ts": "c366bece6837a21c25d7dfe5067c58b2a9354178fac7cf52adbe0031fc7b681d",
+    "src/graphics/combat-ui.ts": "e64112c6d63ae734ed41693b3d41ecaddc99756a3063122d20373746b181346c",
+    "src/graphics/direction.ts": "cfbc155524aee3732cfa71e0d8da94885c0ec05e68ebc351dd50826a283c7b29",
+    "src/graphics/dungeon/ArchiveLighting.ts": "09e82cb673fbd6dd66a4c24172516850d64c02bcab3a444a11b643069b97c04d",
+    "src/graphics/dungeon/ArchiveRoomRenderer.ts": "bcc283fa57cfc1c424550cae4cb42f5ba6264d71fc6074d7371d640fdde40f21",
+    "src/graphics/dungeon/CameraRig.ts": "cc9fad7d0af8443bd7020f46f4d3114c0249473b7bd828d7767d556c98e90916",
+    "src/graphics/dungeon/DungeonRenderer.ts": "aaab8808590dbd735bb306bd7ef493d93f195dfb47ddcca12aa33aac00407473",
+    "src/graphics/dungeon/LightingSystem.ts": "67298b570ca145622d49ace15bafd3348ea388f1716f51557a9d932bfd6019a6",
+    "src/graphics/dungeon/MaterialLibrary.ts": "b82e13274d9451ebfd9aaa492a2d0c3951bf8a7cd2430fc58be5ffd2a718ff0b",
+    "src/graphics/dungeon/PerformanceDiagnostics.ts": "799e8678c69eb0cedb54e32155451a9280897ecf0c277332b989543381f0dd0f",
+    "src/graphics/dungeon/RenderAssetManager.ts": "4b9a310fe2043928d23846d9fbca7a54a2695249f887007bee29c43ffac12372",
+    "src/graphics/dungeon/SceneBuilder.ts": "b9468cd073805732a4a968265d9974f1d3c0c20c93d28d2765f4ae17c85989db",
+    "src/graphics/dungeon/WorldSpriteSystem.ts": "a0894567c9b78cf836b2b4ada9ba9992a58d6adf4fed78b36362cf117877f1bb",
+    "src/graphics/dungeon/npc-presentation.ts": "08b45274e9a5236a3f601307b117fb281f0c2a6e6f0890a25a5a0ff1a249e5af",
+    "src/graphics/dungeon/types.ts": "7f8f88e48852be44d4be06e981451fe7f12343b111e7b129ee87af1a229d002a",
+    "src/graphics/map.ts": "d363b784a539a9eb433f35b08cf2bf762a4058ed5ac83e4fc3fd7fb7894d34a3",
+    "src/graphics/minimap.ts": "70a684f1fb50ffadb5b05c88a240f682c71f163e7b25da9ff4c6cde465767c7a",
+    "src/graphics/party-ui.ts": "7f3280e5c85abdea2af29ef9f14d5abf0f72c02cf5a52e09fa5f4fffe8f43e2c",
+    "src/graphics/presence/PresenceDirector.ts": "ea26c1448a70f3c6419f4c5300e8007cbbfa6fc20312803c203f9233369a1f15",
+    "src/graphics/renderer.ts": "3bedd8cce0227329963809c0ca3dd606d72611786abb87e40e7463f40c4ae4d4",
+    "src/main.ts": "945a0c98ffd770870bbeae846ed52d5a65f39df595640c95b3151432d0db6350",
+    "src/style.css": "6f5f10b0883ca72436d0af9615b4a76ba9dfa9f893e16a230dc23e504cc8f33c",
+    "src/typescript.svg": "f6ead1af17acc3f55ad857f3bc936df8754281e2932c1b472dbb9b36ab873f1c",
+    "src/ui/app.ts": "b4f440b9f530b36c9d648649c3f820e43dc2ed48b6665562d9cf4ab151f8c780",
+    "src/ui/audio.ts": "72a2e04b4de3773f5ee9f56473649890a1a6cd134c73a867241af6fceb6485d1",
+    "src/ui/character-review.ts": "7b9eb30bb87bb2c8d95b5810e8e6d54a530a4325da1edd58980beba2f63f56a3",
+    "src/ui/exploration-commands.ts": "4e01a230178532cad6c724c8443c32875cafbed0ac1879aac494e376965cca0e",
+    "src/ui/mobile-controls.ts": "0756efe708262d6625b69f914f0acd0984178f7fabf6ee9e155571bfb282798d",
+    "src/ui/preferences.ts": "a33fcbf44a189c125c39c40304ce14156285378ea9c59f645c83d4467424827d",
+    "src/ui/presence-view.ts": "a80da40e7742f3f2ed82118de56f2a8515687a2cac4215ba03e362631e943b24",
+    "src/ui/presence.css": "b86e70ae5d01919a7307a6b723146ba7b11539fd5b30b3cf6e7d82b2f5a0c42e",
+    "src/ui/protagonist-portraits.css": "2412f837e7848db776184609e58e6fb548e457d49f999d3efce43759c7de6f7c",
+    "src/ui/screens/dialogue.ts": "5eed68e370e917f52c677d7e12c7eb55da847a909d77107ac36df8ee5cff2130",
+    "src/ui/screens/ending.ts": "e378b6ea843119e0093262a0108064d780bd8b63f26bf62061ff15dde28ee721",
+    "src/ui/screens/game-over.ts": "f3e3fb04e7894874475d107021bd98db46e2db9b776bded008e33891de464219",
+    "src/ui/screens/title.ts": "66ffaef6ad3c2bdbcf4e1e78b9cb17ce70b3ecb74b8270692f5c73a9fdcf104b",
+    "src/ui/screens/types.ts": "8c3f1c377c7c1882d548d8531c5c0822cf5d0076cfc74beb6976a5c84da49709",
+    "src/ui/vendor.ts": "ed8deea46259c8f36137520a16e10f27198e19794ae017f1c876b3b535b017ba",
+    "src/utils/platform.ts": "b0d3572ca558b54d39f27265fbe2fa9cbf5612177329e445e715d80d395372b6",
+    "src/vite-env.d.ts": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5",
+    "vite.config.ts": "fd6a67797952c4eceb1c1f34401d2ad0b55321fe62f547b8742f78e2fa10f6ac"
+  },
+  "environment": {
+    "node": "v24.13.0",
+    "npm": "11.19.1",
+    "os": "linux",
+    "kernel": "7.1.5+kali-amd64",
+    "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+    "logicalCpus": 8,
+    "hostMemoryMiB": 31818
+  },
+  "buildManifestSha256": "7337125a8bc3d3f6a6f397ec0ec6ac458c97a16ede6af618162b1090198f3937",
+  "buildHashes": {
+    "dist/.nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/THIRD_PARTY_NOTICES.txt": "de22c1736664b90e924cd6f5c6e851b41a759a99818f75e44bccaf35c210678b",
+    "dist/assets/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/DungeonRenderer-BMbmlJD6.js": "2173955dabc04afab1d88898c7d9a140935c6fb6190f0792bf368e18f01400b4",
+    "dist/assets/animations/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/animations/characters/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/animations/enemies/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/animations/environmental/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/battle/battle_bg1.webp": "2747af14610759533265b34dd011538bbbca33ee4aab0024467ea92bc50bbc31",
+    "dist/assets/backgrounds/bosses/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D1.webp": "bf491696103c7f2043523a8caab9724b738ea563508385c77b67072dd52defd1",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D2.webp": "8baf5ac8f58bad28ca84982990e392dcdb4587f794d2e4be04370b5a056f1230",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D3.webp": "35ea8547adef493ced0eaf6e341f5b2186d8f427dec6f01c65c35425905dfd65",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D4.webp": "11061e6801ad082e225e751f18f91e91d634d8473e9f6c043625b858bf8dcd5b",
+    "dist/assets/backgrounds/bosses/BG_BOSS_D5.webp": "46c8f7ff650d786efd065ed4a1bc0ecc9eea74577b847b4d8178f7f3ef5df1b0",
+    "dist/assets/backgrounds/depths/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/backgrounds/events/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/character-review-BvjRO21L.js": "833f1884b2d65aeadb2c32b3611727b5f239c3f0fbc651e7fe77e75125ad5038",
+    "dist/assets/index-M7g03d2k.js": "0db5cb850f6f31bb13f1bfa7acc85125ff1bad5490dfac9b8ac23f82ad4a1715",
+    "dist/assets/index-uaIimk29.css": "019de2c4f6a9a2729de57ec663cea32132b521ab5ab85acc7e652fb3d084517b",
+    "dist/assets/sprites/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/anya/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/anya/hero-atlas.png": "ff141135e2c6fb2940260f3d66e2a754d537ff698d148fe297bf070c942c44ad",
+    "dist/assets/sprites/characters/anya/presence-atlas.png": "ea0e17f5088888004cb7f226c03a818294da85c5e692fdd5e5f090ad76b80cd5",
+    "dist/assets/sprites/characters/elias/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/elias/hero-atlas.png": "970a2a295fa45d980aaca49fe67e76f219d08a13182c955ee421d039f15ab9bc",
+    "dist/assets/sprites/characters/elias/presence-atlas.png": "10b29742ff91c74600df4f08487c69b75ccdbfae90f3780b4fc9d0ff9b0a4253",
+    "dist/assets/sprites/characters/guard/character-atlas.png": "8b8e3af33108059406e233d751f24e50e662a1f966c0db941ca63c324c3d11ef",
+    "dist/assets/sprites/characters/guard/idle.png": "f162a3f99fc4916369fc1cf6241973bd0400e8f02299d69373bdc7f33b5bcfd2",
+    "dist/assets/sprites/characters/keeper/character-atlas.png": "3fce717e36e8c3997abbc13c30ebcb3ec96668ef343dd68e661a6142a7188e8a",
+    "dist/assets/sprites/characters/keeper/idle.png": "4e6390f5fa5a2178fa9236e41b5eb4410efb8abfba5c07a62fdeeb6b033a6060",
+    "dist/assets/sprites/characters/miriam/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/miriam/hero-atlas.png": "b2bb740d7e6393ae62371213a0439edb126ee229707b861ee33aecfb9361a70e",
+    "dist/assets/sprites/characters/miriam/presence-atlas.png": "eafbcdf6feda30e709bcbab4d15880104f279d934d1cd352987c3a1ddff0caae",
+    "dist/assets/sprites/characters/npc/vendor.webp": "73140a5ea9192ed5f7585e35ba3d4a54be90153df977556049fbdd5efe608ce8",
+    "dist/assets/sprites/characters/phase01a-build.json": "f9b2a43865234ceb6eed563140332c4f0cd1f945b4caad7473c8e7ff1241c988",
+    "dist/assets/sprites/characters/phase01b-heroes-build.json": "d4504027abb37114f766d26e879c47fad7422ac5df3e4ff5745214d666fd8bcb",
+    "dist/assets/sprites/characters/phase01b-presence-build.json": "b96f78ec2bce50a4bf8a04b1996a73e3f271409b9fd7164a649e585ca688ce85",
+    "dist/assets/sprites/characters/subject13/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/characters/subject13/hero-atlas.png": "07508a394399822d17722bd779be9866a7486a578c1e324433c974f8428613a5",
+    "dist/assets/sprites/characters/subject13/presence-atlas.png": "c6dbbd64956f65975c9455e517b45ada095e24e3982fdc78e34edaa83e457d56",
+    "dist/assets/sprites/enemies/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth1/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth2/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth3/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth4/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/enemies/depth5/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/objects/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/sprites/objects/chest.webp": "9df09ef7018d3ba3b50c2ee0c753b996dc4e469beab933a431def275f190a978",
+    "dist/assets/sprites/projectiles/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/archive-phase02a/concrete-color.webp": "36e7955a2d8ee019cfb8f1f01a942ae556e0ed8ac139c5c934e2dac0ec6dc386",
+    "dist/assets/textures/archive-phase02a/concrete-detail.webp": "5a0284c7e4949bc77fe3b1a1eb6616fb15b4619321dfad73cb2f024e28e7664c",
+    "dist/assets/textures/archive-phase02a/enamel-color.webp": "bd708fcf996cf72f0e7f1f32f2e288d6354fbee7d11d481b4ed1f4a1f558381f",
+    "dist/assets/textures/archive-phase02a/enamel-detail.webp": "c38e54840204d3d458dd25f2f5e6b62b55fc5fd5494fdee87d45eee75853bb6b",
+    "dist/assets/textures/archive-phase02a/linoleum-color.webp": "cfbe63c915f167718b3de5e5f3f8a3b3b28554dc344856a05deca67a1a47858c",
+    "dist/assets/textures/archive-phase02a/linoleum-detail.webp": "03a1df1af05eb5ef5472cec741364aafce2018e582faf4de2f70cd3540117d3f",
+    "dist/assets/textures/archive-phase02a/paper-color.webp": "1c644d75cb14195534b35c585c3713b6f6244a83b29a56a4b7202725acefe4f7",
+    "dist/assets/textures/archive-phase02a/paper-detail.webp": "8f58d570067bcca3aff9478cb90c7d007ce2ab110497bd47bad0dbdbd13c4ee9",
+    "dist/assets/textures/archive-phase02a/service-color.webp": "4d1d31c6141ddf04a5ab7165bac9a8b0f15fa8fa5802613315626d608b04d2b4",
+    "dist/assets/textures/archive-phase02a/service-detail.webp": "15d80e8827218c6575c50605842e31652a18f5da6006f2a635900c681146842f",
+    "dist/assets/textures/archive-phase02a/steel-color.webp": "42db3c6f60ad3b1963762356f4d1df6fb599146e2d637bd1246baa33ea79fe54",
+    "dist/assets/textures/archive-phase02a/steel-detail.webp": "8b8c26b2ce417955c700aa9724550d7fc862c992e430a7bdaccb3ea389ae02fa",
+    "dist/assets/textures/depth1/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth1/d1_floor_linoleum.webp": "c31cd21bd7d9ba1ebaf1d226e62bcbb06c569441d2c91653229ca695ccf646ac",
+    "dist/assets/textures/depth1/d1_wall_base_threshold.webp": "0f204e910ed5ed9629b4160f1590100fb461dbb3f354778254732a9a3886a5c6",
+    "dist/assets/textures/depth1/d1_wall_warning_stripes.webp": "13e66419ee7f84c8c64f9ac2232af20d8e5190a9c748f45cbf4b0ad6c7194d6c",
+    "dist/assets/textures/depth2/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth2/d2_floor_office_tiles.webp": "775bd920c5f099076552f15512bf789701327f14f551dac43db4213a8208d5a9",
+    "dist/assets/textures/depth2/d2_wall_archive_cabinets.webp": "f9ec5c42489aef5aaa7a329311a9dbc20f31d2be24ab37741d1a391d2edf66aa",
+    "dist/assets/textures/depth3/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth3/d3_floor_hospital_tiles.webp": "1a95dc603f1eb7c3ff530fea0cddd11be7888126fe5cf52e3a079bf2ed01a434",
+    "dist/assets/textures/depth3/d3_wall_hospital.webp": "0972f65628f6e88979fce288907acb4cf085930b0423c122fcbed31e7049c945",
+    "dist/assets/textures/depth3/d3_wall_padded_cell.webp": "3d643cca3cfcdc6858413954cdfddb77065bc43d0fb6d85f57529fac4ff3a97d",
+    "dist/assets/textures/depth4/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth4/d4_floor_dark_reflective.webp": "845c196dd0fb939a7ed71bbfac0703b05d855dd8665a2d339c5243cce951055d",
+    "dist/assets/textures/depth4/d4_wall_fractured_mirror.webp": "6dc395ca2c68f6d36a03d9e786fc8f604c7b2337fcc0677082d1180ef8a38d81",
+    "dist/assets/textures/depth4/d4_wall_mirrored_panels.webp": "476e463d829e49fe93a604ee0b7025ce475f636495832e5e83f6407a383d3053",
+    "dist/assets/textures/depth5/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/depth5/d5_floor_metal_grate.webp": "4d0ec7e1fd0a866a0ed9dea6ed148b4a8e8bff2072b3781ce57bafbb4b8099bd",
+    "dist/assets/textures/depth5/d5_wall_biomech.webp": "4911914c964f1996cdf0708fe45eb31910bfa48aa7aa820f5b4fd55ff6d795e6",
+    "dist/assets/textures/global/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/textures/global/ceiling_concrete_panels.webp": "8e48edff701ea08127b264e071a156886f8d994e39aa067813f2b74ae32b5892",
+    "dist/assets/textures/global/global_overlay_cracks.webp": "300ee55d87719b8d6cece9615535f06eff356ea323218d11a454d4dcf3002ab5",
+    "dist/assets/tilesets/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/ceilings/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/doors/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/floors/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/tilesets/floors/strais_down.webp": "1ccb4e24c6144248ca0327f220c9bf7d103614313f149ed0f070715ffc2eefc5",
+    "dist/assets/tilesets/floors/strais_up.webp": "04bc221e5f8ee291dde61c7165c0f41f8bbafbee0db93e4985bfaedd2c4212aa",
+    "dist/assets/tilesets/walls/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/buttons/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/cursors/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/dialogs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/hud/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/icons/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/icons/icon.png": "d0ba6295def28ccaf7eccbe723b648dfdb6721e600cde89acc518c2e8be3bfd3",
+    "dist/assets/ui/menus/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/ui/portraits/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/combat/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/magic/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/particles/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/assets/vfx/status/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/audio/music/.gitempty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/audio/music/battle_boss.ogg": "08ba7f7421a7ed6caccaf9af3aa54d587633b9f8bd3fb1fceb1f6ce5a2d37ed4",
+    "dist/audio/music/battle_normal.ogg": "df0bfa03500f9d86c16054085f2ded0518c5fc54c5ba23cd6b9f55c47441fdd9",
+    "dist/audio/music/core_heart.ogg": "b8f50e3ab7b9493028d23f294ef8f320ed1ecbd8a728fdea338ecfd9c0cac5da",
+    "dist/audio/music/depth1_ambient.ogg": "9f93219f1aaf749ec06a62df3b886df624d64661495cf8c18ef81a0a970c8a99",
+    "dist/audio/music/depth2_archive.ogg": "356d298869644d0aa52f804d174d58ed155cf39f9eb6f5445eec9d94faf56d4e",
+    "dist/audio/music/depth3_ward.ogg": "dc8a4ba82fd61cd56976e14ae7bb2b408db26de2bd951b48e5da66c5464a1e4c",
+    "dist/audio/music/depth4_mirrors.ogg": "59adfe97a42b191c5550d676c70e73a54d1ac40887c451020a14f65c9a06a4d7",
+    "dist/audio/music/main_theme.ogg": "d0eb113b03eb3a1911cc3cef43d8f210275de11d672542329f02638c3f078828",
+    "dist/audio/sfx/.gitempty": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "dist/audio/sfx/event_choice.ogg": "89868747b50f3b0d12927ffdae8e8453d0d5fec2003620d593f53a7ea10732fd",
+    "dist/audio/sfx/hit_heavy.ogg": "399eeb83f986658ee2a3579ca58e8052720116ad61c8e6f7b5f4107391de3abc",
+    "dist/audio/sfx/hit_light.ogg": "8e8b0aabe9830671cc60f8cce4fad61749260adbb4998bff73d92ed8d6d8f5cf",
+    "dist/audio/sfx/sanity_break.ogg": "84f67242a9135d115a29ea36f49e9b8f292bda926c1e46fe8a849f01e29a3ca7",
+    "dist/audio/sfx/sanity_tick.ogg": "27fd79b2c2510ea42f1cad2d15eaec0907c1dd67c1e2f72bbefcd5c3c0826e43",
+    "dist/audio/sfx/step.ogg": "d9fc30a258b2feb247047a7759d5bf8282c21f484ecaae0835a6cbf92b2da4c6",
+    "dist/audio/sfx/ui_click.ogg": "209813ef2b752a1f96368e1892ae715e8d2d5c82e3189b1d8ee79226fe4b08eb",
+    "dist/data/events.json": "f5e83c7692a2db5ef66c313407e7af41d0ff66030aaaa59bf756782ea77053e9",
+    "dist/index.html": "5a832d97ee23141465d032c1169d35c23da84854fbb72f3493b66e51ddf92520"
+  },
+  "frozenFixtureHashes": {
+    "tests/fixtures/saves/v1/README.md": "3b47cd7749982b3dd9f8c631c69b7e6ef0940de74b21c6da40f7b8d1af134b3e",
+    "tests/fixtures/saves/v1/combat.json": "cf565de2cd3c699173ba82007caa69639fbc10fa6bef6b74330145058739bafa",
+    "tests/fixtures/saves/v1/conversation.json": "0380bebf2e14a8d143bdb8795dd011cbf83b434074992bd419bdf0a2628bc77f",
+    "tests/fixtures/saves/v1/event.json": "9ddaa8483da8748c16c6564e23b220e2d13e55b7e347885aed8215f97a7797b8",
+    "tests/fixtures/saves/v1/exploration.json": "629116b08970a2039d18272c99571a7603ce846b94b7225a8aa2333d3960c0fc",
+    "tests/fixtures/saves/v1/manifest.json": "4243fe167559cadd43ed480f10391cfaa3a788c5b2f0df236c0065db356a93e4",
+    "tests/fixtures/saves/v1/progressed.json": "8b061a7d68efd63e638740afd1bb39c43710026cf6f375f43b868cb7646b5b57"
+  },
+  "preservedSourcePaths": [
+    "src/game",
+    "src/graphics/presence",
+    "src/graphics/combat-presentation.ts",
+    "src/graphics/dungeon/CameraRig.ts",
+    "src/ui/presence-view.ts",
+    "src/ui/presence.css",
+    "src/assets",
+    "public/assets/sprites",
+    "source-assets/characters",
+    "tests/fixtures/saves/v1",
+    "docs/overhaul/evidence/phase01",
+    "docs/overhaul/evidence/phase01-art-approval",
+    "docs/overhaul/evidence/phase01b",
+    "docs/overhaul/evidence/phase02"
+  ],
+  "captures": 82,
+  "studies": 56,
+  "matchedRoomPairs": 40,
+  "matchedStudyPairs": 56,
+  "pixelPairs": 20,
+  "commandCount": 16,
+  "sealUtilitySha256": "3b58c76aec16254b5e781f75b041297d961eb5dc8e5fbfbd2eae587324cc644e",
+  "files": [
+    {
+      "path": "before/captures/1280-archive-fixtures-and-connected-motion.webm",
+      "sha256": "b443f38ddba1bf9462eca8e4ba468b362da7ab59150a37b76ce2ba866c0f78fd"
+    },
+    {
+      "path": "before/captures/1280-canvas-fallback-world.png",
+      "sha256": "e7ad3554317645ca390058911f489c74e76a902c46bbd36d05e29e9ed3d878c0"
+    },
+    {
+      "path": "before/captures/1280-canvas-fallback.png",
+      "sha256": "66759400bc290c3f2330121ec1f7c3dbcf273819fd536ee63bc4f72aab032174"
+    },
+    {
+      "path": "before/captures/1280-combat-world.png",
+      "sha256": "5ab644cc3285c7180434868fd34ea572ecd160ec0bd0da55879e1d7f6bb7127f"
+    },
+    {
+      "path": "before/captures/1280-combat.png",
+      "sha256": "7fa8b6c2cbbb733668ba9b24201979e12251140df54a1bfcc32ae6b11f1ca825"
+    },
+    {
+      "path": "before/captures/1280-connected-motion-end-world.png",
+      "sha256": "3eee6c21c270e4c99c9c194e1c83c6faf0155902e47298539fed90f0eae384a8"
+    },
+    {
+      "path": "before/captures/1280-connected-motion-end.png",
+      "sha256": "c17cf0b4d36dbac64d171b875ca2d6e06931b27ae4733909a923ce9fa71b2c32"
+    },
+    {
+      "path": "before/captures/1280-grayscale-drum-world.png",
+      "sha256": "edd2a890a848b8e5fca37135e11b6dc30be38558103eec53ce384645df88ffcb"
+    },
+    {
+      "path": "before/captures/1280-grayscale-drum.png",
+      "sha256": "c57f630f89b9afde8f710326e4ee942322d3fea2575a6537c6e82100696a7ef2"
+    },
+    {
+      "path": "before/captures/1280-legacy-depth2-before-world.png",
+      "sha256": "59466a3b778fc92a435128410369a9c0a6f8925afd66c5223d3a353cd15d23b4"
+    },
+    {
+      "path": "before/captures/1280-legacy-depth2-before.png",
+      "sha256": "d42449dc059bec9bda2d19e0220875f09d9db84742d155514afabc1a03118cdb"
+    },
+    {
+      "path": "before/captures/1280-normal-anya-drum-world.png",
+      "sha256": "4b7a0fe0fc0dad70e3b1753f9188986e82815a405e468aa78d9361bb21aebd26"
+    },
+    {
+      "path": "before/captures/1280-normal-anya-drum.png",
+      "sha256": "6c0e16c42d9a63f13558d0e9d0b2663283d199bbc0a74cdccedbb49acd6fa14a"
+    },
+    {
+      "path": "before/captures/1280-normal-anya-interaction-world.png",
+      "sha256": "dd43fc59f530c05fdd0f2bbd09e00f798fdc651af9a8978a3d4ea4c56c9685eb"
+    },
+    {
+      "path": "before/captures/1280-normal-anya-interaction.png",
+      "sha256": "b48570528310f916f6df8a219b8d3b238535870687c09262acefc60aee246661"
+    },
+    {
+      "path": "before/captures/1280-normal-compressed-aisle-world.png",
+      "sha256": "2539d5f4e9aa009dad22ef3f41af2eeb40a246e836a5a5b31107b7621336fe1f"
+    },
+    {
+      "path": "before/captures/1280-normal-compressed-aisle.png",
+      "sha256": "e35755752dfe35fe924f8f0c3376bd57cd130e186302ce11ad59bb1a6e0e530d"
+    },
+    {
+      "path": "before/captures/1280-normal-damaged-storage-world.png",
+      "sha256": "006e16b53bcd16c706e33285eea0fff07b464face4ad2b801d91b1330bea16f8"
+    },
+    {
+      "path": "before/captures/1280-normal-damaged-storage.png",
+      "sha256": "1aac639ada4c1e2e355ed6586df9eeb77286a187a4af3f71d57f3565eae83502"
+    },
+    {
+      "path": "before/captures/1280-normal-drum-chamber-world.png",
+      "sha256": "36d557170a96be8bbcbcfd86d438a7a56e1fe1096593ab37afbd93d0e566c229"
+    },
+    {
+      "path": "before/captures/1280-normal-drum-chamber.png",
+      "sha256": "0b1be1b105a0e0ad49e3062a3891aab2eddcf92e3109610bfe06b2e2a98d9bdf"
+    },
+    {
+      "path": "before/captures/1280-normal-elias-drum-world.png",
+      "sha256": "495dbf35ec8f41a56b3602a18c3cee7e2713215f818fad972016ac050922d064"
+    },
+    {
+      "path": "before/captures/1280-normal-elias-drum.png",
+      "sha256": "060843db908846bed09514603f3baedf68a833281a32de1f7c37d6b67cc54213"
+    },
+    {
+      "path": "before/captures/1280-normal-elias-interaction-world.png",
+      "sha256": "e4c832802b39975ce6be0d9720c555d544ad83a146a0b37f57d2881928538321"
+    },
+    {
+      "path": "before/captures/1280-normal-elias-interaction.png",
+      "sha256": "78d3db26acc8dbf4f0ed29582f271a810c2867bf362fd8dab61599070bee7555"
+    },
+    {
+      "path": "before/captures/1280-normal-entrance-world.png",
+      "sha256": "abddc76d5bd36f6001627572ca15ab3b1ea80edb574d685018eb071b95766958"
+    },
+    {
+      "path": "before/captures/1280-normal-entrance.png",
+      "sha256": "c76cafa82343ed1e225699f013a1eba959fa207d7c52747ee589211c4a46ffa2"
+    },
+    {
+      "path": "before/captures/1280-normal-exit-world.png",
+      "sha256": "86fdfade7f4d54e116e89e233eda93f4d66a8998111b9f27472f08f0d282a745"
+    },
+    {
+      "path": "before/captures/1280-normal-exit.png",
+      "sha256": "fa18e53273990519b34571856b810648b7d535eb1734e5ec14b7399c3c1241d6"
+    },
+    {
+      "path": "before/captures/1280-normal-filing-gallery-world.png",
+      "sha256": "d26b8fd16ac70570cd539a745ae503860cae5a573e008a2daf03e7934294eba6"
+    },
+    {
+      "path": "before/captures/1280-normal-filing-gallery.png",
+      "sha256": "c2c63156d91ba1dacc830392ea1ff1aae068d2601e1647ee2edc2b155cdb1b1f"
+    },
+    {
+      "path": "before/captures/1280-normal-indexing-world.png",
+      "sha256": "62840e0f458e413d0837212659605396afff84d17d5b3a7a3fa2071c80b8caa6"
+    },
+    {
+      "path": "before/captures/1280-normal-indexing.png",
+      "sha256": "949fd3a04596dec7f99ef6c1aa1aa937746358923a8c2c9d385c891453ac4e3f"
+    },
+    {
+      "path": "before/captures/1280-normal-miriam-drum-world.png",
+      "sha256": "3dce200c56e5c0ec6168eab49f0fcb0134f7af8a2528acf5c3388632d79c4be5"
+    },
+    {
+      "path": "before/captures/1280-normal-miriam-drum.png",
+      "sha256": "ec297e870e0606d0794634cc9448f8dfb793c923500310f8a8ea9ee17ff4f601"
+    },
+    {
+      "path": "before/captures/1280-normal-miriam-interaction-world.png",
+      "sha256": "fbe7540f310c62ff65e4c52881067d6758dae4b7dec24118d048a8118b3237ac"
+    },
+    {
+      "path": "before/captures/1280-normal-miriam-interaction.png",
+      "sha256": "37a0d7cb5b787f531de7fcaf0c468a6592ca83893e049b624269b844140c0515"
+    },
+    {
+      "path": "before/captures/1280-normal-restricted-evidence-world.png",
+      "sha256": "12c4d6661a69f227f3148b1ebc63593351ecce80aa9c771b1eb93da581148722"
+    },
+    {
+      "path": "before/captures/1280-normal-restricted-evidence.png",
+      "sha256": "0803282c19dfcb6b93d55585c3c24d40267b92f4d0d3af02fdece99dcf3bdc04"
+    },
+    {
+      "path": "before/captures/1280-normal-retrieval-world.png",
+      "sha256": "800057abb5bfd1dba41a9254e6df23cd470a887f25b6f4743e868567a267b55b"
+    },
+    {
+      "path": "before/captures/1280-normal-retrieval.png",
+      "sha256": "b19d01c1689ccee97a795fae24314b0c80764a314f80a2f1fc7a3175ee5e5cba"
+    },
+    {
+      "path": "before/captures/1280-normal-secret-world.png",
+      "sha256": "89384d528adb1996d361115d660bd4149ba6ac745719ddf98b9db8b85d9dff30"
+    },
+    {
+      "path": "before/captures/1280-normal-secret.png",
+      "sha256": "22a33c2e309a6ad1e9d0388de404306685cf2e3580bd40aa41d8bce91027319b"
+    },
+    {
+      "path": "before/captures/1280-normal-subject13-drum-world.png",
+      "sha256": "3935a3e10ac76d6732d5ab7dd59d3c42babb663ed7c9c9a42458e89316bcfa9d"
+    },
+    {
+      "path": "before/captures/1280-normal-subject13-drum.png",
+      "sha256": "068ffe42b55d726ae6425ed82339049a94569dfd03ffaf37f9042e807bd358de"
+    },
+    {
+      "path": "before/captures/1280-normal-subject13-interaction-world.png",
+      "sha256": "15acd6a1df83c9897d0ccfa1fd969f95a8c3f2196896c46bb2813de5976ad5e3"
+    },
+    {
+      "path": "before/captures/1280-normal-subject13-interaction.png",
+      "sha256": "53a5bc717adc9e9fd08de81f153f881477dcf1dc5c4ddbb519c6f3891e6e5e6b"
+    },
+    {
+      "path": "before/captures/1280-reduced-anya-drum-world.png",
+      "sha256": "4b7a0fe0fc0dad70e3b1753f9188986e82815a405e468aa78d9361bb21aebd26"
+    },
+    {
+      "path": "before/captures/1280-reduced-anya-drum.png",
+      "sha256": "6c0e16c42d9a63f13558d0e9d0b2663283d199bbc0a74cdccedbb49acd6fa14a"
+    },
+    {
+      "path": "before/captures/1280-reduced-anya-interaction-world.png",
+      "sha256": "7ef347709effbbc7f80ecee57fc09920f98fd1fe8dc268c036e5266ebbfbee99"
+    },
+    {
+      "path": "before/captures/1280-reduced-anya-interaction.png",
+      "sha256": "5c1e0b3f1c5aeb3c0b8570230fe9dc9329c961c09cb6a38ff841b970389dc386"
+    },
+    {
+      "path": "before/captures/1280-reduced-compressed-aisle-world.png",
+      "sha256": "df1ca4ba0be8758a12ca1949b95655cb327777dfa881521ba392267b15b8cb28"
+    },
+    {
+      "path": "before/captures/1280-reduced-compressed-aisle.png",
+      "sha256": "a8945a4e0e466f03e486865bb6d12ca771228bd98b9a400eccaabf4b9dd6611b"
+    },
+    {
+      "path": "before/captures/1280-reduced-damaged-storage-world.png",
+      "sha256": "6f2ebbf5179da7b7526d98cf349dc545dea50d1739c72d2641af035c5681a660"
+    },
+    {
+      "path": "before/captures/1280-reduced-damaged-storage.png",
+      "sha256": "83fd991a41cdf233f927b210b8bcdfd0c66f33f2253b1beb7ce01fca2e3afb11"
+    },
+    {
+      "path": "before/captures/1280-reduced-drum-chamber-world.png",
+      "sha256": "749f1383b046fcf743c904fdabd6167046a5b50f919fa3e69e7ac30b59d87553"
+    },
+    {
+      "path": "before/captures/1280-reduced-drum-chamber.png",
+      "sha256": "0a936d7ee4deeda5978a848ff1369e09a949257515fa14017d611d01f9b083c2"
+    },
+    {
+      "path": "before/captures/1280-reduced-elias-drum-world.png",
+      "sha256": "aead74c3ef4bbef868bce3d3ada0a7cb08bc6663406a8914644e73c65c7476a0"
+    },
+    {
+      "path": "before/captures/1280-reduced-elias-drum.png",
+      "sha256": "eee83e484242ca2981b7776fc9ace6e105cfcf52518b1cc0e6f223ee11c774b8"
+    },
+    {
+      "path": "before/captures/1280-reduced-elias-interaction-world.png",
+      "sha256": "a2942df8aa280a7cde44e87368c7714e18b7cc29cfd32d7451a1c3dc6265e369"
+    },
+    {
+      "path": "before/captures/1280-reduced-elias-interaction.png",
+      "sha256": "1a6dc0ca84ff265302a6e53f1fda8f969adab47d81e26881b2d5276aa28fc6ec"
+    },
+    {
+      "path": "before/captures/1280-reduced-entrance-world.png",
+      "sha256": "5fc8b4796e321c756f9c9dd2570aa1adbdcdbe6db710431478a8cf8a31dc5ffb"
+    },
+    {
+      "path": "before/captures/1280-reduced-entrance.png",
+      "sha256": "73f5e5faf40eb7ddca9de46ecd56b39159970cb3932516eac89575b30072176e"
+    },
+    {
+      "path": "before/captures/1280-reduced-exit-world.png",
+      "sha256": "4ca79b7650ae460f039889ed45c7bc977df4efa465565d2455f94084b27c4f4a"
+    },
+    {
+      "path": "before/captures/1280-reduced-exit.png",
+      "sha256": "1f6e595494b18c2d2e6af62c51da233b9eb837d76e84ee60fb85920efe9b93df"
+    },
+    {
+      "path": "before/captures/1280-reduced-filing-gallery-world.png",
+      "sha256": "f1fac4d5d60fdd9f6ceb25518b9a5dc61d088fff9e065beab5ddcf63715f417e"
+    },
+    {
+      "path": "before/captures/1280-reduced-filing-gallery.png",
+      "sha256": "a1c617ee12d17a23346a80fffb598fb4384b33bbc8cb67b86135f912a7418c3f"
+    },
+    {
+      "path": "before/captures/1280-reduced-indexing-world.png",
+      "sha256": "18f819240a3b1b559e0a2abc22072b8daa40a6bc69793d62a931c98b2a75eb0e"
+    },
+    {
+      "path": "before/captures/1280-reduced-indexing.png",
+      "sha256": "f22bdea1c56099ea4ffae9913f1ad1c6b28907392ca470e6adb4103e225e06e3"
+    },
+    {
+      "path": "before/captures/1280-reduced-miriam-drum-world.png",
+      "sha256": "9baf69e7129affafecfa5b815a1dee8021297edbc438440bef63050215e815c5"
+    },
+    {
+      "path": "before/captures/1280-reduced-miriam-drum.png",
+      "sha256": "8c3a50de1b3782b7d3ff6597d51f9823b67929ff65bb9275b7b829a27902b0f2"
+    },
+    {
+      "path": "before/captures/1280-reduced-miriam-interaction-world.png",
+      "sha256": "dc86e2fdec05e53e9dc918fe1e35300687a2e0bd698162489567f22f5032a5bd"
+    },
+    {
+      "path": "before/captures/1280-reduced-miriam-interaction.png",
+      "sha256": "a261a60aaae1fbc0bef105a49d12d1729f22862f9c4ed26adddefb3c23f75f19"
+    },
+    {
+      "path": "before/captures/1280-reduced-restricted-evidence-world.png",
+      "sha256": "7f3dd5566f60d96a596220f8f2e1ba3f249c13f3754249f8cc933022fbb41ec5"
+    },
+    {
+      "path": "before/captures/1280-reduced-restricted-evidence.png",
+      "sha256": "f465a834715c295c56c714095633f2b8a4fdf83ea72430202acb65901cdfd4f6"
+    },
+    {
+      "path": "before/captures/1280-reduced-retrieval-world.png",
+      "sha256": "455a97824349b37f664cf05d9e10b42ddc711582de47e57818e4202ccbe1895a"
+    },
+    {
+      "path": "before/captures/1280-reduced-retrieval.png",
+      "sha256": "dba9fea09e02fb373f971ff775e337b49b4feffd5f601d44288f3aecce911c62"
+    },
+    {
+      "path": "before/captures/1280-reduced-secret-world.png",
+      "sha256": "82c9e1003bed35060879c75c2c3ccf210beeed3a8a8cd10fd501732fe5dbfe50"
+    },
+    {
+      "path": "before/captures/1280-reduced-secret.png",
+      "sha256": "2f7bb521318df28e0f589ebbdbd6907bce530b4913c8a5db45a929d937c821fe"
+    },
+    {
+      "path": "before/captures/1280-reduced-subject13-drum-world.png",
+      "sha256": "8a39b7fa609f52003419a53e3ae3c531d21655ea9b9175b329b367b04d923702"
+    },
+    {
+      "path": "before/captures/1280-reduced-subject13-drum.png",
+      "sha256": "5a949acceb43a750319195d27f679ffaf3747aa1b095103038be6fb8f5f277e4"
+    },
+    {
+      "path": "before/captures/1280-reduced-subject13-interaction-world.png",
+      "sha256": "543adfff2fe9b70b746dddd849cb4cbad0db56378162b02eb110ea22ecbe2219"
+    },
+    {
+      "path": "before/captures/1280-reduced-subject13-interaction.png",
+      "sha256": "d4eec244a707c4f92ea37826268cbe84a5dee4deac979717289548b6cdb46a5f"
+    },
+    {
+      "path": "before/captures/390-archive-fixtures-and-connected-motion.webm",
+      "sha256": "660709649cf88a178328a0a480393f2fb7b2e699205326cb9461b12fe3063a4d"
+    },
+    {
+      "path": "before/captures/390-canvas-fallback-world.png",
+      "sha256": "bdacf13140698553c7055033bb685acdf150b78ac8212a6b66d4e7fa21e78611"
+    },
+    {
+      "path": "before/captures/390-canvas-fallback.png",
+      "sha256": "e437a479dbf72e09e7a4229b15837758562703984dee180b4d3a407507b28a41"
+    },
+    {
+      "path": "before/captures/390-combat-world.png",
+      "sha256": "3c2613d6cd88b8ba26be8220538118c1ac79b7fc95ed31e81896d2bdda4e0212"
+    },
+    {
+      "path": "before/captures/390-combat.png",
+      "sha256": "b67d57b5bc59db7c7750e97478111e57ce650c93608aa01bdd29ffea28a5a652"
+    },
+    {
+      "path": "before/captures/390-connected-motion-end-world.png",
+      "sha256": "b4ac01773a5394c91b9831821aa0da4ec4d29f6f5e83c254061c646c65f7ec38"
+    },
+    {
+      "path": "before/captures/390-connected-motion-end.png",
+      "sha256": "58b9be3fc3cf1c13555184f523130d89b2179bce179d6b88407fa0f87e69b1ab"
+    },
+    {
+      "path": "before/captures/390-grayscale-drum-world.png",
+      "sha256": "a0046c411f5fe9567b0eddb8d3e7c06ac7fb3d4116b2873b7f61f8aa18a31ceb"
+    },
+    {
+      "path": "before/captures/390-grayscale-drum.png",
+      "sha256": "18417e6c6db1edf4de15c244eea237bea5c652db1e7ee604a9b2b676d7abdff8"
+    },
+    {
+      "path": "before/captures/390-legacy-depth2-before-world.png",
+      "sha256": "17da6d8dd6feea9c7d99516bd7f27e07ea26d327cf5dd55b79c004766103b7b7"
+    },
+    {
+      "path": "before/captures/390-legacy-depth2-before.png",
+      "sha256": "3fe4833ac480ff99fb11449cd803737d2c613d3f1f39cc23479891ba66d54e0b"
+    },
+    {
+      "path": "before/captures/390-normal-anya-drum-world.png",
+      "sha256": "7003faa0d18333b137b3a36d4cc2b47af932486a7c38d40208e1bda357879768"
+    },
+    {
+      "path": "before/captures/390-normal-anya-drum.png",
+      "sha256": "41462371beb30e3fa8d2f0e205a234ba57210c9bb140ee404c3a69dcb19f43c1"
+    },
+    {
+      "path": "before/captures/390-normal-anya-interaction-world.png",
+      "sha256": "6092d6f93158ebe9f94b7b894c54fa1ff80cc2d2d924e2e04c1fdb2c21c3c203"
+    },
+    {
+      "path": "before/captures/390-normal-anya-interaction.png",
+      "sha256": "06119c679f1f6eea117c8c02ed8a51e1279cb3b71647039edc2185690ad440cf"
+    },
+    {
+      "path": "before/captures/390-normal-compressed-aisle-world.png",
+      "sha256": "8011527a12b008df8b3b540bbebcf248f51607f7e36f7193f14b811d02bb0259"
+    },
+    {
+      "path": "before/captures/390-normal-compressed-aisle.png",
+      "sha256": "4a761f2fbb0a638d7cceaf8663b511f94315363a855c7fd123e7a1fa3aed53fc"
+    },
+    {
+      "path": "before/captures/390-normal-damaged-storage-world.png",
+      "sha256": "31f479a7efcfc1d775a16199af54f49cff874b136ae9a2cfa5be52334ca3c3ec"
+    },
+    {
+      "path": "before/captures/390-normal-damaged-storage.png",
+      "sha256": "a02659c86af0ad54ac28e1835fe53403594a62904c2e9446601274f47b0bc9a2"
+    },
+    {
+      "path": "before/captures/390-normal-drum-chamber-world.png",
+      "sha256": "2e972d9867e8ae9c7462fd45e44a10d01564766b7ee0009f3a01d7484d43e505"
+    },
+    {
+      "path": "before/captures/390-normal-drum-chamber.png",
+      "sha256": "5d6f30b74e587d2832d9de1d2b62c9caa694d2f24f0b4cec1821667d7d9020d3"
+    },
+    {
+      "path": "before/captures/390-normal-elias-drum-world.png",
+      "sha256": "b3c626a19bed838cb96764a59eda2c3c2028a2c4eee31437163a558ce79b9758"
+    },
+    {
+      "path": "before/captures/390-normal-elias-drum.png",
+      "sha256": "ee4177484ad6b352746dfaa0a13e7df49f1a0139a7693d6a8f4710a41d5efdb0"
+    },
+    {
+      "path": "before/captures/390-normal-elias-interaction-world.png",
+      "sha256": "9f199b341b41746d654cd21200c65467b03d96d67f64af2bc2bbaf1bdd7599d2"
+    },
+    {
+      "path": "before/captures/390-normal-elias-interaction.png",
+      "sha256": "c3e205d85e2f4fa995028855a37401d0a21cb5728d5efa5751d2cd9c7c8bc562"
+    },
+    {
+      "path": "before/captures/390-normal-entrance-world.png",
+      "sha256": "9d23cee64e98108308199dd188a50f09f3b2149d98979930eb6bcc37ef0845f4"
+    },
+    {
+      "path": "before/captures/390-normal-entrance.png",
+      "sha256": "7d88b9d9cbcf7b56f6d3fd4bae3723dbf1b6417c9f5813e4652be4a1f7212665"
+    },
+    {
+      "path": "before/captures/390-normal-exit-world.png",
+      "sha256": "b50afaa901820310270e3178b711cc397d9dfc587efaaa1e5e08004c10fed0c3"
+    },
+    {
+      "path": "before/captures/390-normal-exit.png",
+      "sha256": "bae60680f26096fc023effa0ac57cb8f651699203e6f64649f1e2418fef750c8"
+    },
+    {
+      "path": "before/captures/390-normal-filing-gallery-world.png",
+      "sha256": "499de9115395fc915e69aa2d054698a8a3389a922484d772f739813d4d9686da"
+    },
+    {
+      "path": "before/captures/390-normal-filing-gallery.png",
+      "sha256": "e39599ae84880f64d0a7c8b7c6a2ca7a0225d0ccb405702d6f94015016cb6ce6"
+    },
+    {
+      "path": "before/captures/390-normal-indexing-world.png",
+      "sha256": "04f054e4ed0530d83ca671267f748e4a65f67cae0a3ac73d14c82924332c9af2"
+    },
+    {
+      "path": "before/captures/390-normal-indexing.png",
+      "sha256": "e0fc8d955565f52c7b714e575b2ba6244c0c4766eabd53cdedfb76219ab32562"
+    },
+    {
+      "path": "before/captures/390-normal-miriam-drum-world.png",
+      "sha256": "7c9b616c5f7618193ab69749f72f0c2313344917deb6b7b9399a899fc7d8063a"
+    },
+    {
+      "path": "before/captures/390-normal-miriam-drum.png",
+      "sha256": "2325b500e34410af6b9e4f2b096f558848594abf49295c94f332afc084fc479a"
+    },
+    {
+      "path": "before/captures/390-normal-miriam-interaction-world.png",
+      "sha256": "3db6937ee8db4091cb88bc9c53445c86b20b582403193fbb5ebdc16c5d16c31b"
+    },
+    {
+      "path": "before/captures/390-normal-miriam-interaction.png",
+      "sha256": "80bd489db1c59531a5e8e8bbc826413d21d26ec8180489f152ade9451097585a"
+    },
+    {
+      "path": "before/captures/390-normal-restricted-evidence-world.png",
+      "sha256": "94eb8007f4fe42ab9abb56c75f14460c570172829f1c061e030c77ebaced8295"
+    },
+    {
+      "path": "before/captures/390-normal-restricted-evidence.png",
+      "sha256": "1d1148e86f72764cc9e27236f4dac8c939f561ca1df463e0bced8195af32dad2"
+    },
+    {
+      "path": "before/captures/390-normal-retrieval-world.png",
+      "sha256": "32ab3311bacb5266ebdc4d15f3d994d938ca21d2db3e59a3e0582ba61151a0ff"
+    },
+    {
+      "path": "before/captures/390-normal-retrieval.png",
+      "sha256": "a00f33e6d0a073353fbab0f51aab3081ed86fdc2cf103c7a5e7e51b1d43b67ce"
+    },
+    {
+      "path": "before/captures/390-normal-secret-world.png",
+      "sha256": "87454bb3e99287ad8f5ce0ae629e0fb9cdad562fc1480067b225e6cd61291774"
+    },
+    {
+      "path": "before/captures/390-normal-secret.png",
+      "sha256": "c880b64d9da5a17357b84d712b58ea17659eb2dd3dd807cb3e50d3c2ae73392f"
+    },
+    {
+      "path": "before/captures/390-normal-subject13-drum-world.png",
+      "sha256": "a877afeb45c9a7da1679575ed5219846e9736e12189c7e13d4dca49a1fcc6794"
+    },
+    {
+      "path": "before/captures/390-normal-subject13-drum.png",
+      "sha256": "68147e6462443bc768668af2bb131901d473a9a9bcd9650178e2ee8e1dd2ed21"
+    },
+    {
+      "path": "before/captures/390-normal-subject13-interaction-world.png",
+      "sha256": "4b014b2008ad13d2990ff9f1a9d43a1439a7d9f0649dfb246be8778a502195af"
+    },
+    {
+      "path": "before/captures/390-normal-subject13-interaction.png",
+      "sha256": "8a54b446a8265a543b84467e7c01b102808b9442891889362c521ed9402ef263"
+    },
+    {
+      "path": "before/captures/390-reduced-anya-drum-world.png",
+      "sha256": "3660599837ffcdf4425637f40547481aeda631a4f8d9b14945f6b0d5be2b926a"
+    },
+    {
+      "path": "before/captures/390-reduced-anya-drum.png",
+      "sha256": "8d43c1d43135e77c7b6ca13379f2221233d9dbe5249877b9779c855f4ee32786"
+    },
+    {
+      "path": "before/captures/390-reduced-anya-interaction-world.png",
+      "sha256": "92022155ce8e0fdc5795ad71c5de4f8c16357011a80d55c1255faec98f7280eb"
+    },
+    {
+      "path": "before/captures/390-reduced-anya-interaction.png",
+      "sha256": "3c8f879846686e761c02c3208ffbbb3353520d85838419152d5ea0f6dc3225a3"
+    },
+    {
+      "path": "before/captures/390-reduced-compressed-aisle-world.png",
+      "sha256": "b56ecdf7137b316debedd1c61197b1bb1707a5bb192616b9fbd5ae2e8150b3ab"
+    },
+    {
+      "path": "before/captures/390-reduced-compressed-aisle.png",
+      "sha256": "f5ae0796833ba84357ffae680cd5c6db281de27a83bf90f78bc90da7b8e78bf6"
+    },
+    {
+      "path": "before/captures/390-reduced-damaged-storage-world.png",
+      "sha256": "6e841b25e4fd3c4014d7a337d2ee3ebbcaf9e5d65a4c69f31e28136fe200f46e"
+    },
+    {
+      "path": "before/captures/390-reduced-damaged-storage.png",
+      "sha256": "e93f68ff0c79c4c4557ceef9dc125ea6761dd820af593ba710e04182e109ee3d"
+    },
+    {
+      "path": "before/captures/390-reduced-drum-chamber-world.png",
+      "sha256": "a26386618c947148f08472c563010789d6d98051acc4ecbdd6af0f75a8299f1b"
+    },
+    {
+      "path": "before/captures/390-reduced-drum-chamber.png",
+      "sha256": "595a7ea2f8f0e6970b33d93eca0417fad73ead8ad3b4ab369392ff1b3496579c"
+    },
+    {
+      "path": "before/captures/390-reduced-elias-drum-world.png",
+      "sha256": "0800a280539fcc5a9ecd72822066bff5f2da29ac6709533dd7b4262c1f32199c"
+    },
+    {
+      "path": "before/captures/390-reduced-elias-drum.png",
+      "sha256": "abef6b86205af33bf99d01446cc5bd3f841665df08a052d63d6e0ab07a469c19"
+    },
+    {
+      "path": "before/captures/390-reduced-elias-interaction-world.png",
+      "sha256": "79fc41835d72af325e151a59d0bd94ff1b1f832ad7c99a2d2ee96d2c074fb9cb"
+    },
+    {
+      "path": "before/captures/390-reduced-elias-interaction.png",
+      "sha256": "3ca0eb04573af8dab6cb9dd5a13d13c96020418d1c521a9b6a019322885a2f58"
+    },
+    {
+      "path": "before/captures/390-reduced-entrance-world.png",
+      "sha256": "9e14fe16a7e7b719379f5724859178fdf68052fb43ca0110e00d192131038620"
+    },
+    {
+      "path": "before/captures/390-reduced-entrance.png",
+      "sha256": "d7e4ef40b53e5186cec22a5bb50032cdd0e381a432be2cb6ad3f5fff61d836cf"
+    },
+    {
+      "path": "before/captures/390-reduced-exit-world.png",
+      "sha256": "a8d2b684bfb513995d490e41d536d657b2d710249a1c0bdba4b91490101e0baf"
+    },
+    {
+      "path": "before/captures/390-reduced-exit.png",
+      "sha256": "a48659fd71baa81c0155a15550eb667c9b0719d8ff245fcc0a1a80051bddd8cc"
+    },
+    {
+      "path": "before/captures/390-reduced-filing-gallery-world.png",
+      "sha256": "3b6b3c9187510b07a66bb8eb77b7d7862dc07154c176ea44d5970be52907d2b0"
+    },
+    {
+      "path": "before/captures/390-reduced-filing-gallery.png",
+      "sha256": "86590c75c6c9305b5eb6bf4c401c75786b6accce203a1fee35ac2a39d3eaaea4"
+    },
+    {
+      "path": "before/captures/390-reduced-indexing-world.png",
+      "sha256": "7193442137bd933431487062ad02774590c13ea65b6f6b9edcde324c3f53bb88"
+    },
+    {
+      "path": "before/captures/390-reduced-indexing.png",
+      "sha256": "dc1ced6c1988d3c01744923e6f03cd82c782a30b14425b7031abbb3dc886da8b"
+    },
+    {
+      "path": "before/captures/390-reduced-miriam-drum-world.png",
+      "sha256": "8d54ad781a93ef7736aa7e4502d6bfcf2985788a10d8f79f9a87a5db2c8def7e"
+    },
+    {
+      "path": "before/captures/390-reduced-miriam-drum.png",
+      "sha256": "f060b28466be11d1bfd3672157d9894b1fc242965413ee72965bcd1f97e04ede"
+    },
+    {
+      "path": "before/captures/390-reduced-miriam-interaction-world.png",
+      "sha256": "cb87e32d1fd80b16e43633f2ae5a4e93c6b900f771571582801a485ef322be31"
+    },
+    {
+      "path": "before/captures/390-reduced-miriam-interaction.png",
+      "sha256": "42484ff56f752de3b8810aa0060fe0c236feae4808e17e4a2d469d1c4ab5dc56"
+    },
+    {
+      "path": "before/captures/390-reduced-restricted-evidence-world.png",
+      "sha256": "0a56e59f770f55ef2e8f8b2fcb05583f03d44231a577f47f7c35768fe6efbcc2"
+    },
+    {
+      "path": "before/captures/390-reduced-restricted-evidence.png",
+      "sha256": "e16f230c23831cc5a1bc9345615d6ce207f4c8b30aa7c16ae7efa7870323077c"
+    },
+    {
+      "path": "before/captures/390-reduced-retrieval-world.png",
+      "sha256": "26dfa20d20564afd669efcf0c6d53e65c9c427beeda9b7c4afc78487e0b30dbc"
+    },
+    {
+      "path": "before/captures/390-reduced-retrieval.png",
+      "sha256": "9e87b87697073c3c72daf417acbc9ae96540bd6b0be7d2db009ccc820e545410"
+    },
+    {
+      "path": "before/captures/390-reduced-secret-world.png",
+      "sha256": "6a6c81eba93d0239ede5b5d05978f626989b9f3ae4123a63e72bfd8396495de3"
+    },
+    {
+      "path": "before/captures/390-reduced-secret.png",
+      "sha256": "5f8313c8f8a5335be66a61e9a71e9dddbc3266ca129b737742344ac5f2e89196"
+    },
+    {
+      "path": "before/captures/390-reduced-subject13-drum-world.png",
+      "sha256": "869f607ebc5b7c131eb71506bb8b59903f343d999477401e31de21715ea84f0f"
+    },
+    {
+      "path": "before/captures/390-reduced-subject13-drum.png",
+      "sha256": "d6a6876615c51c9c8bfe53484ca3af547c2a266098fb2bb56b87ee15bbaa5c17"
+    },
+    {
+      "path": "before/captures/390-reduced-subject13-interaction-world.png",
+      "sha256": "d8f7f7ff61178aa31c9f8334bdf6884b7bfa1206033a626d65ab2396168b2f0d"
+    },
+    {
+      "path": "before/captures/390-reduced-subject13-interaction.png",
+      "sha256": "49df32e5790dda0ef575c2a019e74ccb95670a17e1984421a8c75cd134852cf2"
+    },
+    {
+      "path": "before/captures/archive-seed130013-map.svg",
+      "sha256": "dd13eb33bb1e6685c26ae827304958d7e86c4608e9d462581a6a92ff7f77df41"
+    },
+    {
+      "path": "before/captures/progression-graph.mmd",
+      "sha256": "f00064c9795b1dbf42882853900afd1d0fe68400d8b5af0c738003b4323682e8"
+    },
+    {
+      "path": "before/captures/report.json",
+      "sha256": "098f343fbc3ba983e484448d1649d36b216d454b2c28b618089fac98236fb5ab"
+    },
+    {
+      "path": "before/captures/room-purpose-ledger.json",
+      "sha256": "d44fc8b96a3e813af377d059720b708aa3c182b8b79d9b55f9dc27f15253efcc"
+    },
+    {
+      "path": "before/studies/1280-130013-drum-chamber-approach0.png",
+      "sha256": "56025822adde097cd6ec86f49dede27a285cddfd88ea93640f1c3538693a410d"
+    },
+    {
+      "path": "before/studies/1280-130013-drum-chamber-approach1.png",
+      "sha256": "7f7bfcc50ea03d37329f4c8d16241433e26bdd0d263fabe7fbd883707ed06cac"
+    },
+    {
+      "path": "before/studies/1280-130013-drum-chamber-approach2.png",
+      "sha256": "8df26b79b10c200f969b37dd7423247f76448378256b31ef43249d7054eed925"
+    },
+    {
+      "path": "before/studies/1280-130013-drum-chamber-approach3.png",
+      "sha256": "446048cd982f88fa88d8d6122a555f904b98e1dda068efbfcb9b7af14ae28bf9"
+    },
+    {
+      "path": "before/studies/1280-130013-filing-gallery-approach0.png",
+      "sha256": "e2079ecf4b698ed82532f3f572ed2d59752776d5ed2976384e4ecdd53c7b5a89"
+    },
+    {
+      "path": "before/studies/1280-130013-filing-gallery-approach1.png",
+      "sha256": "1a2ea0c5135b28963c09a6a726c8145a3293e1b5174c46d6172f106a5e2bcb7f"
+    },
+    {
+      "path": "before/studies/1280-130014-drum-chamber-approach0.png",
+      "sha256": "fbc982245e9fe0fdc6a45573be744fbf49bf87af5a98591b260313a0d24f0170"
+    },
+    {
+      "path": "before/studies/1280-130014-drum-chamber-approach1.png",
+      "sha256": "fbc622051b2237282758d6996ccb95c43b2e105f343930193ea57333b09f2b1b"
+    },
+    {
+      "path": "before/studies/1280-130014-drum-chamber-approach2.png",
+      "sha256": "201c1f5384d5b406e0a1e5d0b5e803f581167805072908a1a16ee766292a7df5"
+    },
+    {
+      "path": "before/studies/1280-130014-drum-chamber-approach3.png",
+      "sha256": "7fad1270d0b4d9ca665c6e3ba4a04337c16783d10a59d0485c323c53110612df"
+    },
+    {
+      "path": "before/studies/1280-130014-filing-gallery-approach0.png",
+      "sha256": "ba942746867bd10222fc541a59b0d1ceaa9b5c8e542336361cd5727d0b956899"
+    },
+    {
+      "path": "before/studies/1280-130014-filing-gallery-approach1.png",
+      "sha256": "1f728ce7e40f11b58d275be5194e6e0a88c90b43efee0e47b0861cb62b669ee9"
+    },
+    {
+      "path": "before/studies/1280-73021-drum-chamber-approach0.png",
+      "sha256": "bf103f17d5e50746eb4bec1b1cb034cf3cbf0669ac4cf3ab1a72b6c43571a47d"
+    },
+    {
+      "path": "before/studies/1280-73021-drum-chamber-approach1.png",
+      "sha256": "3556e5a0925eb17faba6158cd7c2e69432886fcc3da962f27b4ec52a81e8540d"
+    },
+    {
+      "path": "before/studies/1280-73021-drum-chamber-approach2.png",
+      "sha256": "63db690f1b45a8ac2da7a7ce6113ad4c8cc22bdcaf576101d41bf6837a7ac437"
+    },
+    {
+      "path": "before/studies/1280-73021-drum-chamber-approach3.png",
+      "sha256": "9e7341e6dd747cdabcfcf8ef56294f624431f134db7913099c0a8fe18e9fcd67"
+    },
+    {
+      "path": "before/studies/1280-73021-filing-gallery-approach0.png",
+      "sha256": "6010dede9d63734046515507698136bd36d18e87b687855d2f5582afe138b139"
+    },
+    {
+      "path": "before/studies/1280-73021-filing-gallery-approach1.png",
+      "sha256": "debe3eef6aa3530c252b2d6c001511784471310a7ff9b96b59f47473834a63c1"
+    },
+    {
+      "path": "before/studies/1280-gray-compressed-aisle.png",
+      "sha256": "c8b9a0888694fb727b5d717f5f78b7820e609feaf1b117541206177cb05b8dbb"
+    },
+    {
+      "path": "before/studies/1280-gray-damaged-storage.png",
+      "sha256": "ecde338355e51f17484d6fa0f52faf0c463f4ac34aa8975eabab88ccad756cd5"
+    },
+    {
+      "path": "before/studies/1280-gray-drum-chamber.png",
+      "sha256": "7b86acbf99520507ddf6e44a3cb475e5dc482a0b29ef41d5c49202452a30f308"
+    },
+    {
+      "path": "before/studies/1280-gray-entrance.png",
+      "sha256": "7da8499660baac9619f0c039815c1c391c2b5ddc9a51f6eccaff08725fd501b2"
+    },
+    {
+      "path": "before/studies/1280-gray-exit.png",
+      "sha256": "a0cc7bae3a11dde7d583cc87f8d21459437066f4baabf2f005af84575c7bf075"
+    },
+    {
+      "path": "before/studies/1280-gray-filing-gallery.png",
+      "sha256": "0226a27237dba2c19f67bc3fe50a9738ccfeb835d67c4238ab3a3849149425a7"
+    },
+    {
+      "path": "before/studies/1280-gray-indexing.png",
+      "sha256": "c059384cb20dfe8c9eb8bc032fc15a5c95c697a628f3e9fb6f3dafc0576347fb"
+    },
+    {
+      "path": "before/studies/1280-gray-restricted-evidence.png",
+      "sha256": "a9baec46f9249b41b18ed1a5b808cdf0d69e732c5427334f2be14fd3d8a0c829"
+    },
+    {
+      "path": "before/studies/1280-gray-retrieval.png",
+      "sha256": "b661bb2e95e35c1191caffe6d44912bcd68846a50bffdb8a2535f358cd738554"
+    },
+    {
+      "path": "before/studies/1280-gray-secret.png",
+      "sha256": "9528130aa22cd1f3dda66ce24b1321e502c8943eb318a7bccedb258e580e5da8"
+    },
+    {
+      "path": "before/studies/390-130013-drum-chamber-approach0.png",
+      "sha256": "b42b96ac15207d4c9551e2cc02c2196a7f49c4f1fdcf415a2299647161b1ac77"
+    },
+    {
+      "path": "before/studies/390-130013-drum-chamber-approach1.png",
+      "sha256": "a67688e6f5f5905c7f2f23af30fd45345c073cf60226b07a384d517178b1b12d"
+    },
+    {
+      "path": "before/studies/390-130013-drum-chamber-approach2.png",
+      "sha256": "b2680c51a07ff8b89d1eae0a30a56e60131143c9454b81ce020306319000c824"
+    },
+    {
+      "path": "before/studies/390-130013-drum-chamber-approach3.png",
+      "sha256": "9ab878935423f4a01ebc34241e267d71e6d51b1b3593f0fbd36177eed46106eb"
+    },
+    {
+      "path": "before/studies/390-130013-filing-gallery-approach0.png",
+      "sha256": "e673c454862c5e8deef39d3ae81b3f98dc1d01c7135dbcc0be2b6206dd73e2f6"
+    },
+    {
+      "path": "before/studies/390-130013-filing-gallery-approach1.png",
+      "sha256": "2102ad01dcdc21e1a00cb30b9caa798c0823ccedbce11f376fc98f9beb9f6e09"
+    },
+    {
+      "path": "before/studies/390-130014-drum-chamber-approach0.png",
+      "sha256": "bbd178bf89e78259b1b79eff88c2dc2c00beac979b4d143a7d4c265ba618f0bf"
+    },
+    {
+      "path": "before/studies/390-130014-drum-chamber-approach1.png",
+      "sha256": "797939835b050d8c811299970d53b5c4872802ac87f54ed9e7802558db71257e"
+    },
+    {
+      "path": "before/studies/390-130014-drum-chamber-approach2.png",
+      "sha256": "ff2eaae8b8158ed1ed00e9828e6cc14e957e4dc8970919473698ca43c3e88467"
+    },
+    {
+      "path": "before/studies/390-130014-drum-chamber-approach3.png",
+      "sha256": "05ed4f106e0d7f9f4fe5e6faa81ff7a59c3dcacc828797767ffd47e5825138e1"
+    },
+    {
+      "path": "before/studies/390-130014-filing-gallery-approach0.png",
+      "sha256": "a89b12ba9cdf0a6933bcbff15276bb71a1de6c29d36b09c3f3b5771f6c6621f1"
+    },
+    {
+      "path": "before/studies/390-130014-filing-gallery-approach1.png",
+      "sha256": "28fc00d7493394e490de14534404939a0cdc8191e0ca6170f8228f3b47a5b281"
+    },
+    {
+      "path": "before/studies/390-73021-drum-chamber-approach0.png",
+      "sha256": "eb9f463c0da6d256df13bdff7197ccab78edcbc2db022dc2cd48ead0973913c9"
+    },
+    {
+      "path": "before/studies/390-73021-drum-chamber-approach1.png",
+      "sha256": "d325d1fdca73022cc5073848cce2bb909569e5c4fdd7b32758a985aeffa96f34"
+    },
+    {
+      "path": "before/studies/390-73021-drum-chamber-approach2.png",
+      "sha256": "5ed95f2f5c13a52a6160ac9f7f01143d2c205f2a1d0cd568b18f1dbf6804fba4"
+    },
+    {
+      "path": "before/studies/390-73021-drum-chamber-approach3.png",
+      "sha256": "68fe1c395376a30f033e6cebd8ee621f84f93a1e016747e06579ea19e629e2f8"
+    },
+    {
+      "path": "before/studies/390-73021-filing-gallery-approach0.png",
+      "sha256": "5af0dd64f2440b63329520d903465840d094a91d8c1a94a3b456fc8c1d5e4252"
+    },
+    {
+      "path": "before/studies/390-73021-filing-gallery-approach1.png",
+      "sha256": "6b84eefaf83b868e7edfb270b8b3adafd1a6a25e8f8164d9fa0a413b136a9408"
+    },
+    {
+      "path": "before/studies/390-gray-compressed-aisle.png",
+      "sha256": "2decbfe7ac1324e564dfbe00f13be4f39ebc9793f589164e744202ca74f8e810"
+    },
+    {
+      "path": "before/studies/390-gray-damaged-storage.png",
+      "sha256": "a84c6811e64d849f7be58104c2252c67fcf3906e950954e47d0de368a2135212"
+    },
+    {
+      "path": "before/studies/390-gray-drum-chamber.png",
+      "sha256": "ec4f1828686188de9a91f7ea7a23c28ccd3bd5ef913135eb364d9c72dd3f85e7"
+    },
+    {
+      "path": "before/studies/390-gray-entrance.png",
+      "sha256": "4d33ae262ed0885768199cecbd71ef650dff42b9b22abb35f48a6f428963dc75"
+    },
+    {
+      "path": "before/studies/390-gray-exit.png",
+      "sha256": "cdb18b184b66fd5f9b6c268f8a0c37c40109adbe6646a3fdec401ff58f6b84c2"
+    },
+    {
+      "path": "before/studies/390-gray-filing-gallery.png",
+      "sha256": "9e6cd6a678f55cc1cb778548c00b70f8833533cf30d86e0b059a88f775888465"
+    },
+    {
+      "path": "before/studies/390-gray-indexing.png",
+      "sha256": "78c08f9c7e60a0da47bae856d2bea3ec439724cadbb23d7b11f55b5e13158ae0"
+    },
+    {
+      "path": "before/studies/390-gray-restricted-evidence.png",
+      "sha256": "ed788c14698c538b6cc9ccb2818ea3c6b6639882e2f8329deef6cd7c14353e54"
+    },
+    {
+      "path": "before/studies/390-gray-retrieval.png",
+      "sha256": "d23b2958bfa64c1292d90e04b797031880c3182a8d50a9ac580af0cd9bf2e758"
+    },
+    {
+      "path": "before/studies/390-gray-secret.png",
+      "sha256": "5b8d2e7f1f7893cf019dfb48ba223d2f1acb3458f56c8f121c0250ec4f76bb05"
+    },
+    {
+      "path": "before/studies/report.json",
+      "sha256": "6edbc96973b7c804d79670a4b0bec8ff5f126187a56c2eec57101a4c7aeee711"
+    },
+    {
+      "path": "after/captures/1280-archive-fixtures-and-connected-motion.webm",
+      "sha256": "749c6ee51bf78a483020873c9370f115c09532dbfa4714a227058662b1f06110"
+    },
+    {
+      "path": "after/captures/1280-canvas-fallback-world.png",
+      "sha256": "71b2e54be087d810c63f2bc0e9505a662a19f98f3ae53c0335421994ab03873c"
+    },
+    {
+      "path": "after/captures/1280-canvas-fallback.png",
+      "sha256": "6c3b79f8c79a0fbfcf4d71e76e1a75c1f7aaacadce3ba4cae28f906609cc7fc9"
+    },
+    {
+      "path": "after/captures/1280-combat-world.png",
+      "sha256": "5ab644cc3285c7180434868fd34ea572ecd160ec0bd0da55879e1d7f6bb7127f"
+    },
+    {
+      "path": "after/captures/1280-combat.png",
+      "sha256": "7fa8b6c2cbbb733668ba9b24201979e12251140df54a1bfcc32ae6b11f1ca825"
+    },
+    {
+      "path": "after/captures/1280-connected-motion-end-world.png",
+      "sha256": "1f84a41f4a1fce967ef8bafc86df85b9f8ee478108808d0dc0a6f152f360b081"
+    },
+    {
+      "path": "after/captures/1280-connected-motion-end.png",
+      "sha256": "2478306977f9f9da912ee662ee7efb1db661206f0829076c5487c47fa8c89f68"
+    },
+    {
+      "path": "after/captures/1280-grayscale-drum-world.png",
+      "sha256": "a18a2817c43fc2466d90aaed141e9bec60fd5505d0b98d4e61a3b74d1261b688"
+    },
+    {
+      "path": "after/captures/1280-grayscale-drum.png",
+      "sha256": "62ce977ac689b87265059045ffed0244fc4c124c0d5b948fb9f2820fb56e0c07"
+    },
+    {
+      "path": "after/captures/1280-legacy-depth2-before-world.png",
+      "sha256": "59466a3b778fc92a435128410369a9c0a6f8925afd66c5223d3a353cd15d23b4"
+    },
+    {
+      "path": "after/captures/1280-legacy-depth2-before.png",
+      "sha256": "d42449dc059bec9bda2d19e0220875f09d9db84742d155514afabc1a03118cdb"
+    },
+    {
+      "path": "after/captures/1280-normal-anya-drum-world.png",
+      "sha256": "a4c156132545fc4569fd57402bcfbfe09c2ca25c7234079b21020dd119a3d959"
+    },
+    {
+      "path": "after/captures/1280-normal-anya-drum.png",
+      "sha256": "38a0d89d6e9c09e5fbd61a38ca879f3de67bad2ae16a296b715403d27c359da9"
+    },
+    {
+      "path": "after/captures/1280-normal-anya-interaction-world.png",
+      "sha256": "7f1f75e59f74b1e92c122cd060e79cb77f61323c217dfdfca67bcea72199349b"
+    },
+    {
+      "path": "after/captures/1280-normal-anya-interaction.png",
+      "sha256": "f376b46e96861ca3d3687b41d21867d1aa6829971d53bea751b944d9a932ff72"
+    },
+    {
+      "path": "after/captures/1280-normal-compressed-aisle-world.png",
+      "sha256": "adbcae45f6a73ff485268cf7de2225ab67f39b00d4a3cacb86b59c0ae04584e9"
+    },
+    {
+      "path": "after/captures/1280-normal-compressed-aisle.png",
+      "sha256": "32c4ea12f3deb5c0900e4c5d6389d3f5fa6fb61e3b1ab66a71563845f0bcea8b"
+    },
+    {
+      "path": "after/captures/1280-normal-damaged-storage-world.png",
+      "sha256": "139a338986644120fec93a1bedd9cf79e7566f8fe68b9b87ba8d72f0c3cd90f9"
+    },
+    {
+      "path": "after/captures/1280-normal-damaged-storage.png",
+      "sha256": "161b9bcdde399194dbbc14331e252421e6e3703d4179fef395f716271568f7ac"
+    },
+    {
+      "path": "after/captures/1280-normal-drum-chamber-world.png",
+      "sha256": "e482ba84f6054a67f129d55374f4a2a6ff6d37666a6420a8c5fd3db487893863"
+    },
+    {
+      "path": "after/captures/1280-normal-drum-chamber.png",
+      "sha256": "61aeed33a53bb95baeac2bc16952802f6210eb239b6d178c3e287f1450ed30e1"
+    },
+    {
+      "path": "after/captures/1280-normal-elias-drum-world.png",
+      "sha256": "af8e2b72b69d33e68a8b35fafe49cdff5b2273843da9e46e5b847cbcb2af8a4a"
+    },
+    {
+      "path": "after/captures/1280-normal-elias-drum.png",
+      "sha256": "6616e2dd2223b7df455c6a1ea845e0597338b69fd8d8f7d10e81e809671f0fa7"
+    },
+    {
+      "path": "after/captures/1280-normal-elias-interaction-world.png",
+      "sha256": "161b014c0b15416fc4312b81bacc32fbc08d999983c75dbc5df7dce3d0c73919"
+    },
+    {
+      "path": "after/captures/1280-normal-elias-interaction.png",
+      "sha256": "82d3ae6f4ce25a18d98fc326fb7b027ee10f1ded320d57ba64042ebb46351ac6"
+    },
+    {
+      "path": "after/captures/1280-normal-entrance-world.png",
+      "sha256": "bff2580b58dd42136ce7825df2ca056a12ea2a8f31d382ba15be3019d0b86483"
+    },
+    {
+      "path": "after/captures/1280-normal-entrance.png",
+      "sha256": "d8dd38368ec4cb3428e06e81bdaa6d88b1e4d023ad7a17af05a6cecae3094c5f"
+    },
+    {
+      "path": "after/captures/1280-normal-exit-world.png",
+      "sha256": "233d4bd3b3a12d24f788e3e133576881680af083184cf42aca822ed7d20d511d"
+    },
+    {
+      "path": "after/captures/1280-normal-exit.png",
+      "sha256": "7ec3c087ea44fb7f6d6fc3ae5961ea60b0d5875186adf0924967b3ec58f2f7a7"
+    },
+    {
+      "path": "after/captures/1280-normal-filing-gallery-world.png",
+      "sha256": "2f2051942723e60ccdb7143fe83f105b861b5e4f00f7d16c04b3bd14e2a9452d"
+    },
+    {
+      "path": "after/captures/1280-normal-filing-gallery.png",
+      "sha256": "ff91bb19688635c4d40600509a2a0e09bf3748397409729445c01eb2da4b2976"
+    },
+    {
+      "path": "after/captures/1280-normal-indexing-world.png",
+      "sha256": "8d5ba111382e1e26c72ef96f7aab32c9aaf182521ca5228dd69823f94a248fad"
+    },
+    {
+      "path": "after/captures/1280-normal-indexing.png",
+      "sha256": "12613557e1a56cfeba3e9ae6f79e89454a2cc77f2e4166c9530b72d2ea49e800"
+    },
+    {
+      "path": "after/captures/1280-normal-miriam-drum-world.png",
+      "sha256": "da8325a8c7a3052655474a545e3b2b8146f9b1237a53d57fc9418dfb174b602e"
+    },
+    {
+      "path": "after/captures/1280-normal-miriam-drum.png",
+      "sha256": "53cf75c4e02c87bf61772c3456e03293e2136741109d2888d65d67a0b348c292"
+    },
+    {
+      "path": "after/captures/1280-normal-miriam-interaction-world.png",
+      "sha256": "8aaac6f7cd9f821533d0e2ace6c45cbc065b13efc36238bf083782373f131b34"
+    },
+    {
+      "path": "after/captures/1280-normal-miriam-interaction.png",
+      "sha256": "88dbaa46eaecb8a0d41867a2362a3668ddde9887f6841ff06ce4689d8ff20e2e"
+    },
+    {
+      "path": "after/captures/1280-normal-restricted-evidence-world.png",
+      "sha256": "57b60b120a3097a5eddf0754a6d9199f8879aacf9adf3b2f14a3713918d664a3"
+    },
+    {
+      "path": "after/captures/1280-normal-restricted-evidence.png",
+      "sha256": "6c85e0dcbdce108bd20d9c9bdb273bbbc94c21cac7050a0e8356d597a86f4f12"
+    },
+    {
+      "path": "after/captures/1280-normal-retrieval-world.png",
+      "sha256": "ff8e413f52800e51eb02564d4a004c141862b7711060054de7d2bd0c2cfbaf7d"
+    },
+    {
+      "path": "after/captures/1280-normal-retrieval.png",
+      "sha256": "819ed7a29d0b1026ff321402186b13549671e4bf7440f6befd5d043d48bddf25"
+    },
+    {
+      "path": "after/captures/1280-normal-secret-world.png",
+      "sha256": "e56d874d2fa92bbf15a12921a8745a8985e57f3574c296228a05e10b3fe1d442"
+    },
+    {
+      "path": "after/captures/1280-normal-secret.png",
+      "sha256": "da305451be808460e6b16f8ed8e3310c21019711dbf59313bcd883582c047b3f"
+    },
+    {
+      "path": "after/captures/1280-normal-subject13-drum-world.png",
+      "sha256": "2458f29aee96ff5671f1b602b6c1776ce232623c6714aebd0a82b1918a3b3b3e"
+    },
+    {
+      "path": "after/captures/1280-normal-subject13-drum.png",
+      "sha256": "a1acbb74b28243f6633fa718cafe21449db009875ca07f6ff914721bd7b2bc52"
+    },
+    {
+      "path": "after/captures/1280-normal-subject13-interaction-world.png",
+      "sha256": "6e705056b59bdc5d4459c65bec9d911d7870ffea7f10cf55d544dc1f237850aa"
+    },
+    {
+      "path": "after/captures/1280-normal-subject13-interaction.png",
+      "sha256": "b0e71111b768c690cf61aceb113a331ee96c545eec66ae9441c611304e2bee62"
+    },
+    {
+      "path": "after/captures/1280-reduced-anya-drum-world.png",
+      "sha256": "87fb1e14f6ce1b1614fdb79587048774ad723eec2cec9c1c5fe75a47666703db"
+    },
+    {
+      "path": "after/captures/1280-reduced-anya-drum.png",
+      "sha256": "e3c8d54d099e571e94ee4473cf56bb695205d349fb9255f010ef1847de1fbf9b"
+    },
+    {
+      "path": "after/captures/1280-reduced-anya-interaction-world.png",
+      "sha256": "eaebf582d9e30a91d421d5a6549959e6a04f3438f929a36786b8da54a8a22f94"
+    },
+    {
+      "path": "after/captures/1280-reduced-anya-interaction.png",
+      "sha256": "2d861f25bce3b2a71b36c7f982e5b6acbaf05c07c2c14cbcbe4955fd244e1778"
+    },
+    {
+      "path": "after/captures/1280-reduced-compressed-aisle-world.png",
+      "sha256": "b22dbea2e23843fae7ce267d2f3cf55b415171299e7a165142a50ed8d5c4719c"
+    },
+    {
+      "path": "after/captures/1280-reduced-compressed-aisle.png",
+      "sha256": "bf0b41241ba7f3c2e198ed0bedd043d7fa6f65a712a72062d634777180a59d98"
+    },
+    {
+      "path": "after/captures/1280-reduced-damaged-storage-world.png",
+      "sha256": "d75d2760ad2be2a36de08fc20c48adc4e3dcc995cc6b1239cab779a641a7b3ea"
+    },
+    {
+      "path": "after/captures/1280-reduced-damaged-storage.png",
+      "sha256": "736b7be60a598a223ed9cdc3deacdf7c09d0beb122e2f9ceeb523dccdff6d9d5"
+    },
+    {
+      "path": "after/captures/1280-reduced-drum-chamber-world.png",
+      "sha256": "1a996a3487fa953820b7373ead966f7c758fd799570b826874e72241624d2359"
+    },
+    {
+      "path": "after/captures/1280-reduced-drum-chamber.png",
+      "sha256": "290ad3f8c422327d1d42831ca9b742d048527b37659a8d5ecfbf821aa11951e2"
+    },
+    {
+      "path": "after/captures/1280-reduced-elias-drum-world.png",
+      "sha256": "ecf55670ae239f588188367bf3540f95b7b829ef8f970345a57001e9828f39e9"
+    },
+    {
+      "path": "after/captures/1280-reduced-elias-drum.png",
+      "sha256": "9b3ace1f94214daf23d8d94541614e9be9a6c3ce65118992f4fad68f139c0a5a"
+    },
+    {
+      "path": "after/captures/1280-reduced-elias-interaction-world.png",
+      "sha256": "4ce0dc2a4c3330ac2136d221dc6868ddff9976b95aac1f468fb12fe99e781d39"
+    },
+    {
+      "path": "after/captures/1280-reduced-elias-interaction.png",
+      "sha256": "09e3a3a981def7cf4f3cb71a6ffc1e6ac8ec7e9ab95f983e39c3b300511103f5"
+    },
+    {
+      "path": "after/captures/1280-reduced-entrance-world.png",
+      "sha256": "9e01c18fbc62061d47482ce92f1b35549c4a9efc3a7893ea7f4c02c96aaad2c8"
+    },
+    {
+      "path": "after/captures/1280-reduced-entrance.png",
+      "sha256": "6f09e02c501218a0b8f58308f7ab5ac1791d161c1ae8af604f9d3bbb677d0885"
+    },
+    {
+      "path": "after/captures/1280-reduced-exit-world.png",
+      "sha256": "ea307c242244a58387266584728d6921823a013c1c5709229c1ee5568c6c13a6"
+    },
+    {
+      "path": "after/captures/1280-reduced-exit.png",
+      "sha256": "0e266615542327fa2f54afc2d349d1def2c02c9a81cda6ac8cee1723da381755"
+    },
+    {
+      "path": "after/captures/1280-reduced-filing-gallery-world.png",
+      "sha256": "db6613192295f262b1286e8e714403fd283c9c13bcc05dff34ae8adc8d2ea98c"
+    },
+    {
+      "path": "after/captures/1280-reduced-filing-gallery.png",
+      "sha256": "f812c17864b1f539e4f7bd7273325a734a084472e296404705cd89ca6ddbc96c"
+    },
+    {
+      "path": "after/captures/1280-reduced-indexing-world.png",
+      "sha256": "926a4c082c7d4a78da81722ce72b347b9b08e58a812c135632045ac4af6b3ab2"
+    },
+    {
+      "path": "after/captures/1280-reduced-indexing.png",
+      "sha256": "e69cc05f8fe5877c8aaeb3c43fffb4c2d927a73831286070c3e4d6c199c7895b"
+    },
+    {
+      "path": "after/captures/1280-reduced-miriam-drum-world.png",
+      "sha256": "7c289012578c6d8f189abb053cde3000fe873dee13378c98d716e5d4ad0c9b8b"
+    },
+    {
+      "path": "after/captures/1280-reduced-miriam-drum.png",
+      "sha256": "5c21370b0f4ad732a2679d3be11fb1984a3e778db2b6969ee0ab3c7819d39c71"
+    },
+    {
+      "path": "after/captures/1280-reduced-miriam-interaction-world.png",
+      "sha256": "eadc9660479dd37f82bbcb2de40c4db3817d5c139a67c69df07917505568e966"
+    },
+    {
+      "path": "after/captures/1280-reduced-miriam-interaction.png",
+      "sha256": "cb782aa53bdee4f30b6b0f03b4feb31dda174d1316beec72692dc1e58ce7d1fd"
+    },
+    {
+      "path": "after/captures/1280-reduced-restricted-evidence-world.png",
+      "sha256": "3b23e5dda476684481aec5ea159688325de388d3392c69e0a5aa6a2116605c43"
+    },
+    {
+      "path": "after/captures/1280-reduced-restricted-evidence.png",
+      "sha256": "dc0fd07683dfe9e7005fed1d56932d77b42fb8b49e6c1c577d83e8be73d1afe6"
+    },
+    {
+      "path": "after/captures/1280-reduced-retrieval-world.png",
+      "sha256": "3b633c6dec1976e1d84afaac125df2f007944c1bb604c60992e59090f60b757b"
+    },
+    {
+      "path": "after/captures/1280-reduced-retrieval.png",
+      "sha256": "216d3e9528a196283883d5b15015127906eb85024e1e623121f6dc0463b4da86"
+    },
+    {
+      "path": "after/captures/1280-reduced-secret-world.png",
+      "sha256": "31b6e49ee1bcc65e03d3cabee2b4ef54087718ba9154fe3a61cfff4e3c366a90"
+    },
+    {
+      "path": "after/captures/1280-reduced-secret.png",
+      "sha256": "c5a283ceb2c7b6d1d6ea95129306a9d2784d7d64ef6868198dc9d7003d17721f"
+    },
+    {
+      "path": "after/captures/1280-reduced-subject13-drum-world.png",
+      "sha256": "9ad03b1f24bfe3b357311493bf028b7c71b0d6faa0791b6f340d3ca57bf81fd3"
+    },
+    {
+      "path": "after/captures/1280-reduced-subject13-drum.png",
+      "sha256": "b9fadea2b9ce3fe6ff60a0b3ba5f6f320768ab4fc4628c7d70af6a9873675d0a"
+    },
+    {
+      "path": "after/captures/1280-reduced-subject13-interaction-world.png",
+      "sha256": "750bfaa32ee2e94a883056b0af6fb72df57eb65e4e4c505541c10b3db39908ff"
+    },
+    {
+      "path": "after/captures/1280-reduced-subject13-interaction.png",
+      "sha256": "0059eee0945bc519d1a29551fc38b3e3f0b26a62981ac95a6ce9f3847171a2a1"
+    },
+    {
+      "path": "after/captures/390-archive-fixtures-and-connected-motion.webm",
+      "sha256": "dbeb93a75e5f7c1e44d7dff8ad784a4e2ccc890801a26117eb9434d15f839be8"
+    },
+    {
+      "path": "after/captures/390-canvas-fallback-world.png",
+      "sha256": "8686cd72d3ae7bfd853f485d5407ab4b3603deb199701da9a7ae7e54ded6a114"
+    },
+    {
+      "path": "after/captures/390-canvas-fallback.png",
+      "sha256": "eb326660fe974a7b696f3a2674767d287ec571468fe7ceae8587f44689fae756"
+    },
+    {
+      "path": "after/captures/390-combat-world.png",
+      "sha256": "3c2613d6cd88b8ba26be8220538118c1ac79b7fc95ed31e81896d2bdda4e0212"
+    },
+    {
+      "path": "after/captures/390-combat.png",
+      "sha256": "b67d57b5bc59db7c7750e97478111e57ce650c93608aa01bdd29ffea28a5a652"
+    },
+    {
+      "path": "after/captures/390-connected-motion-end-world.png",
+      "sha256": "371af3d340f19481887ce4a41c8ff570890387fe9695189646f2e1e8b69941cc"
+    },
+    {
+      "path": "after/captures/390-connected-motion-end.png",
+      "sha256": "3ccc93d0344ea0ba72bac1e0a65517dca2d27a48f53fadd54e85b99f35ce8cd6"
+    },
+    {
+      "path": "after/captures/390-grayscale-drum-world.png",
+      "sha256": "66f91092cf897c9ad74906a198167d7e874b579a280de17a94c91c5bddebe5f8"
+    },
+    {
+      "path": "after/captures/390-grayscale-drum.png",
+      "sha256": "cde10084c6c810a3e6339d412b659001b92ea1756fc37c9652c83af81ecf8f8a"
+    },
+    {
+      "path": "after/captures/390-legacy-depth2-before-world.png",
+      "sha256": "17da6d8dd6feea9c7d99516bd7f27e07ea26d327cf5dd55b79c004766103b7b7"
+    },
+    {
+      "path": "after/captures/390-legacy-depth2-before.png",
+      "sha256": "3fe4833ac480ff99fb11449cd803737d2c613d3f1f39cc23479891ba66d54e0b"
+    },
+    {
+      "path": "after/captures/390-normal-anya-drum-world.png",
+      "sha256": "21099db9d8ba443702fdcc8777ea99d13515f52c9fd17b0a431540d55e434b54"
+    },
+    {
+      "path": "after/captures/390-normal-anya-drum.png",
+      "sha256": "8a28e5fa9a8b28ba1d369d5496ee3a6b5834120d3aee8fc6db5df7f04ec0c205"
+    },
+    {
+      "path": "after/captures/390-normal-anya-interaction-world.png",
+      "sha256": "5f525c459c2fdf9aabec063db56de711efe2459517ab0eeb7f3e450b3b5c1345"
+    },
+    {
+      "path": "after/captures/390-normal-anya-interaction.png",
+      "sha256": "ce6e1324d76c0876f125db1207a641cd8ca24c8431e96166880994d06b555972"
+    },
+    {
+      "path": "after/captures/390-normal-compressed-aisle-world.png",
+      "sha256": "bce914377820d18e1b7308bea350f2397f857851163378c660a0cad322fb68b9"
+    },
+    {
+      "path": "after/captures/390-normal-compressed-aisle.png",
+      "sha256": "fa27c4efcd924363b5770b778a2da7e809f0daf847e29f17b649547fa30265dc"
+    },
+    {
+      "path": "after/captures/390-normal-damaged-storage-world.png",
+      "sha256": "5396aff8874f4d79558b0004cd2ac3a2b73770201eb163015e24312a67023d3c"
+    },
+    {
+      "path": "after/captures/390-normal-damaged-storage.png",
+      "sha256": "217ff3da3eea1b5e3002c23d1a1b1430d0eef627cdf161bec649219120bf2dd4"
+    },
+    {
+      "path": "after/captures/390-normal-drum-chamber-world.png",
+      "sha256": "154e86ce4a1d924d54d532813aaecfa00d35d952b5de1d8d4905e3d9546c8ecf"
+    },
+    {
+      "path": "after/captures/390-normal-drum-chamber.png",
+      "sha256": "663a064ce79f0c0c2ed36033bd88c885d4625a2bac76d929ecc3b4333639c055"
+    },
+    {
+      "path": "after/captures/390-normal-elias-drum-world.png",
+      "sha256": "000faf7caa094e21c9dd0b7e5f8ab95fd217bdbdb4d47b2e3d8699037a124dec"
+    },
+    {
+      "path": "after/captures/390-normal-elias-drum.png",
+      "sha256": "40ebfba3781eb182c7bf7b98044a23c6dd4b7c927106fff557a5101e80093698"
+    },
+    {
+      "path": "after/captures/390-normal-elias-interaction-world.png",
+      "sha256": "c653ed1e1d40655a054e5eb427491977e4ed9279556d77e8d3a23ac5040c9194"
+    },
+    {
+      "path": "after/captures/390-normal-elias-interaction.png",
+      "sha256": "2535a216a7d47be838c9c8431d364add8df531e4cdcd33f1fb49c2e05fa41963"
+    },
+    {
+      "path": "after/captures/390-normal-entrance-world.png",
+      "sha256": "16d4d8aaeda968f66ead123e7a4f94ea3ee04a86a4202acf65ab652336d0bbe9"
+    },
+    {
+      "path": "after/captures/390-normal-entrance.png",
+      "sha256": "80a49d27acb060b7938a2ab5a6e7a72f13c3a6e5d6beaa778ec49ffa72306ec6"
+    },
+    {
+      "path": "after/captures/390-normal-exit-world.png",
+      "sha256": "92e934ec33c0d455ee21205cb9d246079821146e02815451fca069a072ec9510"
+    },
+    {
+      "path": "after/captures/390-normal-exit.png",
+      "sha256": "e5fcd427c78d39b4022f1da4bc28bd57b145eebb6d39f83883d6ff40d5ff1d13"
+    },
+    {
+      "path": "after/captures/390-normal-filing-gallery-world.png",
+      "sha256": "326513cfeb5b057b599c7cad78022f356633e583f9da9b02fa4c4584c4c84293"
+    },
+    {
+      "path": "after/captures/390-normal-filing-gallery.png",
+      "sha256": "b6032ec298c7f4a3b8e47edfed2a76177a1336e4ec82363117606486ca89eee5"
+    },
+    {
+      "path": "after/captures/390-normal-indexing-world.png",
+      "sha256": "95fa2890fc031b3e3e5ad2c4766b339c7346a11000943ccfd06f365f704db061"
+    },
+    {
+      "path": "after/captures/390-normal-indexing.png",
+      "sha256": "bea9a6996a30bf8048afb6a6551b14642f2b7c341fb2badb4ca6e90c3a0a4e37"
+    },
+    {
+      "path": "after/captures/390-normal-miriam-drum-world.png",
+      "sha256": "4afc6c31c4c0ea7a4d793cc41b2a70a43d0338da0d3a6edba939b4861ef9faba"
+    },
+    {
+      "path": "after/captures/390-normal-miriam-drum.png",
+      "sha256": "76d44df64e4a2c381753994341086e97adcf6cade7c91c38e570b8631554ce60"
+    },
+    {
+      "path": "after/captures/390-normal-miriam-interaction-world.png",
+      "sha256": "eb1bd7d0fc7e91f201521e35d18e628647c38f359fbf291bb30a76596f8bfe76"
+    },
+    {
+      "path": "after/captures/390-normal-miriam-interaction.png",
+      "sha256": "123d0914d6f85e65ff0fabaa39177396cbf603852653a57ccdfb1208d709c631"
+    },
+    {
+      "path": "after/captures/390-normal-restricted-evidence-world.png",
+      "sha256": "dc73435f0dbe0a02992c4548ea9d2987358ef53803fcaedc1ab997a12cd97233"
+    },
+    {
+      "path": "after/captures/390-normal-restricted-evidence.png",
+      "sha256": "96aeb425b9b477e549fcfacccf08f8da6c25927f6ef82d95e686f9510a739cd0"
+    },
+    {
+      "path": "after/captures/390-normal-retrieval-world.png",
+      "sha256": "590cd456aa1775ff25dad952c97618a6bba84eebce0801478f73801d2ca3188c"
+    },
+    {
+      "path": "after/captures/390-normal-retrieval.png",
+      "sha256": "86a6a8cb5ea5354533b8bfd5c3f2a5e446a72436fdf0fd9245039b622bffd7b8"
+    },
+    {
+      "path": "after/captures/390-normal-secret-world.png",
+      "sha256": "b79f90e21b78b45641d4c79da84af112674c8e81b095812a9a3a5424411508bd"
+    },
+    {
+      "path": "after/captures/390-normal-secret.png",
+      "sha256": "9f5229304e515e36552054140f63d13daf4ecbcbb3a7b17906b9ca327e93f214"
+    },
+    {
+      "path": "after/captures/390-normal-subject13-drum-world.png",
+      "sha256": "52cb27389f3b50a701ac2b3f9494c81ff61fc9e6a68636a15b5e86fb18d4ffa9"
+    },
+    {
+      "path": "after/captures/390-normal-subject13-drum.png",
+      "sha256": "1525338f6d2af82907361a99d7afa2d560a9ae1e39110e88989641f9290b4f4a"
+    },
+    {
+      "path": "after/captures/390-normal-subject13-interaction-world.png",
+      "sha256": "156039877a1e0cf9393e22c38e14faa9a417de5950eea8255d793de03ee2f506"
+    },
+    {
+      "path": "after/captures/390-normal-subject13-interaction.png",
+      "sha256": "668f83c5f525a01192428ff14bbd4b7c2791e4138acfa89a76bb832f81abd4b7"
+    },
+    {
+      "path": "after/captures/390-reduced-anya-drum-world.png",
+      "sha256": "abcced2b1cd3b274d2798ceff91220ad18e316b51625597cc864435f9e3215bf"
+    },
+    {
+      "path": "after/captures/390-reduced-anya-drum.png",
+      "sha256": "76152a3d893efce614d7ab75147fd25fdddf5eeeac8a8fa2a263dc2ff386bc36"
+    },
+    {
+      "path": "after/captures/390-reduced-anya-interaction-world.png",
+      "sha256": "6c0a97a0ba6ae15e5dbb6a51c232d0e857d9972da450043bf36b2c0c3d2dbfd4"
+    },
+    {
+      "path": "after/captures/390-reduced-anya-interaction.png",
+      "sha256": "2b25f8c9f616a2da266fdf327bd4b4b54ba3708f2a86559244c327701dc251c3"
+    },
+    {
+      "path": "after/captures/390-reduced-compressed-aisle-world.png",
+      "sha256": "ceeabd106a9c6dbf162edbc7988cbc0f6e012fcd70178bc15564ccc2b2ac00a0"
+    },
+    {
+      "path": "after/captures/390-reduced-compressed-aisle.png",
+      "sha256": "41e51997e69d07f82ae3a2b64553f2cd6ac0362feee75072c773b286cdfb0d38"
+    },
+    {
+      "path": "after/captures/390-reduced-damaged-storage-world.png",
+      "sha256": "5b395d0e602792c05a1c05b74f94f8ed6d6be2c2940382da4a01e683956b37dd"
+    },
+    {
+      "path": "after/captures/390-reduced-damaged-storage.png",
+      "sha256": "8eee2f8db5ad49f2f9f15eca109e93fb41043445affac7f71e786cd1c59e4d92"
+    },
+    {
+      "path": "after/captures/390-reduced-drum-chamber-world.png",
+      "sha256": "8d133bb0f25fd0346fb94ffb61b976727af5cd6195315b2e9728f959b90ab1fd"
+    },
+    {
+      "path": "after/captures/390-reduced-drum-chamber.png",
+      "sha256": "a9c3ea47e766b194dd32726c229580cadfc1ea1fccf076d82498cc489c5411d3"
+    },
+    {
+      "path": "after/captures/390-reduced-elias-drum-world.png",
+      "sha256": "14843889322ad25981c89ead71dcffb207693e8884c06a6fa512575e5e74ea82"
+    },
+    {
+      "path": "after/captures/390-reduced-elias-drum.png",
+      "sha256": "ae198b2fb18a15e8d0d17e922392bab392e56dbf0d0f2a776daaaa3603fe59f3"
+    },
+    {
+      "path": "after/captures/390-reduced-elias-interaction-world.png",
+      "sha256": "85f4891cd41f76a111e2ffe5624baa91d42120e6be7095eb1e0a8e190192121f"
+    },
+    {
+      "path": "after/captures/390-reduced-elias-interaction.png",
+      "sha256": "d5e6912ab5b7b22686c71577ae52834d930e1371d412f158b4c83b1e896f6c6d"
+    },
+    {
+      "path": "after/captures/390-reduced-entrance-world.png",
+      "sha256": "039943bb43f21e59be9d31d601641e1fa2133441b952ce541092bed52a7e1c40"
+    },
+    {
+      "path": "after/captures/390-reduced-entrance.png",
+      "sha256": "c02241214cc276ed327a063c0a90ee88c0ce9b8e2a4c288a744e4c50e156d8bf"
+    },
+    {
+      "path": "after/captures/390-reduced-exit-world.png",
+      "sha256": "21157d3bfb1a3855360bf18d803e0dd2d56f2e1ce3f4ab33a6831fc038096c20"
+    },
+    {
+      "path": "after/captures/390-reduced-exit.png",
+      "sha256": "014343c54152f82a0519d0409a773f533c72d3b49b69d1df65926a883286fa21"
+    },
+    {
+      "path": "after/captures/390-reduced-filing-gallery-world.png",
+      "sha256": "3f88f4bc5e9f41c22e6c724584516dddf1fb93144f7d1352635246ac44a6657a"
+    },
+    {
+      "path": "after/captures/390-reduced-filing-gallery.png",
+      "sha256": "28d15cc92def8f531b1bf1d77e746951cbc6e13e4570a4c8ecfa1003ec69eb91"
+    },
+    {
+      "path": "after/captures/390-reduced-indexing-world.png",
+      "sha256": "d6bcbb15769b81cb4f89a8b82ac999274fa401efd0c9a51ea939e3cbbb9e4c5c"
+    },
+    {
+      "path": "after/captures/390-reduced-indexing.png",
+      "sha256": "e58e51b5f15c7081b0eda19c53d2cf9eedbcc514553e052f4570fe33661ebc90"
+    },
+    {
+      "path": "after/captures/390-reduced-miriam-drum-world.png",
+      "sha256": "9e78d10097354001093110b540dc57fe777ddf5bae67ca16353860928f89315a"
+    },
+    {
+      "path": "after/captures/390-reduced-miriam-drum.png",
+      "sha256": "2984e51f277ecdd53089ed223d9840a839be625135825cac3530c92b4d0b4de9"
+    },
+    {
+      "path": "after/captures/390-reduced-miriam-interaction-world.png",
+      "sha256": "1965a971c263c881a6304054099c65192e64751b77ffe899642384ea6ab1c821"
+    },
+    {
+      "path": "after/captures/390-reduced-miriam-interaction.png",
+      "sha256": "6e2501cc5c8cc3a93a6ea24934941f1c74988b55b9b50c842e194fed7175bd15"
+    },
+    {
+      "path": "after/captures/390-reduced-restricted-evidence-world.png",
+      "sha256": "c41d5fda58c667c88a95da59f30152499c91b836b98ad2042c7ca0e82a26074f"
+    },
+    {
+      "path": "after/captures/390-reduced-restricted-evidence.png",
+      "sha256": "9097a2ddc83b2f1357b7a96b7930d8fedb49800a65a1c3a8a054ef6f2860653b"
+    },
+    {
+      "path": "after/captures/390-reduced-retrieval-world.png",
+      "sha256": "6a1104751f799f8dd3a2883f94a7171ce328693a5c29a5db50828545cb7d2748"
+    },
+    {
+      "path": "after/captures/390-reduced-retrieval.png",
+      "sha256": "c528c28cce446a775fb3cd6289a809a8eb2b2ceaf172b720a889175c6d584b51"
+    },
+    {
+      "path": "after/captures/390-reduced-secret-world.png",
+      "sha256": "23083cae7a3587cba3d7c14c6701a57ad130998e3e70bc6e4f016f0d44978efb"
+    },
+    {
+      "path": "after/captures/390-reduced-secret.png",
+      "sha256": "015c56482be7ddb10bb5e08966bf8b28bc9743569ed86fc118d63881372e8f7e"
+    },
+    {
+      "path": "after/captures/390-reduced-subject13-drum-world.png",
+      "sha256": "3a1ca8d92c20447b0fc7a3cc01edb2a6712d65a065a39b27f9a694cc65254a32"
+    },
+    {
+      "path": "after/captures/390-reduced-subject13-drum.png",
+      "sha256": "aae2c33c77e1f5826ee5bd76ee82360b062ea589efca9f5bbf2494202972db92"
+    },
+    {
+      "path": "after/captures/390-reduced-subject13-interaction-world.png",
+      "sha256": "d710142f717980cee01327db3e397b3670e98f931b7ee544d1af3cf175364cc2"
+    },
+    {
+      "path": "after/captures/390-reduced-subject13-interaction.png",
+      "sha256": "f06ca8c7e0965175353cd403627f1922755b050b9686055ba642bc1e0e2b82f3"
+    },
+    {
+      "path": "after/captures/archive-seed130013-map.svg",
+      "sha256": "dd13eb33bb1e6685c26ae827304958d7e86c4608e9d462581a6a92ff7f77df41"
+    },
+    {
+      "path": "after/captures/progression-graph.mmd",
+      "sha256": "f00064c9795b1dbf42882853900afd1d0fe68400d8b5af0c738003b4323682e8"
+    },
+    {
+      "path": "after/captures/report.json",
+      "sha256": "ddfb2e4f90747f4491a0446f65f21fc39804518417586269928151d1658edee4"
+    },
+    {
+      "path": "after/captures/room-purpose-ledger.json",
+      "sha256": "d44fc8b96a3e813af377d059720b708aa3c182b8b79d9b55f9dc27f15253efcc"
+    },
+    {
+      "path": "after/studies/1280-130013-drum-chamber-approach0.png",
+      "sha256": "44ca9688f1fa96e16b8eb46c5817d4bd4514d68af1fdfaa9ea3e352f89086b6c"
+    },
+    {
+      "path": "after/studies/1280-130013-drum-chamber-approach1.png",
+      "sha256": "1b49d138f566f1961150538444a6889f1cca1a9da35ffef8c69d591b1ecc2dee"
+    },
+    {
+      "path": "after/studies/1280-130013-drum-chamber-approach2.png",
+      "sha256": "20c1a45ee7c73e456b90802282e6872220721be722f970549e0a25ac9d0f2125"
+    },
+    {
+      "path": "after/studies/1280-130013-drum-chamber-approach3.png",
+      "sha256": "1ad9487ddcfc96716c47743f0c2ea952d989809bffd686650fbea565381e8952"
+    },
+    {
+      "path": "after/studies/1280-130013-filing-gallery-approach0.png",
+      "sha256": "2a55d6829f135260cf0656c7196c77cf9ebf48ffcd87e3d2621f426713c63383"
+    },
+    {
+      "path": "after/studies/1280-130013-filing-gallery-approach1.png",
+      "sha256": "a673dae146e6fcf465c015083456cd2e7139a4ab7478bef4196541c35f907fbb"
+    },
+    {
+      "path": "after/studies/1280-130014-drum-chamber-approach0.png",
+      "sha256": "76c7a56d2b6b9459ebaba5d0f439099f922fa3d8293925eaf90137d7ba7b3087"
+    },
+    {
+      "path": "after/studies/1280-130014-drum-chamber-approach1.png",
+      "sha256": "e4442b2810c8b414e6474dedcc26ebd1342a75e2e7cb1f2da56e27bdc7f15f69"
+    },
+    {
+      "path": "after/studies/1280-130014-drum-chamber-approach2.png",
+      "sha256": "c4078e8fcdc9912685d9cd4e3623634877d0492a5abd785682950863197dfac1"
+    },
+    {
+      "path": "after/studies/1280-130014-drum-chamber-approach3.png",
+      "sha256": "9c9d219ec578e15871e5656f3d0967bf41abb1813f781deb64140b4651a815d4"
+    },
+    {
+      "path": "after/studies/1280-130014-filing-gallery-approach0.png",
+      "sha256": "4dca8059cf0ab625068435d48ddf4f6b0398f578feca6411a449bb51ab746b58"
+    },
+    {
+      "path": "after/studies/1280-130014-filing-gallery-approach1.png",
+      "sha256": "5923ab2e0bb5238c2ce8c21cc37ebc39d9fe50f2dc7f41b2d31a1bdd984ac66a"
+    },
+    {
+      "path": "after/studies/1280-73021-drum-chamber-approach0.png",
+      "sha256": "ab0b422aeb1f7b5f57d09a469d7daf10461acbeaaf0a3a04e9af920229aff982"
+    },
+    {
+      "path": "after/studies/1280-73021-drum-chamber-approach1.png",
+      "sha256": "203b7ae72e83926fabd7ac01a9ada167f46d9553ee8c9c6c76f782f83d8df53e"
+    },
+    {
+      "path": "after/studies/1280-73021-drum-chamber-approach2.png",
+      "sha256": "1505540843a64faba17e680a2a0c4577ecd6e256e13b1dfde49e7e8f33a60e0b"
+    },
+    {
+      "path": "after/studies/1280-73021-drum-chamber-approach3.png",
+      "sha256": "5427d4cec12368d74f0baf65d3197028b4679bde55ca648f27bf3fddf289ceaf"
+    },
+    {
+      "path": "after/studies/1280-73021-filing-gallery-approach0.png",
+      "sha256": "33cdeedfc4860b7474bbbd306b141480bbf762e81ef229561cb37ca4d130f95c"
+    },
+    {
+      "path": "after/studies/1280-73021-filing-gallery-approach1.png",
+      "sha256": "60580b541b7f051f92590ae6d87421ef3c557328130e498ae69af55bd0bd088c"
+    },
+    {
+      "path": "after/studies/1280-gray-compressed-aisle.png",
+      "sha256": "f023c9e48102479dc65bd2677b5aa1a574c67bbafc7c988018526c42fdd6701e"
+    },
+    {
+      "path": "after/studies/1280-gray-damaged-storage.png",
+      "sha256": "55a38a35b91dfbb6fea4cbb562988bc52006e692e4688fe7084c40eec6b517e1"
+    },
+    {
+      "path": "after/studies/1280-gray-drum-chamber.png",
+      "sha256": "816641825043130b77c258fd2ddd908faa39f0a0dda3d58c980124bf5c26e2d7"
+    },
+    {
+      "path": "after/studies/1280-gray-entrance.png",
+      "sha256": "3c3d32d8c94f97e541c2332dd9935b024ef4372aff47a94fe8edb66c04b5fbbe"
+    },
+    {
+      "path": "after/studies/1280-gray-exit.png",
+      "sha256": "01beffb42989f71332d31d8332605bf49e4ee534dc68ae8a70b46e513ffdf117"
+    },
+    {
+      "path": "after/studies/1280-gray-filing-gallery.png",
+      "sha256": "cf6d402a4850a5508b0e1e3ed83951442b5bda9beac362bfbecc576a197d918d"
+    },
+    {
+      "path": "after/studies/1280-gray-indexing.png",
+      "sha256": "5dc5112753eeb3dac09d0462ee955091dfce0b44721cc2bb1d8610411e334c0a"
+    },
+    {
+      "path": "after/studies/1280-gray-restricted-evidence.png",
+      "sha256": "6dc8cfd099e278f6f9b7f35cabdd2f2b90e73d93d8094d973992d8b455ec237c"
+    },
+    {
+      "path": "after/studies/1280-gray-retrieval.png",
+      "sha256": "3490ca94b3f8e0174a6d3ea96f4676209b65aaf28b427442ac234cf3244a86ce"
+    },
+    {
+      "path": "after/studies/1280-gray-secret.png",
+      "sha256": "3828f0da957b57f3b795f18d9d4390162107aea81c0d8e7655c124d027755aa1"
+    },
+    {
+      "path": "after/studies/390-130013-drum-chamber-approach0.png",
+      "sha256": "d7e33cb762dbd529e4d3e8b357bc46c63c87cc9492940c304e58181559f0053f"
+    },
+    {
+      "path": "after/studies/390-130013-drum-chamber-approach1.png",
+      "sha256": "234479f66594d4589a76f43e8d0a6f1cd825f93cc3966486dace170d8dee8179"
+    },
+    {
+      "path": "after/studies/390-130013-drum-chamber-approach2.png",
+      "sha256": "d60cce819cdc3651cf813c7c5519aed0767e7b4c24992b429c8486b2a0ec62f3"
+    },
+    {
+      "path": "after/studies/390-130013-drum-chamber-approach3.png",
+      "sha256": "c94b9fdb20f3d5accac96c44c1b894f3a5cbebb9ac42d2f46b74e1b0b20dcf98"
+    },
+    {
+      "path": "after/studies/390-130013-filing-gallery-approach0.png",
+      "sha256": "9daafaa0e0292e3513727adc4624f95a70d427fe5acfb06635a5fdc76aa43e23"
+    },
+    {
+      "path": "after/studies/390-130013-filing-gallery-approach1.png",
+      "sha256": "02726d4d14cdd67162ef050f1028e45a61dc1a3b8aa649833b9250422cebf3db"
+    },
+    {
+      "path": "after/studies/390-130014-drum-chamber-approach0.png",
+      "sha256": "1eae43ab3c224303628eac746437871421d418c1caaa1defd41dcb632600a79d"
+    },
+    {
+      "path": "after/studies/390-130014-drum-chamber-approach1.png",
+      "sha256": "338993efc6273fb5b15dda7d78a0ef54b04358e8570d8246ac87b6d66714c1f9"
+    },
+    {
+      "path": "after/studies/390-130014-drum-chamber-approach2.png",
+      "sha256": "6f2c5cdefe4052b8687cf0a4ef51e53d34592d19db7524a6bfdcdb083fbac732"
+    },
+    {
+      "path": "after/studies/390-130014-drum-chamber-approach3.png",
+      "sha256": "4620355d817ab8a5c4a22283a0c22bdb76a4bf0b9ff494350697e209957dc04a"
+    },
+    {
+      "path": "after/studies/390-130014-filing-gallery-approach0.png",
+      "sha256": "c0aea52186609accf2001fbd9bb3c74fee3593928ad6386bf2f0898787b047ab"
+    },
+    {
+      "path": "after/studies/390-130014-filing-gallery-approach1.png",
+      "sha256": "c661a628898ca853f1173640b4e58a908d587539c3c39cefee9b7c616c5d3303"
+    },
+    {
+      "path": "after/studies/390-73021-drum-chamber-approach0.png",
+      "sha256": "7bc37e9db666e1b73beffd1872855817fd2fc2fb2db4b6d40831ad1f226df6dd"
+    },
+    {
+      "path": "after/studies/390-73021-drum-chamber-approach1.png",
+      "sha256": "86d1530918b6f5bb146eaf6de6f5239a819520affaaaaa32cfacdf29331ac4f0"
+    },
+    {
+      "path": "after/studies/390-73021-drum-chamber-approach2.png",
+      "sha256": "83f01f32e0485ecfcbf17eee6dd2bed2a5296f831546b64f54f1c07cd4c761d5"
+    },
+    {
+      "path": "after/studies/390-73021-drum-chamber-approach3.png",
+      "sha256": "75a8eb125671703b1b8c9ce90746f496ebbdbbf236b77cee79021c71281132ae"
+    },
+    {
+      "path": "after/studies/390-73021-filing-gallery-approach0.png",
+      "sha256": "522ef35feceb6570cf315ebb1dfd562f77c31587a095ef1a90b235279845108e"
+    },
+    {
+      "path": "after/studies/390-73021-filing-gallery-approach1.png",
+      "sha256": "1474fbca24e9d205829028c21c551f9b5e138101a9d63594e9329428e2fad32e"
+    },
+    {
+      "path": "after/studies/390-gray-compressed-aisle.png",
+      "sha256": "57cd70e9af770e245cf89cc451239f1c54d14c225547646ab12a05dca51bfa7e"
+    },
+    {
+      "path": "after/studies/390-gray-damaged-storage.png",
+      "sha256": "e29d98574b20a5bd0b4460813cde5c1dbfd0412c3d4333fe3b4b3831c1b7bfd5"
+    },
+    {
+      "path": "after/studies/390-gray-drum-chamber.png",
+      "sha256": "6a0ef40982c7a6cf8bb1d2db8d105491877329da879a94f7641db0904f9922d4"
+    },
+    {
+      "path": "after/studies/390-gray-entrance.png",
+      "sha256": "6af8c7df8b5719c34d7f51a3d7998ece860c88ef3e2c42405febe26c6b64860e"
+    },
+    {
+      "path": "after/studies/390-gray-exit.png",
+      "sha256": "21ccb49b91dedb374f585888ae9edb474f8a63db98f5c44037e191bdb5bed4e0"
+    },
+    {
+      "path": "after/studies/390-gray-filing-gallery.png",
+      "sha256": "87f5552a486f5a91cdc0a0e2197b745efd695f6faeb16a7c0a378308c8055f43"
+    },
+    {
+      "path": "after/studies/390-gray-indexing.png",
+      "sha256": "9f64994b6610f60b482c7f294475d255d180862520917cf277d2897114583f15"
+    },
+    {
+      "path": "after/studies/390-gray-restricted-evidence.png",
+      "sha256": "6bac3068dc651adcd92f111bad696604c83b7e4b07c2d5a82424b479f7570155"
+    },
+    {
+      "path": "after/studies/390-gray-retrieval.png",
+      "sha256": "4bc0b3235a058e641fe05b2efe6dd253c881bc9d95c467f2803412a2c05bbfbe"
+    },
+    {
+      "path": "after/studies/390-gray-secret.png",
+      "sha256": "813862dd9b974f9e19ba2454e0ace03c9fd884dc137970ca3da1c3d7759a643f"
+    },
+    {
+      "path": "after/studies/report.json",
+      "sha256": "fba14efbee395dc8fe2d992333660f50d5701cef0fdb6c4b50e0d855308b82ba"
+    },
+    {
+      "path": "comparisons/drum.png",
+      "sha256": "995e4a7de557ac32e382a85713fec61ad07e636fc6d1bfefda557311dacf7a48"
+    },
+    {
+      "path": "comparisons/gallery.png",
+      "sha256": "92135db846a05a36d89b6c10d2b90971495f1614c40493c34bec6b1571080eed"
+    },
+    {
+      "path": "comparisons/index.html",
+      "sha256": "ca7db3bda0dd2468b44a53d67a6be3db93fed3b45043e7b2b2303e540d93be33"
+    },
+    {
+      "path": "comparisons/matched-pairs.json",
+      "sha256": "3cc90746d53abc393c7ab70febe284035887e674f8d8ed097e7697c241147859"
+    },
+    {
+      "path": "comparisons/mobile-retrieval.png",
+      "sha256": "bac02ed132a5daba1c4daa8d9969613b7a0bd0a4f4167ee5046766c884b3d262"
+    },
+    {
+      "path": "comparisons/study-pairs.json",
+      "sha256": "bcfe011f50bf648ab7dbde7cdb1cb1bde78458c58c07784a71446ff268e92d37"
+    },
+    {
+      "path": "inspection/desktop-connected-35s.png",
+      "sha256": "71c150baa9f838dbd3824919bf63729f96998707513e13ff5f3a65e00ec07c79"
+    },
+    {
+      "path": "inspection/desktop-motion.png",
+      "sha256": "2319ded5a2eca54da36d9f9d74166fb8d6f1445f2a041c57f8a8588bd6846073"
+    },
+    {
+      "path": "inspection/mobile-motion.png",
+      "sha256": "52964d361678a19e0a0a2e4879d86b03456a0c4124eba9aaed0d1affc08948f7"
+    },
+    {
+      "path": "journey/archive-after-guardian-return.png",
+      "sha256": "cca9bd422317d29847b4758c45215fe58da357e663ad5347f6b57d4d8fa145b2"
+    },
+    {
+      "path": "journey/archive-normal-journey.json",
+      "sha256": "d7ceb442ec062b1b5a9f1edfb9d0780f9405fdd843d3f28939d4698ff0a523a7"
+    },
+    {
+      "path": "journey/archive-normal-journey.webm",
+      "sha256": "043b14416dccb0f589411408c61ac3e5c86fcfb65d9086d517b204577390d151"
+    },
+    {
+      "path": "journey/archive-real-drum.png",
+      "sha256": "9c2090ac1b76a1b20396dc45e24a80a57f040cdf3bc492c92a6280143746a905"
+    },
+    {
+      "path": "journey/archive-real-entry.png",
+      "sha256": "8ab32ab8b3ae1afc6a4692e6563aaaf029050fa5ecd5885465b400d2871f06b5"
+    },
+    {
+      "path": "journey/archive-real-exit-ready.png",
+      "sha256": "5c4d9d2747ba768895572b9bd1832f98216e17860931c4dd4564031c01a509c0"
+    },
+    {
+      "path": "journey/intake-before-descent.png",
+      "sha256": "631d4b78f72adc34e9e7b06150a334b71c8692667080d385617d9305538bd284"
+    },
+    {
+      "path": "reports/baseline.json",
+      "sha256": "07501ec83e3a789173571f0ac62ea28a90c78b52e87c10f53af43ee389df57c4"
+    },
+    {
+      "path": "reports/golden.json",
+      "sha256": "b6c4248931b1006751cc0d7c97edc13b5c8c9de73df55ba2eee5b9d5ffdcb188"
+    },
+    {
+      "path": "reports/characters.json",
+      "sha256": "e31b661ca22fafe0ee4572431f2f6333b69059f4dbee1356e136e9c14662efba"
+    },
+    {
+      "path": "reports/presence.json",
+      "sha256": "638dbff02b61291c79fc242d41ae0462c77e44cb67cb088d496d9814145f0f15"
+    },
+    {
+      "path": "reports/performance-archive.json",
+      "sha256": "f8b4ea90dcfcc1f0e0d24999880bae509249bae4834cf230e0e6bf03ed566978"
+    },
+    {
+      "path": "reports/performance-intake.json",
+      "sha256": "27a622ab349d00cd0b5136d9b6eee693a10a66d4d0f034092638b7629a9ea951"
+    },
+    {
+      "path": "pixel-inspector/desktop-compressed-aisle.json",
+      "sha256": "00b992974481b64245ac8db2717ec61ef168d165a731b095589a73fe97cb33c3"
+    },
+    {
+      "path": "pixel-inspector/desktop-compressed-aisle.png",
+      "sha256": "45f79218e8d8c887c5c395555b02a7d3363112a9ae864f630a81caaaa4af1ed0"
+    },
+    {
+      "path": "pixel-inspector/desktop-damaged-storage.json",
+      "sha256": "c7e58c2e46c30f57b174d1f297aacc23ea3de1c59b7aa09d3c001c7c5b8142e6"
+    },
+    {
+      "path": "pixel-inspector/desktop-damaged-storage.png",
+      "sha256": "52b6882e32abea27631bef932f6da1efa9e617ec964b2a0fc1e42b0d7e0e604c"
+    },
+    {
+      "path": "pixel-inspector/desktop-drum-chamber.json",
+      "sha256": "effcb7e37b58ac9703499314377aca6b4491833072b16e18bd8fb447f3811a81"
+    },
+    {
+      "path": "pixel-inspector/desktop-drum-chamber.png",
+      "sha256": "b7b3a1360aee3da0bd9eb4e8f89d5deb46c793e3683948dd0c241792c2953c81"
+    },
+    {
+      "path": "pixel-inspector/desktop-entrance.json",
+      "sha256": "d6946ede49ddd694893245ac4c814b54c47ca2e2b558cc09035bcc82dd67a97f"
+    },
+    {
+      "path": "pixel-inspector/desktop-entrance.png",
+      "sha256": "293ad5577e56887314386318e498aa157efd7802574e89cab555b9cf119756d5"
+    },
+    {
+      "path": "pixel-inspector/desktop-exit.json",
+      "sha256": "57cfb452dd95e0e3858b84be5d07c5a61cdbac161e3c21d3911819710b15debd"
+    },
+    {
+      "path": "pixel-inspector/desktop-exit.png",
+      "sha256": "c10da53e186f8e34a191c807e920ab92791ec4b0c74e9339af9254790465ac01"
+    },
+    {
+      "path": "pixel-inspector/desktop-filing-gallery.json",
+      "sha256": "2268db39097ab035ff23c8d88216b6b7ac0d5e99f295b91e25f633392110c3cc"
+    },
+    {
+      "path": "pixel-inspector/desktop-filing-gallery.png",
+      "sha256": "d801ff8db99e7aabc5d864644eaa9811a4cca850df32c6d821b58030418b4c38"
+    },
+    {
+      "path": "pixel-inspector/desktop-indexing.json",
+      "sha256": "cd142269374614467650da8c00bf70e991b11ead807e7034a4fa13d0e0ed6048"
+    },
+    {
+      "path": "pixel-inspector/desktop-indexing.png",
+      "sha256": "d308cf7e49f20c118eae9bb273b74d6dd7cf6207d1ae84088cab37b71af8692e"
+    },
+    {
+      "path": "pixel-inspector/desktop-restricted-evidence.json",
+      "sha256": "cc67d893252af69cd5c5abfe569b634997e5c6200bc5bf0ef81c1a60381b8bb5"
+    },
+    {
+      "path": "pixel-inspector/desktop-restricted-evidence.png",
+      "sha256": "2975777c98474a64a746094a147d72f09e14805d412870ec448608b9561df20a"
+    },
+    {
+      "path": "pixel-inspector/desktop-retrieval.json",
+      "sha256": "76d8e9272fc6ff2e8f877bb2c576dd596f6f6eea0cf43e7cd2a324148c9c9b35"
+    },
+    {
+      "path": "pixel-inspector/desktop-retrieval.png",
+      "sha256": "3f2550c6a2abe9a3a23b7b4ac292264685dd7dc88b6c885f8c4b9a06938549e4"
+    },
+    {
+      "path": "pixel-inspector/desktop-secret.json",
+      "sha256": "c5fb65a26bb3720d10fac04d19f94f60cf7b434ca87662b48c7b9f7edfac1525"
+    },
+    {
+      "path": "pixel-inspector/desktop-secret.png",
+      "sha256": "23dc7f26651e0db1a3505f0f5d88b4ab2a64528734e5ed78bfd5fcb777716bc6"
+    },
+    {
+      "path": "pixel-inspector/mobile-compressed-aisle.json",
+      "sha256": "6c0a0ea45d28f3516441815ac4bccc4104856404047da9a32261d6acf08c6840"
+    },
+    {
+      "path": "pixel-inspector/mobile-compressed-aisle.png",
+      "sha256": "e322bac47ab9848a2108376a24a0d66a5cf2b111f1c286df3e30adad62bac441"
+    },
+    {
+      "path": "pixel-inspector/mobile-damaged-storage.json",
+      "sha256": "4206541722d100823ca07bbe5bc85d1fb60d46b59bb9275848bf6db860d9fb10"
+    },
+    {
+      "path": "pixel-inspector/mobile-damaged-storage.png",
+      "sha256": "5819d638e87e71b129e0c4394b8379c3755babcea1a2b0e0bef56c883676ac83"
+    },
+    {
+      "path": "pixel-inspector/mobile-drum-chamber.json",
+      "sha256": "400f00803ea75c6c85d2a825f175540b3cc5dd033da57ded6ab19c7dea4b4c42"
+    },
+    {
+      "path": "pixel-inspector/mobile-drum-chamber.png",
+      "sha256": "14d5fa5d849a909fdabd4662d78552618cdcc0aff3024624666490fe073448b3"
+    },
+    {
+      "path": "pixel-inspector/mobile-entrance.json",
+      "sha256": "c7987fd12ee5fe1a1b781b4e9c847b11662984b08d06d975127fb16d22c6a097"
+    },
+    {
+      "path": "pixel-inspector/mobile-entrance.png",
+      "sha256": "a66fa0d6c62c73e64fa97e6db97012110ca479e9f8d92b913b9fd26cbfd05152"
+    },
+    {
+      "path": "pixel-inspector/mobile-exit.json",
+      "sha256": "a51e21dc1f1c776cf7c178cec959b2735023d74adc651a0caf35ff82deba48bf"
+    },
+    {
+      "path": "pixel-inspector/mobile-exit.png",
+      "sha256": "68c9f7041ca3a86c565c239761ac023a1e70d1a4071dbe6c7ec83e2829a724d7"
+    },
+    {
+      "path": "pixel-inspector/mobile-filing-gallery.json",
+      "sha256": "4b1f5ba6704b774cd3f3d8e194e1ec6d397b7c305f07fdf6dd0dcdd4120d47d7"
+    },
+    {
+      "path": "pixel-inspector/mobile-filing-gallery.png",
+      "sha256": "1dfc5b4284413d3497c892d5e9f846de6efb6791fe58b9e50d254472e692eb52"
+    },
+    {
+      "path": "pixel-inspector/mobile-indexing.json",
+      "sha256": "d3d225f34e89cb7fceaec55e24ac89bb72f6dc48e9f268b95a555bc2308f6a31"
+    },
+    {
+      "path": "pixel-inspector/mobile-indexing.png",
+      "sha256": "866d15bba1028874a38975e5727c4260b35ac8f514dd3a682aa89fa58d93b303"
+    },
+    {
+      "path": "pixel-inspector/mobile-restricted-evidence.json",
+      "sha256": "3bf034193b7b6f0bfec40ea3379f3267b10f03eaa49388c053899fbb7efaca2e"
+    },
+    {
+      "path": "pixel-inspector/mobile-restricted-evidence.png",
+      "sha256": "204610496ec0779ba6c929deaa9d9218c6f031c7ae6ebc0f92d1885bd43d178a"
+    },
+    {
+      "path": "pixel-inspector/mobile-retrieval.json",
+      "sha256": "b153cd284d1cbef4d3d4fc291a9fb35a123370ac39d1a3ab562da27839359f2b"
+    },
+    {
+      "path": "pixel-inspector/mobile-retrieval.png",
+      "sha256": "2426d026c167ec81bc9ac6503c33c146c6ad1b21e9f9fa1aa6de461fbf8d67e4"
+    },
+    {
+      "path": "pixel-inspector/mobile-secret.json",
+      "sha256": "a75209e3712388fe97204461eaa4db44b59409d61b54c06b10d9cf411b85aabc"
+    },
+    {
+      "path": "pixel-inspector/mobile-secret.png",
+      "sha256": "712edf0eef1eaac538223ca74a2b8e659a0da2dab0a70d78594e55632cdfc1dc"
+    },
+    {
+      "path": "reports/integration-probe.json",
+      "sha256": "70ca0a54710c64169212da0476faa8b97a49b9f1bad219ff153ef23149e92390"
+    },
+    {
+      "path": "reports/independent-visual-review.json",
+      "sha256": "97dd58cca17738e0eeda90812d06a896e94c39a570b32bc97c9ce8fca34561f9"
+    },
+    {
+      "path": "reports/lead-inspection.json",
+      "sha256": "3e6316b32378834c2a048697bf2d50867feb9b86ace4a0d15512fc651537cb1f"
+    },
+    {
+      "path": "reports/quality-review.json",
+      "sha256": "0b5295ed9943b95bc1c0302a252b79ea70f60a01607fc4f0826a80c25d526b00"
+    },
+    {
+      "path": "reports/defect-resolution.json",
+      "sha256": "aca9b2b5ee8ab0863e371df771abe7d55b146064f7329b993ed03f09b03259f8"
+    },
+    {
+      "path": "reports/pixel-manifest.json",
+      "sha256": "e4b57d26de502d1e0616dfedc52c4a7dab36cc37a0f81b034ad5306c27416da2"
+    },
+    {
+      "path": "reports/command-results.json",
+      "sha256": "f485892478795c61f920da9238a3c650c6392492f1e5b199a9c933997e60df67"
+    },
+    {
+      "path": "seeds/archive-130013.json",
+      "sha256": "37cc3afdb1b1ea8842d6fa0cb2986361779a5fe9edb4dcd2f9a622ebadc5e912"
+    },
+    {
+      "path": "seeds/archive-130013.png",
+      "sha256": "be5087da87c9b68dee759b50e0cc6b5d05482565affe630cb76f36fc6bf897d2"
+    },
+    {
+      "path": "seeds/archive-130013.svg",
+      "sha256": "78cdbb28e6ced6112b688ef65db7bbf302d3b4e7f4964a5fdaedf8100db1a9fe"
+    },
+    {
+      "path": "seeds/progression-130013.mmd",
+      "sha256": "a75f0705eee41c3ac6f28a5fd100b5238c9434e2ffc4c60e5d49bd54684310b5"
+    },
+    {
+      "path": "seeds/room-purpose-ledger.json",
+      "sha256": "34f4f75d0cd9cddc344f735c717079a467ea369fa83c5440e980dc4e487f94dd"
+    },
+    {
+      "path": "seeds/seed-validation.json",
+      "sha256": "299a9c1faf5a3af22e6f3b7dbfb63afa6d782b3de2d705aca01c7ed0e4fed6ad"
+    },
+    {
+      "path": "logs/build.txt",
+      "sha256": "c9e61ecca05532de3827db7a1cd9aab9c9c501dc90b6932221e412b1a67de4da"
+    },
+    {
+      "path": "logs/archive.txt",
+      "sha256": "bb968e31be1c618cf3bbc37ae03fd68121bd4a07c652881add833c6591da5a72"
+    },
+    {
+      "path": "logs/studies.txt",
+      "sha256": "cd81f1d6d2acc7b0bb5bae7c7637a56ff1b37e9a8d79f5c71140aefe8df81cd4"
+    },
+    {
+      "path": "logs/typecheck.txt",
+      "sha256": "90fd8c8844f022036b6342e872b29eb98ae7c18cc47652b46165d7f53c8e553f"
+    },
+    {
+      "path": "logs/units.txt",
+      "sha256": "9a6454ef745b182e0a905e5447ec16a2bf00b128297db19bab1e71dada0b0516"
+    },
+    {
+      "path": "logs/seeds.txt",
+      "sha256": "22c9f97b606b93a302e6d02dfda707a41b24de2b4a48595de00e34f4141c9a33"
+    },
+    {
+      "path": "logs/provenance.txt",
+      "sha256": "8e245a9bc10695e9e76d248c1eedc908ac9090f350d3bfb7597cc04fa44ca3f9"
+    },
+    {
+      "path": "logs/security.txt",
+      "sha256": "9b5b874700610f3ddd6870b7fdfa65850ff90f73c2bb7dc9ac556700420b3e65"
+    },
+    {
+      "path": "logs/smoke.txt",
+      "sha256": "3bcedbc72cc2ef68c26c0b2000e5712e5656bfb75023e0a25d9d4c05f6032e7a"
+    },
+    {
+      "path": "logs/baseline.txt",
+      "sha256": "9ead62ef852613924916db5a09989c2c047301456af828aad05d3782071ca7a8"
+    },
+    {
+      "path": "logs/golden.txt",
+      "sha256": "2ac26bd2b870554bcf02c28fbb682f4d54cad26cde99e256982bf0f1e8650fbd"
+    },
+    {
+      "path": "logs/characters.txt",
+      "sha256": "9289417134a5eff6cbf18e774b2ebffa129fdcb100fcfe1725def9bc0ea90bf8"
+    },
+    {
+      "path": "logs/presence.txt",
+      "sha256": "25f555771298a9565ac8a8b1dc21a9d78c46ac94d2b2a1f8e1389328eb011334"
+    },
+    {
+      "path": "logs/performance-archive.txt",
+      "sha256": "0d448a572de65d50ff22ec8e80749ed63efc0587936e1cb77ec56a19fdf50a2b"
+    },
+    {
+      "path": "logs/performance-intake.txt",
+      "sha256": "1584ae2ff04b8e592a5379a25ae254e5dec3010719e297a8ee37374873529cca"
+    },
+    {
+      "path": "logs/combat.txt",
+      "sha256": "7165204758730a609c0593076da956f72efac5638bee06c86e4fa8ac20c0f391"
+    },
+    {
+      "path": "logs/pixel-and-lifecycle.txt",
+      "sha256": "7eb237fd80074375fd2daa54b506b8a717e39dc9cc4babce6e34e8aedf704a9b"
+    },
+    {
+      "path": "logs/evidence-check.txt",
+      "sha256": "1ec457ee072edc48ea463748f717c5b1b0e847cf8ba896d1cd5a2ab4aa86f998"
+    },
+    {
+      "path": "logs/tooling-limitations.txt",
+      "sha256": "ce636f6b083f6dd6eb959d55bcb33c522dd42e2acb94124b3981fdaf14af9a5a"
+    },
+    {
+      "path": "logs/before-build.txt",
+      "sha256": "aea1a3c569304ce002de9c67096fd0f0b15676546038c7de1e3c1d3e800ca85f"
+    },
+    {
+      "path": "logs/before-capture.txt",
+      "sha256": "2fd4028f7bd22fbe91b76a4f23bf2907f6d3e1ac64f9c40197c577d860e69a0c"
+    },
+    {
+      "path": "logs/before-studies.txt",
+      "sha256": "cd81f1d6d2acc7b0bb5bae7c7637a56ff1b37e9a8d79f5c71140aefe8df81cd4"
+    },
+    {
+      "path": "defect-ledger.json",
+      "sha256": "fd2381a6c91e886077c40a7e5424e0dbd42458a63c980d3737e1cd9464b0b306"
+    },
+    {
+      "path": "production/material-notes.md",
+      "sha256": "b1f7a838336cf4b212b72750320fc0cd79424591ce2ff8d65bc58c3708473923"
+    },
+    {
+      "path": "production/lighting-notes.md",
+      "sha256": "130c7f95ea14fbfccaa3e9e932df6c665f37e20788ef3d046e2df0b4517e142c"
+    },
+    {
+      "path": "production/composition-notes.md",
+      "sha256": "9e47f60224c399199efdf51d6ad27cffd04f2bb6dc79815980b6a28e9bb2b1f2"
+    },
+    {
+      "path": "production/verify.mjs",
+      "sha256": "ab951bd6a90a45825d8cc329a60b8c9a55bd35c77fa5748d5c28fcb592c356a5"
+    },
+    {
+      "path": "production/pixel-and-lifecycle.mjs",
+      "sha256": "7373d2cbc933c008e88f84a775fde8c69ddd791d8df23994cc0cbf1f9687bba1"
+    },
+    {
+      "path": "production/integration-probe.mjs",
+      "sha256": "80cd4c9450c656962ffb56c9c4d83df8589a549a865bab53b21d4a7d09a33662"
+    },
+    {
+      "path": "rejected/iteration1-entrance.png",
+      "sha256": "6d34ef6a1e94484c228d72778f8b3087d1b6bf68ed18925bc97222cded6e1e70"
+    },
+    {
+      "path": "rejected/iteration1-filing-gallery.png",
+      "sha256": "b9617eb2ee2db8860a084580406b336536cd01504d46be1854848fd4639e4c55"
+    },
+    {
+      "path": "rejected/iteration1-drum-chamber.png",
+      "sha256": "f382dbacf9ec4190ff2a15ac92001aea9cbda5f65e1a06c3c31152b9f4b6f42d"
+    },
+    {
+      "path": "rejected/review2-secret.png",
+      "sha256": "f3bcd97c0cdc6af8c3467c82db4cf9c47bf3fb5f6786f9a5cc348cfa8ff27039"
+    },
+    {
+      "path": "rejected/review2-drum-chamber.png",
+      "sha256": "a1228c80b16fc77e8b322b880f2d9c923ce1d1e7ef992251da914d8fb4ee0650"
+    },
+    {
+      "path": "rejected/iteration1-report.json",
+      "sha256": "fdfd3a93568a97cd955ffad4f08d0c76c406d72f85165b8192a81e9faf673a0e"
+    },
+    {
+      "path": "rejected/review2-report.json",
+      "sha256": "cda812e27f90a5ff38213870306459053690beca69d4e8af8dc9968afb1e408b"
+    },
+    {
+      "path": "materials/generation.json",
+      "sha256": "5c01b3dbc19ebdc80e09ba35464cf6a6f77ca181521383c6dfca20dfe0e68108"
+    },
+    {
+      "path": "materials/build-manifest.json",
+      "sha256": "5269f66989141fab31625ff3e674db61c9466e2e2335b1ab160779f451a462af"
+    },
+    {
+      "path": "materials/terms-support.json",
+      "sha256": "1463c02014f71fe4fb6f0e69531d1fdad5870830bda3d0445c7a36bafb9d588f"
+    },
+    {
+      "path": "materials/build-output.json",
+      "sha256": "5269f66989141fab31625ff3e674db61c9466e2e2335b1ab160779f451a462af"
+    },
+    {
+      "path": "pixel-review-manifest.json",
+      "sha256": "7179e70a3b3a72840d1d6e27b25b2bafcbca43eb2d22cd8bc69ba01dcf6c39ef"
+    }
+  ]
+}

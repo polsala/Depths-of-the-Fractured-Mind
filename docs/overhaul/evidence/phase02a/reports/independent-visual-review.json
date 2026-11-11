@@ -1,0 +1,101 @@
+{
+  "role": "Independent specialist D, visual QA; lighting specialist reviewed integrated lead composition changes",
+  "method": "Direct tool view_image inspection of actual in-game captured images. No browser/GPU benchmark launched during lead serial performance tests. These are fixture studies, not proof of human gameplay enjoyment.",
+  "inspectedCount": 53,
+  "inspectedPaths": [
+    "captures/1280-normal-entrance-world.png",
+    "captures/1280-normal-indexing-world.png",
+    "captures/1280-normal-compressed-aisle-world.png",
+    "captures/1280-normal-filing-gallery-world.png",
+    "captures/1280-normal-drum-chamber-world.png",
+    "captures/1280-normal-retrieval-world.png",
+    "captures/1280-normal-restricted-evidence-world.png",
+    "captures/1280-normal-damaged-storage-world.png",
+    "captures/1280-normal-secret-world.png",
+    "captures/1280-normal-exit-world.png",
+    "captures/390-normal-entrance-world.png",
+    "captures/390-normal-indexing-world.png",
+    "captures/390-normal-compressed-aisle-world.png",
+    "captures/390-normal-filing-gallery-world.png",
+    "captures/390-normal-drum-chamber-world.png",
+    "captures/390-normal-retrieval-world.png",
+    "captures/390-normal-restricted-evidence-world.png",
+    "captures/390-normal-damaged-storage-world.png",
+    "captures/390-normal-secret-world.png",
+    "captures/390-normal-exit-world.png",
+    "captures/390-reduced-filing-gallery-world.png",
+    "captures/390-reduced-drum-chamber-world.png",
+    "captures/1280-reduced-indexing-world.png",
+    "captures/1280-reduced-retrieval-world.png",
+    "captures/1280-normal-miriam-drum-world.png",
+    "captures/1280-normal-subject13-drum-world.png",
+    "captures/1280-normal-anya-drum-world.png",
+    "captures/390-normal-elias-interaction-world.png",
+    "captures/390-normal-miriam-interaction-world.png",
+    "captures/390-normal-subject13-interaction-world.png",
+    "captures/390-normal-anya-interaction-world.png",
+    "studies/1280-130014-filing-gallery-approach0.png",
+    "studies/1280-130014-filing-gallery-approach1.png",
+    "studies/1280-130014-drum-chamber-approach0.png",
+    "studies/1280-130014-drum-chamber-approach1.png",
+    "studies/1280-130014-drum-chamber-approach2.png",
+    "studies/1280-130014-drum-chamber-approach3.png",
+    "studies/1280-73021-filing-gallery-approach0.png",
+    "studies/1280-73021-filing-gallery-approach1.png",
+    "studies/1280-73021-drum-chamber-approach0.png",
+    "studies/1280-73021-drum-chamber-approach1.png",
+    "studies/1280-73021-drum-chamber-approach2.png",
+    "studies/1280-73021-drum-chamber-approach3.png",
+    "studies/390-130014-filing-gallery-approach0.png",
+    "studies/390-130014-filing-gallery-approach1.png",
+    "studies/390-73021-filing-gallery-approach0.png",
+    "studies/390-73021-filing-gallery-approach1.png",
+    "studies/390-130014-drum-chamber-approach0.png",
+    "studies/390-73021-drum-chamber-approach0.png",
+    "studies/1280-gray-filing-gallery.png",
+    "studies/1280-gray-drum-chamber.png",
+    "studies/390-gray-indexing.png",
+    "studies/390-gray-secret.png"
+  ],
+  "severityBoundary": "S1 means major required clue, landmark or navigation readability failure; S2 means localized or subjective production refinement.",
+  "remainingS1Observed": [],
+  "resolvedObserved": [
+    "Room station titles clear their task hoods in all ten normal desktop/mobile room views.",
+    "Drum withdrawal placard contained on its cut face, text visible at both viewport sizes.",
+    "Quiet mechanism bodies retain visible ink enamel, paper and functional silhouettes.",
+    "All four mobile interaction hands stay below primary index bands/controls.",
+    "Gallery has foreground/rank/far-bay depth and a visible missing-row trace across two additional seeds."
+  ],
+  "remainingS2": [
+    {
+      "scene": "Compressed aisle",
+      "path": "captures/1280-normal-compressed-aisle-world.png",
+      "defect": "Thin fixture hanger crosses the decorative ACTIVE RECORDS sign; central FILING GALLERY destination remains clear.",
+      "impact": "Localized decorative signage polish; no required action obscured."
+    },
+    {
+      "scene": "Quiet rooms and close corridor walls",
+      "paths": [
+        "captures/1280-normal-retrieval-world.png",
+        "captures/1280-normal-indexing-world.png"
+      ],
+      "defect": "Broad mottled concrete patches repeat visibly; high source detail remains more uniform than wear tied to fixtures.",
+      "impact": "Material richness improves strongly, but close-wall repetition remains an artistic refinement."
+    },
+    {
+      "scene": "Drum rear/side approaches",
+      "path": "studies/1280-73021-drum-chamber-approach2.png",
+      "defect": "Rear and side approaches primarily show repeated record-box arcs; missing section becomes unmistakable after moving around to its front.",
+      "impact": "Orientation supports return recognition through curved machine silhouette, but emotional reading of deliberate removal remains human-review dependent."
+    },
+    {
+      "scene": "Gallery long entrance",
+      "path": "studies/390-130014-filing-gallery-approach0.png",
+      "defect": "Withdrawal text is too small to read at the distant entrance; isolated bay and missing drawer remain visible and text becomes legible on approach.",
+      "impact": "Optional story-sign reading requires approach; no navigation or required interaction blocked."
+    }
+  ],
+  "artisticApproval": "PENDING HUMAN REVIEW",
+  "performanceApproval": "Not established by image review; use lead production benchmark reports.",
+  "motionReview": "Earlier integrated iteration1 connected frames inspected at desktop35s/mobile20s; final motion requires lead review, not relabeling old frames as final."
+}

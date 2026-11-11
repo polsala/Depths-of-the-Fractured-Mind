@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "runId": "phase02a-final",
+  "captures": [
+    {
+      "mode": "desktop",
+      "state": "archive-entrance",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-entrance.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-indexing",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-indexing.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-compressed-aisle",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-compressed-aisle.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-filing-gallery",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-filing-gallery.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-drum-chamber",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-drum-chamber.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-retrieval",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-retrieval.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-restricted-evidence",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-restricted-evidence.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-damaged-storage",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-damaged-storage.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-secret",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-secret.json"
+    },
+    {
+      "mode": "desktop",
+      "state": "archive-exit",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/desktop-exit.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-entrance",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-entrance.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-indexing",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-indexing.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-compressed-aisle",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-compressed-aisle.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-filing-gallery",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-filing-gallery.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-drum-chamber",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-drum-chamber.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-retrieval",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-retrieval.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-restricted-evidence",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-restricted-evidence.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-damaged-storage",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-damaged-storage.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-secret",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-secret.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-exit",
+      "report": "docs/overhaul/evidence/phase02a/pixel-inspector/mobile-exit.json"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+graph TD
+  transfer["entrance"]
+  index["indexing"]
+  compression["compressed-aisle"]
+  gallery["filing-gallery"]
+  drum["drum-chamber"]
+  retrieval["retrieval"]
+  evidence["restricted-evidence (optional)"]
+  fracture["damaged-storage"]
+  ward_transfer["exit"]
+  maintenance["secret (optional)"]
+  transfer -->|main| index
+  index -->|main| compression
+  compression -->|main| gallery
+  gallery -->|main| drum
+  drum -->|main| retrieval
+  retrieval -->|main| fracture
+  fracture -->|main| ward_transfer
+  retrieval -.->|index seal| evidence
+  retrieval -.->|secret| maintenance
+  drum -.->|loop| ward_transfer

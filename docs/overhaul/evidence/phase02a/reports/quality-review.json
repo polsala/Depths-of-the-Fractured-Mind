@@ -1,0 +1,99 @@
+{
+  "scale": "Installed0–3 visual-scorecard with actual three anchors reviewed; no invented1–5 conversion",
+  "baseline": "Fresh actual82case current-build captures, compared with retainedPhase02 report",
+  "categories": [
+    {
+      "category": "Art direction / institutional records identity",
+      "before": 2,
+      "after": 2.5,
+      "evidence": "Functional machine silhouettes, ink enamel and paper/amber hierarchy replace dark generic masses."
+    },
+    {
+      "category": "Hero / embodied protagonists",
+      "before": 2,
+      "after": 2,
+      "evidence": "Existing four unchanged hands remain below clues in viewed normal/reduced scenes."
+    },
+    {
+      "category": "Obstacles and enemies / existing guardian presentation",
+      "before": 1,
+      "after": 1,
+      "evidence": "Legacy combat enemy art remains outside this environment-polish scope."
+    },
+    {
+      "category": "Rewards and interactions / index, recording, caches",
+      "before": 2,
+      "after": 2.5,
+      "evidence": "Upright reel reader, manual-index detail and task pools improve recognizable purpose."
+    },
+    {
+      "category": "World / gallery, drum and quiet-room composition",
+      "before": 2,
+      "after": 2.5,
+      "evidence": "Long-wall ranks frame withdrawn bay; missing drum void is open; task-specific traces differentiate rooms."
+    },
+    {
+      "category": "Materials / concrete, paint, steel, floor, paper",
+      "before": 1.5,
+      "after": 2,
+      "evidence": "Original role maps and world-scale sampling add finish separation; close-wall repeat remains S2."
+    },
+    {
+      "category": "Lighting / practical hierarchy and readability",
+      "before": 1.5,
+      "after": 2,
+      "evidence": "Warm task/cool structure improves quiet-room grayscale read; fixed4slots/crossfades retained."
+    },
+    {
+      "category": "Motion / committed grid and gestures",
+      "before": 2,
+      "after": 2,
+      "evidence": "Preserved camera/presence timing; sampled connected motion stable."
+    },
+    {
+      "category": "UI / responsive HUD and prompts",
+      "before": 2,
+      "after": 2,
+      "evidence": "Unchanged HUD, tested focus/200%reflow; signs corrected in world."
+    },
+    {
+      "category": "Performance evidence / measured hardware bounds",
+      "before": 3,
+      "after": 3,
+      "evidence": "Baseline/post60s routes, transfer/resources, full browser and ten-cycle evidence."
+    }
+  ],
+  "beforeMean": 1.9,
+  "afterMean": 2.15,
+  "threshold": "Whole-game premium requires every category>=2 and mean>=2.3; not certified. Affected Archive direction/interactions/world/material/light mean2.3 is an internal judgment, not human approval.",
+  "remaining": [
+    {
+      "severity": "S2",
+      "defect": "Compressed-aisle decorative ACTIVE RECORDS label partially crossed by thin fixture hanger",
+      "impact": "Destination lintel and DOM objective remain clear",
+      "next": "Review a smaller or offset wallplate during owner art pass"
+    },
+    {
+      "severity": "S2",
+      "defect": "Broad concrete pattern repeats on consecutive close walls",
+      "impact": "Reduces material authenticity; no lost navigation information",
+      "next": "Owner review localized use masks versus quieter repeat contrast"
+    },
+    {
+      "severity": "S2",
+      "defect": "Drum rear/side views emphasize uniform record arcs more than the missing segment",
+      "impact": "Front landmark clear; return recognition still needs human testing",
+      "next": "Review real approach angles with first-time players"
+    },
+    {
+      "severity": "S2",
+      "defect": "Withdrawn-original text is small at gallery entrance",
+      "impact": "Lit missing drawer silhouette remains readable and text becomes legible approaching",
+      "next": "Assess sign distance in uncoached route review"
+    }
+  ],
+  "knownArchiveS1InInspectedFrames": 0,
+  "humanArtisticApproval": "PENDING HUMAN REVIEW",
+  "wholeGamePremiumCertified": false,
+  "publicRelease": "BLOCKED:41unverifieddistributedlegacyassets"
+}

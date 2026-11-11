@@ -1,0 +1,282 @@
+[
+  {
+    "scene": "entrance",
+    "seed": 130013,
+    "severity": "S1",
+    "defect": "Receive station reads as dark shutter; labels crossed by structure",
+    "playerImpact": "Institutional purpose and first destination weak",
+    "rootCause": "Doubly tinted albedo, generic machine form, wall mullions in sign plane",
+    "intendedCorrection": "Task-lit segmented receiving slots, visible returned delivery, clear title plane",
+    "before": "before/captures/1280-normal-entrance-world.png",
+    "camera": {
+      "x": 10,
+      "y": 1.6,
+      "z": 68,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 5,
+      "y": 34,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-entrance-world.png"
+  },
+  {
+    "scene": "indexing",
+    "seed": 130013,
+    "severity": "S1",
+    "defect": "Index cards float on nearly black box; lever lacks silhouette",
+    "playerImpact": "Required release difficult to identify visually",
+    "rootCause": "Center light misses vertical machine face; flat enamel",
+    "intendedCorrection": "Task hood, articulated lever/index face and one absent number interval",
+    "before": "before/captures/1280-normal-indexing-world.png",
+    "camera": {
+      "x": 32,
+      "y": 1.6,
+      "z": 68,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 16,
+      "y": 34,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-indexing-world.png"
+  },
+  {
+    "scene": "compressed-aisle",
+    "seed": 130013,
+    "severity": "S2",
+    "defect": "Identical flat drawers dominate near view",
+    "playerImpact": "Repetition and sprite/environment detail mismatch",
+    "rootCause": "Unit UV stretches and uniform surface response",
+    "intendedCorrection": "Shared scaled enamel/steel maps, drawer layer separation",
+    "before": "before/captures/1280-normal-compressed-aisle-world.png",
+    "camera": {
+      "x": 48,
+      "y": 1.6,
+      "z": 68,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 24,
+      "y": 34,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-compressed-aisle-world.png"
+  },
+  {
+    "scene": "filing-gallery",
+    "seed": 130013,
+    "severity": "S1",
+    "defect": "Three equal far banks; long walls blank",
+    "playerImpact": "No reveal, orientation or memorable missing-file cue",
+    "rootCause": "Cabinet loop assumes west/east boundaries regardless long axis",
+    "intendedCorrection": "Long-wall ranks, broken far bay, authored asymmetry and ranked light pools",
+    "before": "before/captures/1280-normal-filing-gallery-world.png",
+    "camera": {
+      "x": 48,
+      "y": 1.6,
+      "z": 52,
+      "yaw": -1.5707963267948966
+    },
+    "location": {
+      "depth": 2,
+      "x": 24,
+      "y": 26,
+      "direction": "east"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-filing-gallery-world.png"
+  },
+  {
+    "scene": "drum-chamber",
+    "seed": 130013,
+    "severity": "S1",
+    "defect": "Full-height dark shaft fills missing void; identifier behind ring",
+    "playerImpact": "Landmark narrative and label compromised",
+    "rootCause": "Full spindle and decorative sign placement",
+    "intendedCorrection": "Split bearing stubs, exposed missing quadrant, cut-face identifier",
+    "before": "before/captures/1280-normal-drum-chamber-world.png",
+    "camera": {
+      "x": 32,
+      "y": 1.6,
+      "z": 56,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 16,
+      "y": 28,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-drum-chamber-world.png"
+  },
+  {
+    "scene": "retrieval",
+    "seed": 130013,
+    "severity": "S1",
+    "defect": "Tape reels vanish on black desktop",
+    "playerImpact": "Mandatory recording location not recognizable from form",
+    "rootCause": "Horizontal reels below eye and no task pool",
+    "intendedCorrection": "Upright spools, sloped panel, interrupted transcript and local hood",
+    "before": "before/captures/1280-normal-retrieval-world.png",
+    "camera": {
+      "x": 32,
+      "y": 1.6,
+      "z": 32,
+      "yaw": 3.141592653589793
+    },
+    "location": {
+      "depth": 2,
+      "x": 16,
+      "y": 16,
+      "direction": "south"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-retrieval-world.png"
+  },
+  {
+    "scene": "restricted-evidence",
+    "seed": 130013,
+    "severity": "S2",
+    "defect": "Cage/top rail covers title; bundles unreadable in black recess",
+    "playerImpact": "Optional originals room has weak identity",
+    "rootCause": "Uniform back wall and unlit originals",
+    "intendedCorrection": "Raised clear sign, separated original bundles and cancelled labels",
+    "before": "before/captures/1280-normal-restricted-evidence-world.png",
+    "camera": {
+      "x": 48,
+      "y": 1.6,
+      "z": 32,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 24,
+      "y": 16,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-restricted-evidence-world.png"
+  },
+  {
+    "scene": "damaged-storage",
+    "seed": 130013,
+    "severity": "S1",
+    "defect": "Blank wall plus narrow strap; floor trace barely distinct",
+    "playerImpact": "Story hazard location reads empty",
+    "rootCause": "Missing human-use detail and low floor contrast",
+    "intendedCorrection": "Interrupted loading rail, repair plate edge and restrained displaced filing",
+    "before": "before/captures/1280-normal-damaged-storage-world.png",
+    "camera": {
+      "x": 10,
+      "y": 1.6,
+      "z": 32,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 5,
+      "y": 16,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-damaged-storage-world.png"
+  },
+  {
+    "scene": "secret",
+    "seed": 130013,
+    "severity": "S2",
+    "defect": "Only a grille and cabinets",
+    "playerImpact": "Worker cache former use not apparent",
+    "rootCause": "Generic service dressing",
+    "intendedCorrection": "Worklight, removed panel and maintenance/tool traces",
+    "before": "before/captures/1280-normal-secret-world.png",
+    "camera": {
+      "x": 32,
+      "y": 1.6,
+      "z": 10,
+      "yaw": 0
+    },
+    "location": {
+      "depth": 2,
+      "x": 16,
+      "y": 5,
+      "direction": "north"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-secret-world.png"
+  },
+  {
+    "scene": "exit",
+    "seed": 130013,
+    "severity": "S2",
+    "defect": "Near-identical received station",
+    "playerImpact": "Outward progression not visually distinguished",
+    "rootCause": "Same shutter silhouette and lighting",
+    "intendedCorrection": "Ward transfer frame, dispatch slots/rolled empty receipt and cool destination cue",
+    "before": "before/captures/1280-normal-exit-world.png",
+    "camera": {
+      "x": 10,
+      "y": 1.6,
+      "z": 52,
+      "yaw": 3.141592653589793
+    },
+    "location": {
+      "depth": 2,
+      "x": 5,
+      "y": 26,
+      "direction": "south"
+    },
+    "viewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "status": "corrected in inspected final views; human acceptance pending",
+    "after": "after/captures/1280-normal-exit-world.png"
+  }
+]

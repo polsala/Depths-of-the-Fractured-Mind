@@ -1,0 +1,85 @@
+
+> depths-of-the-fractured-mind@0.0.0 test:smoke
+> npm run build && playwright test
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && npm run presence:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 16 distinct registered RGBA poses, fixed scale 0.418919
+miriam: 16 distinct registered RGBA poses, fixed scale 0.406557
+subject13: 16 distinct registered RGBA poses, fixed scale 0.410596
+anya: 16 distinct registered RGBA poses, fixed scale 0.413333
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+
+> depths-of-the-fractured-mind@0.0.0 presence:check
+> node utils/build-presence-atlases.mjs --check
+
+elias: 8 distinct fixed-scale RGBA hand poses
+miriam: 8 distinct fixed-scale RGBA hand poses
+subject13: 8 distinct fixed-scale RGBA hand poses
+anya: 8 distinct fixed-scale RGBA hand poses
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 88 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-uaIimk29.css             23.65 kB │ gzip:   6.03 kB
+dist/assets/character-review-BvjRO21L.js    7.77 kB │ gzip:   3.35 kB
+dist/assets/index-M7g03d2k.js             272.07 kB │ gzip:  83.13 kB
+dist/assets/DungeonRenderer-BMbmlJD6.js   620.24 kB │ gzip: 162.84 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.53s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 36.0 MiB / 45 MiB; 25 WebP files
+[WebServer] (node:909946) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 25 tests using 1 worker
+
+(node:909964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/archive-journey.spec.ts:5:1 › normal new-run input completes Intake, enters Archive, resolves evidence and preserves its world on reload (1.8m)
+  ✓   2 tests/archive-presence.spec.ts:6:3 › Archive presence, real interaction, fallback and depth-shell lifetime at 1280 (5.3s)
+  ✓   3 tests/archive-presence.spec.ts:6:3 › Archive presence, real interaction, fallback and depth-shell lifetime at 390 (4.9s)
+  ✓   4 tests/character-art.spec.ts:3:1 › character laboratory is gated, uses actual WebGL2 and leaves saved gameplay unchanged (1.8s)
+  ✓   5 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 1280 (1.1s)
+  ✓   6 tests/character-art.spec.ts:31:3 › Keeper and Guard art fits exploration/combat at 390 (910ms)
+  ✓   7 tests/combat-visuals.spec.ts:6:1 › desktop and mobile combat show enemy bodies, telegraphs, and skippable effects (3.5s)
+  ✓   8 tests/dungeon-engine.spec.ts:45:1 › actual WebGL2 camera serializes rapid input, resizes, blocks a closed door and safely falls back on context loss (3.2s)
+  ✓   9 tests/dungeon-engine.spec.ts:96:1 › real input completes intake mechanisms, story choice, combat and return payoff without debug actions (3.8s)
+  ✓  10 tests/dungeon-engine.spec.ts:165:1 › a modal discards queued input and a cold renderer load queues only one grid action (2.5s)
+  ✓  11 tests/dungeon-engine.spec.ts:200:1 › v1 browser continuation keeps the saved map and random stream; repeated screen transitions own one renderer (3.4s)
+  ✓  12 tests/dungeon-engine.spec.ts:228:1 › unavailable WebGL2 starts a labeled playable fallback without consuming presentation RNG (640ms)
+  ✓  13 tests/presence.spec.ts:4:1 › a retired title loading poll cannot rewrite an exploration checkpoint (1.1s)
+  ✓  14 tests/presence.spec.ts:16:3 › physical presence preserves actions, identity, reduced motion and cleanup at 1280 (2.3s)
+  ✓  15 tests/presence.spec.ts:16:3 › physical presence preserves actions, identity, reduced motion and cleanup at 390 (2.3s)
+  ✓  16 tests/presence.spec.ts:72:1 › normal player build exposes no presentation mutation hooks (133ms)
+  ✓  17 tests/save-smoke.spec.ts:5:1 › title does not download dungeon props and exploration loads optimized art (976ms)
+  ✓  18 tests/save-smoke.spec.ts:27:1 › four authored protagonist atlases load into the HUD on mobile (722ms)
+  ✓  19 tests/save-smoke.spec.ts:49:1 › Begin → progress → reload → Continue keeps the exploration screen and map view (1.2s)
+  ✓  20 tests/save-smoke.spec.ts:70:1 › export/import, explicit deletion and corrupt-save recovery (1.3s)
+  ✓  21 tests/save-smoke.spec.ts:97:1 › touch NPC conversation survives reload and keyboard can reopen it (1.5s)
+  ✓  22 tests/save-smoke.spec.ts:120:1 › final choice and epilogue render on mobile and survive reload (1.6s)
+  ✓  23 tests/ux-accessibility.spec.ts:7:1 › 320/390/768 layouts, touch input, keyboard modal and 200% text stay usable (3.3s)
+  ✓  24 tests/ux-accessibility.spec.ts:46:1 › touch event choice, inventory and resume remain operable with a deterministic event fixture (2.0s)
+  ✓  25 tests/ux-accessibility.spec.ts:77:1 › display/audio preferences survive reload and basic WCAG checks pass (1.7s)
+
+  25 passed (2.7m)

@@ -1,0 +1,22 @@
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-entrance.json (desktop/archive-entrance) non-blank, colorEntropyBits=5.06
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-indexing.json (desktop/archive-indexing) non-blank, colorEntropyBits=4.93
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-compressed-aisle.json (desktop/archive-compressed-aisle) non-blank, colorEntropyBits=4.37
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-filing-gallery.json (desktop/archive-filing-gallery) non-blank, colorEntropyBits=5.22
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-drum-chamber.json (desktop/archive-drum-chamber) non-blank, colorEntropyBits=4.91
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-retrieval.json (desktop/archive-retrieval) non-blank, colorEntropyBits=4.92
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-restricted-evidence.json (desktop/archive-restricted-evidence) non-blank, colorEntropyBits=4.67
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-damaged-storage.json (desktop/archive-damaged-storage) non-blank, colorEntropyBits=4.74
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-secret.json (desktop/archive-secret) non-blank, colorEntropyBits=5.19
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/desktop-exit.json (desktop/archive-exit) non-blank, colorEntropyBits=5.00
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-entrance.json (mobile/archive-entrance) non-blank, colorEntropyBits=5.17
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-indexing.json (mobile/archive-indexing) non-blank, colorEntropyBits=5.06
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-compressed-aisle.json (mobile/archive-compressed-aisle) non-blank, colorEntropyBits=4.16
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-filing-gallery.json (mobile/archive-filing-gallery) non-blank, colorEntropyBits=5.35
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-drum-chamber.json (mobile/archive-drum-chamber) non-blank, colorEntropyBits=5.13
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-retrieval.json (mobile/archive-retrieval) non-blank, colorEntropyBits=5.05
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-restricted-evidence.json (mobile/archive-restricted-evidence) non-blank, colorEntropyBits=4.74
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-damaged-storage.json (mobile/archive-damaged-storage) non-blank, colorEntropyBits=4.87
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-secret.json (mobile/archive-secret) non-blank, colorEntropyBits=5.30
+  ok    /home/psala/src/Depths-of-the-Fractured-Mind/docs/overhaul/evidence/phase02a/pixel-inspector/mobile-exit.json (mobile/archive-exit) non-blank, colorEntropyBits=5.14
+
+Evidence check passed: 20 artifact(s) confirmed.

@@ -39,6 +39,8 @@ No binary environment media is imported in this pass. Source geometry and proced
 
 ## Embodied composition
 
+Phase02A presentation refinement (2026-11-11): no room, gate, event or reward position changes. Long-wall gallery ranks and a withdrawn-original focal bay replace the weak three-bank end composition; split drum bearings preserve the legal perimeter and expose the missing quadrant. Received/cancelled consignments, outward sealed folios, upright tape retrieval and maintenance/hoist traces distinguish quiet tasks. Shared presentation-only task/fill sockets and original six-finish materials improve depth/value grouping. All props remain in wall recesses or the authoritative drum footprint;100seed actual-geometry eye-clearance checks supplement gameplay reachability. [Polish/evidence](PHASE02A_VISUAL_POLISH.md) records before/after views, rejected signage attempts and remaining human acceptance gates. No new story state or progression requirement is introduced.
+
 Reuse Phase 01B hands and portraits unchanged. Main landmarks occupy the middle/upper view; navigation and interaction controls remain outside the foreground hand band. INDEX operates through an accepted command; drum/record/door inspection and cabinet use reuse existing poses. World geometry, collision, seed and event results never depend on viewpoint, hand timing, SAN presentation or reduced motion. No party followers are spawned.
 
 The validation report must identify which desktop/mobile, four-protagonist, interaction, combat, fallback, transition, reload and background cases were executed and inspected. Physical-phone and owner art approval remain separate.

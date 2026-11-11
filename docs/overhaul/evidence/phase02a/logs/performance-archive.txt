@@ -1,0 +1,6 @@
+
+> depths-of-the-fractured-mind@0.0.0 bench:dungeon
+> node utils/benchmark-dungeon.mjs
+
+{"name":"desktop","width":1280,"height":900,"cpu":1,"frames":3618,"medianMs":16.69999999999709,"p95Ms":16.700000000004366,"p95RenderMs":1.2000000029802322,"longTasks":0,"calls":19,"errors":[]}
+{"name":"mobile-4x","width":390,"height":844,"cpu":4,"frames":3623,"medianMs":16.69999999999709,"p95Ms":16.700000000004366,"p95RenderMs":2.1000000089406967,"longTasks":0,"calls":20,"errors":[]}

@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-11",
+  "tool": "built-in image_gen",
+  "mode": "original text input; no image references",
+  "localOutput": "/home/psala/.codex/generated_images/01a1ca05-ab6e-7de0-af9e-f8b86e96487a/exec-b84ffd6b-352b-46ca-8b9c-d2616538ac1f.png",
+  "source": "source-assets/environments/archive-phase02a/material-master.png",
+  "sourceSha256": "1ce6d7dcc5ba9ee4b9e08f195b84f2d893eeb1f0cadd4c4bbb9f3e786eace12d",
+  "prompt": "source-assets/environments/archive-phase02a/material-prompt.txt",
+  "backendModel": null,
+  "providerSeed": null,
+  "billedCost": null,
+  "metadataChunks": [
+    {
+      "type": "IHDR",
+      "length": 13,
+      "sha256": "9835ed861f063e91ccfcbe7f5d70bf3b76c8f69eb31819be5373783b7bf6a828"
+    },
+    {
+      "type": "caBX",
+      "length": 21881,
+      "sha256": "32a559e66f1f16f3584bf2dfad36023c2a5cde8758ec41b49e6746649d475174"
+    },
+    {
+      "type": "IEND",
+      "length": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "metadataStatus": "Raw containers retained; cryptographic credentials/signatures not validated",
+  "artisticApproval": "PENDING HUMAN REVIEW"
+}
