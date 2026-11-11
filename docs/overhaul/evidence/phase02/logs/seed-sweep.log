@@ -1,0 +1,13 @@
+
+> depths-of-the-fractured-mind@0.0.0 validate:archive
+> ARCHIVE_EXTENDED=1 ARCHIVE_REPORT=artifacts/phase02/seed-validation vitest run tests/archive-generation.test.ts
+
+
+ RUN  v4.1.12 /home/psala/src/Depths-of-the-Fractured-Mind
+
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  10:00:45
+   Duration  6.54s (transform 213ms, setup 0ms, import 256ms, tests 6.20s, environment 0ms)
+

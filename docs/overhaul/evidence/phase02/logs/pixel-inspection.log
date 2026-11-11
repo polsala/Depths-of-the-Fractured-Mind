@@ -1,0 +1,2 @@
+PASS desktop archive-drum-chamber run=phase02-final gpu=hardware entropy=3.88 edges=0.226 contrast=168.7 dominant=0.252 budget=ok report=artifacts/phase02/pixel-inspector/desktop.json png=artifacts/phase02/pixel-inspector/desktop.png
+PASS mobile archive-compressed-aisle run=phase02-final gpu=hardware entropy=3.8 edges=0.261 contrast=63 dominant=0.274 budget=ok report=artifacts/phase02/pixel-inspector/mobile.json png=artifacts/phase02/pixel-inspector/mobile.png

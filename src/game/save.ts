@@ -1,11 +1,12 @@
 import type { GameState, GameMode, FinalDecision } from "./state";
 import type { DepthMap } from "./exploration/map";
+import { isArchiveEnvironment } from "./exploration/generation/validate";
 import { resolveEnding } from "./endings";
 
 export const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
-// v2 adds optional authored layout/features, notices and escaped encounter state.
-// v0/v1 maps/flags/RNG remain unchanged in memory; absence means legacy play.
-export const SAVE_VERSION = 2;
+// v3 adds an explicit opt-in generation policy and semantic Archive identity.
+// Missing policy in v0/v1/v2 and legacy re-saves retains original map/RNG behavior.
+export const SAVE_VERSION = 3;
 
 export interface RunSnapshot {
   state: GameState;
@@ -52,14 +53,25 @@ function validateMap(value: unknown, depth: number): value is DepthMap {
   if (width < 1 || width > 200 || height < 1 || height > 200 || !Array.isArray(value.tiles) || value.tiles.length !== height) return false;
   if (!Number.isInteger(value.startX) || !Number.isInteger(value.startY) || (value.startX as number) < 0 || (value.startX as number) >= width || (value.startY as number) < 0 || (value.startY as number) >= height) return false;
   if (value.layoutId !== undefined && (value.layoutId !== "depth1-intake-v1" || depth !== 1 || width !== 22 || height !== 20 || value.startX !== 4 || value.startY !== 15)) return false;
-  return value.tiles.every((row) => Array.isArray(row) && row.length === width && row.every((tile) =>
+  if (value.environment !== undefined && (depth !== 2 || !isArchiveEnvironment(value.environment, width, height))) return false;
+  const validTiles = value.tiles.every((row) => Array.isArray(row) && row.length === width && row.every((tile) =>
     record(tile) && ["wall", "floor", "stairsDown", "stairsUp", "door"].includes(String(tile.type)) && typeof tile.passable === "boolean" &&
     (tile.featureId === undefined || typeof tile.featureId === "string") && (tile.locked === undefined || typeof tile.locked === "boolean")));
+  if (!validTiles) return false;
+  if (value.environment !== undefined) {
+    const map=value as unknown as DepthMap;
+    for(let y=0;y<height;y++)for(let x=0;x<width;x++) {
+      const tile=map.tiles[y][x];
+      if(tile.featureId?.startsWith("archive-shelving-") && (tile.passable || !map.environment!.rooms.some(room=>room.archetype==="compressed-aisle" && x>=room.x && y>=room.y && x<room.x+room.width && y<room.y+room.height)))return false;
+    }
+  }
+  return true;
 }
 
 function validateState(value: unknown): asserts value is Record<string, unknown> {
   if (!record(value) || !record(value.location) || !record(value.party) || !record(value.flags)) throw new SaveFormatError("invalid", "The save is missing game state.");
   const { location, party, flags } = value;
+  if (value.generationPolicy !== undefined && (!record(value.generationPolicy) || value.generationPolicy.version !== 1 || !Number.isInteger(value.generationPolicy.runSeed) || (value.generationPolicy.runSeed as number)<1 || (value.generationPolicy.runSeed as number)>0xffffffff)) throw new SaveFormatError("invalid", "Unsupported world generation policy.");
   if (value.explorationNotice !== undefined && typeof value.explorationNotice !== "string") throw new SaveFormatError("invalid", "The exploration notice is invalid.");
   if (value.intakeEncounter !== undefined && (!record(value.intakeEncounter) || !Array.isArray(value.intakeEncounter.enemies) ||
       value.intakeEncounter.enemies.length < 1 || value.intakeEncounter.enemies.length > 3 || !value.intakeEncounter.enemies.every((enemy) => record(enemy) &&
@@ -163,6 +175,7 @@ export function parseRun(raw: string): RunSnapshot {
     parsed.stepsSinceLastEvent ??= 0;
     parsed.lastProceduralEventId ??= null;
   }
+  if (version < 3 && record(parsed.state)) delete parsed.state.generationPolicy;
   validateState(parsed.state);
   if (!Number.isInteger(parsed.initialSeed) || (parsed.initialSeed as number) < 1 ||
       (parsed.initialSeed as number) > 0xffffffff ||
@@ -172,6 +185,7 @@ export function parseRun(raw: string): RunSnapshot {
       !(parsed.lastProceduralEventId === null || typeof parsed.lastProceduralEventId === "string")) {
     throw new SaveFormatError("invalid", "The save contains invalid random or event state.");
   }
+  if (record(parsed.state.generationPolicy) && parsed.state.generationPolicy.runSeed !== parsed.initialSeed) throw new SaveFormatError("invalid", "Generation seed does not match the run.");
   const state = parsed.state as unknown as GameState & { flags: GameState["flags"] & {
     visitedTiles: string[]; completedEventIds: string[]; bossDefeatedDepths: number[];
   }; depthMaps: [number, DepthMap][] };

@@ -1,0 +1,27 @@
+# Generation implementation notes
+
+Baseline: clean main / 96a2d0aae7c3384379885624d6df687275e5db5f. Original map-generator.ts left unchanged. Confirmed defects: non-BSP random rectangle attempts, sequential center corridors, feature placement after random geometry with mutually colliding optional choices, shared gameRandom stream, connectivity warns below90% rather than repair/reject.
+
+Files: src/game/exploration/generation/{world-definition,random,archive-rooms,archive,validate}.ts; map.ts; movement.ts; state.ts; save.ts; index.ts; tests/archive-generation.test.ts; tests/intake-interactions.test.ts (schema expectation and accurate snapshot-before-new-controller ordering); package.json validate:archive script.
+
+Pipeline: declare progression graph first; assign the actual required story beats from REQUIRED_BEATS (riot_recording_event AND pit_fall_event both mandatory in current story.ts); select10 authored functional archetypes; solve nonoverlapping template rectangles in constrained slots with per-axis jitter, 8 orientations/reflections and compressed/gallery shape variants; BFS corridors through available clearance outside unrelated room padding and solid drum; add1 controlled return loop with two possible destinations plus optional indexed-evidence and maintenance branches; place required features and finite caches; independently vary recording retrieval position with feature stream; reject invalid complete results with max4 deterministic attempts. All sampled1000 seeds solved on first attempt. Every placed feature stable, reserved shelving IDs unique, drum3x3 solid collision footprint with clear2cell surrounding ring. Grid dimensions41x31 or31x41. Uniform room-slot family remains a layout-variety limitation for future human evaluation; this is not an unconstrained search or BSP.
+
+RNG: pinned FNV1a derivation over runseed/depth/generatorversion/stream and isolated xorshift32 layout/features/decoration. No gameRandom dependency in new generator. Cosmetic-salt test leaves tiles/roomgraph unchanged. Save stores full mutable map and semantic identity; cached maps win without generation. Only Archive depth2 opts into independent new generator; Depths3–5 explicitly remain original generator behavior.
+
+Save v3: newGame writes generationPolicy {version:1,runSeed}; parse v0–v2 explicitly removes any policy field; missing policy in a re-saved v3 remains legacy. This preserves prephase02 authoredIntake saves entering not-yet-generated2. Current seed and random state remain exact. Validate policy/version/seed match plus all renderer-consumed semantic fields and bounded sockets. All frozen fixture hashes unchanged. No first-person view/presence acting fields enter saves. Existing one-global-RNG controller architecture remains; tests must capture snapshot before creating a different controller, which resets that global stream.
+
+Archive pacing: mandatory named geometry/events/guardian, no procedural-story pool interruptions on new Archive. Optional finite rewards remain in caches. Main path never depends on unlocking evidence. Index releases optional seal; validator proves evidence unreachable before release and reachable after. Existing movement's legacy chest behavior preserved; Archive chest collection retains only uncollected stacks and flags partial collections, preventing duplication/loss at inventory limits. Controller gives entering-room former-purpose and human-trace guidance. Legacy event selection, maps and subsequent RNG unaffected.
+
+Skills actually read by generation agent:
+- /home/psala/.agents/skills/procedural-gen/SKILL.md + references/dungeon-generation.md: pinned isolated RNG, pure grid then projection, fixed-seed sweep, mandatory rejection of bad connectivity.
+- /home/psala/.agents/skills/level-design/SKILL.md + references/pacing-and-flow.md: purpose before dressing, critical route vs optional indexed supply branch, readable return landmark, finite reward, calm/preparation then existing guardian.
+- /home/psala/.agents/skills/save-systems/SKILL.md + references/versioning-and-migration.md: explicit version boundary, absent-policy legacy continuation, plain identity data and defensive load. Project-specific no-regeneration overrides generic advice to recompute maps from seeds.
+No skill scripts relevant to existing custom-grid generator were executed and no scaffold produced.
+
+Executed:
+- npx vitest run tests/archive-generation.test.ts --update exit0 (initial known-answer pinned RNG inline snapshot only, not historical fixture).
+- npm run typecheck exit0.
+- npm run test:unit sandbox exit1: two subprocess event-validator stderr assertions fail with empty stderr; environmental failure. Required permissions rerun exit0:110tests /22files.
+- npm run validate:archive exit0 (last7.69seconds):1000fixed seeds,8cases. Each seed generated twice and mutated-save round-trip; graph/geometry/gate/event/identity/RNG assertions. Additional cases pin RNG,cosmetic independence,negative geometry,legacyv1/v2 missing-depth continuation,newGame/reentry/cache and malformed save rejection. Reports exact seed list,1000unique maps and zero failures. Output artifacts/phase02/seed-validation contains JSON,gridSVG,Mermaid progression and roompurpose ledger. Suite only validates Archive.
+
+Art/player approval remains unmeasured. A passing sweep does not establish enjoyable navigation, rich composition or final architectural variety. Parent owns actual screenshots/GPU/journey review.

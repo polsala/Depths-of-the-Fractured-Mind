@@ -108,6 +108,7 @@ export class DungeonRenderer {
       camera: { x: this.rig.camera.position.x, y: this.rig.camera.position.y, z: this.rig.camera.position.z, yaw: this.rig.camera.rotation.y },
       authoritative: { ...this.snapshot.location }, estimatedTextureBytes: Math.round(estimatedTextureBytes),
       characters: this.sceneBuilder.sprites.diagnostics(),
+      presentationWarnings: this.sceneBuilder.sprites.presentationWarnings,
       timingScope: "real RAF intervals and CPU render submission; initial 45-frame warmup, explicit reset starts a full window; maximum 4096 samples; GPU timer not sampled",
       postPasses: 0, shadowMaps: 0 };
   }

@@ -1,0 +1,61 @@
+
+> depths-of-the-fractured-mind@0.0.0 capture:golden
+> npm run build && node utils/capture-golden-room.mjs
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && npm run presence:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 16 distinct registered RGBA poses, fixed scale 0.418919
+miriam: 16 distinct registered RGBA poses, fixed scale 0.406557
+subject13: 16 distinct registered RGBA poses, fixed scale 0.410596
+anya: 16 distinct registered RGBA poses, fixed scale 0.413333
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+
+> depths-of-the-fractured-mind@0.0.0 presence:check
+> node utils/build-presence-atlases.mjs --check
+
+elias: 8 distinct fixed-scale RGBA hand poses
+miriam: 8 distinct fixed-scale RGBA hand poses
+subject13: 8 distinct fixed-scale RGBA hand poses
+anya: 8 distinct fixed-scale RGBA hand poses
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 87 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-uaIimk29.css             23.65 kB │ gzip:   6.03 kB
+dist/assets/character-review-cgwRGFYW.js    7.77 kB │ gzip:   3.35 kB
+dist/assets/index-BFMAqzMX.js             272.07 kB │ gzip:  83.14 kB
+dist/assets/DungeonRenderer-CYNVXZYE.js   612.92 kB │ gzip: 160.41 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.33s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.5 MiB / 45 MiB; 25 WebP files
+{"state":"opening-room","viewport":{"width":1280,"height":800},"calls":59,"triangles":16022,"metrics":{"colorEntropyBits":4.969532052389082,"dominantColorShare":0.14570383444606452,"edgeDensity":0.044381347044227866,"luminance":{"p05":5.3582,"p95":105.66319999999999,"contrast":100.30499999999999}}}
+{"state":"corridor","viewport":{"width":1280,"height":800},"calls":26,"triangles":13864,"metrics":{"colorEntropyBits":4.382735290212285,"dominantColorShare":0.19268581758029996,"edgeDensity":0.04728041678390846,"luminance":{"p05":6.7926,"p95":105.292,"contrast":98.49940000000001}}}
+{"state":"door-occlusion","viewport":{"width":1280,"height":800},"calls":38,"triangles":14586,"metrics":{"colorEntropyBits":4.438912509782919,"dominantColorShare":0.139956855020933,"edgeDensity":0.04245431833491077,"luminance":{"p05":14.082599999999998,"p95":123.27479999999998,"contrast":109.19219999999999}}}
+{"state":"interaction","viewport":{"width":1280,"height":800},"calls":50,"triangles":15934,"metrics":{"colorEntropyBits":5.554455574763816,"dominantColorShare":0.10938872261871264,"edgeDensity":0.055466025460653656,"luminance":{"p05":12.494599999999998,"p95":186.8346,"contrast":174.34}}}
+{"state":"npc","viewport":{"width":1280,"height":800},"calls":18,"triangles":13718,"metrics":{"colorEntropyBits":3.0876541489978284,"dominantColorShare":0.48185949743773393,"edgeDensity":0.03131847986425532,"luminance":{"p05":0,"p95":75.8746,"contrast":75.8746}}}
+{"state":"evidence-bay","viewport":{"width":1280,"height":800},"calls":31,"triangles":14512,"metrics":{"colorEntropyBits":3.9999909847892074,"dominantColorShare":0.23063805114300087,"edgeDensity":0.024241339029152705,"luminance":{"p05":2.7152000000000003,"p95":87.48619999999998,"contrast":84.77099999999999}}}
+{"state":"opening-room","viewport":{"width":390,"height":844},"calls":46,"triangles":15896,"metrics":{"colorEntropyBits":5.032443378747649,"dominantColorShare":0.11355606758832565,"edgeDensity":0.07292626728110599,"luminance":{"p05":8.0734,"p95":116.07119999999999,"contrast":107.99779999999998}}}
+{"state":"corridor","viewport":{"width":390,"height":844},"calls":25,"triangles":13862,"metrics":{"colorEntropyBits":4.760122416624154,"dominantColorShare":0.15057603686635945,"edgeDensity":0.083678955453149,"luminance":{"p05":6.7926,"p95":123.9486,"contrast":117.156}}}
+{"state":"door-occlusion","viewport":{"width":390,"height":844},"calls":38,"triangles":14586,"metrics":{"colorEntropyBits":3.9990914255477037,"dominantColorShare":0.18298771121351767,"edgeDensity":0.059101382488479265,"luminance":{"p05":11.7926,"p95":76.7028,"contrast":64.9102}}}
+{"state":"npc","viewport":{"width":390,"height":844},"calls":18,"triangles":13718,"metrics":{"colorEntropyBits":3.1672919810378994,"dominantColorShare":0.4782642089093702,"edgeDensity":0.051574500768049154,"luminance":{"p05":0,"p95":74.012,"contrast":74.012}}}

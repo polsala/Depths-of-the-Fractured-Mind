@@ -1,0 +1,9 @@
+/home/psala/src/Depths-of-the-Fractured-Mind/node_modules/playwright-core/lib/coreBundle.js:64528
+          throw new Error("Please use browser.newContext()");
+                ^
+
+Error: Please use browser.newContext()
+    at _BrowserContext.newPage (/home/psala/src/Depths-of-the-Fractured-Mind/node_modules/playwright-core/lib/coreBundle.js:64528:17)
+    at file:///home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase02/integration-probe.mjs:6:132
+
+Node.js v24.13.0

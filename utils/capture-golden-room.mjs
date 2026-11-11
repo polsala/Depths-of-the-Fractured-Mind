@@ -8,8 +8,10 @@ import { evidenceMetadata } from "./evidence-metadata.mjs";
 const output = process.env.GOLDEN_OUTPUT || "artifacts/phase01/current";
 await mkdir(output, { recursive: true });
 const server = await preview({ preview: { host: "127.0.0.1", port: 4177, strictPort: true } });
-const browser = await chromium.launch({ headless: true });
-const report = { ...await evidenceMetadata(), capturedAt: new Date().toISOString(), browser: browser.version(), seed: 130013,
+const browserChannel = process.env.DUNGEON_BROWSER_CHANNEL || undefined;
+const launchArgs = process.env.DUNGEON_ENABLE_GPU === "1" ? ["--enable-gpu"] : [];
+const browser = await chromium.launch({ headless: true, channel: browserChannel, args: launchArgs });
+const report = { ...await evidenceMetadata(), capturedAt: new Date().toISOString(), browser: browser.version(), browserChannel: browserChannel || "headless-shell", launchArgs, seed: 130013,
   settings: "DPR1, en-US, UTC, dark, muted, reduced motion, paused presentation, production build", captures: [], errors: [], failures: [] };
 try {
   for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {

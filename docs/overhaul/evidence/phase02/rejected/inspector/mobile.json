@@ -1,0 +1,20 @@
+{
+  "url": "http://127.0.0.1:4192/Depths-of-the-Fractured-Mind/?qa=1",
+  "mode": "mobile",
+  "state": null,
+  "requestedState": "archive-compressed-aisle",
+  "appliedState": null,
+  "runId": "phase02-final",
+  "seed": 130013,
+  "screenshotPath": null,
+  "gpu": null,
+  "result": {
+    "ok": false,
+    "reason": "capture-failed",
+    "error": "page.waitForSelector: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('canvas') to be visible\u001b[22m\n"
+  },
+  "consoleErrors": [],
+  "pageErrors": [],
+  "consoleErrorCount": 0,
+  "pageErrorCount": 0
+}

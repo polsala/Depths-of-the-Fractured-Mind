@@ -7,7 +7,8 @@ import { evidenceMetadata } from "./evidence-metadata.mjs";
 
 const skillPath = process.env.CAST_QA_INSPECTOR || "/home/psala/.agents/skills/threejs-qa-release/scripts/inspect-threejs-canvas.mjs";
 const { inspectPage, readManifestCaptures, summarize } = await import(pathToFileURL(skillPath).href);
-const manifest = JSON.parse(await readFile("artifacts/phase01b/inspector-manifest.json"));
+const manifest = JSON.parse(await readFile(process.env.CAST_QA_MANIFEST || "artifacts/phase01b/inspector-manifest.json"));
+const url = process.env.CAST_QA_URL || "http://127.0.0.1:4173/Depths-of-the-Fractured-Mind/?qa=1";
 const metadata = await evidenceMetadata();
 const skillSha256 = createHash("sha256").update(await readFile(skillPath)).digest("hex");
 const browser = await chromium.launch({ channel: "chromium", args: ["--enable-gpu"] });
@@ -34,7 +35,7 @@ try {
       const value = Reflect.get(target, key, target);
       return typeof value === "function" ? value.bind(target) : value;
     } });
-    const report = await inspectPage(adaptedPage, { ...capture, seed: 130013, url: "http://127.0.0.1:4173/Depths-of-the-Fractured-Mind/?qa=1",
+    const report = await inspectPage(adaptedPage, { ...capture, seed: 130013, url,
       screenshotPath: capture.reportPath.replace(/\.json$/, ".png"), wait: 0 });
     Object.assign(report, metadata, { skillPath, skillSha256, bootstrap: "Real named QA state after navigation; installed inspectPage and its assertions/metrics unmodified", browser: browser.version(), dpr: 1 });
     await mkdir(dirname(capture.reportPath), { recursive: true });

@@ -1,0 +1,56 @@
+
+> depths-of-the-fractured-mind@0.0.0 baseline:capture
+> npm run build && node utils/capture-baseline.mjs
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && npm run presence:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 16 distinct registered RGBA poses, fixed scale 0.418919
+miriam: 16 distinct registered RGBA poses, fixed scale 0.406557
+subject13: 16 distinct registered RGBA poses, fixed scale 0.410596
+anya: 16 distinct registered RGBA poses, fixed scale 0.413333
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+
+> depths-of-the-fractured-mind@0.0.0 presence:check
+> node utils/build-presence-atlases.mjs --check
+
+elias: 8 distinct fixed-scale RGBA hand poses
+miriam: 8 distinct fixed-scale RGBA hand poses
+subject13: 8 distinct fixed-scale RGBA hand poses
+anya: 8 distinct fixed-scale RGBA hand poses
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 87 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-uaIimk29.css             23.65 kB │ gzip:   6.03 kB
+dist/assets/character-review-cgwRGFYW.js    7.77 kB │ gzip:   3.35 kB
+dist/assets/index-BFMAqzMX.js             272.07 kB │ gzip:  83.14 kB
+dist/assets/DungeonRenderer-CYNVXZYE.js   612.92 kB │ gzip: 160.41 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.56s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.5 MiB / 45 MiB; 25 WebP files
+{
+  "output": "/home/psala/src/Depths-of-the-Fractured-Mind/artifacts/phase02/baseline-verified",
+  "captures": 6,
+  "failures": []
+}

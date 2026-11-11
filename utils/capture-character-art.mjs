@@ -7,12 +7,14 @@ import { evidenceMetadata } from "./evidence-metadata.mjs";
 const output = process.env.CHARACTER_OUTPUT || "artifacts/phase01-art/current";
 await mkdir(output, { recursive: true });
 const server = await preview({ preview: { host: "127.0.0.1", port: 4183, strictPort: true } });
-const browser = await chromium.launch({ headless: true });
+const browserChannel = process.env.DUNGEON_BROWSER_CHANNEL || undefined;
+const launchArgs = process.env.DUNGEON_ENABLE_GPU === "1" ? ["--enable-gpu"] : [];
+const browser = await chromium.launch({ headless: true, channel: browserChannel, args: launchArgs });
 const url = `http://127.0.0.1:4183${server.config.base}`;
 const hash = (data) => createHash("sha256").update(data).digest("hex");
 const assetPaths = ["keeper/character-atlas.png", "keeper/idle.png", "guard/character-atlas.png", "guard/idle.png", "phase01a-build.json"]
   .map((path) => `public/assets/sprites/characters/${path}`);
-const report = { ...await evidenceMetadata(), capturedAt: new Date().toISOString(), browser: browser.version(), seed: 130013,
+const report = { ...await evidenceMetadata(), capturedAt: new Date().toISOString(), browser: browser.version(), browserChannel: browserChannel || "headless-shell", launchArgs, seed: 130013,
   settings: "DPR1, en-US, UTC, dark, muted; fixed pose times in art fixtures; actual-game captures labeled separately; software GPU is not timing approval",
   runtimeAssets: Object.fromEntries(await Promise.all(assetPaths.map(async (path) => [path, hash(await readFile(path))]))),
   captures: [], videos: [], errors: [], failures: [] };

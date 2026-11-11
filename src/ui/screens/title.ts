@@ -51,7 +51,11 @@ export function renderTitle(
     root.appendChild(loading);
 
     // Rerender when events are loaded (check every 250ms, reasonable interval for loading)
-    setTimeout(() => rerender(), 250);
+    setTimeout(() => {
+      // A late loading poll belongs to this title shell. Entering a game or
+      // replacing the shell must not rerender/autosave an unrelated screen.
+      if (titleContainer.isConnected && controller.getState().mode === "title") rerender();
+    }, 250);
     return;
   }
 

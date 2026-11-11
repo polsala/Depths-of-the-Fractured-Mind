@@ -73,11 +73,12 @@ export function resolveDownStairs(state: GameState): GameState {
   }
   const nextDepth = currentDepth + 1;
   if (nextDepth > 5) return { ...state, mode: "ending", finalDecision: undefined };
-  const nextMap = getDepthMap(nextDepth, state.depthMaps);
+  const nextMap = getDepthMap(nextDepth, state.depthMaps, state.generationPolicy);
   const target = findTilePositionByType(nextMap, "stairsUp") ?? { x: nextMap.startX, y: nextMap.startY };
   const nextState: GameState = {
     ...state,
     location: { depth: nextDepth, x: target.x, y: target.y, direction: state.location.direction },
+    ...(nextMap.environment ? { explorationNotice: "The transfer shutters close behind you. Follow the filing ribs to the index; the open records drum marks the Archive’s center. One segment has been removed." } : {}),
   };
   markTileDiscovered(nextState, target.x, target.y);
   return nextState;
@@ -117,7 +118,7 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   } else if (tile?.type === "stairsUp") {
     const prevDepth = state.location.depth - 1;
     if (prevDepth >= 1) {
-      const prevMap = getDepthMap(prevDepth, nextState.depthMaps);
+      const prevMap = getDepthMap(prevDepth, nextState.depthMaps, nextState.generationPolicy);
       const stairsDownTarget = findTilePositionByType(prevMap, "stairsDown") ?? {
         x: prevMap.startX,
         y: prevMap.startY,
@@ -146,16 +147,18 @@ export function moveBy(state: GameState, dx: number, dy: number): GameState {
   // Handle chest loot
   if (tile?.chest && !tile.chest.opened) {
     const addedItems: Array<{ id: string; quantity: number }> = [];
+    const remainingLoot: typeof tile.chest.loot = [];
     for (const loot of tile.chest.loot) {
       const added = addItem(nextState.party.inventory, loot.itemId, loot.quantity);
       if (added) {
         addedItems.push({ id: loot.itemId, quantity: loot.quantity });
-      }
+      } else remainingLoot.push(loot);
     }
 
     if (addedItems.length > 0) {
-      tile.chest.opened = true;
-      nextState.chestLoot = { items: addedItems };
+      tile.chest.opened = map.environment ? remainingLoot.length === 0 : true;
+      if (map.environment) tile.chest.loot = remainingLoot;
+      nextState.chestLoot = { items: addedItems, ...(map.environment && remainingLoot.length ? { partial: true } : {}) };
       emitSound("ui_click");
     }
   }

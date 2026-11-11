@@ -6,6 +6,7 @@
 import { generateDepthMap, getVisibleWalls, type DungeonMap } from "./map";
 import type { DepthMap } from "../game/exploration/map";
 import { OBJECT_SPRITES, DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../assets/manifest";
+import { npcPresentationFor } from "./dungeon/npc-presentation";
 
 // Constants
 const DEFAULT_DEPTH = 1;
@@ -743,6 +744,15 @@ export function renderDungeonView(
     const target = resolveTarget(distance);
     const cell = map[target.y]?.[target.x];
     if (!cell?.npc) continue;
+    if (npcPresentationFor(cell.npc) !== "keeper") {
+      ctx.save();
+      const badgeWidth = Math.min(width * .52, 220) / Math.max(1, distance * .45);
+      ctx.fillStyle = "#2c231d"; ctx.fillRect(width / 2 - badgeWidth / 2, height * .56, badgeWidth, 36);
+      ctx.fillStyle = "#e0d3b2"; ctx.textAlign = "center"; ctx.font = "12px sans-serif";
+      ctx.fillText("Appearance unavailable", width / 2, height * .56 + 23, badgeWidth - 8);
+      ctx.restore();
+      continue;
+    }
     drawBillboard(distance, OBJECT_SPRITES.keeper, "#78d6c6", 2.5, true, 0.8, 0.92);
   }
 

@@ -4,6 +4,10 @@ import { getSanityStage } from "../../game/sanity";
 import type { CharacterAnimation, ReferenceCharacter } from "../../assets/character-sprites";
 import type { HeroAnimation } from "../../assets/hero-sprites";
 import type { CharacterId } from "../../game/state";
+import type { ArchiveEnvironment } from "../../game/exploration/generation/world-definition";
+
+export type ReadonlyWorld<T> = T extends readonly (infer V)[] ? readonly ReadonlyWorld<V>[]
+  : T extends object ? { readonly [K in keyof T]: ReadonlyWorld<T[K]> } : T;
 
 export type Facing = NonNullable<GameLocation["direction"]>;
 export type QualityPreset = "low" | "balanced" | "high";
@@ -17,6 +21,7 @@ export interface DungeonWorldMap {
   readonly startX: number;
   readonly startY: number;
   readonly layoutId?: string;
+  readonly environment?: ReadonlyWorld<ArchiveEnvironment>;
   readonly tiles: readonly (readonly DungeonWorldTile[])[];
 }
 export interface DungeonPresentationSnapshot {
@@ -43,7 +48,7 @@ export function presentDungeon(state: GameState): DungeonPresentationSnapshot {
     chest: tile.chest ? Object.freeze({ opened: tile.chest.opened === true }) : undefined,
   }))));
   return Object.freeze({
-    map: Object.freeze({ ...map, tiles: Object.freeze(tiles) }),
+    map: Object.freeze({ ...map, tiles: Object.freeze(tiles), environment: map.environment ? freezeWorld(JSON.parse(JSON.stringify(map.environment)) as ArchiveEnvironment) : undefined }),
     location: Object.freeze({ ...state.location, direction: state.location.direction ?? "north" }),
     flags: Object.freeze(Object.fromEntries(Object.entries(state.flags).filter((entry): entry is [string, boolean | number] =>
       typeof entry[1] === "boolean" || typeof entry[1] === "number"))),
@@ -51,4 +56,12 @@ export function presentDungeon(state: GameState): DungeonPresentationSnapshot {
     guardPresent: map.layoutId === "depth1-intake-v1" && state.flags.intakeEncounterWon !== true
       && state.intakeEncounter?.enemies.find((enemy) => enemy.id === "deranged_guard")?.alive !== false,
   });
+}
+
+function freezeWorld<T>(value: T): ReadonlyWorld<T> {
+  if (value && typeof value === "object") {
+    for (const child of Object.values(value)) freezeWorld(child);
+    Object.freeze(value);
+  }
+  return value as ReadonlyWorld<T>;
 }

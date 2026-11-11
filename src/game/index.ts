@@ -24,6 +24,7 @@ import type { RunSnapshot } from "./save";
 import { startRun, restoreRandomState, getRandomState, getRunSeed } from "./random";
 import { emitSound } from "./sound";
 import { createIntakeMap, isIntakeMap, INTAKE_FEATURES } from "./exploration/authored/depth1-intake";
+import { getArchiveInteraction, resolveArchiveInteraction } from "./exploration/archive/interactions";
 
 const PROCEDURAL_EVENT_CHANCE = 0.02;
 const MIN_STEPS_BETWEEN_EVENTS = 2;
@@ -128,6 +129,7 @@ export class GameController {
     startRun(seed);
     this.state = {
       ...createInitialGameState(createIntakeMap()),
+      generationPolicy: { version: 1, runSeed: getRunSeed()! },
       party: createDefaultParty(),
     };
     this.state.party.inventory.money = 100;
@@ -249,7 +251,7 @@ export class GameController {
     if (currentDepth >= 5) return;
 
     const nextDepth = currentDepth + 1;
-    const nextMap = getDepthMap(nextDepth, this.state.depthMaps);
+    const nextMap = getDepthMap(nextDepth, this.state.depthMaps, this.state.generationPolicy);
     const nextX = nextMap.startX;
     const nextY = nextMap.startY;
     // Mark discovered and visited
@@ -276,7 +278,7 @@ export class GameController {
 
   public debugSpawnEntitiesAround(): void {
     if (this.state.mode !== "exploration") return;
-    const map = getDepthMap(this.state.location.depth, this.state.depthMaps);
+    const map = getDepthMap(this.state.location.depth, this.state.depthMaps, this.state.generationPolicy);
     const { x, y } = this.state.location;
     const offsets: Array<[number, number]> = [
       [1, 0],
@@ -380,7 +382,7 @@ export class GameController {
     const resolvingIntakeEvidence = this.state.currentEventId === "first_corpse" &&
       isIntakeMap(this.state.depthMaps?.get(this.state.location.depth));
     const wasRequiredAtStair = isRequiredBeat(this.state.currentEventId) &&
-      getDepthMap(this.state.location.depth, this.state.depthMaps)
+      getDepthMap(this.state.location.depth, this.state.depthMaps, this.state.generationPolicy)
         .tiles[this.state.location.y]?.[this.state.location.x]?.type === "stairsDown";
     this.state = applyEventChoice(this.state, choiceId);
     if (resolvingIntakeEvidence && this.state.mode === "exploration" && this.state.flags.completedEventIds?.has("first_corpse")) {
@@ -397,10 +399,10 @@ export class GameController {
   public getNearbyNpcId(): keyof typeof NPCS | null {
     if (this.state.mode !== "exploration") return null;
     const { x, y, depth } = this.state.location;
-    const map = getDepthMap(depth, this.state.depthMaps);
+    const map = getDepthMap(depth, this.state.depthMaps, this.state.generationPolicy);
     for (const [dx, dy] of [[0, 0], [0, -1], [1, 0], [0, 1], [-1, 0]]) {
       const npcId = map.tiles[y + dy]?.[x + dx]?.npcId;
-      if (npcId && npcId in NPCS) return npcId;
+      if (npcId && Object.hasOwn(NPCS, npcId)) return npcId;
     }
     return null;
   }
@@ -408,6 +410,8 @@ export class GameController {
   /** Presentation asks for the same validated interaction that the command executes. */
   public getInteraction(): ExplorationInteraction | null {
     if (this.state.mode !== "exploration") return null;
+    const archiveInteraction = getArchiveInteraction(this.state);
+    if (archiveInteraction) return archiveInteraction;
     const map = this.state.depthMaps?.get(this.state.location.depth);
     if (!isIntakeMap(map) || !map) return null;
     const { x, y } = this.state.location;
@@ -449,6 +453,10 @@ export class GameController {
   public interact(): boolean {
     const interaction = this.getInteraction();
     if (!interaction) return false;
+    if (interaction.id.startsWith("archive-")) {
+      this.state = resolveArchiveInteraction(this.state, interaction);
+      return true;
+    }
     const flags = this.state.flags;
     const map = this.state.depthMaps!.get(this.state.location.depth)!;
     const living = (id: string) => this.state.party.members.some((member) => member.id === id && member.alive);
@@ -656,6 +664,15 @@ export class GameController {
       return; // Authored beats own this sequence; no random interruptions.
     }
 
+    const archive = this.state.depthMaps?.get(currentLocation.depth)?.environment;
+    if (archive) {
+      const room = archive.rooms.find((candidate) => currentLocation.x >= candidate.x && currentLocation.y >= candidate.y && currentLocation.x < candidate.x + candidate.width && currentLocation.y < candidate.y + candidate.height);
+      const previousRoom = archive.rooms.find((candidate) => previousLocation.depth === 2 && previousLocation.x >= candidate.x && previousLocation.y >= candidate.y && previousLocation.x < candidate.x + candidate.width && previousLocation.y < candidate.y + candidate.height);
+      if (room && room.id !== previousRoom?.id) this.state.explorationNotice = `${room.formerUse}. ${room.humanTrace}.`;
+      // The graph assigns evidence and finite rewards. Random story selection
+      // cannot replace a mandatory beat or exhaust the navigation route.
+      return;
+    }
     this.stepsSinceLastEvent += 1;
     if (this.stepsSinceLastEvent < MIN_STEPS_BETWEEN_EVENTS) {
       return;
@@ -818,7 +835,7 @@ export class GameController {
     this.state.mode = "exploration";
     this.state.currentEncounterId = undefined;
     if (victoriousBossDepth === this.state.location.depth &&
-        getDepthMap(this.state.location.depth, this.state.depthMaps)
+        getDepthMap(this.state.location.depth, this.state.depthMaps, this.state.generationPolicy)
           .tiles[this.state.location.y]?.[this.state.location.x]?.type === "stairsDown") {
       this.state = resolveDownStairs(this.state);
     }

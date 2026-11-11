@@ -76,7 +76,8 @@ Required evidence: a room-purpose ledger, state-aware route test, 1280×900 and 
 | 01 | Existing Three.js viewport and authored Intake Bell | Preserve implemented controller/grid/save contracts and historical open gates |
 | 01A | Keeper/Guard reference pair | Retained art/motion evidence; human acceptance remains open |
 | **01B** | **Four-protagonist family, portraits, animation contracts and physical first-person presence** | Actual-game desktop/mobile/reduced-motion/grayscale/motion evidence, passive-state/cleanup/save checks, unchanged budgets, owner art/acting acceptance; [presence contract](PHASE01B_CHARACTER_PRESENCE.md) |
-| 02 | Subsequent world-generation/environment production | Begins only after applicable 01A/01B human visual and slice acceptance gates; not implemented in 01B |
+| **02** | **Graph-first world architecture and playable Archive, integrating Phase01B embodied-view contracts** | Owner-authorized implementation candidate; [world contract](PHASE02_WORLD_GENERATION.md), [design](PHASE02_ARCHIVE_DESIGN.md) and [validation](PHASE02_VALIDATION.md). Human 01A/01B/02 artistic/play acceptance remains open |
+| Future environment production | Extend the reviewed semantic architecture to Ward, Labyrinth and Core | Each depth needs its own content, seed, visual, device and human gates; Archive results cannot certify them |
 
 The following original Phase-00 numbering is historical planning context. It predates the user's combined Phase-01 engine milestone and the inserted 01A/01B character milestones; it does not authorize starting procedural scale.
 
@@ -109,4 +110,4 @@ Cut optional side rooms, decorative effects and extra enemy types before cutting
 
 The authored map, passive Three.js viewport and complete rules loop are now implemented together under the user's Phase-01 instruction; see [the current implementation and open gates](PHASE01_ENGINE.md). The phase table above preserves the original sequencing rationale rather than claiming all later art/play/device exits were met.
 
-The next milestone is the Phase-01B six-character family and embodied-presentation acceptance review, using its retained native/grayscale/world/combat/portrait/motion evidence. Correct rejected identity/anatomy/motion details before calling the cast final. Then complete the physical-phone and moderated first-time slice sessions before Phase 02 expansion. Keep historical software failure and legacy rights gates visible; do not increase budgets, expand environments or publish to bypass them.
+The owner's subsequent Phase02 instruction authorizes a reviewable Archive implementation while the Phase01B human gates remain open. Review Phase02 world/presence captures and normal journey alongside the retained character family. Correct rejected composition, navigation and acting integration before expanding the architectural system to remaining depths. Complete physical-phone and moderated first-time sessions; keep historical software failures and legacy rights visible. See PROGRESS.md for the exact next action and measured disposition.

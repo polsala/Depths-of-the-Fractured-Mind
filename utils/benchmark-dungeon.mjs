@@ -5,6 +5,7 @@ import { cpus, release } from "node:os";
 import { evidenceMetadata } from "./evidence-metadata.mjs";
 
 const output = process.env.DUNGEON_BENCH_OUTPUT || "artifacts/phase01/performance";
+const archive = process.env.DUNGEON_SCENE === "archive";
 const durationSeconds = Number(process.env.DUNGEON_SECONDS || 60);
 if (!Number.isInteger(durationSeconds) || durationSeconds < 5 || durationSeconds > 120) throw new Error("DUNGEON_SECONDS must be 5..120");
 const recordVideo = process.env.DUNGEON_RECORD_VIDEO === "1";
@@ -15,9 +16,10 @@ const server = await preview({ preview: { host: "127.0.0.1", port: 4178, strictP
 const browser = await chromium.launch({ headless: true, channel: browserChannel, args: launchArgs });
 const report = { ...await evidenceMetadata(), capturedAt: new Date().toISOString(), browser: browser.version(), cpu: cpus()[0].model, kernel: release(),
   durationSeconds, recordVideo, browserChannel: browserChannel || "headless-shell", launchArgs,
+  scene: archive ? "Archive isolated performance fixture" : "Intake Bell",
   method: "production build, seed130013, actual keyboard movement/turns after 5-second warmup; software/hardware identified, mobile CPU4x is not a device", profiles: [] };
 try {
-  for (const spec of [{ name: "desktop", width: 1280, height: 800, cpu: 1 }, { name: "mobile-4x", width: 390, height: 844, cpu: 4 }]) {
+  for (const spec of [{ name: "desktop", width: 1280, height: archive ? 900 : 800, cpu: 1 }, { name: "mobile-4x", width: 390, height: 844, cpu: 4 }]) {
     const context = await browser.newContext({ viewport: { width: spec.width, height: spec.height }, deviceScaleFactor: 1,
       recordVideo: recordVideo && spec.cpu === 1 ? { dir: `${output}/video`, size: { width: 1280, height: 800 } } : undefined });
     await context.addInitScript(() => localStorage.setItem("depths-of-the-fractured-mind.preferences.v1", JSON.stringify({ music: 0, sfx: 0, motion: "full", textScale: 100 })));
@@ -25,8 +27,16 @@ try {
     page.on("pageerror", (error) => errors.push(error.message));
     page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
     const cdp = await context.newCDPSession(page); await cdp.send("Emulation.setCPUThrottlingRate", { rate: spec.cpu });
+    await cdp.send("Network.enable");
+    const requests = new Map(), transfers = [];
+    cdp.on("Network.requestWillBeSent", (event) => requests.set(event.requestId, event.request.url));
+    cdp.on("Network.loadingFinished", (event) => transfers.push({ url: requests.get(event.requestId), bytes: event.encodedDataLength }));
     await page.goto(`http://127.0.0.1:4178${server.config.base}?qa=1`);
-    await page.evaluate(() => window.__THREE_GAME_TEST_HOOKS__.setState("opening-room"));
+    const sceneReadyMs = await page.evaluate(async (state) => {
+      const started = performance.now();
+      await window.__THREE_GAME_TEST_HOOKS__.setState(state);
+      return performance.now() - started;
+    }, archive ? "archive-entrance" : "opening-room");
     await page.waitForTimeout(5000);
     await page.waitForFunction(() => window.__DUNGEON_DIAGNOSTICS__().samples > 0);
     await page.evaluate(() => {
@@ -41,8 +51,20 @@ try {
     if (process.env.DUNGEON_PROFILE === "1") { await cdp.send("Profiler.enable"); await cdp.send("Profiler.start"); }
     const latency = [], waypointsReached = [];
     const checkpoint = await page.evaluate(() => JSON.parse(localStorage.getItem("depths-of-the-fractured-mind.run.v1")));
-    const map = checkpoint.state.depthMaps.find(([depth]) => depth === 1)[1];
-    const waypoints = [{ x: 18, y: 7, facing: "north", breaker: true, name: "breaker" },
+    const map = checkpoint.state.depthMaps.find(([depth]) => depth === (archive ? 2 : 1))[1];
+    const archiveWaypoint = (archetype) => {
+      const room = map.environment.rooms.find((entry) => entry.archetype === archetype);
+      const center = { x: room.x + Math.floor(room.width / 2), y: room.y + Math.floor(room.height / 2) };
+      const candidates = [];
+      for (let y = room.y; y < room.y + room.height; y++) for (let x = room.x; x < room.x + room.width; x++) {
+        const tile = map.tiles[y][x];
+        if (tile.passable && tile.type === "floor" && !tile.eventId && !tile.locked) candidates.push({ x, y });
+      }
+      candidates.sort((a, b) => Math.abs(a.x - center.x) + Math.abs(a.y - center.y) - Math.abs(b.x - center.x) - Math.abs(b.y - center.y));
+      if (!candidates.length) throw new Error(`Archive benchmark has no safe viewpoint in ${archetype}`);
+      return { ...candidates[0], facing: room.mainSightline, name: archetype };
+    };
+    const waypoints = archive ? ["indexing", "compressed-aisle", "filing-gallery", "drum-chamber", "filing-gallery", "indexing"].map(archiveWaypoint) : [{ x: 18, y: 7, facing: "north", breaker: true, name: "breaker" },
       { x: 12, y: 4, facing: "north", name: "evidence-bay" }, { x: 4, y: 13, facing: "north", name: "counter-return" },
       { x: 12, y: 7, facing: "north", name: "shutter-return" }, { x: 4, y: 15, facing: "west", name: "keeper-return" }];
     const facing = ["north", "east", "south", "west"];
@@ -52,7 +74,7 @@ try {
         if (cell.x === target.x && cell.y === target.y) return cell.first;
         for (const [dx, dy, direction] of [[0, -1, "north"], [1, 0, "east"], [0, 1, "south"], [-1, 0, "west"]]) {
           const x = cell.x + dx, y = cell.y + dy, key = `${x},${y}`, tile = map.tiles[y]?.[x];
-          if (tile?.passable && !tile.locked && !seen.has(key)) { seen.add(key); queue.push({ x, y, first: cell.first || direction }); }
+          if (tile?.passable && !tile.locked && (!archive || tile.type === "floor" && !tile.eventId) && !seen.has(key)) { seen.add(key); queue.push({ x, y, first: cell.first || direction }); }
         }
       }
       throw new Error(`Benchmark has no legal route to ${target.name}`);
@@ -87,7 +109,9 @@ try {
       const { profile } = await cdp.send("Profiler.stop");
       await writeFile(`${output}/${spec.name}.cpuprofile`, JSON.stringify(profile));
     }
-    const result = { ...spec, diagnostics, longTasks, browserTaskSeconds, waypointsReached, commands: index, inputDispatchMedianMs: latency[Math.floor(latency.length * .5)],
+    const result = { ...spec, sceneReadyMs, sceneReadyScope: "QA shell setup through real renderer readiness, includes UI/assets/first render; not isolated GPU construction time",
+      transferBytes: transfers.reduce((sum, entry) => sum + entry.bytes, 0), nonAudioTransferBytes: transfers.filter((entry) => !entry.url?.endsWith(".ogg")).reduce((sum, entry) => sum + entry.bytes, 0), transfers,
+      diagnostics, longTasks, browserTaskSeconds, waypointsReached, commands: index, inputDispatchMedianMs: latency[Math.floor(latency.length * .5)],
       inputDispatchP95Ms: latency[Math.floor(latency.length * .95)], errors };
     report.profiles.push(result); console.log(JSON.stringify({ ...spec, frames: diagnostics.samples,
       medianMs: diagnostics.medianFrameMs, p95Ms: diagnostics.p95FrameMs, p95RenderMs: diagnostics.p95RenderMs,

@@ -6,6 +6,7 @@ import { LightingSystem } from "./LightingSystem";
 import { WorldSpriteSystem } from "./WorldSpriteSystem";
 import { RenderAssetManager } from "./RenderAssetManager";
 import type { DungeonPresentationSnapshot, QualityPreset } from "./types";
+import { ArchiveRoomRenderer, archiveCeiling, archiveDoorOrientation, archiveDrumCell, archiveRoomAt, archiveShelfCell } from "./ArchiveRoomRenderer";
 
 interface Batch { geometry: BufferGeometry; material: Material; transforms: Matrix4[]; name: string }
 
@@ -33,7 +34,7 @@ export class SceneBuilder {
 
   constructor(snapshot: DungeonPresentationSnapshot, assets: RenderAssetManager, preset: QualityPreset) {
     try {
-      this.materials = new MaterialLibrary(assets, snapshot.map.depth);
+      this.materials = new MaterialLibrary(assets, snapshot.map.depth, !!snapshot.map.environment);
       this.lighting = new LightingSystem(this.scene, snapshot, preset);
       this.buildArchitecture(snapshot);
       if (snapshot.map.layoutId === "depth1-intake-v1") {
@@ -41,6 +42,11 @@ export class SceneBuilder {
         this.counterReleased = details.counterReleased;
         this.relayNeedle = details.relayNeedle;
       }
+      if (snapshot.map.environment) new ArchiveRoomRenderer({
+        box: this.box.bind(this), rod: this.rod.bind(this), sign: this.sign.bind(this),
+        geometry: (geometry) => { this.extraGeometries.add(geometry); return geometry; },
+        instance: (geometry, role, x, y, z, sx, sy, sz, ry = 0) => this.batch(geometry, this.materials.get(role), x, y, z, sx, sy, sz, 0, ry),
+      }, snapshot.map);
       this.flushBatches();
       this.sprites = new WorldSpriteSystem(this.scene, snapshot, assets);
     } catch (error) {
@@ -92,8 +98,11 @@ export class SceneBuilder {
     const solid = (x: number, y: number) => !map.tiles[y]?.[x]?.passable;
     for (let y = 0; y < map.height; y++) for (let x = 0; x < map.width; x++) {
       const tile = map.tiles[y][x];
-      if (!tile.passable) continue;
+      const drumCell = archiveDrumCell(map, x, y);
+      const shelfCell = archiveShelfCell(map, x, y);
+      if (!tile.passable && !drumCell && !shelfCell) continue;
       const px = x * 2, pz = y * 2;
+      const ceiling = map.environment ? archiveCeiling(archiveRoomAt(map, x, y)) : 2.8;
       if (map.layoutId === "depth1-intake-v1" && tile.featureId === "intake-onward") {
         this.buildStairs(px, pz, false);
         this.onwardCover = new Mesh(this.boxGeometry, this.materials.get("trim"));
@@ -101,20 +110,24 @@ export class SceneBuilder {
         this.onwardCover.name = "sealed-descent-hatch"; this.scene.add(this.onwardCover);
       } else if (tile.type === "stairsDown" || tile.type === "stairsUp") this.buildStairs(px, pz, tile.type === "stairsUp");
       else this.box("floor", px, -0.055, pz, 2.001, 0.11, 2.001);
-      this.box("ceiling", px, 2.88, pz, 2.001, 0.16, 2.001);
+      this.box("ceiling", px, ceiling + .08, pz, 2.001, 0.16, 2.001);
+      if (drumCell || shelfCell) continue;
       for (const [dx, dz] of [[0, -1], [1, 0], [0, 1], [-1, 0]]) {
         if (!solid(x + dx, y + dz)) continue;
+        if (archiveDrumCell(map, x + dx, y + dz)) continue;
+        if (archiveShelfCell(map, x + dx, y + dz)) continue;
         const wx = px + dx, wz = pz + dz;
         const rotation = dx ? Math.PI / 2 : 0;
-        this.box("wall", wx, 1.4, wz, 2.02, 2.8, 0.18, rotation);
+        this.box("wall", wx, ceiling / 2, wz, 2.02, ceiling, 0.18, rotation);
         this.box("enamel", wx - dx * 0.105, 0.55, wz - dz * 0.105, 1.98, 1.04, 0.045, rotation);
         this.box("trim", wx - dx * 0.145, 0.09, wz - dz * 0.145, 2, 0.14, 0.08, rotation);
         this.box("steel", wx - dx * 0.125, 1.08, wz - dz * 0.125, 2, 0.055, 0.06, rotation);
-        this.box("trim", wx - dx * 0.13, 2.68, wz - dz * 0.13, 2, 0.13, 0.11, rotation);
+        this.box("trim", wx - dx * 0.13, ceiling - .12, wz - dz * 0.13, 2, 0.13, 0.11, rotation);
         // Vertical wall-bay seams have dimensional returns, not painted fake perspective.
         this.box("trim", wx - dx * 0.13 + (dz ? 0.96 : 0), 1.88, wz - dz * 0.13 + (dx ? 0.96 : 0), 0.065, 1.48, 0.13, rotation);
       }
-      if (tile.type === "door") this.buildDoor(px, pz, x, y, !!tile.locked);
+      if (tile.type === "door") this.buildDoor(px, pz, x, y, !!tile.locked,
+        map.environment ? archiveDoorOrientation(map, x, y) : 0, !!map.environment);
       // A ceiling module every four metres establishes a readable receding rhythm.
       const corridor = solid(x - 1, y) && solid(x + 1, y);
       const eastWestCorridor = solid(x, y - 1) && solid(x, y + 1);
@@ -130,12 +143,15 @@ export class SceneBuilder {
     }
   }
 
-  private buildDoor(px: number, pz: number, x: number, y: number, locked: boolean): void {
-    this.box("trim", px - 0.9, 1.25, pz, 0.19, 2.5, 0.3);
-    this.box("trim", px + 0.9, 1.25, pz, 0.19, 2.5, 0.3);
-    this.box("steel", px, 2.47, pz, 1.98, 0.22, 0.37);
-    for (const offset of [-0.77, 0.77]) this.box("brass", px + offset, 1.13, pz + 0.18, 0.055, 2.18, 0.025);
+  private buildDoor(px: number, pz: number, x: number, y: number, locked: boolean, ry = 0, archive = false): void {
+    const frame = (role: MaterialRole, ox: number, oy: number, oz: number, w: number, h: number, d: number) =>
+      this.box(role, px + Math.cos(ry) * ox + Math.sin(ry) * oz, oy, pz - Math.sin(ry) * ox + Math.cos(ry) * oz, w, h, d, ry);
+    frame("trim", -0.9, 1.25, 0, 0.19, 2.5, 0.3);
+    frame("trim", 0.9, 1.25, 0, 0.19, 2.5, 0.3);
+    frame("steel", 0, 2.47, 0, 1.98, 0.22, 0.37);
+    for (const offset of [-0.77, 0.77]) frame("brass", offset, 1.13, 0.18, 0.055, 2.18, 0.025);
     const group = new Group(); group.position.set(px, locked ? 0 : 2.45, pz);
+    group.rotation.y = ry;
     group.name = `door-leaf:${x},${y}`;
     const panel = new Mesh(this.boxGeometry, this.materials.get("enamel"));
     panel.scale.set(1.64, 2.3, 0.13); panel.position.y = 1.15; group.add(panel);
@@ -148,7 +164,8 @@ export class SceneBuilder {
     const handle = new Mesh(this.boxGeometry, this.materials.get("steel"));
     handle.scale.set(0.45, 0.045, 0.09); handle.position.set(0.18, 1.04, 0.13); group.add(handle);
     this.scene.add(group); this.dynamicDoors.push({ group, x, y, open: locked ? 0 : 1 });
-    this.sign("RELEASE / 01", px, 2.59, pz + 0.201, 1.32, 0.18, 0, { width: 768, height: 96, fontSize: 43 });
+    this.sign(archive ? "INDEXED ACCESS" : "RELEASE / 01", px + Math.sin(ry) * .201, 2.59, pz + Math.cos(ry) * .201, 1.32, 0.18, ry,
+      { width: 768, height: 96, fontSize: 43 });
   }
 
   private buildStairs(x: number, z: number, up: boolean): void {
@@ -431,7 +448,7 @@ export class SceneBuilder {
   update(snapshot: DungeonPresentationSnapshot, camera: Camera, elapsed: number, reducedMotion: boolean): void {
     const dt = Math.max(0, Math.min(0.1, elapsed - this.lastElapsed));
     this.lastElapsed = elapsed;
-    this.lighting.update(snapshot);
+    this.lighting.update(snapshot, dt, reducedMotion);
     this.sprites.update(snapshot, camera, elapsed, reducedMotion);
     for (const door of this.dynamicDoors) {
       const open = !snapshot.map.tiles[door.y]?.[door.x]?.locked;

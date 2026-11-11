@@ -6,6 +6,8 @@ import { execFileSync } from "node:child_process";
 import { cpus, platform, release, totalmem } from "node:os";
 import { resolve, join } from "node:path";
 
+const browserChannel = process.env.DUNGEON_BROWSER_CHANNEL || undefined;
+const launchArgs = process.env.DUNGEON_ENABLE_GPU === "1" ? ["--enable-gpu"] : [];
 const output = resolve(process.env.BASELINE_OUTPUT || "artifacts/baseline/latest");
 const fixtures = new URL("../tests/fixtures/saves/v1/", import.meta.url);
 const saveKey = "depths-of-the-fractured-mind.run.v1";
@@ -29,7 +31,7 @@ const report = {
     hostMemoryMiB: Math.round(totalmem() / 1048576) },
   settings: { headless: true, deviceScaleFactor: 1, locale: "en-US", timezoneId: "UTC",
     colorScheme: "dark", reducedMotion: "reduce", music: 0, sfx: 0, cpuThrottle: 1,
-    networkThrottle: "none", launchArgs: "Playwright defaults; no WebGL override" },
+    networkThrottle: "none", browserChannel: browserChannel || "headless-shell", launchArgs },
   captures: [], diagnostics: [], failures: [],
 };
 await mkdir(output, { recursive: true });
@@ -64,7 +66,7 @@ await writeFile(join(output, "corridor-checkpoint.json"), corridor.raw + "\n");
 const server = await preview({ preview: { host: "127.0.0.1", port: 4175, strictPort: true } });
 let browser;
 try {
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({ headless: true, channel: browserChannel, args: launchArgs });
   report.environment.browser = browser.version();
   const baseURL = `http://127.0.0.1:4175${server.config.base}`;
   for (const spec of [

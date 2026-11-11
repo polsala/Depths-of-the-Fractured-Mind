@@ -1,0 +1,11 @@
+graph TD
+  transfer["transfer"] --> index["index"]
+  index["index"] --> compression["compression"]
+  compression["compression"] --> gallery["gallery"]
+  gallery["gallery"] --> drum["drum"]
+  drum["drum"] --> retrieval["retrieval"]
+  retrieval["retrieval"] --> fracture["fracture"]
+  fracture["fracture"] --> ward-transfer["ward-transfer"]
+  retrieval["retrieval"] -.-> evidence["evidence"]
+  retrieval["retrieval"] -.-> maintenance["maintenance"]
+  drum["drum"] -.-> ward-transfer["ward-transfer"]

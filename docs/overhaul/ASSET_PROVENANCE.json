@@ -1776,5 +1776,21 @@
     "termsRecord": "source-assets/characters/phase01b/terms-support.json",
     "status": "Recorded original-input family and provider-use/distribution basis; human artistic/acting acceptance pending; backend model/seed/cost not exposed",
     "legacyPolicy": "Retained legacy source media and contact sheet keep their prior unverified status. Replaced runtime atlas records retain the complete prior record in supersededRecords. Public release remains blocked by remaining unverified media."
+  },
+  "phase02CodeAuthoredArchive": {
+    "date": "2026-11-10",
+    "method": "Original TypeScript procedural architecture and deterministic Canvas surface/signage recipes under the owner's Phase02 instruction and existing institutional-ritual art direction. No external photograph, model, binary media, font or image-generation output imported.",
+    "sources": [
+      "src/graphics/dungeon/ArchiveRoomRenderer.ts",
+      "src/graphics/dungeon/MaterialLibrary.ts",
+      "src/graphics/dungeon/LightingSystem.ts",
+      "src/game/exploration/generation/archive-rooms.ts"
+    ],
+    "evidence": [
+      "docs/overhaul/PHASE02_ARCHIVE_DESIGN.md",
+      "docs/overhaul/evidence/phase02/README.md"
+    ],
+    "status": "pending-originality-and-contributor-review",
+    "legacyMedia": "All existing file-specific media statuses, source chains and superseded records are retained. Archive code-authored material surfaces do not clear legacy environment, enemy or audio media. No public distribution or artistic approval is certified."
   }
 }

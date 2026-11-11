@@ -1,4 +1,4 @@
-import { CanvasTexture, Color, DoubleSide, MeshBasicMaterial, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace } from "three";
+import { CanvasTexture, Color, DoubleSide, FrontSide, MeshBasicMaterial, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace } from "three";
 import type { Material, Texture } from "three";
 import { DEPTH_TEXTURES, GLOBAL_TEXTURES } from "../../assets/manifest";
 import { RenderAssetManager } from "./RenderAssetManager";
@@ -12,14 +12,14 @@ export class MaterialLibrary {
   private readonly labels = new Map<string, Material>();
   private readonly assets: RenderAssetManager;
 
-  constructor(assets: RenderAssetManager, depth: number) {
+  constructor(assets: RenderAssetManager, depth: number, semanticArchive = false) {
     this.assets = assets;
     try {
     const palette = [0x59685d, 0x59685d, 0x71664e, 0x607d70, 0x625e79, 0x764b4b][depth] ?? 0x59685d;
     const paths = DEPTH_TEXTURES[depth] ?? DEPTH_TEXTURES[1];
-    const wall = assets.loadTexture(paths.wall);
-    const floor = assets.loadTexture(paths.floor);
-    const ceiling = assets.loadTexture(GLOBAL_TEXTURES.ceiling);
+    const wall = semanticArchive ? this.archiveSurface("concrete") : assets.loadTexture(paths.wall);
+    const floor = semanticArchive ? this.archiveSurface("floor") : assets.loadTexture(paths.floor);
+    const ceiling = semanticArchive ? wall : assets.loadTexture(GLOBAL_TEXTURES.ceiling);
     this.add("wall", { color: 0xc1bda9, map: wall, roughness: 0.94, metalness: 0 });
     this.add("enamel", { color: palette, map: this.paintWear(), roughness: 0.64, metalness: 0.13 });
     this.add("floor", { color: 0x9d9f8b, map: floor, roughness: 0.71, metalness: 0.03 });
@@ -35,6 +35,18 @@ export class MaterialLibrary {
     this.add("glass", { color: 0x567066, roughness: 0.3, metalness: 0.32 });
     this.add("cloth", { color: 0x999b86, roughness: 0.98, metalness: 0 });
     this.add("skin", { color: 0xb8b09a, roughness: 0.96, metalness: 0 });
+    if (semanticArchive) {
+      // Archive changes material roles, not the established Intake family.
+      const colors: Partial<Record<MaterialRole, number>> = { wall: 0xa99b87, enamel: 0x4b6970,
+        floor: 0x64584a, ceiling: 0x685b4d, trim: 0x2c231d, steel: 0x837d69,
+        dark: 0x211c18, brass: 0xd2ad69, paper: 0xa99b7c, glass: 0x445c5d };
+      for (const [role, color] of Object.entries(colors)) this.get(role as MaterialRole).color.setHex(color!);
+      this.get("steel").metalness = 0.32; this.get("steel").roughness = 0.62;
+      this.get("enamel").roughness = 0.73;
+      this.get("light").emissive.setHex(0x9ab0ac); this.get("light").emissiveIntensity = 0.65;
+      this.get("warmLight").emissive.setHex(0xd2ad69); this.get("warmLight").emissiveIntensity = 0.9;
+      for (const material of this.materials) material.name = material.name.replace(/^intake:/, "archive:");
+    }
     } catch (error) { this.dispose(); throw error; }
   }
 
@@ -46,6 +58,30 @@ export class MaterialLibrary {
   }
 
   get(role: MaterialRole): MeshStandardMaterial { return this.roles.get(role)!; }
+
+  private archiveSurface(kind: "concrete" | "floor"): Texture {
+    const canvas = document.createElement("canvas"); canvas.width = canvas.height = 256;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = kind === "floor" ? "#a99d88" : "#c3baa6"; ctx.fillRect(0, 0, 256, 256);
+    // Broad finish variation is deterministic and restrained. No random speckle
+    // or baked perspective; one 256px surface corresponds to a two metre bay.
+    for (let band = 0; band < 16; band++) {
+      ctx.fillStyle = `rgba(70,55,38,${0.012 + (band % 5) * 0.004})`;
+      ctx.fillRect(0, band * 16, 256, 16);
+    }
+    ctx.strokeStyle = kind === "floor" ? "#786f60" : "#a59b87"; ctx.lineWidth = 2;
+    ctx.strokeRect(1, 1, 254, 254);
+    if (kind === "floor") {
+      ctx.beginPath(); ctx.moveTo(128, 0); ctx.lineTo(128, 256); ctx.moveTo(0, 128); ctx.lineTo(256, 128); ctx.stroke();
+      ctx.fillStyle = "rgba(210,192,154,.12)"; ctx.fillRect(46, 0, 164, 256);
+    } else {
+      ctx.fillStyle = "rgba(89,76,52,.06)"; ctx.fillRect(0, 235, 256, 21);
+      ctx.fillStyle = "#aaa08c"; ctx.fillRect(13, 13, 3, 3); ctx.fillRect(240, 13, 3, 3);
+    }
+    const texture = this.assets.ownTexture(new CanvasTexture(canvas));
+    texture.colorSpace = SRGBColorSpace; texture.wrapS = texture.wrapT = RepeatWrapping;
+    texture.anisotropy = 4; return texture;
+  }
 
   private paintWear(): Texture {
     const canvas = document.createElement("canvas");
@@ -69,7 +105,7 @@ export class MaterialLibrary {
     return texture;
   }
 
-  sign(text: string, options: { background?: string; color?: string; width?: number; height?: number; fontSize?: number; emissive?: boolean } = {}): Material {
+  sign(text: string, options: { background?: string; color?: string; width?: number; height?: number; fontSize?: number; emissive?: boolean; frontOnly?: boolean } = {}): Material {
     const key = JSON.stringify([text, options]);
     const existing = this.labels.get(key);
     if (existing) return existing;
@@ -85,8 +121,9 @@ export class MaterialLibrary {
     lines.forEach((line, index) => ctx.fillText(line, canvas.width / 2, canvas.height * (index + 0.5) / lines.length, canvas.width - 42));
     const texture = this.assets.ownTexture(new CanvasTexture(canvas));
     texture.colorSpace = SRGBColorSpace;
-    const material = options.emissive ? new MeshBasicMaterial({ map: texture, side: DoubleSide })
-      : new MeshStandardMaterial({ map: texture, roughness: 0.8, side: DoubleSide });
+    const side = options.frontOnly ? FrontSide : DoubleSide;
+    const material = options.emissive ? new MeshBasicMaterial({ map: texture, side })
+      : new MeshStandardMaterial({ map: texture, roughness: 0.8, side });
     // Three places material.name in a GLSL preprocessor definition. Newlines
     // and punctuation in content must never become shader source.
     material.name = `intake_sign_${text.replace(/[^a-zA-Z0-9_]/g, "_")}`;

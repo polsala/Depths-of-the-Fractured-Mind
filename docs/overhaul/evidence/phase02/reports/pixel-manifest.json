@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "runId": "phase02-final",
+  "captures": [
+    {
+      "mode": "desktop",
+      "state": "archive-drum-chamber",
+      "report": "artifacts/phase02/pixel-inspector/desktop.json"
+    },
+    {
+      "mode": "mobile",
+      "state": "archive-compressed-aisle",
+      "report": "artifacts/phase02/pixel-inspector/mobile.json"
+    }
+  ]
+}

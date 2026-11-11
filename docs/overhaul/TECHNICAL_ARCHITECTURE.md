@@ -2,6 +2,14 @@
 
 Status: Phase-00 historical decisions below are superseded for the viewport by the user's Phase-01 Three.js requirement. [Phase-01 implementation](PHASE01_ENGINE.md) records the current architecture. [Baseline](BASELINE_AUDIT.md) remains an immutable account of the original engine.
 
+## Phase-02 architecture amendment — 2026-11-10
+
+The owner explicitly authorizes Archive expansion while historical human/art/device gates remain open. [World generation](PHASE02_WORLD_GENERATION.md) records the new boundary: save-v3 optional generationPolicy opts new runs into isolated, versioned graph-first Depth2 generation; missing policy keeps legacy continuation into ungenerated depths. Existing cached maps always win. Original legacy generator, immutable fixtures, Intake Bell, CameraRig and Phase01B character/presence contracts remain.
+
+Plain `DepthMap.environment` data stores room/edge identity, constraints, purposes, sockets and seeds. `presentDungeon` copies/freezes it; `ArchiveRoomRenderer` feeds shared modules to existing SceneBuilder instancing and resource ownership. No scene/GPU objects enter saves. Socket-driven practicals retain a bounded shader budget. Explicit NPC presentation mapping prevents arbitrary IDs inheriting Keeper art. Named accepted interactions commit through the controller before existing inspect/use/reach gestures; no competing timeline or party followers.
+
+Depths3–5 retain existing content and legacy generation. Future environment production should reuse this semantic boundary only after Archive layout/art/human gates are assessed. Passing the Archive sweep does not validate other depths. Exact commands, measurements and open gates are in [Phase02 validation](PHASE02_VALIDATION.md).
+
 ## Phase-01 decision amendment
 
 ADR-01 is replaced: use pinned **Three.js 0.187.0 WebGLRenderer** and actual instanced 3D environment geometry for the primary exploration viewport. The original Canvas raycaster is a temporary explicitly labeled compatibility fallback, selected when WebGL2 is unavailable/context-lost or by `?renderer=canvas`. This follows the user's explicit Phase-01 rendering strategy, rather than inferring a switch from capability alone. TypeScript/Vite, the authoritative grid, RPG/controller/combat/event/save contracts and DOM accessibility remain. ADR-02 through ADR-09 still apply; current module responsibilities, integration evidence and unresolved gates are in `PHASE01_ENGINE.md`.

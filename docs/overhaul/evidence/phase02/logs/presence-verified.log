@@ -1,0 +1,111 @@
+
+> depths-of-the-fractured-mind@0.0.0 capture:presence
+> npm run build && node utils/capture-presence.mjs
+
+
+> depths-of-the-fractured-mind@0.0.0 build
+> npm run sprites:check && npm run characters:check && npm run presence:check && tsc && vite build && npm run assets:check
+
+
+> depths-of-the-fractured-mind@0.0.0 sprites:check
+> node utils/build-hero-atlases.mjs --check
+
+elias: 16 distinct registered RGBA poses, fixed scale 0.418919
+miriam: 16 distinct registered RGBA poses, fixed scale 0.406557
+subject13: 16 distinct registered RGBA poses, fixed scale 0.410596
+anya: 16 distinct registered RGBA poses, fixed scale 0.413333
+
+> depths-of-the-fractured-mind@0.0.0 characters:check
+> node utils/build-character-atlases.mjs --check
+
+keeper: 16 distinct registered RGBA poses, fixed scale 0.424658
+guard: 16 distinct registered RGBA poses, fixed scale 0.418919
+
+> depths-of-the-fractured-mind@0.0.0 presence:check
+> node utils/build-presence-atlases.mjs --check
+
+elias: 8 distinct fixed-scale RGBA hand poses
+miriam: 8 distinct fixed-scale RGBA hand poses
+subject13: 8 distinct fixed-scale RGBA hand poses
+anya: 8 distinct fixed-scale RGBA hand poses
+vite v7.3.7 building client environment for production...
+transforming...
+✓ 87 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                             0.57 kB │ gzip:   0.32 kB
+dist/assets/index-uaIimk29.css             23.65 kB │ gzip:   6.03 kB
+dist/assets/character-review-cgwRGFYW.js    7.77 kB │ gzip:   3.35 kB
+dist/assets/index-BFMAqzMX.js             272.07 kB │ gzip:  83.14 kB
+dist/assets/DungeonRenderer-CYNVXZYE.js   612.92 kB │ gzip: 160.41 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.55s
+
+> depths-of-the-fractured-mind@0.0.0 assets:check
+> node utils/check-web-assets.mjs
+
+Asset budget passed: 35.5 MiB / 45 MiB; 25 WebP files
+{"name":"1280-elias-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"1280-elias-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"1280-miriam-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"1280-miriam-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"1280-subject13-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"1280-subject13-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"1280-anya-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"1280-anya-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"1280-interaction","kind":"world-real-keyboard-inspect"}
+{"name":"1280-reduced-motion","kind":"world-isolated-reduced-motion"}
+{"name":"1280-grayscale","kind":"world-isolated-grayscale"}
+{"name":"1280-combat-ready","kind":"actual-event-entered-combat"}
+{"name":"1280-combat-action","kind":"actual-combat-action"}
+{"name":"1280-elias-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"1280-miriam-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"1280-subject13-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"1280-anya-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"1280-six-character-family","kind":"isolated-native-grayscale-gallery"}
+{"name":"1280-elias-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"1280-elias-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"1280-elias-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"1280-miriam-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"1280-miriam-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"1280-miriam-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"1280-subject13-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"1280-subject13-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"1280-subject13-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"1280-anya-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"1280-anya-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"1280-anya-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"390-elias-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"390-elias-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"390-miriam-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"390-miriam-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"390-subject13-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"390-subject13-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"390-anya-idle","kind":"actual-world-viewpoint-UI"}
+{"name":"390-anya-hurt-tension","kind":"world-isolated-scalar-body-state-fixture"}
+{"name":"390-interaction","kind":"world-real-keyboard-inspect"}
+{"name":"390-reduced-motion","kind":"world-isolated-reduced-motion"}
+{"name":"390-grayscale","kind":"world-isolated-grayscale"}
+{"name":"390-combat-ready","kind":"actual-event-entered-combat"}
+{"name":"390-combat-action","kind":"actual-combat-action"}
+{"name":"390-elias-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"390-miriam-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"390-subject13-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"390-anya-combat-support","kind":"isolated-passive-combat-hand-fixture"}
+{"name":"390-six-character-family","kind":"isolated-native-grayscale-gallery"}
+{"name":"390-elias-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"390-elias-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"390-elias-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"390-miriam-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"390-miriam-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"390-miriam-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"390-subject13-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"390-subject13-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"390-subject13-sequence","kind":"isolated-shared-sequence-hero-fixture"}
+{"name":"390-anya-exploration","kind":"isolated-world-hero-fixture"}
+{"name":"390-anya-combat","kind":"isolated-shared-combat-hero-fixture"}
+{"name":"390-anya-sequence","kind":"isolated-shared-sequence-hero-fixture"}

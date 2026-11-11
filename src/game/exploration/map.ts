@@ -1,4 +1,6 @@
 import type { GameState } from "../state";
+import { generateArchive } from "./generation/archive";
+import type { ArchiveEnvironment, GenerationPolicy } from "./generation/world-definition";
 import { generateProceduralMap } from "./map-generator";
 
 export type TileType = "wall" | "floor" | "stairsDown" | "stairsUp" | "door";
@@ -37,6 +39,7 @@ export interface MapTile {
 export interface DepthMap {
   /** Missing on legacy/procedural maps. Persisted maps are never replaced. */
   layoutId?: string;
+  environment?: ArchiveEnvironment;
   depth: number;
   width: number;
   height: number;
@@ -45,14 +48,14 @@ export interface DepthMap {
   startY: number;
 }
 
-export function getDepthMap(depth: number, cache?: Map<number, DepthMap>): DepthMap {
+export function getDepthMap(depth: number, cache?: Map<number, DepthMap>, policy?: GenerationPolicy): DepthMap {
   // If cache is provided, check if map already exists
   if (cache && cache.has(depth)) {
     return cache.get(depth)!;
   }
   
   // Generate new map
-  const map = generateProceduralMap(depth);
+  const map = policy?.version === 1 && depth === 2 ? generateArchive(policy.runSeed) : generateProceduralMap(depth);
   
   // Store in cache if provided
   if (cache) {
@@ -74,5 +77,5 @@ export function getTile(
 }
 
 export function getCurrentDepthMap(state: GameState): DepthMap {
-  return getDepthMap(state.location.depth, state.depthMaps);
+  return getDepthMap(state.location.depth, state.depthMaps, state.generationPolicy);
 }

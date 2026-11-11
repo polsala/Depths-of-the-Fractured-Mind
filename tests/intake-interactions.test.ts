@@ -23,8 +23,9 @@ function stand(controller: GameController, x: number, y: number, direction: Game
 }
 
 function checkpoint(controller: GameController): GameController {
+  const snapshot = parseRun(serializeRun(controller.snapshot()));
   const restored = new GameController(1);
-  restored.restore(parseRun(serializeRun(controller.snapshot())));
+  restored.restore(snapshot);
   return restored;
 }
 
@@ -84,7 +85,7 @@ describe("intake interactions and persistence", () => {
     controller.interact();
     const raw = JSON.parse(serializeRun(controller.snapshot()));
     expect(raw.version).toBe(SAVE_VERSION);
-    expect(SAVE_VERSION).toBe(2);
+    expect(SAVE_VERSION).toBe(3); // Phase02 policy is explicitly versioned; v0–v2 still continue as legacy.
     controller = checkpoint(controller);
     expect(controller.getState().flags.intakePowerRestored).toBe(true);
     expect(controller.getState().depthMaps?.get(1)?.tiles[6][12].locked).toBe(false);

@@ -1,6 +1,17 @@
 import { test, expect } from "@playwright/test";
 
 const SAVE_KEY = "depths-of-the-fractured-mind.run.v1";
+test("a retired title loading poll cannot rewrite an exploration checkpoint", async ({ page }) => {
+  await page.route("**/data/events.json", async (route) => {
+    await new Promise((resolve) => setTimeout(resolve, 700));
+    await route.continue();
+  });
+  await page.goto("./?qa=1");
+  await page.evaluate(() => (window as any).__THREE_GAME_TEST_HOOKS__.setState("opening-room"));
+  const before = await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY);
+  await page.waitForTimeout(800);
+  expect(await page.evaluate((key) => localStorage.getItem(key), SAVE_KEY)).toBe(before);
+});
 for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
   test(`physical presence preserves actions, identity, reduced motion and cleanup at ${viewport.width}`, async ({ page }, testInfo) => {
     test.setTimeout(90_000); await page.setViewportSize(viewport);

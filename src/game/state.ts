@@ -1,3 +1,4 @@
+import type { GenerationPolicy } from "./exploration/generation/world-definition";
 import { getDepthMap } from "./exploration/map";
 import type { DepthMap } from "./exploration/map";
 import type { CombatState } from "./combat/state";
@@ -142,6 +143,8 @@ export interface DebugOptions {
 }
 
 export interface GameState {
+  /** Missing means legacy continuation, including all not-yet-generated depths. */
+  generationPolicy?: GenerationPolicy;
   party: PartyState;
   location: GameLocation;
   mode: GameMode;

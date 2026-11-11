@@ -1,0 +1,111 @@
+import { test, expect } from '@playwright/test';
+import { writeFileSync } from 'node:fs';
+import { dungeonReady, readRun, pinSeedAndPreferences, walkJourney, settleJourney, findTile, prepareParty, SAVE_KEY } from './phase02-browser';
+
+test('normal new-run input completes Intake, enters Archive, resolves evidence and preserves its world on reload', async ({ browser }, testInfo) => {
+  test.setTimeout(480_000);
+  const context = await browser.newContext({ baseURL: testInfo.project.use.baseURL, viewport: { width: 1280, height: 900 }, deviceScaleFactor: 1,
+    recordVideo: process.env.RECORD_ARCHIVE === '1' ? { dir: testInfo.outputPath('video'), size: { width: 1280, height: 900 } } : undefined });
+  const page = await context.newPage(), video = page.video(); page.setDefaultTimeout(15_000);
+  const metrics = { seed: 130013, debug: false, seedMethod: 'pinned crypto entropy; normal Begin button', combatActions: 0, fights: [] as string[], events: [] as string[], errors: [] as string[] };
+  page.on('pageerror', error => metrics.errors.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') metrics.errors.push(message.text()); });
+  page.on('response', response => { if (response.status() >= 400) metrics.errors.push(`${response.status()} ${response.url()}`); });
+  try {
+    await pinSeedAndPreferences(page, process.env.RECORD_ARCHIVE === '1' ? 'full' : 'reduced');
+    await page.goto('./');
+    expect(await page.evaluate(() => (window as any).__THREE_GAME_TEST_HOOKS__)).toBeUndefined();
+    await page.getByRole('button', { name: 'Begin Your Descent' }).click(); await dungeonReady(page);
+    expect((await readRun(page)).initialSeed).toBe(130013);
+    await page.keyboard.press('t');
+    await page.getByRole('button', { name: /Tell us where the director hid the evidence/ }).click();
+    await page.getByRole('button', { name: 'Continue', exact: true }).click(); await dungeonReady(page);
+    await walkJourney(page, 18, 7, metrics); await page.keyboard.press('f');
+    expect((await readRun(page)).state.flags.intakePowerRestored).toBe(true);
+    await walkJourney(page, 18, 12, metrics); await page.keyboard.press('f'); await settleJourney(page, metrics);
+    await walkJourney(page, 12, 4, metrics); await page.keyboard.press('f'); await settleJourney(page, metrics);
+    await page.keyboard.press('f'); await settleJourney(page, metrics);
+    expect((await readRun(page)).state.flags.intakeTagRecovered).toBe(true);
+    await walkJourney(page, 4, 13, metrics); await page.keyboard.press('f');
+    expect((await readRun(page)).state.flags.intakeComplete).toBe(true);
+    await page.screenshot({ path: testInfo.outputPath('intake-before-descent.png') });
+    await prepareParty(page);
+    await walkJourney(page, 2, 14, metrics); await settleJourney(page, metrics);
+    let run = await readRun(page);
+    expect(run.state.location.depth).toBe(2); expect(run.state.flags.bossDefeatedDepths).toContain(1);
+    expect(run.state.generationPolicy).toEqual({ version: 1, runSeed: 130013 });
+    const map = run.state.depthMaps.find((entry: any[]) => entry[0] === 2)[1];
+    expect(map.environment.generatorVersion).toBe('archive-v1');
+    await page.screenshot({ path: testInfo.outputPath('archive-real-entry.png') });
+    // Select through the real portrait UI. World identity and saved state are passive.
+    const selected = run.state.party.members.find((member: any) => member.alive && member.id === 'anya') ?? run.state.party.members.find((member: any) => member.alive);
+    await page.locator(`.compact-party-member[data-character="${selected.id}"]`).click();
+    await expect(page.locator('.physical-presence')).toHaveAttribute('data-character', selected.id);
+    const index = findTile(map, tile => tile.featureId === 'archive-index');
+    await walkJourney(page, index.x, index.y, metrics); await page.keyboard.press('f'); await settleJourney(page, metrics);
+    const drum = map.environment.rooms.find((room: any) => room.archetype === 'drum-chamber');
+    const stand = { x: Math.floor(drum.x + drum.width / 2), y: drum.y + drum.height - 2 };
+    await walkJourney(page, stand.x, stand.y, metrics); await page.screenshot({ path: testInfo.outputPath('archive-real-drum.png') });
+    for (const id of ['riot_recording_event', 'pit_fall_event']) {
+      run = await readRun(page);
+      if (run.state.flags.completedEventIds.includes(id)) continue;
+      const point = findTile(map, tile => tile.eventId === id);
+      await walkJourney(page, point.x, point.y, metrics); await settleJourney(page, metrics);
+    }
+    run = await readRun(page);
+    expect(run.state.flags.completedEventIds).toEqual(expect.arrayContaining(['riot_recording_event', 'pit_fall_event']));
+    const reward = findTile(map, tile => tile.featureId === 'archive-secret');
+    await walkJourney(page, reward.x, reward.y, metrics); await page.keyboard.press('f'); await settleJourney(page, metrics);
+    const rewarded = await readRun(page);
+    await page.keyboard.press('f'); await page.waitForTimeout(1000);
+    expect((await readRun(page)).state.party.inventory).toEqual(rewarded.state.party.inventory);
+    const stair = findTile(map, tile => tile.type === 'stairsDown');
+    const exitNeighbor = [[0, 1], [1, 0], [0, -1], [-1, 0]].map(([dx, dy]) => ({ x: stair.x + dx, y: stair.y + dy })).find(({ x, y }) => map.tiles[y]?.[x]?.passable)!;
+    await walkJourney(page, exitNeighbor.x, exitNeighbor.y, metrics);
+    await page.screenshot({ path: testInfo.outputPath('archive-real-exit-ready.png') });
+    const beforeReload = await readRun(page);
+    await page.reload(); await page.getByRole('button', { name: /Continue · Depth 2/ }).click(); await dungeonReady(page);
+    const afterReload = await readRun(page);
+    expect(afterReload.state.depthMaps).toEqual(beforeReload.state.depthMaps);
+    expect(afterReload.state.party).toEqual(beforeReload.state.party);
+    expect(afterReload.state.flags).toEqual(beforeReload.state.flags);
+    expect(afterReload.randomState).toBe(beforeReload.randomState);
+    expect(await page.locator('.physical-presence').count()).toBe(1);
+    expect((await page.evaluate(() => (window as any).__PRESENCE_DIAGNOSTICS__())).lifecycle.active).toBe(1);
+    expect(metrics.errors).toEqual([]);
+    const persisted = await page.evaluate(key => localStorage.getItem(key), SAVE_KEY);
+    expect(persisted).not.toMatch(/selectedViewpoint|presenceClock|animationClock/);
+    await prepareParty(page);
+    await walkJourney(page, stair.x, stair.y, metrics); await settleJourney(page, metrics);
+    const wardEntry = await readRun(page);
+    expect(wardEntry.state.location.depth).toBe(3);
+    expect(wardEntry.state.flags.bossDefeatedDepths).toEqual(expect.arrayContaining([1, 2]));
+    const wardMap = wardEntry.state.depthMaps.find((entry: any[]) => entry[0] === 3)[1];
+    const upstairs = findTile(wardMap, tile => tile.type === 'stairsUp');
+    const stepOff = [[0, 1], [1, 0], [0, -1], [-1, 0]].map(([dx, dy]) => ({ x: upstairs.x + dx, y: upstairs.y + dy })).find(({ x, y }) => wardMap.tiles[y]?.[x]?.passable && !wardMap.tiles[y][x].locked && !wardMap.tiles[y][x].trap && !wardMap.tiles[y][x].eventId)!;
+    expect(stepOff).toBeDefined();
+    await walkJourney(page, stepOff.x, stepOff.y, metrics); await walkJourney(page, upstairs.x, upstairs.y, metrics);
+    const returned = await readRun(page);
+    expect(returned.state.location.depth).toBe(2);
+    const returnedMap = returned.state.depthMaps.find((entry: any[]) => entry[0] === 2)[1];
+    const stableMap = (map: any) => ({ ...map, tiles: map.tiles.map((row: any[]) => row.map(({ discovered: _discovered, ...tile }) => tile)) });
+    expect(stableMap(returnedMap)).toEqual(stableMap(beforeReload.state.depthMaps.find((entry: any[]) => entry[0] === 2)[1]));
+    expect(returnedMap.environment).toEqual(map.environment);
+    expect(returned.state.flags.completedEventIds).toEqual(expect.arrayContaining(['riot_recording_event', 'pit_fall_event']));
+    expect(await page.locator('.physical-presence').count()).toBe(1);
+    await page.screenshot({ path: testInfo.outputPath('archive-after-guardian-return.png') });
+    const finalRun = await readRun(page);
+    await page.reload(); await page.getByRole('button', { name: /Continue · Depth 2/ }).click(); await dungeonReady(page);
+    const finalReload = await readRun(page);
+    expect(finalReload.state.depthMaps).toEqual(finalRun.state.depthMaps);
+    expect(finalReload.state.party).toEqual(finalRun.state.party);
+    expect(finalReload.randomState).toBe(finalRun.randomState);
+    writeFileSync(testInfo.outputPath('archive-normal-journey.json'), JSON.stringify({ ...metrics, beforeReload, returned, finalRun, diagnostics: await page.evaluate(() => ({ world: (window as any).__DUNGEON_DIAGNOSTICS__(), presence: (window as any).__PRESENCE_DIAGNOSTICS__() })) }, null, 2));
+  } catch (error) {
+    writeFileSync(testInfo.outputPath('archive-journey-failure.json'), JSON.stringify({ ...metrics, run: await readRun(page).catch(() => null) }, null, 2));
+    throw error;
+  } finally {
+    await context.close();
+    if (video) await video.saveAs(testInfo.outputPath('archive-normal-journey.webm'));
+  }
+});

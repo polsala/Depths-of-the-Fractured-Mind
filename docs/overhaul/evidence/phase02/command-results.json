@@ -1,0 +1,174 @@
+[
+  {
+    "name": "units",
+    "args": [
+      "test"
+    ],
+    "command": "npm test",
+    "startedAt": "2026-11-11T09:00:40.773Z",
+    "completedAt": "2026-11-11T09:00:44.759Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/units.log"
+  },
+  {
+    "name": "seed-sweep",
+    "args": [
+      "run",
+      "validate:archive"
+    ],
+    "command": "npm run validate:archive",
+    "startedAt": "2026-11-11T09:00:44.762Z",
+    "completedAt": "2026-11-11T09:00:51.618Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/seed-sweep.log"
+  },
+  {
+    "name": "smoke-verified",
+    "args": [
+      "run",
+      "test:smoke"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "RECORD_ARCHIVE": "1"
+    },
+    "command": "npm run test:smoke",
+    "startedAt": "2026-11-11T09:00:51.618Z",
+    "completedAt": "2026-11-11T09:03:36.970Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/smoke-verified.log"
+  },
+  {
+    "name": "baseline-verified",
+    "args": [
+      "run",
+      "baseline:capture"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "BASELINE_OUTPUT": "artifacts/phase02/baseline-verified"
+    },
+    "command": "npm run baseline:capture",
+    "startedAt": "2026-11-11T09:03:36.970Z",
+    "completedAt": "2026-11-11T09:03:55.334Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/baseline-verified.log"
+  },
+  {
+    "name": "golden-verified",
+    "args": [
+      "run",
+      "capture:golden"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "GOLDEN_OUTPUT": "artifacts/phase02/golden-verified"
+    },
+    "command": "npm run capture:golden",
+    "startedAt": "2026-11-11T09:03:55.334Z",
+    "completedAt": "2026-11-11T09:04:06.272Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/golden-verified.log"
+  },
+  {
+    "name": "characters-verified",
+    "args": [
+      "run",
+      "capture:characters"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "CHARACTER_OUTPUT": "artifacts/phase02/characters-verified"
+    },
+    "command": "npm run capture:characters",
+    "startedAt": "2026-11-11T09:04:06.273Z",
+    "completedAt": "2026-11-11T09:04:33.267Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/characters-verified.log"
+  },
+  {
+    "name": "presence-verified",
+    "args": [
+      "run",
+      "capture:presence"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "PRESENCE_OUTPUT": "artifacts/phase02/presence-verified"
+    },
+    "command": "npm run capture:presence",
+    "startedAt": "2026-11-11T09:04:33.267Z",
+    "completedAt": "2026-11-11T09:05:01.096Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/presence-verified.log"
+  },
+  {
+    "name": "archive-verified",
+    "args": [
+      "run",
+      "capture:archive"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "ARCHIVE_OUTPUT": "artifacts/phase02/final-verified"
+    },
+    "command": "npm run capture:archive",
+    "startedAt": "2026-11-11T09:05:01.097Z",
+    "completedAt": "2026-11-11T09:06:12.082Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/archive-verified.log"
+  },
+  {
+    "name": "performance-intake",
+    "args": [
+      "run",
+      "bench:dungeon"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "DUNGEON_BENCH_OUTPUT": "artifacts/phase02/performance-intake"
+    },
+    "command": "npm run bench:dungeon",
+    "startedAt": "2026-11-11T09:06:12.082Z",
+    "completedAt": "2026-11-11T09:08:24.534Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/performance-intake.log"
+  },
+  {
+    "name": "performance-archive",
+    "args": [
+      "run",
+      "bench:dungeon"
+    ],
+    "env": {
+      "DUNGEON_BROWSER_CHANNEL": "chromium",
+      "DUNGEON_ENABLE_GPU": "1",
+      "DUNGEON_SCENE": "archive",
+      "DUNGEON_BENCH_OUTPUT": "artifacts/phase02/performance-archive"
+    },
+    "command": "npm run bench:dungeon",
+    "startedAt": "2026-11-11T09:08:24.534Z",
+    "completedAt": "2026-11-11T09:10:37.292Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/performance-archive.log"
+  },
+  {
+    "name": "combat-proxy",
+    "args": [
+      "run",
+      "bench:combat"
+    ],
+    "command": "npm run bench:combat",
+    "startedAt": "2026-11-11T09:10:37.292Z",
+    "completedAt": "2026-11-11T09:10:39.852Z",
+    "exitCode": 0,
+    "log": "artifacts/phase02/combat-proxy.log"
+  }
+]

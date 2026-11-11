@@ -60,6 +60,15 @@ export function getCurrentObjective(state: GameState): Objective {
       guidance: "The counter opens the western descent. Prepare your party, then step onto the stair to face the Threshold's guardian.",
       consequence: state.flags.intakePerceptionAcknowledged ? "You listened to the queue's echo. Mara's name has replaced a number." : "Mara's name has replaced a number." };
   }
+  if (depth === 2 && state.depthMaps?.get(2)?.environment) {
+    const beat = nextRequiredBeat(state);
+    if (beat === "riot_recording_event") return { chapter, title: "Recover the account of the riot",
+      guidance: "Follow INDEX through the filing galleries to the open records drum. RETRIEVAL leads to the recording desk. The lever at INDEX releases optional restricted evidence storage.", consequence };
+    if (beat === "pit_fall_event") return { chapter, title: "Cross the damaged service storage",
+      guidance: "Return to the drum with the missing segment. Follow SERVICE to the broken floor; the damaged storage leads onward to WARD TRANSFER.", consequence };
+    return { chapter, title: state.flags.bossDefeatedDepths?.has(2) ? "Continue to the Ward" : "Face the Archive's guardian",
+      guidance: "Both accounts have been confronted. Follow WARD TRANSFER beyond damaged storage. Prepare supplies before stepping onto the downward stair; guardian combat cannot be fled.", consequence };
+  }
   if (depth === 1 && !state.flags.dialogue_keeper_intro_shown) {
     return {
       chapter,

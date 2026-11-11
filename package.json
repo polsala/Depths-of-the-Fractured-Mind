@@ -30,7 +30,9 @@
     "capture:characters": "npm run build && node utils/capture-character-art.mjs",
     "presence:build": "node utils/build-presence-atlases.mjs",
     "presence:check": "node utils/build-presence-atlases.mjs --check",
-    "capture:presence": "npm run build && node utils/capture-presence.mjs"
+    "capture:presence": "npm run build && node utils/capture-presence.mjs",
+    "capture:archive": "npm run build && node utils/capture-archive.mjs",
+    "validate:archive": "ARCHIVE_EXTENDED=1 ARCHIVE_REPORT=artifacts/phase02/seed-validation vitest run tests/archive-generation.test.ts"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

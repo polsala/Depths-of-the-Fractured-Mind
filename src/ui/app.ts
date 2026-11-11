@@ -2,6 +2,7 @@ import type { GameState } from "../game/state";
 import type { GameEvent } from "../game/events/engine";
 import { getChoiceUnavailableReason, getEventById } from "../game/events/engine";
 import { GameController } from "../game/index";
+import { getDepthMap } from "../game/exploration/map";
 import { audioManager } from "./audio";
 import { readPreferences, updatePreferences } from "./preferences";
 import { renderTitle, resetTitleMusic } from "./screens/title";
@@ -414,7 +415,8 @@ function renderExploration(
   dungeonViewport = new DungeonViewport(viewportCanvas, state, readPreferences().quality, prefersReducedMotion(), () => flushExploration());
   const viewCaption = document.createElement("div");
   viewCaption.className = "view-caption";
-  viewCaption.innerHTML = '<span>THE FACILITY / INTAKE</span><span>DEPTH ' + state.location.depth + '</span>';
+  const facilityArea = ["", "INTAKE", "ARCHIVE", "WARD", "LABYRINTH", "CORE"][state.location.depth] ?? "THE FACILITY";
+  viewCaption.innerHTML = '<span>THE FACILITY / ' + facilityArea + '</span><span>DEPTH ' + state.location.depth + '</span>';
   viewportContainer.prepend(viewCaption);
   const compactParty = document.createElement("div");
   compactParty.className = "compact-party";
@@ -2676,6 +2678,8 @@ export function initApp(root: HTMLElement): void {
     const before = { ...controller.getState().location };
     const beforeHp = controller.getState().party.members.find((member) => member.id === presence.selected)?.stats.hp ?? 0;
     const interactionId = command === "interact" ? controller.getInteraction()?.id : undefined;
+    const archiveCabinet = interactionId === "archive-secret" || interactionId === "archive-evidence";
+    const beforeSupplies = archiveCabinet ? controller.getState().party.inventory.items.reduce((sum, entry) => sum + entry.quantity, 0) : 0;
     let interacted = false;
     if (command === "forward") controller.moveForward();
     else if (command === "backward") controller.moveBackward();
@@ -2695,8 +2699,8 @@ export function initApp(root: HTMLElement): void {
       const now = performance.now();
       const afterHp = after.party.members.find((member) => member.id === presence.selected)?.stats.hp ?? 0;
       if (afterHp < beforeHp) presence.play("hurt", now);
-      else if (interacted) presence.play(interactionId === "linen-shelf" ? "use"
-        : interactionId === "intake-counter" || interactionId === "queue-shadow" ? "inspect" : "interact", now);
+      else if (interacted) presence.play(interactionId === "linen-shelf" || archiveCabinet && after.party.inventory.items.reduce((sum, entry) => sum + entry.quantity, 0) > beforeSupplies ? "use"
+        : interactionId === "intake-counter" || interactionId === "queue-shadow" || interactionId?.startsWith("archive-") && interactionId !== "archive-index" ? "inspect" : "interact", now);
       else if (after.location.x !== before.x || after.location.y !== before.y) presence.play("walk", now);
       else if (after.location.direction !== before.direction) presence.play("turn", now, undefined, command === "turnLeft" ? -1 : 1);
     }
@@ -2722,6 +2726,41 @@ export function initApp(root: HTMLElement): void {
     Object.assign(window, { __THREE_GAME_TEST_HOOKS__: {
       seed: (value: number) => { if (!Number.isInteger(value)) throw new Error("QA seed must be an integer"); seed = value; },
       setState: async (name: string) => {
+        // Explicit isolated Archive fixtures. Normal-journey QA uses no hooks.
+        const archiveArchetypes = ["entrance", "indexing", "compressed-aisle", "filing-gallery", "drum-chamber", "retrieval", "restricted-evidence", "damaged-storage", "secret", "exit"];
+        if (name.startsWith("archive-") && (archiveArchetypes.includes(name.slice(8)) || ["archive-interaction", "archive-combat"].includes(name))) {
+          qaPaused = false; commandQueue.clear();
+          controller.newGame(seed);
+          const state = controller.getState();
+          const map = getDepthMap(2, state.depthMaps, state.generationPolicy);
+          const archetype = name === "archive-interaction" ? "indexing" : name === "archive-combat" ? "drum-chamber" : name.slice(8);
+          const room = map.environment?.rooms.find((entry) => entry.archetype === archetype);
+          if (!room) throw new Error(`Missing Archive fixture room: ${archetype}`);
+          let x = Math.floor(room.x + room.width / 2), y = Math.floor(room.y + room.height / 2);
+          let direction: "north" | "south" | "east" | "west" = !map.tiles[room.y - 1]?.[x]?.passable ? "north"
+            : !map.tiles[room.y + room.height]?.[x]?.passable ? "south" : "west";
+          if (room.archetype === "drum-chamber") { y += 2; direction = "north"; }
+          if (room.archetype === "compressed-aisle" || room.archetype === "filing-gallery") direction = room.width > room.height ? "east" : "north";
+          if (name === "archive-interaction") {
+            const feature = room.featureRefs.find((entry) => entry.id === "archive-index");
+            if (!feature) throw new Error("Missing Archive index fixture");
+            x = feature.x; y = feature.y;
+          }
+          if (!map.tiles[y]?.[x]?.passable) {
+            const candidate = room.featureRefs.find((entry) => map.tiles[entry.y]?.[entry.x]?.passable);
+            if (!candidate) throw new Error(`No valid Archive fixture viewpoint: ${name}`);
+            x = candidate.x; y = candidate.y; direction = room.mainSightline;
+          }
+          state.mode = "exploration"; state.location = { depth: 2, x, y, direction };
+          state.explorationNotice = `Isolated visual fixture: ${room.purpose}. ${room.humanTrace}`;
+          if (name === "archive-combat") controller.startCombat(false, 2);
+          renderedMode = null; render();
+          if (name !== "archive-combat") {
+            await dungeonViewport?.ready;
+            if (dungeonViewport?.diagnostics().backend !== "webgl2") throw new Error("QA requires the real WebGL2 viewport");
+          }
+          return { state: name, fixture: "isolated-archive-presentation" };
+        }
         const views: Record<string, { x: number; y: number; direction: "north" | "east" | "west" }> = {
           "opening-room": { x: 4, y: 15, direction: "north" },
           corridor: { x: 8, y: 14, direction: "east" },
